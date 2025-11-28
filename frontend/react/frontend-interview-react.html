@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Технічна співбесіда з React</title>
+  <style>
+    :root {
+      --bg: #f9f9f9;
+      --text: #1c1e21;
+      --card: #ffffff;
+      --border: #e5e7eb;
+      --accent: #007bff;
+      --code-bg: #f4f4f4;
+    }
+
+    [data-theme="dark"] {
+      --bg: #1e1e1e;
+      --text: #e2e2e2;
+      --card: #2a2a2a;
+      --border: #3c3c3c;
+      --accent: #4aa8ff;
+      --code-bg: #252526;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0 20px;
+      background-color: var(--bg);
+      color: var(--text);
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+      color: var(--accent);
+    }
+
+    .theme-toggle {
+      background: none;
+      border: none;
+      font-size: 22px;
+      color: var(--accent);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      transform: rotate(20deg);
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      background: var(--card);
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border-radius: 5px;
+      border: 1px solid var(--border);
+      transition: background 0.4s ease, border 0.4s ease;
+    }
+
+    .question {
+      font-weight: bold;
+      margin: 20px 0 10px;
+    }
+
+    .answer {
+      margin-bottom: 20px;
+    }
+
+    .example {
+      background: var(--code-bg);
+      border-left: 4px solid var(--accent);
+      padding: 10px;
+      margin: 10px 0;
+      overflow-x: auto;
+      border-radius: 4px;
+      transition: background 0.4s ease, border 0.4s ease;
+    }
+
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .scroll-top {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 15px;
+      font-size: 14px;
+      color: #fff;
+      background-color: var(--accent);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+
+    .scroll-top:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body data-theme="dark">
+<header>
+  <h1>Запитання та відповіді для технічної співбесіди (React)</h1>
+  <button id="themeToggle" class="theme-toggle" title="Змінити тему">☀️</button>
+</header>
+<div class="container">
+    <!-- 1. setState -->
+  <div>
+    <div class="question">1. Що робить метод setState()?</div>
+    <div class="answer">
+      <p>У React <strong>state</strong> — це об’єкт, який зберігає дані, що можуть змінюватися під час життєвого циклу компонента.
+        Щоб оновити ці дані, необхідно викликати функцію <code>setState()</code>.</p>
+      <p>Метод <code>setState()</code> повідомляє React про зміну стану. Після цього компонент рендериться повторно, і ми бачимо в браузері оновлені дані.</p>
+      <div class="example"><pre>
+this.setState({ count: this.state.count + 1 });
+      </pre></div>
+      <p>✅ <strong>Важливо:</strong> оновлення стану відбувається асинхронно, тому не можна розраховувати на миттєву зміну <code>this.state</code> після виклику <code>setState()</code>.</p>
+    </div>
+  </div>
+
+  <!-- 2. Virtual DOM -->
+  <div>
+    <div class="question">2. Що таке Virtual DOM?</div>
+    <div class="answer">
+      <p><strong>Virtual DOM</strong> — це легка копія реального DOM-дерева. React працює не безпосередньо з DOM, а з його віртуальним відображенням у пам’яті.</p>
+      <p>Коли стан або пропси компонента змінюються, React спочатку оновлює Virtual DOM, порівнює його з попереднім станом (алгоритм <em>diffing</em>), і лише потім застосовує мінімальні зміни до реального DOM.</p>
+      <div class="example"><pre>
+React.createElement('div', null, 'Привіт, світ!');
+      </pre></div>
+      <p>✅ Це підхід, який робить React швидким — зміни застосовуються лише там, де потрібно, без повного перерендерингу сторінки.</p>
+    </div>
+  </div>
+
+  <!-- 3. Рендеринг списків -->
+  <div>
+    <div class="question">3. Як відмалювати масив елементів у React?</div>
+    <div class="answer">
+      <p>Для відображення списку елементів у React зазвичай використовують метод масиву <code>map()</code>.
+        React вимагає, щоб кожен елемент у списку мав унікальний ключ <code>key</code>, який допомагає відслідковувати зміни.</p>
+      <div class="example"><pre>
+const users = ['Anna', 'Mark', 'Olga'];
+
+return (
+  &lt;ul&gt;
+    {users.map((user, index) =&gt; (
+      &lt;li key={index}&gt;{user}&lt;/li&gt;
+    ))}
+  &lt;/ul&gt;
+);
+      </pre></div>
+      <p>✅ Ключі допомагають React оптимізувати оновлення — він розуміє, які елементи змінилися, додалися або видалилися.</p>
+    </div>
+  </div>
+
+  <!-- 4. Контрольовані та неконтрольовані компоненти -->
+  <div>
+    <div class="question">4. У чому різниця між контрольованими та неконтрольованими компонентами?</div>
+    <div class="answer">
+      <p>У HTML елементи форм, такі як <code>&lt;input&gt;</code>, <code>&lt;textarea&gt;</code> чи <code>&lt;select&gt;</code>, мають власний стан.
+        У React змінюване значення зазвичай зберігається у <code>state</code> компонента й оновлюється через <code>setState()</code>.</p>
+
+      <h4>🔹 Контрольований компонент:</h4>
+      <p>React повністю контролює значення поля. Дані зберігаються в <code>state</code>, а зміни обробляються через подію <code>onChange</code>.</p>
+      <div class="example"><pre>
+class Form extends React.Component {
+  state = { name: '' };
+
+  handleChange = (e) => this.setState({ name: e.target.value });
+
+  render() {
+    return (
+      &lt;input type="text" value={this.state.name} onChange={this.handleChange} /&gt;
+    );
+  }
+}
+      </pre></div>
+
+      <h4>🔹 Неконтрольований компонент:</h4>
+      <p>Значення зчитується напряму з DOM за допомогою <code>ref</code>, без збереження у <code>state</code>.</p>
+      <div class="example"><pre>
+class Form extends React.Component {
+  inputRef = React.createRef();
+
+  handleSubmit = () => {
+    alert(this.inputRef.current.value);
+  }
+
+  render() {
+    return (
+      &lt;input type="text" ref={this.inputRef} /&gt;
+    );
+  }
+}
+      </pre></div>
+
+      <p>✅ Контрольовані компоненти краще для складних форм, а неконтрольовані — простіші, коли потрібно мінімум логіки.</p>
+    </div>
+  </div>
+
+  <!-- 5. Методи життєвого циклу компонента -->
+  <div>
+    <div class="question">5. Які існують методи життєвого циклу компонента в React?</div>
+    <div class="answer">
+      <p>У React є кілька етапів життєвого циклу компонента. Для класових компонентів вони визначаються спеціальними методами, а у функціональних реалізуються через <code>useEffect()</code>.</p>
+
+      <h4>🔹 Основні етапи:</h4>
+      <ul>
+        <li><strong>Ініціалізація (Initialization):</strong> створення початкового стану <code>state</code> і встановлення початкових пропсів.</li>
+        <li><strong>Монтування (Mounting):</strong> додавання компонента в DOM.
+          Основні методи:
+          <code>constructor()</code>, <code>componentDidMount()</code>.</li>
+        <li><strong>Оновлення (Updating):</strong> повторний рендер після зміни стану або пропсів.
+          Методи: <code>shouldComponentUpdate()</code>, <code>componentDidUpdate()</code>.</li>
+        <li><strong>Розмонтування (Unmounting):</strong> видалення компонента з DOM.
+          Метод: <code>componentWillUnmount()</code>.</li>
+      </ul>
+
+      <p>✅ У сучасних функціональних компонентах усі ці стадії можна реалізувати за допомогою хука <code>useEffect()</code>.</p>
+
+      <div class="example"><pre>
+import React, { useEffect } from "react";
+
+function Example() {
+  useEffect(() => {
+    console.log("Компонент змонтовано");
+    return () => console.log("Компонент розмонтовується");
+  }, []);
+
+  return &lt;div&gt;Привіт, React!&lt;/div&gt;;
+}
+    </pre></div>
+    </div>
+  </div>
+
+  <!-- 6. Хуки React -->
+  <div>
+    <div class="question">6. Які React-хуки ви знаєте і використовуєте?</div>
+    <div class="answer">
+      <p><strong>Хук (hook)</strong> — це спеціальна функція, яка дозволяє використовувати можливості React (стан, життєвий цикл, контекст тощо) у функціональних компонентах.</p>
+
+      <h4>🔹 Основні хуки React:</h4>
+      <ul>
+        <li><code>useState</code> — для зберігання стану.</li>
+        <li><code>useEffect</code> — для побічних ефектів (запити, підписки, таймери).</li>
+        <li><code>useContext</code> — для доступу до контексту без пропсів.</li>
+        <li><code>useRef</code> — для збереження змінних між рендерами або доступу до DOM-елемента.</li>
+        <li><code>useMemo</code> — для мемоізації обчислень.</li>
+        <li><code>useCallback</code> — для мемоізації функцій, щоб уникати зайвих ререндерів.</li>
+      </ul>
+
+      <div class="example"><pre>
+import { useState, useEffect } from "react";
+
+function Timer() {
+  const [seconds, setSeconds] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => setSeconds(s => s + 1), 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return &lt;p&gt;Минуло: {seconds} секунд&lt;/p&gt;;
+}
+    </pre></div>
+
+      <p>✅ Хуки завжди викликаються лише всередині функціональних компонентів або інших хуків (не в умовах, не в циклах).</p>
+    </div>
+  </div>
+
+  <!-- 7. useState особливості -->
+  <div>
+    <div class="question">7. Які особливості хука useState()?</div>
+    <div class="answer">
+      <p><code>useState()</code> — це хук, який повертає пару значень:
+        <strong>поточний стан</strong> і <strong>функцію для його оновлення</strong>.</p>
+
+      <div class="example"><pre>
+const [count, setCount] = useState(0);
+
+&lt;button onClick={() =&gt; setCount(count + 1)}&gt;Додати&lt;/button&gt;
+    </pre></div>
+
+      <p>✅ Особливості:</p>
+      <ul>
+        <li>Під час першого рендера <code>useState</code> встановлює початкове значення.</li>
+        <li>Оновлення стану асинхронне — значення не змінюється миттєво.</li>
+        <li>Функцію <code>setState</code> можна викликати з callback’ом, щоб оновити значення на основі попереднього стану:</li>
+      </ul>
+
+      <div class="example"><pre>
+setCount(prev =&gt; prev + 1);
+    </pre></div>
+
+      <p>🔹 Після виклику <code>setState</code> React перерендерює компонент з оновленим станом.</p>
+    </div>
+  </div>
+
+  <!-- 8. useEffect особливості -->
+  <div>
+    <div class="question">8. Які особливості використання хука useEffect()?</div>
+    <div class="answer">
+      <p><code>useEffect()</code> дозволяє виконувати побічні ефекти у функціональних компонентах.
+        Побічними ефектами вважаються дії, що впливають на зовнішній світ — запити на сервер, робота з DOM, підписки, таймери, логування тощо.</p>
+
+      <p>React не дозволяє виконувати такі дії безпосередньо у тілі компонента, тому всі ефекти слід виконувати всередині <code>useEffect()</code>.</p>
+
+      <p>Функція, передана в <code>useEffect()</code>, виконується після того, як React оновить DOM.
+        Якщо вказати масив залежностей другим аргументом, ефект буде викликатись лише тоді, коли змінюється одна з цих залежностей.</p>
+
+      <div class="example"><pre>
+import { useEffect, useState } from "react";
+
+function Timer() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => setCount(c => c + 1), 1000);
+    return () => clearInterval(interval); // очищення
+  }, []);
+
+  return &lt;p&gt;Минуло {count} секунд&lt;/p&gt;;
+}
+    </pre></div>
+
+      <p>✅ <strong>Порада:</strong> уникай запуску асинхронних ефектів без очищення — це може викликати витоки пам’яті.</p>
+    </div>
+  </div>
+
+  <!-- 9. Як відстежити розмонтування функціонального компонента -->
+  <div>
+    <div class="question">9. Як відстежити розмонтування функціонального компонента?</div>
+    <div class="answer">
+      <p>Щоб виконати дію під час видалення компонента з DOM (тобто при “розмонтуванні”),
+        потрібно повернути функцію очищення з <code>useEffect()</code>.</p>
+
+      <p>Ця функція викликається перед тим, як компонент буде знищено або перед наступним виконанням ефекту.</p>
+
+      <div class="example"><pre>
+useEffect(() => {
+  const id = setInterval(() => console.log("Працює..."), 1000);
+
+  return () => {
+    clearInterval(id);
+    console.log("Компонент розмонтовується");
+  };
+}, []);
+    </pre></div>
+
+      <p>✅ Це корисно для відписки від подій, очищення таймерів, скасування запитів — усе, що не повинно існувати після видалення компонента.</p>
+    </div>
+  </div>
+
+  <!-- 10. Що таке state-менеджер -->
+  <div>
+    <div class="question">10. Що таке state-менеджер і який ви використовуєте?</div>
+    <div class="answer">
+      <p><strong>State-менеджер</strong> — це інструмент для централізованого управління станом додатка.
+        Він допомагає відокремити бізнес-логіку від компонентів і полегшує передачу даних між ними.</p>
+
+      <p>Без state-менеджера, коли багато компонентів обмінюються станом через пропси, код стає важким для підтримки.
+        Тому часто використовують глобальні сховища, до яких можна звертатися з будь-якого місця.</p>
+
+      <h4>🔹 Найпоширеніші state-менеджери:</h4>
+      <ul>
+        <li><strong>Redux</strong> — класичний варіант із предбачуваним потоком даних.</li>
+        <li><strong>MobX</strong> — реактивний підхід, зручний для великих UI з частими змінами стану.</li>
+        <li><strong>Zustand</strong> — легкий і сучасний менеджер стану без надлишкової бюрократії Redux.</li>
+        <li><strong>Recoil</strong> — гнучкий менеджер від Meta, добре інтегрується з React 18.</li>
+      </ul>
+
+      <p>✅ У невеликих проектах достатньо локального стану з <code>useState</code> або <code>useReducer</code>.</p>
+    </div>
+  </div>
+
+  <!-- 11. Коли краще використовувати локальний стан, а коли глобальний -->
+  <div>
+    <div class="question">11. У яких випадках краще використовувати локальний стан, а у яких — глобальний?</div>
+    <div class="answer">
+      <p><strong>Локальний стан</strong> (через <code>useState</code>) зручно використовувати, коли дані стосуються лише одного компонента
+        і не потрібно передавати їх іншим.</p>
+
+      <p>Приклади локального стану:</p>
+      <ul>
+        <li>Видимість модалки (<code>isOpen</code>).</li>
+        <li>Введене значення інпуту.</li>
+        <li>Активна вкладка або стан кнопки.</li>
+      </ul>
+
+      <p><strong>Глобальний стан</strong> потрібен тоді, коли одні й ті самі дані мають використовуватись у багатьох місцях застосунку.
+        Наприклад — інформація про користувача, тема (light/dark), або товари в кошику.</p>
+
+      <p>✅ Рекомендація: якщо стан починає передаватися через кілька рівнів компонентів, варто підняти його вище або винести у глобальний state (через Context API або Redux).</p>
+
+      <div class="example"><pre>
+/* локальний state */
+const [isOpen, setIsOpen] = useState(false);
+
+/* глобальний state через Context */
+const { theme } = useContext(ThemeContext);
+    </pre></div>
+    </div>
+  </div>
+
+  <!-- 12. Reducer у Redux -->
+  <div>
+    <div class="question">12. Що таке reducer у Redux і які параметри він приймає?</div>
+    <div class="answer">
+      <p><strong>Reducer</strong> — це чиста функція, яка приймає два параметри: <code>state</code> і <code>action</code>,
+        та повертає новий стан на основі отриманої дії.</p>
+
+      <div class="example"><pre>
+const initialState = { page: 1 };
+
+function reducer(state = initialState, action) {
+  switch (action.type) {
+    case "SET_PAGE":
+      return { ...state, page: action.payload };
+    default:
+      return state;
+  }
+}
+    </pre></div>
+
+      <p>✅ Reducer не змінює існуючий об’єкт стану напряму, а створює новий.</p>
+    </div>
+  </div>
+
+  <!-- 13. Action у Redux -->
+  <div>
+    <div class="question">13. Що таке action у Redux і як він змінює стан?</div>
+    <div class="answer">
+      <p><strong>Action</strong> — це звичайний JavaScript-об’єкт, який описує, що має відбутись.
+        Обов’язково містить поле <code>type</code>, яке визначає тип дії.</p>
+
+      <div class="example"><pre>
+const setPage = {
+  type: "SET_PAGE",
+  payload: 3
+};
+    </pre></div>
+
+      <p>Щоб змінити стан, викликається функція <code>dispatch(action)</code>, яка передає action у reducer.</p>
+    </div>
+  </div>
+
+  <!-- 14. JSX -->
+  <div>
+    <div class="question">14. Що таке JSX?</div>
+    <div class="answer">
+      <p><strong>JSX</strong> — це синтаксичне розширення JavaScript, яке дозволяє писати HTML-подібний код усередині JS.
+        Під капотом JSX компілюється у виклики <code>React.createElement()</code>.</p>
+
+      <div class="example"><pre>
+const element = &lt;h1 className="greeting"&gt;Привіт, React!&lt;/h1&gt;;
+    </pre></div>
+
+      <p>✅ JSX робить код більш наочним і спрощує роботу з компонентами.</p>
+    </div>
+  </div>
+
+  <!-- 15. Props -->
+  <div>
+    <div class="question">15. Що таке props?</div>
+    <div class="answer">
+      <p><strong>Props</strong> — це властивості, які передаються з батьківського компонента в дочірній.
+        Вони доступні лише для читання та не можуть бути змінені в середині дочірнього компонента.</p>
+
+      <div class="example"><pre>
+function Welcome(props) {
+  return &lt;h2&gt;Привіт, {props.name}!&lt;/h2&gt;;
+}
+    </pre></div>
+
+      <p>✅ Для передачі даних «зверху вниз» props — основний механізм у React.</p>
+    </div>
+  </div>
+
+  <!-- 16. Відмінності у способах оновлення стану -->
+  <div>
+    <div class="question">16. У чому різниця між прямим оновленням стану та колбеком у setState/useState?</div>
+    <div class="answer">
+      <p>React може об’єднувати кілька викликів <code>setState</code>, тому при використанні колбека гарантується робота з актуальним станом.</p>
+
+      <div class="example"><pre>
+// ❌ Потенційно неправильне оновлення
+setCount(count + 1);
+
+// ✅ Безпечно з колбеком
+setCount(prev =&gt; prev + 1);
+    </pre></div>
+
+      <p>✅ Використовуй колбек, коли нове значення залежить від попереднього.</p>
+    </div>
+  </div>
+
+  <!-- 17. useMemo -->
+  <div>
+    <div class="question">17. Для чого потрібен useMemo і коли його використовують?</div>
+    <div class="answer">
+      <p><strong>useMemo()</strong> використовується для мемоізації результатів складних обчислень.
+        Це оптимізація, яка запобігає повторним обчисленням при кожному рендері.</p>
+
+      <div class="example"><pre>
+const expensiveValue = useMemo(() =&gt; compute(a, b), [a, b]);
+    </pre></div>
+
+      <p>✅ Використовуй <code>useMemo</code> для оптимізації продуктивності при великих обчисленнях або при передачі мемоізованих значень у дочірні компоненти.</p>
+    </div>
+  </div>
+
+  <!-- 18. useCallback -->
+  <div>
+    <div class="question">18. Для чого потрібен useCallback і коли його використовують?</div>
+    <div class="answer">
+      <p><strong>useCallback()</strong> повертає мемоізовану версію функції, яка змінюється лише при зміні залежностей.
+        Це запобігає створенню нової функції при кожному рендері.</p>
+
+      <div class="example"><pre>
+const handleClick = useCallback(() =&gt; {
+  console.log('Клік!');
+}, []);
+    </pre></div>
+
+      <p>✅ Корисно при передачі колбеків у дочірні компоненти, обгорнуті у <code>React.memo()</code>.</p>
+    </div>
+  </div>
+
+  <!-- 19. useContext -->
+  <div>
+    <div class="question">19. Для чого потрібен useContext?</div>
+    <div class="answer">
+      <p><strong>useContext()</strong> дозволяє отримувати значення з контексту без необхідності передавати props через усі рівні компонентів.</p>
+
+      <div class="example"><pre>
+const ThemeContext = createContext();
+
+function Button() {
+  const theme = useContext(ThemeContext);
+  return &lt;button style={{ color: theme.color }}&gt;Натисни&lt;/button&gt;;
+}
+    </pre></div>
+
+      <p>✅ Контекст зручний для тем, локалізації, авторизації тощо.</p>
+    </div>
+  </div>
+
+  <!-- 20. useRef -->
+  <div>
+    <div class="question">20. Для чого потрібен useRef?</div>
+    <div class="answer">
+      <p><strong>useRef()</strong> створює змінний об’єкт, який зберігає значення між рендерами, не викликаючи повторного рендеру.</p>
+
+      <div class="example"><pre>
+const inputRef = useRef(null);
+
+&lt;input ref={inputRef} /&gt;
+&lt;button onClick={() =&gt; inputRef.current.focus()}&gt;Фокус&lt;/button&gt;
+    </pre></div>
+
+      <p>✅ Найчастіше використовується для доступу до DOM-елементів або збереження будь-якого мутованого значення.</p>
+    </div>
+  </div>
+
+  <!-- 21. React.memo -->
+  <div>
+    <div class="question">21. Для чого потрібен React.memo?</div>
+    <div class="answer">
+      <p><strong>React.memo()</strong> — це компонент вищого порядку, який запам’ятовує результат рендера.
+        Якщо props не змінились, React не буде повторно рендерити компонент.</p>
+
+      <div class="example"><pre>
+const User = React.memo(({ name }) =&gt; &lt;p&gt;{name}&lt;/p&gt;);
+    </pre></div>
+
+      <p>✅ Використовується для оптимізації продуктивності при незмінних props.</p>
+    </div>
+  </div>
+
+  <!-- 22. React Fiber -->
+  <div>
+    <div class="question">22. Що таке React Fiber?</div>
+    <div class="answer">
+      <p><strong>React Fiber</strong> — це новий механізм рендерингу (з версії React 16), який робить процес оновлення DOM інкрементальним.</p>
+
+      <p>Його мета — підвищити продуктивність React при виконанні анімацій, складних переходів та великої кількості оновлень.
+        Fiber дозволяє розділяти роботу на дрібні частини і виконувати її поступово, не блокуючи інтерфейс.</p>
+    </div>
+  </div>
+
+  <!-- 23. React Fragment -->
+  <div>
+    <div class="question">23. Що таке React Fragment?</div>
+    <div class="answer">
+      <p><strong>Fragment</strong> дозволяє групувати кілька елементів без створення додаткового DOM-вузла.</p>
+
+      <div class="example"><pre>
+return (
+  &lt;&gt;
+    &lt;Header /&gt;
+    &lt;Content /&gt;
+  &lt;/&gt;
+);
+    </pre></div>
+
+      <p>✅ Зручно використовувати, щоб уникнути зайвих контейнерів &lt;div&gt; у верстці.</p>
+    </div>
+  </div>
+
+  <!-- 24. React Reconciliation -->
+  <div>
+    <div class="question">24. Що таке React Reconciliation?</div>
+    <div class="answer">
+      <p><strong>Reconciliation</strong> — це алгоритм React, який порівнює старе й нове DOM-дерево,
+        щоб визначити мінімальні зміни для оновлення інтерфейсу.</p>
+
+      <p>React ефективно оновлює лише ті частини DOM, які дійсно змінились.</p>
+    </div>
+  </div>
+
+  <!-- 25. Ключі в списках -->
+  <div>
+    <div class="question">25. Навіщо потрібні ключі (key) у списках?</div>
+    <div class="answer">
+      <p>Ключі допомагають React ідентифікувати елементи, що змінились, додались або були видалені.</p>
+
+      <div class="example"><pre>
+{items.map(item =&gt; &lt;li key={item.id}&gt;{item.text}&lt;/li&gt;)}
+    </pre></div>
+
+      <p>✅ Використовуй унікальні <code>id</code> — це допомагає React уникати зайвих ререндерів.</p>
+    </div>
+  </div>
+
+  <!-- 26. Redux Thunk -->
+  <div>
+    <div class="question">26. Як виконувати асинхронні дії (actions) у Redux?</div>
+    <div class="answer">
+      <p>Для асинхронних дій у Redux використовують middleware <strong>redux-thunk</strong>.
+        Він дозволяє action creator’ам повертати функцію замість об’єкта.</p>
+
+      <div class="example"><pre>
+export const fetchTodos = () =&gt; async dispatch =&gt; {
+  dispatch({ type: "TODOS_START" });
+  try {
+    const res = await fetch("/api/todos");
+    const data = await res.json();
+    dispatch({ type: "TODOS_SUCCESS", payload: data });
+  } catch (e) {
+    dispatch({ type: "TODOS_ERROR", error: e });
+  }
+};
+    </pre></div>
+    </div>
+  </div>
+
+  <!-- 27. Умовний рендеринг -->
+  <div>
+    <div class="question">27. Як відмалювати елемент за умовою?</div>
+    <div class="answer">
+      <p>Можна використовувати логічні оператори (<code>&amp;&amp;</code>), тернарні вирази або return усередині умов.</p>
+
+      <div class="example"><pre>
+{isLoggedIn ? &lt;LogoutButton /&gt; : &lt;LoginButton /&gt;}
+{count &gt; 0 &amp;&amp; &lt;p&gt;Повідомлень: {count}&lt;/p&gt;}
+    </pre></div>
+    </div>
+  </div>
+
+  <!-- 28. Відстеження зміни об’єкта -->
+  <div>
+    <div class="question">28. Як відстежити зміну поля об’єкта у функціональному компоненті?</div>
+    <div class="answer">
+      <p>Для цього використовують <code>useEffect()</code> з масивом залежностей, у якому вказують конкретне поле.</p>
+
+      <div class="example"><pre>
+useEffect(() =&gt; {
+  console.log(user.name);
+}, [user.name]);
+    </pre></div>
+    </div>
+  </div>
+
+  <!-- 29. Доступ до DOM у React -->
+  <div>
+    <div class="question">29. Як отримати доступ до DOM-елемента в React?</div>
+    <div class="answer">
+      <p>Можна використати <code>useRef()</code> або <code>React.createRef()</code>.</p>
+
+      <div class="example"><pre>
+const inputRef = useRef(null);
+
+&lt;input ref={inputRef} /&gt;
+&lt;button onClick={() =&gt; inputRef.current.focus()}&gt;Фокус&lt;/button&gt;
+    </pre></div>
+    </div>
+  </div>
+
+  <!-- ===================== MIDDLE ===================== -->
+  <h2 style="margin-top:40px;">🟦 Middle рівень</h2>
+
+  <!-- 30. Чиста функція -->
+  <div>
+    <div class="question">30. Що таке чиста функція і чому React вимагає чистоти компонентів?</div>
+    <div class="answer">
+      <p><strong>Чиста функція</strong> — це така, яка при однакових аргументах завжди повертає однаковий результат і не має побічних ефектів.</p>
+      <ul>
+        <li>Не змінює зовнішні змінні або об’єкти.</li>
+        <li>Не взаємодіє з DOM чи API безпосередньо.</li>
+        <li>Повертає значення лише через return.</li>
+      </ul>
+      <div class="example"><pre>
+function add(a, b) { return a + b } // ✅ чиста
+let total = 0;
+function addToTotal(a) { total += a } // ❌ не чиста
+    </pre></div>
+      <p>React-компоненти мають бути чистими, щоб React міг передбачити результат рендеру.</p>
+    </div>
+  </div>
+
+  <!-- 31. Контрольовані і неконтрольовані компоненти -->
+  <div>
+    <div class="question">31. У чому різниця між контрольованими та неконтрольованими компонентами?</div>
+    <div class="answer">
+      <p><strong>Контрольовані компоненти</strong> — це ті, де значення елементів форми зберігаються у <code>state</code>, і зміни керуються React.</p>
+      <p><strong>Неконтрольовані компоненти</strong> зберігають значення напряму у DOM (через <code>ref</code>).</p>
+      <div class="example"><pre>
+// Контрольований
+&lt;input value={name} onChange={e => setName(e.target.value)} /&gt;
+
+// Неконтрольований
+const inputRef = useRef(null);
+&lt;input ref={inputRef} /&gt;
+    </pre></div>
+    </div>
+  </div>
+
+  <!-- 32. Mounting vs Rendering -->
+  <div>
+    <div class="question">32. У чому різниця між mounting і rendering у React?</div>
+    <div class="answer">
+      <ul>
+        <li><strong>Mounting</strong> — створення компонента і вставлення його у DOM вперше.</li>
+        <li><strong>Rendering</strong> — виклик функції компонента для створення його віртуального представлення (JSX).</li>
+      </ul>
+      <p>Кожен mounting включає rendering, але не кожен rendering означає нове монтування.</p>
+    </div>
+  </div>
+
+  <!-- 33. Hook Call Order -->
+  <div>
+    <div class="question">33. Чому не можна викликати хуки в умовах чи циклах?</div>
+    <div class="answer">
+      <p>React покладається на <strong>порядок виклику хуків</strong>, щоб правильно співставляти стани між рендерами.
+        Якщо викликати хук умовно — порядок зламається, і React втратить зв’язок між станами.</p>
+      <p>✅ Викликай хуки тільки:</p>
+      <ul>
+        <li>на верхньому рівні компонента</li>
+        <li>або в custom hook’ах, теж без умов</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 34. Dependency Array -->
+  <div>
+    <div class="question">34. Що таке dependency array у useEffect / useMemo / useCallback?</div>
+    <div class="answer">
+      <p>Це список залежностей, при зміні яких React повторно виконує ефект або обчислення.</p>
+      <div class="example"><pre>
+useEffect(() => {
+  console.log("Змінено name або age");
+}, [name, age]);
+    </pre></div>
+      <p>Якщо передати порожній масив — ефект виконається лише один раз (аналог <code>componentDidMount</code>).</p>
+    </div>
+  </div>
+
+  <!-- 35. Оптимізація продуктивності -->
+  <div>
+    <div class="question">35. Як можна оптимізувати продуктивність React-додатка?</div>
+    <div class="answer">
+      <ul>
+        <li>Мемоізація компонентів (<code>React.memo</code>).</li>
+        <li>Мемоізація значень і колбеків (<code>useMemo</code>, <code>useCallback</code>).</li>
+        <li>Розділення коду (<code>React.lazy</code> + <code>Suspense</code>).</li>
+        <li>Уникання зайвих перерендерів через правильні <code>key</code>.</li>
+        <li>Профілювання за допомогою React Developer Tools.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 36. HOC -->
+  <div>
+    <div class="question">36. Що таке HOC (Higher-Order Component)?</div>
+    <div class="answer">
+      <p>Це функція, яка приймає компонент і повертає новий компонент із додатковою логікою або пропсами.</p>
+      <div class="example"><pre>
+function withLogger(Wrapped) {
+  return (props) => {
+    console.log('Рендер', Wrapped.name);
+    return &lt;Wrapped {...props} /&gt;;
+  }
+}
+    </pre></div>
+    </div>
+  </div>
+
+  <!-- 37. Render Props -->
+  <div>
+    <div class="question">37. Що таке Render Props?</div>
+    <div class="answer">
+      <p>Це патерн, коли компонент приймає функцію як <code>prop</code>, і ця функція визначає, що потрібно відрендерити.</p>
+      <div class="example"><pre>
+&lt;Mouse render={pos =&gt; &lt;p&gt;X: {pos.x}, Y: {pos.y}&lt;/p&gt;} /&gt;
+    </pre></div>
+    </div>
+  </div>
+
+  <!-- 38. Suspense та lazy -->
+  <div>
+    <div class="question">38. Що таке React.lazy та Suspense?</div>
+    <div class="answer">
+      <p><strong>React.lazy()</strong> дозволяє завантажувати компонент лише тоді, коли він потрібен.
+        <strong>Suspense</strong> показує запасний контент під час завантаження.</p>
+      <div class="example"><pre>
+const About = React.lazy(() => import('./About'));
+
+&lt;Suspense fallback={&lt;p&gt;Завантаження...&lt;/p&gt;}&gt;
+  &lt;About /&gt;
+&lt;/Suspense&gt;
+    </pre></div>
+    </div>
+  </div>
+
+  <!-- 39. Error Boundary -->
+  <div>
+    <div class="question">39. Що таке Error Boundary?</div>
+    <div class="answer">
+      <p>Це компонент, який перехоплює помилки у дочірніх компонентах і показує fallback UI.</p>
+      <p>Може бути лише класовим компонентом із методом <code>componentDidCatch</code>.</p>
+    </div>
+  </div>
+
+  <!-- 40. StrictMode -->
+  <div>
+    <div class="question">40. Що таке StrictMode і навіщо він потрібен?</div>
+    <div class="answer">
+      <p><strong>StrictMode</strong> — це інструмент для виявлення потенційних проблем у коді під час розробки.
+        Він активує додаткові перевірки, наприклад, подвійний рендер компонентів для виявлення побічних ефектів.</p>
+    </div>
+  </div>
+
+  <!-- ===================== MIDDLE+ ===================== -->
+  <h2 style="margin-top:40px;">🟩 Middle+ рівень</h2>
+
+  <!-- 41. Context + Reducer -->
+  <div>
+    <div class="question">41. Як можна поєднати Context і Reducer без Redux?</div>
+    <div class="answer">
+      <p>Комбінація <code>useReducer</code> + <code>useContext</code> дозволяє створити легку альтернативу Redux.</p>
+      <div class="example"><pre>
+const AppContext = createContext();
+
+function AppProvider({ children }) {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  return &lt;AppContext.Provider value={{ state, dispatch }}&gt;
+    {children}
+  &lt;/AppContext.Provider&gt;
+}
+    </pre></div>
+    </div>
+  </div>
+
+  <!-- 42. Batching -->
+  <div>
+    <div class="question">42. Що таке автоматичний batching у React 18?</div>
+    <div class="answer">
+      <p>React 18 об’єднує кілька оновлень стану в один рендер, щоб зменшити кількість перерендерів і підвищити ефективність.</p>
+    </div>
+  </div>
+
+  <!-- 43. Hydration -->
+  <div>
+    <div class="question">43. Що таке hydration у SSR?</div>
+    <div class="answer">
+      <p><strong>Hydration</strong> — це процес, коли React «прив’язує» свій JavaScript до вже згенерованої HTML-сторінки після SSR.
+        Це дозволяє сторінці стати інтерактивною без повторного рендерингу з нуля.</p>
+    </div>
+  </div>
+
+  <!-- 44. forwardRef -->
+  <div>
+    <div class="question">44. Що таке forwardRef і навіщо він потрібен?</div>
+    <div class="answer">
+      <p><strong>forwardRef</strong> дозволяє передавати ref із батьківського компонента у дочірній.</p>
+      <div class="example"><pre>
+const Input = forwardRef((props, ref) =&gt; &lt;input ref={ref} {...props} /&gt;);
+    </pre></div>
+    </div>
+  </div>
+
+  <!-- 45. Synthetic Events -->
+  <div>
+    <div class="question">45. Що таке SyntheticEvent у React?</div>
+    <div class="answer">
+      <p><strong>SyntheticEvent</strong> — це обгортка над нативними подіями браузера,
+        яка забезпечує кросбраузерну сумісність і оптимізацію React.</p>
+    </div>
+  </div>
+
+  <!-- 46. Portal -->
+  <div>
+    <div class="question">46. Що таке React Portal і навіщо його використовують?</div>
+    <div class="answer">
+      <p>Portals дозволяють рендерити дочірні елементи у DOM-вузол поза межами батьківського компонента.</p>
+      <div class="example"><pre>
+ReactDOM.createPortal(children, document.getElementById('modal-root'))
+    </pre></div>
+      <p>✅ Використовується для модалок, тултипів і контекстних меню.</p>
+    </div>
+  </div>
+
+  <!-- 47. Concurrent Rendering -->
+  <div>
+    <div class="question">47. Що таке Concurrent Rendering?</div>
+    <div class="answer">
+      <p>Це механізм React 18, який дозволяє виконувати оновлення з різними пріоритетами,
+        щоб інтерфейс залишався плавним навіть під час важких обчислень.</p>
+    </div>
+  </div>
+
+  <!-- 48. Children -->
+  <div>
+    <div class="question">48. Що таке props.children?</div>
+    <div class="answer">
+      <p><code>props.children</code> — це все, що передано між відкривальним і закривальним тегом компонента.</p>
+      <div class="example"><pre>
+&lt;Card&gt;
+  &lt;p&gt;Контент усередині&lt;/p&gt;
+&lt;/Card&gt;
+    </pre></div>
+    </div>
+  </div>
+
+  <!-- 49. Code Splitting -->
+  <div>
+    <div class="question">49. Що таке Code Splitting і як його реалізувати?</div>
+    <div class="answer">
+      <p>Це розбиття JavaScript на частини, щоб завантажувати код поступово.
+        Реалізується за допомогою <code>React.lazy</code> і <code>Suspense</code>.</p>
+    </div>
+  </div>
+
+  <!-- 50. SSR vs CSR -->
+  <div>
+    <div class="question">50. У чому різниця між SSR та CSR?</div>
+    <div class="answer">
+      <ul>
+        <li><strong>CSR (Client-Side Rendering)</strong> — HTML генерується у браузері після завантаження JS.</li>
+        <li><strong>SSR (Server-Side Rendering)</strong> — HTML створюється на сервері перед відправкою клієнту.</li>
+      </ul>
+      <p>SSR покращує SEO та швидкість початкового відображення.</p>
+    </div>
+  </div>
+
+  <script>
+    // === Scroll to top ===
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // === Theme toggle ===
+    const toggleBtn = document.getElementById('themeToggle');
+    const body = document.body;
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    body.setAttribute('data-theme', savedTheme);
+    toggleBtn.textContent = savedTheme === 'light' ? '🌙' : '☀️';
+
+    toggleBtn.addEventListener('click', () => {
+      const currentTheme = body.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      body.setAttribute('data-theme', newTheme);
+      toggleBtn.textContent = newTheme === 'light' ? '🌙' : '☀️';
+      localStorage.setItem('theme', newTheme);
+    });
+  </script>
+
+</div>
+</body>
+</html>

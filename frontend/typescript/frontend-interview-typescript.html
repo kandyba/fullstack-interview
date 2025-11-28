@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Технічна співбесіда з TypeScript</title>
+  <style>
+    :root {
+      --bg: #f9f9f9;
+      --text: #1c1e21;
+      --card: #ffffff;
+      --border: #e5e7eb;
+      --accent: #007bff;
+      --code-bg: #f4f4f4;
+    }
+
+    [data-theme="dark"] {
+      --bg: #1e1e1e;
+      --text: #e2e2e2;
+      --card: #2a2a2a;
+      --border: #3c3c3c;
+      --accent: #4aa8ff;
+      --code-bg: #252526;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0 20px;
+      background-color: var(--bg);
+      color: var(--text);
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+      color: var(--accent);
+    }
+
+    .theme-toggle {
+      background: none;
+      border: none;
+      font-size: 22px;
+      color: var(--accent);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      transform: rotate(20deg);
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      background: var(--card);
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border-radius: 5px;
+      border: 1px solid var(--border);
+      transition: background 0.4s ease, border 0.4s ease;
+    }
+
+    .question {
+      font-weight: bold;
+      margin: 20px 0 10px;
+    }
+
+    .answer {
+      margin-bottom: 20px;
+    }
+
+    .example {
+      background: var(--code-bg);
+      border-left: 4px solid var(--accent);
+      padding: 10px;
+      margin: 10px 0;
+      overflow-x: auto;
+      border-radius: 4px;
+      transition: background 0.4s ease, border 0.4s ease;
+    }
+
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .scroll-top {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 15px;
+      font-size: 14px;
+      color: #fff;
+      background-color: var(--accent);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+
+    .scroll-top:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body data-theme="dark">
+<header>
+  <h1>Запитання та відповіді: TypeScript</h1>
+  <button id="themeToggle" class="theme-toggle" title="Змінити тему">☀️</button>
+</header>
+<div class="container">
+  <div>
+    <div class="question">1. Що таке TypeScript?</div>
+    <div class="answer">
+      <p>TypeScript — це надмножина JavaScript, яка додає статичну типізацію та інші корисні можливості для розробки.</p>
+      <div class="example">
+        <pre>
+let message: string = "Hello, TypeScript!";
+console.log(message);
+        </pre>
+      </div>
+    </div>
+
+    <div class="question">2. Яка різниця між TypeScript і JavaScript?</div>
+    <div class="answer">
+      <p>Основна різниця в тому, що TypeScript підтримує статичну типізацію, тоді як JavaScript — динамічно типізована мова.</p>
+      <div class="example">
+        <pre>
+TypeScript: let count: number = 5;
+JavaScript: let count = 5;
+        </pre>
+      </div>
+    </div>
+
+    <div class="question">3. Як встановити TypeScript?</div>
+    <div class="answer">
+      <p>TypeScript можна встановити через npm:</p>
+      <div class="example">
+        <pre>
+npm install -g typescript
+        </pre>
+      </div>
+    </div>
+
+    <div class="question">4. Що таке файл конфігурації tsconfig.json?</div>
+    <div class="answer">
+      <p>Це файл конфігурації TypeScript, який дозволяє налаштовувати компіляцію проєкту.</p>
+      <div class="example">
+        <pre>
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "commonjs",
+    "strict": true
+  }
+}
+        </pre>
+      </div>
+    </div>
+
+    <div class="question">5. Що таке типи даних у TypeScript?</div>
+    <div class="answer">
+      <p>TypeScript підтримує базові типи даних, такі як number, string, boolean, а також складні типи, наприклад, масиви, кортежі та інші.</p>
+      <div class="example">
+        <pre>
+let age: number = 25;
+let name: string = "John";
+let isAdmin: boolean = true;
+        </pre>
+      </div>
+    </div>
+
+    <div class="question">6. Що таке Union типи?</div>
+    <div class="answer">
+      <p>Union типи дозволяють змінній мати кілька типів.</p>
+      <div class="example">
+        <pre>
+let value: string | number;
+value = "Hello";
+value = 42;
+        </pre>
+      </div>
+    </div>
+
+    <div class="question">7. Що таке інтерфейси в TypeScript?</div>
+    <div class="answer">
+      <p>Інтерфейси визначають структуру об'єктів та можуть використовуватися для перевірки типів.</p>
+      <div class="example">
+        <pre>
+interface User {
+  name: string;
+  age: number;
+}
+let user: User = { name: "Alice", age: 30 };
+        </pre>
+      </div>
+    </div>
+
+    <div class="question">8. Що таке Generic типи?</div>
+    <div class="answer">
+      <p>Generic типи дозволяють створювати компоненти, які можуть працювати з різними типами даних.</p>
+      <div class="example">
+        <pre>
+function identity<T>(arg: T): T {
+  return arg;
+}
+let output = identity<string>("Hello");
+        </pre>
+      </div>
+    </div>
+
+    <div class="question">9. Як оголосити кортежі в TypeScript?</div>
+    <div class="answer">
+      <p>Кортежі дозволяють зберігати масив із фіксованою кількістю елементів різних типів.</p>
+      <div class="example">
+        <pre>
+let tuple: [string, number];
+tuple = ["Hello", 42];
+        </pre>
+      </div>
+    </div>
+
+    <div class="question">10. Що таке Enums у TypeScript?</div>
+    <div class="answer">
+      <p>Enums дозволяють створювати набір іменованих констант.</p>
+      <div class="example">
+        <pre>
+enum Direction {
+  Up = 1,
+  Down,
+  Left,
+  Right
+}
+let dir: Direction = Direction.Up;
+        </pre>
+      </div>
+    </div>
+
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+  </div>
+  <div>
+    <div class="question">11. Що таке Generics у TypeScript?</div>
+    <div class="answer">
+      Generics дозволяють створювати функції, класи чи інтерфейси, які працюють з будь-яким типом, забезпечуючи типобезпеку. Це зручно для створення повторно використовуваних компонентів.
+      <div class="example">
+      <pre>
+function identity<T>(value: T): T {
+  return value;
+}
+const result = identity<string>("Привіт"); // Привіт
+      </pre>
+      </div>
+    </div>
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+  </div>
+
+  <div>
+    <div class="question">12. Що таке Type Guards?</div>
+    <div class="answer">
+      Type Guards (перевірки типів) — це функції чи вирази, які допомагають TypeScript визначити тип змінної під час виконання.
+      <div class="example">
+      <pre>
+function isString(value: unknown): value is string {
+  return typeof value === "string";
+}
+if (isString(someValue)) {
+  console.log(someValue.toUpperCase());
+}
+      </pre>
+      </div>
+    </div>
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+  </div>
+
+  <div>
+    <div class="question">13. Як працює оператор keyof?</div>
+    <div class="answer">
+      Оператор <code>keyof</code> повертає набір ключів переданого об'єкта або інтерфейсу.
+      <div class="example">
+      <pre>
+interface User {
+  id: number;
+  name: string;
+}
+type UserKeys = keyof User; // "id" | "name"
+      </pre>
+      </div>
+    </div>
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+  </div>
+
+  <div>
+    <div class="question">14. Що таке Conditional Types у TypeScript?</div>
+    <div class="answer">
+      Conditional Types дозволяють створювати типи на основі умов. Вони використовуються для більш складної типізації.
+      <div class="example">
+      <pre>
+type IsString<T> = T extends string ? true : false;
+type Check = IsString<"текст">; // true
+      </pre>
+      </div>
+    </div>
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+  </div>
+
+  <div>
+    <div class="question">15. Що таке Utility Types?</div>
+    <div class="answer">
+      Utility Types — це вбудовані типи TypeScript, які спрощують маніпуляцію іншими типами, наприклад: <code>Partial</code>, <code>Pick</code>, <code>Omit</code>.
+      <div class="example">
+      <pre>
+interface User {
+  id: number;
+  name: string;
+  age: number;
+}
+type PartialUser = Partial<User>; // Всі властивості необов'язкові
+      </pre>
+      </div>
+    </div>
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+  </div>
+
+  <div>
+    <div class="question">16. Як TypeScript працює з модулем Node.js?</div>
+    <div class="answer">
+      TypeScript використовує систему модулів CommonJS для Node.js. Ви можете експортувати та імпортувати модулі за допомогою синтаксису <code>import</code> і <code>export</code>.
+      <div class="example">
+      <pre>
+// math.ts
+export function add(a: number, b: number): number {
+  return a + b;
+}
+
+// main.ts
+import { add } from "./math";
+console.log(add(2, 3)); // 5
+      </pre>
+      </div>
+    </div>
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+  </div>
+
+  <div>
+    <div class="question">17. Що таке Decorators у TypeScript?</div>
+    <div class="answer">
+      Decorators — це спеціальні функції, які дозволяють додавати метадані до класів, методів чи властивостей.
+      <div class="example">
+      <pre>
+function Log(target: any, propertyKey: string) {
+  console.log(`${propertyKey} was accessed`);
+}
+class User {
+  @Log
+  name: string = "Іван";
+}
+const user = new User();
+console.log(user.name);
+      </pre>
+      </div>
+    </div>
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+  </div>
+
+  <div>
+    <div class="question">18. Як TypeScript працює з інтерфейсами?</div>
+    <div class="answer">
+      Інтерфейси описують структуру об'єктів, а також дозволяють використовувати розширення.
+      <div class="example">
+      <pre>
+interface User {
+  id: number;
+  name: string;
+}
+const user: User = { id: 1, name: "Іван" };
+      </pre>
+      </div>
+    </div>
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+  </div>
+
+  <div>
+    <div class="question">19. Чим відрізняється тип від інтерфейсу?</div>
+    <div class="answer">
+      Основна відмінність: <code>type</code> може бути використаний для створення об'єднань та примітивів, тоді як <code>interface</code> — для опису об'єктів. Інтерфейси можна розширювати, а типи об'єднувати.
+    </div>
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+  </div>
+
+  <div>
+    <div class="question">20. Як працює <code>readonly</code> у TypeScript?</div>
+    <div class="answer">
+      Модифікатор <code>readonly</code> робить властивість доступною лише для читання.
+      <div class="example">
+      <pre>
+interface User {
+  readonly id: number;
+  name: string;
+}
+const user: User = { id: 1, name: "Іван" };
+user.name = "Петро"; // Можливо
+// user.id = 2; // Помилка
+      </pre>
+      </div>
+    </div>
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+  </div>
+  <div>
+    <div class="question">21. Що таке Tuple у TypeScript?</div>
+    <div class="answer">
+      Tuple — це тип масиву з фіксованою кількістю елементів, де кожен елемент має свій визначений тип.
+      <div class="example">
+      <pre>
+const user: [number, string] = [1, "Іван"];
+console.log(user[0]); // 1
+console.log(user[1]); // "Іван"
+      </pre>
+      </div>
+    </div>
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+  </div>
+
+  <div>
+    <div class="question">22. Як працює модифікатор <code>private</code>?</div>
+    <div class="answer">
+      Модифікатор <code>private</code> робить властивість чи метод доступними лише всередині класу.
+      <div class="example">
+      <pre>
+class User {
+  private id: number;
+  constructor(id: number) {
+    this.id = id;
+  }
+}
+const user = new User(1);
+// console.log(user.id); // Помилка
+      </pre>
+      </div>
+    </div>
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+  </div>
+
+  <div>
+    <div class="question">23. Як працює модифікатор <code>protected</code>?</div>
+    <div class="answer">
+      <code>protected</code> робить властивість чи метод доступними всередині класу і його нащадків.
+      <div class="example">
+      <pre>
+class User {
+  protected name: string;
+  constructor(name: string) {
+    this.name = name;
+  }
+}
+class Admin extends User {
+  getAdminName() {
+    return this.name;
+  }
+}
+      </pre>
+      </div>
+    </div>
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+  </div>
+
+  <div>
+    <div class="question">24. Що таке Mapped Types?</div>
+    <div class="answer">
+      Mapped Types дозволяють створювати нові типи шляхом перетворення наявних.
+      <div class="example">
+      <pre>
+type ReadonlyUser = {
+  readonly [Key in keyof User]: User[Key];
+};
+      </pre>
+      </div>
+    </div>
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+  </div>
+
+  <div>
+    <div class="question">25. Що таке Union та Intersection Types?</div>
+    <div class="answer">
+      Union — це тип, який може бути одним з декількох типів. Intersection об'єднує декілька типів в один.
+      <div class="example">
+      <pre>
+// Union
+type Result = string | number;
+let value: Result = "текст"; // або число
+
+// Intersection
+type Admin = User & { role: string };
+      </pre>
+      </div>
+    </div>
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+  </div>
+
+  <div>
+    <div class="question">26. Як працює Non-Null Assertion Operator (!)?</div>
+    <div class="answer">
+      Non-Null Assertion Operator <code>!</code> дозволяє TypeScript ігнорувати перевірки на null або undefined.
+      <div class="example">
+      <pre>
+const element = document.querySelector(".item")!;
+element.textContent = "Привіт!";
+      </pre>
+      </div>
+    </div>
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+  </div>
+
+  <div>
+    <div class="question">27. Що таке Index Signatures?</div>
+    <div class="answer">
+      Index Signatures дозволяють визначати тип властивостей, ключі яких невідомі заздалегідь.
+      <div class="example">
+      <pre>
+interface Dictionary {
+  [key: string]: string;
+}
+const dict: Dictionary = { hello: "Привіт", world: "Світ" };
+      </pre>
+      </div>
+    </div>
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+  </div>
+
+  <div>
+    <div class="question">28. Як працює модифікатор <code>static</code>?</div>
+    <div class="answer">
+      <code>static</code> дозволяє визначати властивості або методи класу, які не належать екземпляру, а доступні на рівні класу.
+      <div class="example">
+      <pre>
+class MathUtils {
+  static add(a: number, b: number): number {
+    return a + b;
+  }
+}
+console.log(MathUtils.add(2, 3)); // 5
+      </pre>
+      </div>
+    </div>
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+  </div>
+
+  <div>
+    <div class="question">29. Що таке Type Assertion?</div>
+    <div class="answer">
+      Type Assertion дозволяє явно вказати TypeScript, який тип ви очікуєте.
+      <div class="example">
+      <pre>
+const someValue: unknown = "Привіт";
+const valueLength: number = (someValue as string).length;
+      </pre>
+      </div>
+    </div>
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+  </div>
+
+  <div>
+    <div class="question">30. Як працюють Never та Unknown типи?</div>
+    <div class="answer">
+      <code>never</code> вказує, що значення ніколи не буде, наприклад у функціях, що завжди кидають помилки. <code>unknown</code> — це тип для значень невідомого типу.
+      <div class="example">
+      <pre>
+// never
+function error(message: string): never {
+  throw new Error(message);
+}
+
+// unknown
+let value: unknown = "Привіт";
+if (typeof value === "string") {
+  console.log(value.toUpperCase());
+}
+      </pre>
+      </div>
+    </div>
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+  </div>
+  <div>
+    <div class="question">31. Що таке Generics у TypeScript?</div>
+    <div class="answer">
+      Generics — це механізм, який дозволяє створювати компоненти, що можуть працювати з різними типами даних.
+      <div class="example">
+      <pre>
+function identity<T>(value: T): T {
+  return value;
+}
+console.log(identity<string>("Привіт")); // "Привіт"
+console.log(identity<number>(123)); // 123
+      </pre>
+      </div>
+    </div>
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+  </div>
+
+  <div>
+    <div class="question">32. Як використовувати тип <code>Record</code>?</div>
+    <div class="answer">
+      Тип <code>Record</code> створює об'єкт з ключами одного типу та значеннями іншого типу.
+      <div class="example">
+      <pre>
+type UserRoles = Record<string, string>;
+const roles: UserRoles = {
+  admin: "Адміністратор",
+  user: "Користувач",
+};
+      </pre>
+      </div>
+    </div>
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+  </div>
+
+  <div>
+    <div class="question">33. Що таке Utility Types у TypeScript?</div>
+    <div class="answer">
+      Utility Types — це вбудовані типи TypeScript, які допомагають змінювати або використовувати інші типи.
+      <div class="example">
+      <pre>
+// Partial
+interface User {
+  name: string;
+  age: number;
+}
+const partialUser: Partial<User> = { name: "Іван" };
+
+// Readonly
+const readonlyUser: Readonly<User> = { name: "Іван", age: 25 };
+// readonlyUser.age = 30; // Помилка
+      </pre>
+      </div>
+    </div>
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+  </div>
+
+  <div>
+    <div class="question">34. Як працює Omit у TypeScript?</div>
+    <div class="answer">
+      <code>Omit</code> створює новий тип, видаляючи вказані ключі з існуючого типу.
+      <div class="example">
+      <pre>
+interface User {
+  id: number;
+  name: string;
+  age: number;
+}
+type UserWithoutAge = Omit<User, "age">;
+const user: UserWithoutAge = { id: 1, name: "Іван" };
+      </pre>
+      </div>
+    </div>
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+  </div>
+
+  <div>
+    <div class="question">35. Як працює Pick у TypeScript?</div>
+    <div class="answer">
+      <code>Pick</code> створює новий тип, вибираючи лише вказані ключі з існуючого типу.
+      <div class="example">
+      <pre>
+interface User {
+  id: number;
+  name: string;
+  age: number;
+}
+type UserNameOnly = Pick<User, "name">;
+const user: UserNameOnly = { name: "Іван" };
+      </pre>
+      </div>
+    </div>
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+  </div>
+
+  <div>
+    <div class="question">36. Як працює keyof у TypeScript?</div>
+    <div class="answer">
+      <code>keyof</code> отримує всі ключі об'єкта у вигляді об'єднання строкових літералів.
+      <div class="example">
+      <pre>
+interface User {
+  id: number;
+  name: string;
+}
+type UserKeys = keyof User; // "id" | "name"
+      </pre>
+      </div>
+    </div>
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+  </div>
+
+  <div>
+    <div class="question">37. Як працює Conditional Types?</div>
+    <div class="answer">
+      Conditional Types дозволяють створювати типи, засновані на умовах.
+      <div class="example">
+      <pre>
+type IsString<T> = T extends string ? true : false;
+type Check1 = IsString<string>; // true
+type Check2 = IsString<number>; // false
+      </pre>
+      </div>
+    </div>
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+  </div>
+
+  <div>
+    <div class="question">38. Як використовувати Overload функції в TypeScript?</div>
+    <div class="answer">
+      Overload дозволяє визначити кілька сигнатур для однієї функції.
+      <div class="example">
+      <pre>
+function combine(a: string, b: string): string;
+function combine(a: number, b: number): number;
+function combine(a: any, b: any): any {
+  return a + b;
+}
+console.log(combine(1, 2)); // 3
+console.log(combine("Привіт, ", "світе")); // "Привіт, світе"
+      </pre>
+      </div>
+    </div>
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+  </div>
+
+  <div>
+    <div class="question">39. Що таке Type Guards?</div>
+    <div class="answer">
+      Type Guards використовуються для уточнення типів в умовах.
+      <div class="example">
+      <pre>
+function isString(value: unknown): value is string {
+  return typeof value === "string";
+}
+const value: unknown = "Привіт";
+if (isString(value)) {
+  console.log(value.toUpperCase());
+}
+      </pre>
+      </div>
+    </div>
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+  </div>
+
+  <div>
+    <div class="question">40. Як працює Assertion Functions у TypeScript?</div>
+    <div class="answer">
+      Assertion Functions використовуються для підтвердження певного типу значення.
+      <div class="example">
+      <pre>
+function assertIsNumber(value: unknown): asserts value is number {
+  if (typeof value !== "number") {
+    throw new Error("Value is not a number");
+  }
+}
+const value: unknown = 123;
+assertIsNumber(value);
+console.log(value.toFixed(2)); // 123.00
+      </pre>
+      </div>
+    </div>
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+  </div>
+</div>
+
+<script>
+  // === Scroll to top ===
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // === Theme toggle ===
+  const toggleBtn = document.getElementById('themeToggle');
+  const body = document.body;
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  body.setAttribute('data-theme', savedTheme);
+  toggleBtn.textContent = savedTheme === 'light' ? '🌙' : '☀️';
+
+  toggleBtn.addEventListener('click', () => {
+    const currentTheme = body.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    body.setAttribute('data-theme', newTheme);
+    toggleBtn.textContent = newTheme === 'light' ? '🌙' : '☀️';
+    localStorage.setItem('theme', newTheme);
+  });
+</script>
+</body>
+</html>

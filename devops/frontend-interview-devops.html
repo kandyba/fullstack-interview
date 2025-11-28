@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Технічна співбесіда (DevOps для Fullstack розробника)</title>
+  <style>
+    :root {
+      --bg: #f9f9f9;
+      --text: #1c1e21;
+      --card: #ffffff;
+      --border: #e5e7eb;
+      --accent: #007bff;
+      --code-bg: #f4f4f4;
+    }
+
+    [data-theme="dark"] {
+      --bg: #1e1e1e;
+      --text: #e2e2e2;
+      --card: #2a2a2a;
+      --border: #3c3c3c;
+      --accent: #4aa8ff;
+      --code-bg: #252526;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0 20px;
+      background-color: var(--bg);
+      color: var(--text);
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+      color: var(--accent);
+    }
+
+    .theme-toggle {
+      background: none;
+      border: none;
+      font-size: 22px;
+      color: var(--accent);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      transform: rotate(20deg);
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      background: var(--card);
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border-radius: 5px;
+      border: 1px solid var(--border);
+      transition: background 0.4s ease, border 0.4s ease;
+    }
+
+    .question {
+      font-weight: bold;
+      margin: 20px 0 10px;
+    }
+
+    .answer {
+      margin-bottom: 20px;
+    }
+
+    .example {
+      background: var(--code-bg);
+      border-left: 4px solid var(--accent);
+      padding: 10px;
+      margin: 10px 0;
+      overflow-x: auto;
+      border-radius: 4px;
+      transition: background 0.4s ease, border 0.4s ease;
+    }
+
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .scroll-top {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 15px;
+      font-size: 14px;
+      color: #fff;
+      background-color: var(--accent);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+
+    .scroll-top:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body data-theme="dark">
+<header>
+  <h1>Запитання та відповіді для технічної співбесіди (DevOps для Fullstack)</h1>
+  <button id="themeToggle" class="theme-toggle" title="Змінити тему">☀️</button>
+</header>
+<div class="container">
+  <!-- 1. DevOps -->
+  <div>
+    <div class="question">1. Що таке DevOps?</div>
+    <div class="answer">
+      <p><strong>DevOps</strong> — це підхід до розробки, який поєднує <strong>Development (розробку)</strong> і <strong>Operations (експлуатацію)</strong> з метою автоматизації процесів доставки, деплою та підтримки застосунків.</p>
+      <p>Мета — швидше постачати якісний продукт, зменшити кількість помилок і прискорити оновлення.</p>
+    </div>
+  </div>
+
+  <!-- 2. CI/CD -->
+  <div>
+    <div class="question">2. Що таке CI/CD?</div>
+    <div class="answer">
+      <p><strong>CI/CD</strong> (Continuous Integration / Continuous Deployment) — це набір практик, які забезпечують безперервну інтеграцію коду та його автоматичне розгортання.</p>
+      <ul>
+        <li><strong>CI</strong> — автоматична перевірка та збірка після кожного пушу коду.</li>
+        <li><strong>CD</strong> — автоматичне деплоювання коду на сервер або хмару.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3. GitHub Actions / GitLab CI -->
+  <div>
+    <div class="question">3. Які інструменти CI/CD ти використовував?</div>
+    <div class="answer">
+      <p>Найчастіше — <strong>GitHub Actions</strong>, <strong>GitLab CI/CD</strong> або <strong>Jenkins</strong>.</p>
+      <p>Для кожного пушу можна автоматично запускати тести, збірку та деплой.</p>
+      <div class="example"><pre>
+name: Build and Deploy
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: npm install && npm run build
+      </pre></div>
+    </div>
+  </div>
+
+  <!-- 4. Docker -->
+  <div>
+    <div class="question">4. Що таке Docker і навіщо його використовують?</div>
+    <div class="answer">
+      <p><strong>Docker</strong> — це система контейнеризації, що дозволяє запускати застосунки в ізольованому середовищі.</p>
+      <p>Контейнери працюють однаково на будь-якому сервері — “працює в мене” = “працює всюди”.</p>
+    </div>
+  </div>
+
+  <!-- 5. Dockerfile -->
+  <div>
+    <div class="question">5. Що таке Dockerfile?</div>
+    <div class="answer">
+      <p><strong>Dockerfile</strong> — це інструкція для створення Docker-образу.</p>
+      <div class="example"><pre>
+FROM node:18
+WORKDIR /app
+COPY . .
+RUN npm install
+CMD ["npm", "start"]
+      </pre></div>
+    </div>
+  </div>
+
+  <!-- 6. Docker Compose -->
+  <div>
+    <div class="question">6. Для чого потрібен Docker Compose?</div>
+    <div class="answer">
+      <p>Він дозволяє запускати кілька контейнерів одночасно (наприклад, <code>frontend</code>, <code>backend</code> і <code>db</code>).</p>
+      <div class="example"><pre>
+services:
+  web:
+    build: .
+    ports: ["3000:3000"]
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: root
+      </pre></div>
+    </div>
+  </div>
+
+  <!-- 7. Віртуальна машина -->
+  <div>
+    <div class="question">7. Чим контейнер відрізняється від віртуальної машини?</div>
+    <div class="answer">
+      <ul>
+        <li><strong>Віртуальна машина</strong> має власну ОС.</li>
+        <li><strong>Контейнер</strong> використовує ядро хоста, тому легший і швидше запускається.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 8. Nginx -->
+  <div>
+    <div class="question">8. Що таке Nginx і як його зазвичай використовують?</div>
+    <div class="answer">
+      <p><strong>Nginx</strong> — це HTTP-сервер, який часто працює як <strong>reverse proxy</strong>, балансувальник навантаження або статичний сервер.</p>
+      <div class="example"><pre>
+server {
+  listen 80;
+  server_name myapp.com;
+  location / {
+    proxy_pass http://localhost:3000;
+  }
+}
+      </pre></div>
+    </div>
+  </div>
+
+  <!-- 9. Environment Variables -->
+  <div>
+    <div class="question">9. Що таке змінні оточення (environment variables)?</div>
+    <div class="answer">
+      <p>Це змінні, що зберігають конфігураційні дані (паролі, API-ключі, URL бази тощо).</p>
+      <div class="example"><pre>
+PORT=3000
+DATABASE_URL=postgres://root:1234@localhost:5432/mydb
+      </pre></div>
+    </div>
+  </div>
+
+  <!-- 10. .env файли -->
+  <div>
+    <div class="question">10. Як зазвичай використовують .env файли?</div>
+    <div class="answer">
+      <p>Файл <code>.env</code> містить конфігураційні змінні, які підвантажуються у проєкт через бібліотеку, наприклад <code>dotenv</code>.</p>
+      <div class="example"><pre>
+require('dotenv').config();
+console.log(process.env.PORT);
+      </pre></div>
+    </div>
+  </div>
+
+  <!-- 11. SSH -->
+  <div>
+    <div class="question">11. Що таке SSH і як ним користуватись?</div>
+    <div class="answer">
+      <p><strong>SSH (Secure Shell)</strong> — це протокол для безпечного підключення до віддаленого сервера.</p>
+      <div class="example"><pre>
+ssh user@192.168.0.10
+scp file.txt user@host:/home/user/
+      </pre></div>
+    </div>
+  </div>
+
+  <!-- 12. Systemd / PM2 -->
+  <div>
+    <div class="question">12. Як можна запустити Node.js застосунок на сервері?</div>
+    <div class="answer">
+      <ul>
+        <li><strong>PM2</strong> — зручний процес-менеджер (<code>pm2 start app.js</code>).</li>
+        <li><strong>systemd</strong> — сервіс ОС для автозапуску після перезавантаження.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 13. Моніторинг -->
+  <div>
+    <div class="question">13. Які інструменти моніторингу ти знаєш?</div>
+    <div class="answer">
+      <p>Для базового моніторингу: <strong>htop, top, journalctl, docker stats</strong>.</p>
+      <p>Для продакшну: <strong>Prometheus, Grafana, Sentry</strong>.</p>
+    </div>
+  </div>
+
+  <!-- 14. CI/CD pipeline -->
+  <div>
+    <div class="question">14. Які етапи зазвичай має CI/CD pipeline?</div>
+    <div class="answer">
+      <ul>
+        <li>Lint + тести</li>
+        <li>Збірка (build)</li>
+        <li>Деплой (deploy)</li>
+        <li>Моніторинг і сповіщення</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 15. Бекапи -->
+  <div>
+    <div class="question">15. Як можна зробити резервну копію бази даних?</div>
+    <div class="answer">
+      <div class="example"><pre>
+# PostgreSQL
+pg_dump mydb > backup.sql
+
+# MongoDB
+mongodump --db=mydb --out=/backup
+      </pre></div>
+    </div>
+  </div>
+
+  <!-- 16. Cloud -->
+  <div>
+    <div class="question">16. Які хмарні сервіси ти знаєш?</div>
+    <div class="answer">
+      <ul>
+        <li>AWS (EC2, S3, RDS)</li>
+        <li>Google Cloud Platform (GCP)</li>
+        <li>Azure</li>
+        <li>Vercel, Netlify — для деплою фронтенду</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 17. Reverse Proxy -->
+  <div>
+    <div class="question">17. Що таке Reverse Proxy?</div>
+    <div class="answer">
+      <p>Це сервер, який приймає запити від користувача і перенаправляє їх на внутрішній застосунок.</p>
+      <p>Зазвичай використовується для SSL, кешу, балансування або приховування внутрішньої архітектури.</p>
+    </div>
+  </div>
+
+  <!-- 18. SSL -->
+  <div>
+    <div class="question">18. Як отримати безкоштовний SSL-сертифікат?</div>
+    <div class="answer">
+      <p>За допомогою <strong>Let's Encrypt</strong> і утиліти <code>certbot</code>.</p>
+      <div class="example"><pre>
+sudo certbot --nginx -d mysite.com
+      </pre></div>
+    </div>
+  </div>
+
+  <!-- 19. Logs -->
+  <div>
+    <div class="question">19. Як переглянути логи процесу на сервері?</div>
+    <div class="answer">
+      <div class="example"><pre>
+journalctl -u nginx -f
+docker logs my_container
+pm2 logs
+      </pre></div>
+    </div>
+  </div>
+
+  <!-- 20. Continuous Delivery -->
+  <div>
+    <div class="question">20. У чому різниця між Continuous Delivery та Continuous Deployment?</div>
+    <div class="answer">
+      <p><strong>Continuous Delivery</strong> — автоматична збірка і тестування, але деплой — вручну.</p>
+      <p><strong>Continuous Deployment</strong> — деплой відбувається автоматично після успішних тестів.</p>
+    </div>
+  </div>
+
+  <!-- 21. Build Tools -->
+  <div>
+    <div class="question">21. Які інструменти для збірки застосунку ти використовував?</div>
+    <div class="answer">
+      <p>Залежно від стеку: <strong>Vite</strong>, <strong>Webpack</strong>, <strong>Gulp</strong> або <strong>Parcel</strong>.
+        На бекенді — <strong>npm scripts</strong> або <strong>Docker build</strong>.</p>
+    </div>
+  </div>
+
+  <!-- 22. Load Balancer -->
+  <div>
+    <div class="question">22. Що таке Load Balancer?</div>
+    <div class="answer">
+      <p><strong>Load Balancer</strong> — це система, яка розподіляє навантаження між кількома серверами.
+        Це допомагає уникнути перевантаження одного вузла й підвищує доступність сервісу.</p>
+      <p>Приклад: <strong>Nginx</strong>, <strong>HAProxy</strong>, або балансувальники в AWS / GCP.</p>
+    </div>
+  </div>
+
+  <!-- 23. Caching -->
+  <div>
+    <div class="question">23. Як кешування допомагає в DevOps?</div>
+    <div class="answer">
+      <p>Кешування зменшує навантаження на сервер і базу даних.
+        Зазвичай використовується <strong>Redis</strong> або <strong>Cloudflare Cache</strong> для збереження частих запитів чи сесій користувачів.</p>
+    </div>
+  </div>
+
+  <!-- 24. Logs Rotation -->
+  <div>
+    <div class="question">24. Що таке log rotation?</div>
+    <div class="answer">
+      <p>Це процес автоматичного архівування старих логів і створення нових файлів журналів,
+        щоб запобігти переповненню диску.
+        У Linux зазвичай використовується утиліта <code>logrotate</code>.</p>
+    </div>
+  </div>
+
+  <!-- 25. Security Updates -->
+  <div>
+    <div class="question">25. Як оновлюються пакети безпеки на сервері?</div>
+    <div class="answer">
+      <p>Регулярно виконуються команди:</p>
+      <div class="example"><pre>
+sudo apt update
+sudo apt upgrade
+      </pre></div>
+      <p>На продакшн-серверах часто використовується <strong>unattended-upgrades</strong> або ручне оновлення після тестування.</p>
+    </div>
+  </div>
+
+  <!-- 26. Firewall -->
+  <div>
+    <div class="question">26. Що таке firewall і для чого він потрібен?</div>
+    <div class="answer">
+      <p><strong>Firewall</strong> (брандмауер) — це система, що контролює мережевий трафік і захищає сервер від несанкціонованого доступу.</p>
+      <div class="example"><pre>
+sudo ufw enable
+sudo ufw allow 22/tcp
+sudo ufw allow 80,443/tcp
+      </pre></div>
+    </div>
+  </div>
+
+  <!-- 27. Rollback -->
+  <div>
+    <div class="question">27. Що таке rollback у контексті деплою?</div>
+    <div class="answer">
+      <p><strong>Rollback</strong> — це повернення до попередньої стабільної версії застосунку,
+        якщо після оновлення виникла помилка.</p>
+      <p>Зазвичай реалізується через:</p>
+      <ul>
+        <li>збереження попередніх Docker-образів,</li>
+        <li>Git-теги версій,</li>
+        <li>автоматичні backup-скрипти.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 28. Logs in Docker -->
+  <div>
+    <div class="question">28. Як переглянути логи контейнера Docker?</div>
+    <div class="answer">
+      <div class="example"><pre>
+docker logs my_container
+docker logs -f my_container   # у реальному часі
+      </pre></div>
+      <p>Також можна перенаправити логи у файл або систему моніторингу (наприклад, Loki чи ELK stack).</p>
+    </div>
+  </div>
+
+  <!-- 29. Docker networking -->
+  <div>
+    <div class="question">29. Що таке Docker network і навіщо її створюють?</div>
+    <div class="answer">
+      <p>Docker network — це віртуальна мережа, у якій контейнери можуть спілкуватися між собою по імені сервісу.</p>
+      <div class="example"><pre>
+docker network create mynet
+docker run --network=mynet backend
+docker run --network=mynet frontend
+      </pre></div>
+    </div>
+  </div>
+
+  <!-- 30. Secrets у CI/CD -->
+  <div>
+    <div class="question">30. Як зберігаються секрети у CI/CD системах?</div>
+    <div class="answer">
+      <p>Усі конфіденційні дані (паролі, ключі API) зберігаються у зашифрованому вигляді в CI/CD-сховищі секретів.
+        Наприклад:</p>
+      <ul>
+        <li><strong>GitHub Secrets</strong> — через Settings → Secrets</li>
+        <li><strong>GitLab Variables</strong> — Settings → CI/CD → Variables</li>
+      </ul>
+      <p>У workflow їх можна викликати як <code>${{ secrets.MY_KEY }}</code>.</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // === Scroll to top ===
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // === Theme toggle ===
+  const toggleBtn = document.getElementById('themeToggle');
+  const body = document.body;
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  body.setAttribute('data-theme', savedTheme);
+  toggleBtn.textContent = savedTheme === 'light' ? '🌙' : '☀️';
+
+  toggleBtn.addEventListener('click', () => {
+    const currentTheme = body.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    body.setAttribute('data-theme', newTheme);
+    toggleBtn.textContent = newTheme === 'light' ? '🌙' : '☀️';
+    localStorage.setItem('theme', newTheme);
+  });
+</script>
+</body>
+</html>

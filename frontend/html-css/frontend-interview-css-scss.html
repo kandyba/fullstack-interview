@@ -1,0 +1,2541 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Технічна співбесіда з Frontend (CSS, SCSS)</title>
+  <style>
+    :root {
+      --bg: #f9f9f9;
+      --text: #1c1e21;
+      --card: #ffffff;
+      --border: #e5e7eb;
+      --accent: #007bff;
+      --code-bg: #f4f4f4;
+    }
+
+    [data-theme="dark"] {
+      --bg: #1e1e1e;
+      --text: #e2e2e2;
+      --card: #2a2a2a;
+      --border: #3c3c3c;
+      --accent: #4aa8ff;
+      --code-bg: #252526;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0 20px;
+      background-color: var(--bg);
+      color: var(--text);
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+      color: var(--accent);
+    }
+
+    .theme-toggle {
+      background: none;
+      border: none;
+      font-size: 22px;
+      color: var(--accent);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      transform: rotate(20deg);
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      background: var(--card);
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border-radius: 5px;
+      border: 1px solid var(--border);
+      transition: background 0.4s ease, border 0.4s ease;
+    }
+
+    .question {
+      font-weight: bold;
+      margin: 20px 0 10px;
+    }
+
+    .answer {
+      margin-bottom: 20px;
+    }
+
+    .example {
+      background: var(--code-bg);
+      border-left: 4px solid var(--accent);
+      padding: 10px;
+      margin: 10px 0;
+      overflow-x: auto;
+      border-radius: 4px;
+      transition: background 0.4s ease, border 0.4s ease;
+    }
+
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .scroll-top {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 15px;
+      font-size: 14px;
+      color: #fff;
+      background-color: var(--accent);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+
+    .scroll-top:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body data-theme="dark">
+<header>
+  <h1>Запитання та відповіді для технічної співбесіди (CSS, SCSS)</h1>
+  <button id="themeToggle" class="theme-toggle" title="Змінити тему">☀️</button>
+</header>
+<div class="container">
+  <!-- 1. What is DOCTYPE? -->
+  <div>
+    <div class="question">1. Що таке doctype? Навіщо використовується?</div>
+    <div class="answer">
+      <p>DOCTYPE — це інструкція, що вказує браузеру, який тип документа обробляти. Вона допомагає правильно інтерпретувати HTML та CSS. Найбільш поширений DOCTYPE для HTML5 виглядає так:</p>
+      <div class="example"><pre>&lt;!DOCTYPE html&gt;</pre></div>
+    </div>
+  </div>
+
+  <!-- 2. What is semantics in HTML? -->
+  <div>
+    <div class="question">2. Що таке семантика в HTML?</div>
+    <div class="answer">
+      <p>Семантика в HTML — це підхід до використання тегів відповідно до їхнього значення. Семантичні елементи, такі як <code>&lt;article&gt;</code>, <code>&lt;section&gt;</code> або <code>&lt;header&gt;</code>, покращують доступність сторінки та полегшують пошукову оптимізацію.</p>
+    </div>
+  </div>
+
+  <!-- 3. Describe basic structure of an HTML page -->
+  <div>
+    <div class="question">3. Опишіть базову структуру HTML сторінки.</div>
+    <div class="answer">
+      <p>Базова структура HTML сторінки включає такі елементи:</p>
+      <div class="example">
+        <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Назва сторінки&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Заголовок&lt;/h1&gt;
+    &lt;p&gt;Текст контенту&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+        </pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. CSS Centering -->
+  <div>
+    <div class="question">4. Як зробити центрування елементів у CSS?</div>
+    <div class="answer">
+      <p>Центрування елементів у CSS можна здійснити кількома способами в залежності від типу елемента та його контексту:</p>
+
+      <h3>1. За допомогою Flexbox</h3>
+      <p>Flexbox дозволяє легко центрувати елементи по горизонталі і вертикалі:</p>
+      <div class="example">
+        <pre>
+.container {
+  display: flex;
+  justify-content: center; /* по горизонталі */
+  align-items: center; /* по вертикалі */
+  height: 100vh;
+}
+        </pre>
+      </div>
+
+      <h3>2. За допомогою Grid</h3>
+      <p>CSS Grid дає ще простіший спосіб центрування, використовуючи властивості <code>place-items</code>:</p>
+      <div class="example">
+        <pre>
+.container {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+}
+        </pre>
+      </div>
+
+      <h3>3. Використання <code>margin: auto</code></h3>
+      <p>Для блочних елементів, що мають фіксовану ширину, можна використовувати <code>margin: auto</code> для горизонтального центрування:</p>
+      <div class="example">
+        <pre>
+.container {
+  width: 300px;
+  margin: 0 auto;
+}
+        </pre>
+      </div>
+
+      <h3>4. Позиціонування (absolute) та <code>transform</code></h3>
+      <p>Якщо елемент має позиціонування <code>absolute</code>, можна використати <code>transform</code> для центрування:</p>
+      <div class="example">
+        <pre>
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+        </pre>
+      </div>
+
+      <h3>5. Табличне вирівнювання</h3>
+      <p>Цей метод старіший, але все ще іноді використовується. Для цього елемент має бути в таблиці або в елементі з властивістю <code>display: table-cell</code>:</p>
+      <div class="example">
+        <pre>
+.container {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  height: 100vh;
+}
+        </pre>
+      </div>
+
+      <h3>6. Для вирівнювання по вертикалі з флексом без використання <code>align-items</code></h3>
+      <p>Інший спосіб для вирівнювання елементів по вертикалі — використання лише <code>margin</code>:</p>
+      <div class="example">
+        <pre>
+.container {
+  height: 100vh;
+}
+.center {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+        </pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. CSS Selectors -->
+  <div>
+    <div class="question">5. Селектори типу <code>div p</code>, <code>div &gt; p</code>.</div>
+    <div class="answer">
+      <p class="example">Селектор <code>div p</code> вибирає всі елементи <code>&lt;p&gt;</code>, які знаходяться всередині елемента
+        <code>&lt;div&gt;</code>, на будь-якому рівні вкладеності. Селектор <code>div &gt; p</code> вибирає тільки ті елементи <code>&lt;p&gt;</code>, які є безпосередньо нащадками елемента <code>&lt;div&gt;</code>.</p>
+    </div>
+  </div>
+
+  <!-- 6. CSS Positioning Types -->
+  <div>
+    <div class="question">6. Типи позиціонування в CSS?</div>
+    <div class="answer example">
+      <p>У CSS є 4 основних типи позиціонування:</p>
+      <ul>
+        <li><code>static</code> — за замовчуванням, елементи розташовуються у потоці документа.</li>
+        <li><code>relative</code> — елемент позиціонується відносно його звичайного місця в потоці.</li>
+        <li><code>absolute</code> — елемент позиціонується відносно найближчого батька з <code>position: relative</code>.</li>
+        <li><code>fixed</code> — елемент позиціонується відносно вікна браузера і залишається на місці при прокручуванні сторінки.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 7. What is Webpack? -->
+  <div>
+    <div class="question">7. Що таке Webpack?</div>
+    <div class="answer example">
+      <p>Webpack — це збирач модулів для JavaScript. Він дозволяє збирати ресурси, такі як JavaScript, CSS, зображення та шрифти, у єдиний бандл або кілька бандлів. Webpack використовується для оптимізації й автоматизації процесів зборки проектів.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="question">8. Що таке селектори в CSS?</div>
+    <div class="answer">
+      <p>Селектори CSS дозволяють вибирати HTML-елементи для їхнього стилізування.</p>
+      <div class="example">
+        <pre>
+h1 { color: blue; }
+.className { background-color: yellow; }
+#idName { border: 1px solid black; }
+        </pre>
+      </div>
+    </div>
+
+    <div class="question">8.1. Що таке комбіновані селектори?</div>
+    <div class="answer">
+      <p>Це селектори, які використовуються разом для уточнення вибору елементів.</p>
+      <div class="example">
+        <pre>
+div p { color: green; }  /* Всі <p> у межах <div> */
+div > p { color: red; }  /* Тільки прямі нащадки <div> */
+div + p { color: blue; } /* Сусідній <p>, що йде одразу після <div> */
+        </pre>
+      </div>
+    </div>
+
+    <div class="question">8.2. Що таке псевдокласи в CSS?</div>
+    <div class="answer">
+      <p>Псевдокласи застосовуються для вибору елементів у специфічному стані.</p>
+      <div class="example">
+        <pre>
+a:hover { color: red; } /* Змінює колір тексту посилання при наведенні */
+input:focus { border: 2px solid blue; } /* Виділяє активне поле вводу */
+        </pre>
+      </div>
+    </div>
+
+    <div class="question">8.3. Що таке псевдоелементи в CSS?</div>
+    <div class="answer">
+      <p>Псевдоелементи дозволяють стилізувати певну частину елемента.</p>
+      <div class="example">
+        <pre>
+p::first-line { font-weight: bold; } /* Перший рядок тексту */
+div::before { content: 'Note: '; color: gray; } /* Додає текст перед елементом */
+        </pre>
+      </div>
+    </div>
+
+    <div class="question">8.4. Як працює універсальний селектор (*)?</div>
+    <div class="answer">
+      <p>Універсальний селектор (*) вибирає всі елементи на сторінці.</p>
+      <div class="example">
+        <pre>
+* { margin: 0; padding: 0; } /* Скидає всі відступи */
+        </pre>
+      </div>
+    </div>
+
+    <div class="question">8.5. Що таке атрибутні селектори в CSS?</div>
+    <div class="answer">
+      <p>Атрибутні селектори дозволяють вибирати елементи за значенням їх атрибутів.</p>
+      <div class="example">
+        <pre>
+input[type="text"] { border: 1px solid black; } /* Вибір полів введення тексту */
+a[target="_blank"] { color: blue; } /* Вибір посилань із певним target */
+        </pre>
+      </div>
+    </div>
+
+    <div class="question">8.6. Як працює селектор :nth-child()?</div>
+    <div class="answer">
+      <p>:nth-child() вибирає елементи за їхньою позицією серед нащадків.</p>
+      <div class="example">
+        <pre>
+li:nth-child(2) { color: red; } /* Другий <li> у списку */
+li:nth-child(odd) { background: gray; } /* Непарні елементи */
+        </pre>
+      </div>
+    </div>
+
+    <div class="question">8.7. Що таке селектори групи?</div>
+    <div class="answer">
+      <p>Селектори групи дозволяють застосовувати один і той же стиль до кількох елементів.</p>
+      <div class="example">
+        <pre>
+h1, h2, h3 { font-family: Arial, sans-serif; } /* Застосовує стиль до кількох тегів */
+        </pre>
+      </div>
+    </div>
+
+    <div class="question">8.8. Як вибрати елемент без певного класу?</div>
+    <div class="answer">
+      <p>Селектор :not() використовується для вибору елементів, які не мають заданого класу.</p>
+      <div class="example">
+        <pre>
+div:not(.active) { color: gray; } /* Вибирає DIV, які не мають класу 'active' */
+        </pre>
+      </div>
+    </div>
+
+    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+
+    <hr>
+
+    <!-- 9. Flex vs Grid -->
+    <div>
+      <div class="question">9. У чому різниця між Flexbox і CSS Grid?</div>
+      <div class="answer">
+        <p>Обидва інструменти — це потужні сучасні способи створення адаптивних макетів, але мають різні призначення:</p>
+
+        <h3>🔹 Flexbox — для одновимірного розташування</h3>
+        <ul>
+          <li>Працює з **одним напрямком** — рядком або стовпцем.</li>
+          <li>Зручний для вирівнювання елементів усередині блоку (наприклад, кнопок, навігації).</li>
+          <li>Основна вісь задається через <code>flex-direction</code> (row / column).</li>
+        </ul>
+
+        <div class="example"><pre>
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+      </pre></div>
+
+        <h3>🔹 CSS Grid — для двовимірного розташування</h3>
+        <ul>
+          <li>Працює по **двох осях** — рядках і стовпцях.</li>
+          <li>Зручно створювати складні макети сторінок, сітки галерей тощо.</li>
+          <li>Підтримує іменовані лінії, області, авто-розподіл.</li>
+        </ul>
+
+        <div class="example"><pre>
+.container {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-gap: 20px;
+}
+      </pre></div>
+
+        <h3>🔸 Порівняння:</h3>
+        <table border="1" cellspacing="0" cellpadding="6">
+          <tr><th>Критерій</th><th>Flexbox</th><th>Grid</th></tr>
+          <tr><td>Напрям</td><td>1D — рядок або колонка</td><td>2D — рядки та колонки</td></tr>
+          <tr><td>Призначення</td><td>Вирівнювання елементів</td><td>Побудова макету</td></tr>
+          <tr><td>Контроль розміщення</td><td>По послідовності елементів</td><td>По сітці (областям)</td></tr>
+          <tr><td>Підтримка auto-placement</td><td>Ні</td><td>Так</td></tr>
+        </table>
+
+        <p><strong>Висновок:</strong> Використовуй <code>flex</code> для компонентів і вирівнювання, <code>grid</code> — для макетів сторінок.</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 10. Box Model -->
+    <div>
+      <div class="question">10. Що таке Box Model у CSS?</div>
+      <div class="answer">
+        <p>Box Model описує, як браузер обчислює розміри та простір навколо елемента. Кожен елемент складається з чотирьох частин:</p>
+        <ul>
+          <li><strong>Content</strong> — вміст елемента (текст, зображення тощо).</li>
+          <li><strong>Padding</strong> — внутрішні відступи між контентом і рамкою.</li>
+          <li><strong>Border</strong> — рамка навколо елемента.</li>
+          <li><strong>Margin</strong> — зовнішній відступ між елементами.</li>
+        </ul>
+        <div class="example"><pre>
+div {
+  width: 200px;
+  padding: 10px;
+  border: 5px solid black;
+  margin: 20px;
+}
+      </pre></div>
+        <p>Повна ширина елемента: <code>width + padding + border + margin</code>.</p>
+        <p>Щоб розмір включав padding і border, використовують <code>box-sizing: border-box;</code>.</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 11. Position: sticky -->
+    <div>
+      <div class="question">11. Як працює position: sticky?</div>
+      <div class="answer">
+        <p><code>position: sticky</code> поєднує поведінку <code>relative</code> і <code>fixed</code>.
+          Елемент залишається на місці під час скролу, доки не досягне межі контейнера.</p>
+        <div class="example"><pre>
+header {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  border-bottom: 1px solid #ccc;
+}
+      </pre></div>
+        <p><strong>Важливо:</strong> батьківський елемент повинен мати висоту, більшу за сам елемент, і не бути overflow: hidden.</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 12. Responsive Units -->
+    <div>
+      <div class="question">12. Які одиниці вимірювання використовуються для адаптивного дизайну?</div>
+      <div class="answer">
+        <ul>
+          <li><code>px</code> — пікселі, фіксована одиниця.</li>
+          <li><code>%</code> — відсотки від батьківського елемента.</li>
+          <li><code>em</code> — відносно шрифту батьківського елемента.</li>
+          <li><code>rem</code> — відносно шрифту <code>html</code>.</li>
+          <li><code>vw</code>, <code>vh</code> — відсотки від ширини або висоти вікна браузера.</li>
+        </ul>
+        <p>Адаптивна верстка часто поєднує <code>rem</code> і <code>vw</code> для шрифтів і розмірів блоків.</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 13. Inline vs Block vs Inline-Block -->
+    <div>
+      <div class="question">13. У чому різниця між inline, block і inline-block?</div>
+      <div class="answer">
+        <ul>
+          <li><strong>inline</strong> — займає ширину контенту, не переноситься на новий рядок. Не можна задавати width/height.</li>
+          <li><strong>block</strong> — займає всю ширину батьківського елемента, переноситься на новий рядок.</li>
+          <li><strong>inline-block</strong> — поєднує властивості обох: можна задавати width/height, але не переноситься автоматично.</li>
+        </ul>
+        <div class="example"><pre>
+span { display: inline; }
+div { display: block; }
+button { display: inline-block; }
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 14. Specificity -->
+    <div>
+      <div class="question">14. Що таке специфічність (specificity) у CSS?</div>
+      <div class="answer">
+        <p>Специфічність визначає, який стиль переможе при конфлікті. Рахується за формулою: <code>inline > id > class > tag</code>.</p>
+        <ul>
+          <li><code>inline</code> стилі (написані прямо в елементі) — найвищий пріоритет.</li>
+          <li><code>#id</code> має більшу вагу, ніж <code>.class</code>.</li>
+          <li><code>.class</code> має більшу вагу, ніж тег.</li>
+          <li><code>!important</code> перевизначає все (але краще не зловживати).</li>
+        </ul>
+        <div class="example"><pre>
+p { color: blue; }
+.text { color: red; }
+#main { color: green; } /* переможе */
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 15. Inheritance -->
+    <div>
+      <div class="question">15. Як працює наслідування (inheritance) у CSS?</div>
+      <div class="answer">
+        <p>Деякі властивості автоматично передаються дочірнім елементам (наприклад, шрифти, колір тексту).</p>
+        <ul>
+          <li>Успадковуються: <code>color</code>, <code>font-family</code>, <code>line-height</code>.</li>
+          <li>Не успадковуються: <code>margin</code>, <code>padding</code>, <code>border</code>.</li>
+        </ul>
+        <p>Щоб примусово наслідувати, використовують <code>inherit</code>.</p>
+        <div class="example"><pre>
+div { color: blue; }
+p { color: inherit; }
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 16. z-index -->
+    <div>
+      <div class="question">16. Як працює z-index і що таке stacking context?</div>
+      <div class="answer">
+        <p><code>z-index</code> визначає порядок накладання елементів по осі Z (поверх/під іншими).</p>
+        <ul>
+          <li>Працює лише для елементів із <code>position</code> відмінним від <code>static</code>.</li>
+          <li>Новий <strong>stacking context</strong> створюється елементами з <code>position</code> + <code>z-index</code>, <code>opacity &lt; 1</code>, <code>transform</code>, <code>filter</code> тощо.</li>
+        </ul>
+        <div class="example"><pre>
+.box1 {
+  position: relative;
+  z-index: 2;
+}
+.box2 {
+  position: relative;
+  z-index: 1;
+}
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 17. display: none vs visibility: hidden -->
+    <div>
+      <div class="question">17. Яка різниця між display: none і visibility: hidden?</div>
+      <div class="answer">
+        <ul>
+          <li><code>display: none</code> — елемент повністю зникає з DOM-потоку.</li>
+          <li><code>visibility: hidden</code> — елемент залишається на місці, але стає невидимим.</li>
+        </ul>
+        <div class="example"><pre>
+.hidden1 { display: none; }   /* не займає місце */
+.hidden2 { visibility: hidden; } /* займає місце */
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 18. overflow -->
+    <div>
+      <div class="question">18. Що таке overflow і які його типи?</div>
+      <div class="answer">
+        <p>Властивість <code>overflow</code> керує тим, як відображається вміст, що виходить за межі контейнера.</p>
+        <ul>
+          <li><code>visible</code> — контент видно за межами блоку.</li>
+          <li><code>hidden</code> — контент обрізається.</li>
+          <li><code>scroll</code> — завжди показує смуги прокручування.</li>
+          <li><code>auto</code> — смуги з’являються за потреби.</li>
+        </ul>
+        <div class="example"><pre>
+.box {
+  width: 200px;
+  height: 100px;
+  overflow: auto;
+}
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 19. float -->
+    <div>
+      <div class="question">19. Що таке float і чому його зараз майже не використовують?</div>
+      <div class="answer">
+        <p><code>float</code> використовується для обтікання текстом елементів (як зображення в статті).</p>
+        <p>Раніше його застосовували для верстки, але зараз його замінили <strong>Flexbox</strong> і <strong>Grid</strong>, бо вони більш гнучкі.</p>
+        <div class="example"><pre>
+img {
+  float: left;
+  margin-right: 20px;
+}
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 20. Centering recap -->
+    <div>
+      <div class="question">20. Як центрувати елемент по вертикалі та горизонталі (підсумок)?</div>
+      <div class="answer">
+        <p>Основні способи:</p>
+        <ul>
+          <li><strong>Flexbox:</strong> <code>display: flex; justify-content: center; align-items: center;</code></li>
+          <li><strong>Grid:</strong> <code>display: grid; place-items: center;</code></li>
+          <li><strong>Absolute + transform:</strong> <code>top: 50%; left: 50%; transform: translate(-50%, -50%);</code></li>
+          <li><strong>margin: auto</strong> — для блочних елементів із фіксованими розмірами.</li>
+        </ul>
+      </div>
+    </div>
+
+    <hr>
+
+    <h2>🧩 2. Flexbox &amp; Grid</h2>
+
+    <!-- 21. Основи Flexbox -->
+    <div>
+      <div class="question">21. Як працює Flexbox і його основні властивості?</div>
+      <div class="answer">
+        <p><strong>Flexbox</strong> — це одновимірна модель для розміщення елементів у ряд або стовпець. Контейнер із <code>display: flex</code> керує своїми дітьми за допомогою властивостей:</p>
+        <ul>
+          <li><code>justify-content</code> — вирівнювання по горизонталі (main axis)</li>
+          <li><code>align-items</code> — вирівнювання по вертикалі (cross axis)</li>
+          <li><code>flex-wrap</code> — дозволяє переносити елементи на новий рядок</li>
+          <li><code>align-content</code> — вирівнює кілька рядків одночасно</li>
+        </ul>
+        <div class="example"><pre>
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 22. flex-grow, flex-shrink, flex-basis -->
+    <div>
+      <div class="question">22. Як працюють flex-grow, flex-shrink і flex-basis?</div>
+      <div class="answer">
+        <ul>
+          <li><code>flex-grow</code> — наскільки елемент може <strong>розширюватися</strong>, щоб заповнити простір.</li>
+          <li><code>flex-shrink</code> — наскільки елемент може <strong>стискатись</strong>.</li>
+          <li><code>flex-basis</code> — початковий розмір елемента (до розподілу простору).</li>
+        </ul>
+        <div class="example"><pre>
+.item {
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-basis: 200px;
+}
+/* короткий запис */
+.item { flex: 1 0 200px; }
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 23. Адаптивна сітка через Flexbox -->
+    <div>
+      <div class="question">23. Як створити адаптивну сітку лише через Flexbox?</div>
+      <div class="answer">
+        <p>Використай <code>flex-wrap</code> та відсоткову ширину елементів:</p>
+        <div class="example"><pre>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.item {
+  flex: 1 1 30%; /* адаптивно */
+  min-width: 250px;
+}
+    </pre></div>
+        <p>Цей підхід дозволяє елементам адаптуватися під ширину екрана без media queries.</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 24. Основи Grid -->
+    <div>
+      <div class="question">24. Як працює CSS Grid?</div>
+      <div class="answer">
+        <p><strong>Grid</strong> — це двовимірна система розташування елементів (рядки + колонки). Контейнер із <code>display: grid</code> має властивості:</p>
+        <ul>
+          <li><code>grid-template-columns</code> / <code>grid-template-rows</code> — задають структуру.</li>
+          <li><code>gap</code> — відстань між клітинками.</li>
+          <li><code>grid-column</code> / <code>grid-row</code> — позиціонування елемента в сітці.</li>
+        </ul>
+        <div class="example"><pre>
+.container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.item {
+  grid-column: span 2; /* розтягується на 2 колонки */
+}
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 25. auto-fit і auto-fill -->
+    <div>
+      <div class="question">25. Як працюють auto-fit і auto-fill у Grid?</div>
+      <div class="answer">
+        <p>Обидві директиви допомагають автоматично створювати адаптивні колонки.</p>
+        <ul>
+          <li><code>auto-fill</code> — створює <em>максимальну кількість</em> колонок, навіть якщо вони порожні.</li>
+          <li><code>auto-fit</code> — заповнює лише реальні елементи і розтягує їх.</li>
+        </ul>
+        <div class="example"><pre>
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+}
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 26. Sticky Footer -->
+    <div>
+      <div class="question">26. Як створити sticky footer із Flex або Grid?</div>
+      <div class="answer">
+        <h4>Варіант з Flexbox:</h4>
+        <div class="example"><pre>
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+main { flex: 1; }
+footer { background: #eee; }
+    </pre></div>
+        <h4>Варіант з Grid:</h4>
+        <div class="example"><pre>
+body {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  min-height: 100vh;
+}
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 27. Зміна порядку елементів -->
+    <div>
+      <div class="question">27. Як змінити порядок елементів у Flexbox?</div>
+      <div class="answer">
+        <p>Використай властивість <code>order</code> — за замовчуванням усі елементи мають значення 0.</p>
+        <div class="example"><pre>
+.item:nth-child(1) { order: 3; }
+.item:nth-child(2) { order: 1; }
+.item:nth-child(3) { order: 2; }
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 28. Комбінація Flex і Grid -->
+    <div>
+      <div class="question">28. Як поєднувати Flexbox і Grid в одному layout?</div>
+      <div class="answer">
+        <p>Це звична практика: використовуй Grid для глобального макету, а Flex для внутрішніх елементів.</p>
+        <div class="example"><pre>
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 20px;
+}
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 29. gap у Flex і Grid -->
+    <div>
+      <div class="question">29. Як працює gap у Flexbox і Grid?</div>
+      <div class="answer">
+        <p><code>gap</code> додає відстань між дочірніми елементами без використання margin.</p>
+        <p>Підтримується як у <code>flex</code>, так і в <code>grid</code> контейнерах.</p>
+        <div class="example"><pre>
+.container {
+  display: flex;
+  gap: 20px;
+}
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 30. align-content vs align-items -->
+    <div>
+      <div class="question">30. У чому різниця між align-content і align-items?</div>
+      <div class="answer">
+        <ul>
+          <li><code>align-items</code> — вирівнює елементи всередині одного рядка (по поперечній осі).</li>
+          <li><code>align-content</code> — вирівнює кілька рядків (якщо є перенос).</li>
+        </ul>
+        <div class="example"><pre>
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: space-between;
+}
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <h2>🧠 3. Responsive Design і одиниці вимірювання</h2>
+
+    <!-- 31. Responsive Design -->
+    <div>
+      <div class="question">31. Що таке responsive design і як його реалізувати?</div>
+      <div class="answer">
+        <p><strong>Responsive design</strong> — це підхід, при якому сторінка адаптується до розміру екрана користувача.</p>
+        <ul>
+          <li>Використання <code>flex</code> та <code>grid</code> для гнучких макетів.</li>
+          <li>Застосування <code>media queries</code> для зміни стилів.</li>
+          <li>Відносні одиниці (<code>%</code>, <code>vw</code>, <code>em</code>, <code>rem</code>).</li>
+          <li>Адаптивні зображення через <code>srcset</code> або <code>picture</code>.</li>
+        </ul>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 32. Одиниці вимірювання -->
+    <div>
+      <div class="question">32. Як працюють %, em, rem, vw, vh, clamp()?</div>
+      <div class="answer">
+        <ul>
+          <li><code>%</code> — відносно батьківського елемента.</li>
+          <li><code>em</code> — відносно розміру шрифту батьківського елемента.</li>
+          <li><code>rem</code> — відносно шрифту елемента <code>html</code>.</li>
+          <li><code>vw</code> / <code>vh</code> — 1% від ширини / висоти viewport.</li>
+          <li><code>clamp(min, preferred, max)</code> — автоматично підбирає значення в заданих межах.</li>
+        </ul>
+        <div class="example"><pre>
+font-size: clamp(1rem, 2vw, 2rem);
+width: 80%;
+height: 50vh;
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 33. Media Queries -->
+    <div>
+      <div class="question">33. Як працюють media queries — різниця між min-width і max-width?</div>
+      <div class="answer">
+        <ul>
+          <li><code>min-width</code> — стилі застосовуються, коли екран <strong>ширший</strong> за вказане значення (mobile-first).</li>
+          <li><code>max-width</code> — стилі застосовуються, коли екран <strong>вужчий</strong> за вказане значення (desktop-first).</li>
+        </ul>
+        <div class="example"><pre>
+@media (min-width: 768px) {
+  body { background: lightblue; }
+}
+@media (max-width: 767px) {
+  body { background: pink; }
+}
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 34. Container Queries -->
+    <div>
+      <div class="question">34. Що таке container queries (новий стандарт CSS)?</div>
+      <div class="answer">
+        <p>Container queries дозволяють змінювати стилі не від ширини viewport, а від ширини <strong>контейнера</strong>.</p>
+        <div class="example"><pre>
+.container {
+  container-type: inline-size;
+}
+@container (min-width: 600px) {
+  .card { flex-direction: row; }
+}
+    </pre></div>
+        <p>Це робить компоненти по-справжньому <strong>ізольованими та адаптивними</strong>.</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 35. aspect-ratio -->
+    <div>
+      <div class="question">35. Як працює властивість aspect-ratio?</div>
+      <div class="answer">
+        <p><code>aspect-ratio</code> задає співвідношення сторін елемента.</p>
+        <div class="example"><pre>
+.box {
+  width: 300px;
+  aspect-ratio: 16 / 9;
+  background: #ccc;
+}
+    </pre></div>
+        <p>Корисно для зображень, відео або блоків фіксованих пропорцій.</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 36. Responsive Images -->
+    <div>
+      <div class="question">36. Як робити адаптивні зображення (srcset, sizes)?</div>
+      <div class="answer">
+        <p>Використовуй атрибути <code>srcset</code> і <code>sizes</code> для підвантаження потрібного розміру залежно від екрану.</p>
+        <div class="example"><pre>
+<img
+  src="image-800.jpg"
+  srcset="image-400.jpg 400w, image-800.jpg 800w, image-1200.jpg 1200w"
+  sizes="(max-width: 600px) 400px, 800px"
+  alt="Responsive image">
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 37. Mobile-first -->
+    <div>
+      <div class="question">37. Що таке mobile-first підхід?</div>
+      <div class="answer">
+        <p><strong>Mobile-first</strong> — це принцип розробки, де стилі спочатку створюються для мобільних екранів, а потім масштабуються вгору через <code>min-width</code> media queries.</p>
+        <div class="example"><pre>
+/* базові стилі для мобільних */
+body { font-size: 16px; }
+
+/* більші екрани */
+@media (min-width: 768px) {
+  body { font-size: 18px; }
+}
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 38. Testing in DevTools -->
+    <div>
+      <div class="question">38. Як протестувати адаптивність у DevTools?</div>
+      <div class="answer">
+        <p>У Chrome DevTools є інструмент <strong>Device Toolbar</strong> (Ctrl+Shift+M), який дозволяє:</p>
+        <ul>
+          <li>Переглядати сторінку на різних розмірах екранів.</li>
+          <li>Імітувати мобільні пристрої (iPhone, Galaxy тощо).</li>
+          <li>Перевіряти поведінку touch-ів, viewport, zoom тощо.</li>
+        </ul>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 39. Fluid Typography -->
+    <div>
+      <div class="question">39. Як зробити fluid-типографіку через clamp()?</div>
+      <div class="answer">
+        <p>Використай <code>clamp()</code> для плавного масштабування шрифтів:</p>
+        <div class="example"><pre>
+h1 {
+  font-size: clamp(1.5rem, 5vw, 3rem);
+}
+    </pre></div>
+        <p>Шрифт змінюється між 1.5rem і 3rem залежно від ширини viewport.</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 40. Breakpoints -->
+    <div>
+      <div class="question">40. Як визначити breakpoints і не вигадувати з голови?</div>
+      <div class="answer">
+        <p>Breakpoints базують на контенті, а не на пристроях. Типові значення:</p>
+        <ul>
+          <li>Mobile: 0–600px</li>
+          <li>Tablet: 601–992px</li>
+          <li>Laptop: 993–1200px</li>
+          <li>Desktop: 1201px+</li>
+        </ul>
+        <p>Але краще орієнтуйся на реальні “злами” дизайну — коли контент починає виглядати погано.</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <h2>🎨 4. Візуальні ефекти, transitions, animations</h2>
+
+    <!-- 41. Transition vs Animation -->
+    <div>
+      <div class="question">41. У чому різниця між transition і animation?</div>
+      <div class="answer">
+        <ul>
+          <li><strong>transition</strong> — виконує плавну зміну між двома станами (початковим і кінцевим).</li>
+          <li><strong>animation</strong> — може мати кілька кроків, циклів і складну часову лінію через <code>@keyframes</code>.</li>
+        </ul>
+        <div class="example"><pre>
+.box {
+  transition: transform 0.3s ease;
+}
+.box:hover {
+  transform: scale(1.1);
+}
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 42. Keyframes -->
+    <div>
+      <div class="question">42. Як працюють @keyframes?</div>
+      <div class="answer">
+        <p>@keyframes описують кроки анімації — від початку до кінця:</p>
+        <div class="example"><pre>
+@keyframes move {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(100px); }
+}
+.box {
+  animation: move 2s infinite alternate;
+}
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 43. Infinite animation -->
+    <div>
+      <div class="question">43. Як зробити нескінченну анімацію або затримку між циклами?</div>
+      <div class="answer">
+        <ul>
+          <li><code>animation-iteration-count: infinite;</code> — нескінчне повторення.</li>
+          <li><code>animation-delay</code> — затримка перед початком.</li>
+          <li><code>animation-direction: alternate;</code> — чергування напрямку.</li>
+        </ul>
+        <div class="example"><pre>
+.ball {
+  animation: bounce 1s infinite alternate;
+}
+@keyframes bounce {
+  from { transform: translateY(0); }
+  to { transform: translateY(-50px); }
+}
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 44. Неанімовані властивості -->
+    <div>
+      <div class="question">44. Які властивості не можна анімувати?</div>
+      <div class="answer">
+        <p>Не всі CSS-властивості підтримують анімацію. Не можна анімувати:</p>
+        <ul>
+          <li>display</li>
+          <li>position</li>
+          <li>background-image (зміна URL)</li>
+          <li>visibility</li>
+          <li>z-index</li>
+        </ul>
+        <p>Порада: анімуй трансформації (<code>transform</code>, <code>opacity</code>) — вони не викликають перерахунок layout.</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 45. Transform -->
+    <div>
+      <div class="question">45. Що таке transform (translate, scale, rotate, skew)?</div>
+      <div class="answer">
+        <p><code>transform</code> змінює форму або позицію елемента без зміни його розміру в DOM.</p>
+        <div class="example"><pre>
+.box {
+  transform: translate(20px, 10px) rotate(15deg) scale(1.2);
+}
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 46. GPU rendering -->
+    <div>
+      <div class="question">46. Як працює GPU-рендеринг (transform: translateZ(0))?</div>
+      <div class="answer">
+        <p>Використання <code>transform: translateZ(0)</code> або <code>will-change: transform</code> створює новий “composite layer”, який обробляється GPU, а не CPU — це пришвидшує анімації.</p>
+        <p>⚠️ Не використовуй надмірно — це збільшує споживання пам’яті.</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 47. Оптимізація анімацій -->
+    <div>
+      <div class="question">47. Як оптимізувати анімації для кращої продуктивності?</div>
+      <div class="answer">
+        <ul>
+          <li>Анімуй тільки <code>opacity</code> і <code>transform</code>.</li>
+          <li>Уникай <code>top</code>, <code>left</code>, <code>width</code> — вони викликають reflow.</li>
+          <li>Використовуй <code>will-change</code> тільки для активних елементів.</li>
+          <li>Зменшуй кількість одночасних анімацій.</li>
+        </ul>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 48. will-change -->
+    <div>
+      <div class="question">48. Що таке will-change і коли його варто використовувати?</div>
+      <div class="answer">
+        <p><code>will-change</code> повідомляє браузеру, які властивості змінюватимуться, щоб він міг оптимізувати рендер.</p>
+        <div class="example"><pre>
+.card:hover {
+  will-change: transform, opacity;
+}
+    </pre></div>
+        <p>Використовуй обережно, лише для елементів, що часто змінюються (hover, drag, scroll).</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 49. Fade-in, slide-in, spinner -->
+    <div>
+      <div class="question">49. Як зробити fade-in, slide-in або spinner тільки CSS-ом?</div>
+      <div class="answer">
+        <p>Приклади:</p>
+        <h4>Fade-in</h4>
+        <div class="example"><pre>
+.fade {
+  animation: fadeIn 1s ease-in;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+    </pre></div>
+
+        <h4>Slide-in</h4>
+        <div class="example"><pre>
+.slide {
+  animation: slideIn 0.8s ease-out;
+}
+@keyframes slideIn {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+    </pre></div>
+
+        <h4>Spinner</h4>
+        <div class="example"><pre>
+.spinner {
+  border: 4px solid #ccc;
+  border-top: 4px solid #007BFF;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 50. prefers-reduced-motion -->
+    <div>
+      <div class="question">50. Що таке prefers-reduced-motion і для чого воно потрібне?</div>
+      <div class="answer">
+        <p>Це медіа-запит, який дозволяє враховувати користувацькі налаштування щодо зменшення анімацій — для людей із вестибулярними або когнітивними розладами.</p>
+        <div class="example"><pre>
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0s !important;
+    transition: none !important;
+  }
+}
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <h2>⚙️ 5. SCSS / Препроцесори</h2>
+
+    <!-- 51. SASS vs SCSS -->
+    <div>
+      <div class="question">51. У чому різниця між SASS і SCSS синтаксисом?</div>
+      <div class="answer">
+        <ul>
+          <li><strong>SASS</strong> — старіший синтаксис без фігурних дужок і крапок з комою (на зразок YAML).</li>
+          <li><strong>SCSS</strong> — сучасний синтаксис, максимально схожий на звичайний CSS.</li>
+        </ul>
+        <div class="example"><pre>
+/* SCSS */
+.button {
+  color: white;
+  background: blue;
+}
+
+/* SASS */
+.button
+  color: white
+  background: blue
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 52. Змінні, mixins, extends, placeholders -->
+    <div>
+      <div class="question">52. Як працюють змінні, mixins, extends і placeholders у SCSS?</div>
+      <div class="answer">
+        <ul>
+          <li><code>$variable</code> — зберігає значення для повторного використання.</li>
+          <li><code>@mixin</code> — шаблон, який можна підключати через <code>@include</code>.</li>
+          <li><code>@extend</code> — наслідує стилі іншого селектора.</li>
+          <li><code>%placeholder</code> — як <code>@extend</code>, але не створює власного селектора у CSS.</li>
+        </ul>
+        <div class="example"><pre>
+$primary: #007BFF;
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+%btn-base {
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+.button {
+  @include flex-center;
+  @extend %btn-base;
+  background: $primary;
+}
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 53. Nesting -->
+    <div>
+      <div class="question">53. Що таке nesting і чому надмірна вкладеність — антипатерн?</div>
+      <div class="answer">
+        <p><strong>Nesting</strong> — це можливість вкладати селектори один у інший для зручності структури.</p>
+        <div class="example"><pre>
+.card {
+  padding: 10px;
+
+  h2 { font-size: 20px; }
+
+  .btn {
+    color: white;
+  }
+}
+    </pre></div>
+        <p>Надмірний nesting (&gt;3 рівнів) ускладнює підтримку коду й збільшує специфічність.</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 54. Partials -->
+    <div>
+      <div class="question">54. Як використовуються partials (_variables.scss, _mixins.scss)?</div>
+      <div class="answer">
+        <p>Partials — це окремі SCSS-файли, які не компілюються самостійно (починаються з “_”) і підключаються через <code>@use</code> або <code>@import</code>.</p>
+        <div class="example"><pre>
+/* _variables.scss */
+$primary: #007BFF;
+
+/* main.scss */
+@use 'variables';
+
+.button {
+  background: variables.$primary;
+}
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 55. @function -->
+    <div>
+      <div class="question">55. Як створити функцію у SCSS (@function)?</div>
+      <div class="answer">
+        <p>Функції у SCSS дозволяють повертати обчислені значення.</p>
+        <div class="example"><pre>
+@function rem($px) {
+  @return $px / 16 * 1rem;
+}
+
+h1 {
+  font-size: rem(24);
+}
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 56. Maps -->
+    <div>
+      <div class="question">56. Що таке maps у SCSS?</div>
+      <div class="answer">
+        <p><strong>Map</strong> — це структура даних у форматі ключ–значення.</p>
+        <div class="example"><pre>
+$colors: (
+  primary: #007BFF,
+  success: #28a745,
+  danger: #dc3545
+);
+
+.button {
+  background: map-get($colors, primary);
+}
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 57. Компіляція SCSS -->
+    <div>
+      <div class="question">57. Як SCSS компілюється у звичайний CSS?</div>
+      <div class="answer">
+        <p>Компіляція — це процес перетворення SCSS у чистий CSS через препроцесор (наприклад, Gulp, Webpack або CLI-команду):</p>
+        <div class="example"><pre>
+sass styles.scss styles.css --style compressed
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 58. Структура SCSS -->
+    <div>
+      <div class="question">58. Як організувати структуру SCSS-проєкту?</div>
+      <div class="answer">
+        <p>Зазвичай використовують модульну структуру:</p>
+        <ul>
+          <li><strong>base/</strong> — типографіка, reset</li>
+          <li><strong>layout/</strong> — сітки, header, footer</li>
+          <li><strong>components/</strong> — кнопки, картки</li>
+          <li><strong>utilities/</strong> — змінні, міксіни</li>
+          <li><strong>main.scss</strong> — точка входу</li>
+        </ul>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 59. CSS variables з JS -->
+    <div>
+      <div class="question">59. Як підключати SCSS-змінні у JS через CSS variables?</div>
+      <div class="answer">
+        <p>Передай значення SCSS-змінних у :root як CSS-перемінні:</p>
+        <div class="example"><pre>
+/* SCSS */
+:root {
+  --primary: #{$primary};
+}
+
+/* JS */
+const color = getComputedStyle(document.documentElement)
+  .getPropertyValue('--primary');
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 60. BEM у SCSS -->
+    <div>
+      <div class="question">60. Як реалізувати BEM у SCSS?</div>
+      <div class="answer">
+        <p>SCSS полегшує написання BEM через вкладеність і амперсанд <code>&amp;</code>:</p>
+        <div class="example"><pre>
+.block {
+  &__element {
+    color: black;
+  }
+  &--modifier {
+    color: red;
+  }
+}
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <h2>⚙️ 5. SCSS / Препроцесори</h2>
+
+    <!-- 51. SASS vs SCSS -->
+    <div>
+      <div class="question">51. У чому різниця між SASS і SCSS синтаксисом?</div>
+      <div class="answer">
+        <ul>
+          <li><strong>SASS</strong> — старіший синтаксис без фігурних дужок і крапок з комою (на зразок YAML).</li>
+          <li><strong>SCSS</strong> — сучасний синтаксис, максимально схожий на звичайний CSS.</li>
+        </ul>
+        <div class="example"><pre>
+/* SCSS */
+.button {
+  color: white;
+  background: blue;
+}
+
+/* SASS */
+.button
+  color: white
+  background: blue
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 52. Змінні, mixins, extends, placeholders -->
+    <div>
+      <div class="question">52. Як працюють змінні, mixins, extends і placeholders у SCSS?</div>
+      <div class="answer">
+        <ul>
+          <li><code>$variable</code> — зберігає значення для повторного використання.</li>
+          <li><code>@mixin</code> — шаблон, який можна підключати через <code>@include</code>.</li>
+          <li><code>@extend</code> — наслідує стилі іншого селектора.</li>
+          <li><code>%placeholder</code> — як <code>@extend</code>, але не створює власного селектора у CSS.</li>
+        </ul>
+        <div class="example"><pre>
+$primary: #007BFF;
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+%btn-base {
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+.button {
+  @include flex-center;
+  @extend %btn-base;
+  background: $primary;
+}
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 53. Nesting -->
+    <div>
+      <div class="question">53. Що таке nesting і чому надмірна вкладеність — антипатерн?</div>
+      <div class="answer">
+        <p><strong>Nesting</strong> — це можливість вкладати селектори один у інший для зручності структури.</p>
+        <div class="example"><pre>
+.card {
+  padding: 10px;
+
+  h2 { font-size: 20px; }
+
+  .btn {
+    color: white;
+  }
+}
+    </pre></div>
+        <p>Надмірний nesting (&gt;3 рівнів) ускладнює підтримку коду й збільшує специфічність.</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 54. Partials -->
+    <div>
+      <div class="question">54. Як використовуються partials (_variables.scss, _mixins.scss)?</div>
+      <div class="answer">
+        <p>Partials — це окремі SCSS-файли, які не компілюються самостійно (починаються з “_”) і підключаються через <code>@use</code> або <code>@import</code>.</p>
+        <div class="example"><pre>
+/* _variables.scss */
+$primary: #007BFF;
+
+/* main.scss */
+@use 'variables';
+
+.button {
+  background: variables.$primary;
+}
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 55. @function -->
+    <div>
+      <div class="question">55. Як створити функцію у SCSS (@function)?</div>
+      <div class="answer">
+        <p>Функції у SCSS дозволяють повертати обчислені значення.</p>
+        <div class="example"><pre>
+@function rem($px) {
+  @return $px / 16 * 1rem;
+}
+
+h1 {
+  font-size: rem(24);
+}
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 56. Maps -->
+    <div>
+      <div class="question">56. Що таке maps у SCSS?</div>
+      <div class="answer">
+        <p><strong>Map</strong> — це структура даних у форматі ключ–значення.</p>
+        <div class="example"><pre>
+$colors: (
+  primary: #007BFF,
+  success: #28a745,
+  danger: #dc3545
+);
+
+.button {
+  background: map-get($colors, primary);
+}
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 57. Компіляція SCSS -->
+    <div>
+      <div class="question">57. Як SCSS компілюється у звичайний CSS?</div>
+      <div class="answer">
+        <p>Компіляція — це процес перетворення SCSS у чистий CSS через препроцесор (наприклад, Gulp, Webpack або CLI-команду):</p>
+        <div class="example"><pre>
+sass styles.scss styles.css --style compressed
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 58. Структура SCSS -->
+    <div>
+      <div class="question">58. Як організувати структуру SCSS-проєкту?</div>
+      <div class="answer">
+        <p>Зазвичай використовують модульну структуру:</p>
+        <ul>
+          <li><strong>base/</strong> — типографіка, reset</li>
+          <li><strong>layout/</strong> — сітки, header, footer</li>
+          <li><strong>components/</strong> — кнопки, картки</li>
+          <li><strong>utilities/</strong> — змінні, міксіни</li>
+          <li><strong>main.scss</strong> — точка входу</li>
+        </ul>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 59. CSS variables з JS -->
+    <div>
+      <div class="question">59. Як підключати SCSS-змінні у JS через CSS variables?</div>
+      <div class="answer">
+        <p>Передай значення SCSS-змінних у :root як CSS-перемінні:</p>
+        <div class="example"><pre>
+/* SCSS */
+:root {
+  --primary: #{$primary};
+}
+
+/* JS */
+const color = getComputedStyle(document.documentElement)
+  .getPropertyValue('--primary');
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 60. BEM у SCSS -->
+    <div>
+      <div class="question">60. Як реалізувати BEM у SCSS?</div>
+      <div class="answer">
+        <p>SCSS полегшує написання BEM через вкладеність і амперсанд <code>&amp;</code>:</p>
+        <div class="example"><pre>
+.block {
+  &__element {
+    color: black;
+  }
+  &--modifier {
+    color: red;
+  }
+}
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <h2>🧱 6. Методології CSS</h2>
+
+    <!-- 61. BEM -->
+    <div>
+      <div class="question">61. Що таке BEM (Block Element Modifier)?</div>
+      <div class="answer">
+        <p><strong>BEM</strong> — методологія, що розділяє код на незалежні блоки, елементи та модифікатори.</p>
+        <ul>
+          <li><strong>Block</strong> — самостійна частина інтерфейсу (<code>.card</code>).</li>
+          <li><strong>Element</strong> — складова частина блоку (<code>.card__title</code>).</li>
+          <li><strong>Modifier</strong> — варіація блоку або елемента (<code>.card--active</code>).</li>
+        </ul>
+        <div class="example"><pre>
+.card { ... }
+.card__title { ... }
+.card--active { ... }
+    </pre></div>
+        <p>✔️ Основна перевага: передбачувана структура, уникнення конфліктів стилів.</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 62. SMACSS -->
+    <div>
+      <div class="question">62. Що таке SMACSS (Scalable and Modular Architecture for CSS)?</div>
+      <div class="answer">
+        <p><strong>SMACSS</strong> ділить CSS на категорії для кращої організації:</p>
+        <ul>
+          <li><strong>Base</strong> — базові стилі (html, body, a, p).</li>
+          <li><strong>Layout</strong> — структура сторінки (header, footer, grid).</li>
+          <li><strong>Module</strong> — незалежні блоки (кнопки, картки).</li>
+          <li><strong>State</strong> — змінені стани (is-active, is-hidden).</li>
+          <li><strong>Theme</strong> — кольорові схеми, теми.</li>
+        </ul>
+        <div class="example"><pre>
+.header { ... } /* Layout */
+.btn { ... } /* Module */
+.is-active { ... } /* State */
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 63. OOCSS -->
+    <div>
+      <div class="question">63. Що таке OOCSS (Object-Oriented CSS)?</div>
+      <div class="answer">
+        <p><strong>OOCSS</strong> — об’єктно-орієнтований підхід до стилізації, який відокремлює структуру від вигляду.</p>
+        <ul>
+          <li><strong>Structure</strong> — контейнер, розміри, відступи.</li>
+          <li><strong>Skin</strong> — колір, фон, тіні.</li>
+        </ul>
+        <div class="example"><pre>
+.media { display: flex; align-items: center; } /* Structure */
+.avatar { border-radius: 50%; } /* Skin */
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 64. Atomic CSS -->
+    <div>
+      <div class="question">64. Що таке Atomic CSS (або Functional CSS)?</div>
+      <div class="answer">
+        <p><strong>Atomic CSS</strong> — підхід, де один клас відповідає одній властивості.</p>
+        <div class="example"><pre>
+.text-center { text-align: center; }
+.mt-4 { margin-top: 1rem; }
+.bg-blue { background: blue; }
+    </pre></div>
+        <p>✔️ Швидка розробка, мінімальні конфлікти, схоже на підхід Tailwind.</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 65. ITCSS -->
+    <div>
+      <div class="question">65. Що таке ITCSS (Inverted Triangle CSS)?</div>
+      <div class="answer">
+        <p><strong>ITCSS</strong> — методологія, що впорядковує стилі за рівнем специфічності, від загального до приватного:</p>
+        <ul>
+          <li>1️⃣ Settings — змінні, кольори, шрифти.</li>
+          <li>2️⃣ Tools — міксіни, функції.</li>
+          <li>3️⃣ Generic — reset, normalize.</li>
+          <li>4️⃣ Elements — базові теги (h1, p, a).</li>
+          <li>5️⃣ Objects — патерни без оформлення.</li>
+          <li>6️⃣ Components — модулі UI.</li>
+          <li>7️⃣ Utilities — допоміжні класи (text-center, hidden).</li>
+        </ul>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 66. Поєднання BEM і ITCSS -->
+    <div>
+      <div class="question">66. Як поєднувати BEM і ITCSS у великому проєкті?</div>
+      <div class="answer">
+        <p>Використовуй ITCSS для структури проєкту, а BEM — для іменування компонентів.</p>
+        <div class="example"><pre>
+/* Структура */
+components/
+  _buttons.scss
+  _cards.scss
+
+/* Іменування */
+.card { ... }
+.card__image { ... }
+.card--featured { ... }
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 67. CSS Modules -->
+    <div>
+      <div class="question">67. Що таке CSS Modules і як вони працюють у React?</div>
+      <div class="answer">
+        <p><strong>CSS Modules</strong> — це спосіб ізолювання стилів для компонентів у React або Vue.</p>
+        <ul>
+          <li>Імпортуєш CSS прямо у JS.</li>
+          <li>Класи автоматично унікалізуються (через хеш).</li>
+        </ul>
+        <div class="example"><pre>
+/* button.module.css */
+.btn { background: blue; color: white; }
+
+/* Button.jsx */
+import styles from './button.module.css';
+&lt;button className={styles.btn}&gt;Click&lt;/button&gt;
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 68. Styled Components -->
+    <div>
+      <div class="question">68. Як працюють Styled Components і чим вони відрізняються від SCSS?</div>
+      <div class="answer">
+        <p><strong>Styled Components</strong> — це CSS у JS: стилі пишуться прямо у компоненті через template literals.</p>
+        <div class="example"><pre>
+import styled from "styled-components";
+
+const Button = styled.button`
+  background: blue;
+  color: white;
+  padding: 10px 20px;
+`;
+
+&lt;Button&gt;Click me&lt;/Button&gt;
+    </pre></div>
+        <p>✔️ Повна ізоляція стилів, підтримка props та динамічних тем.</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 69. Utility-first CSS -->
+    <div>
+      <div class="question">69. Що таке Utility-first CSS?</div>
+      <div class="answer">
+        <p>Utility-first — це підхід, де використовуються готові класи для конкретних властивостей, замість створення окремих компонентних класів.</p>
+        <div class="example"><pre>
+&lt;button class="bg-blue-500 text-white px-4 py-2 rounded"&gt;
+  Submit
+&lt;/button&gt;
+    </pre></div>
+        <p>Tailwind CSS — найвідоміша реалізація цього підходу.</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 70. Коли методологія, а коли фреймворк -->
+    <div>
+      <div class="question">70. Коли варто обрати методологію (BEM, ITCSS) замість фреймворку (Tailwind)?</div>
+      <div class="answer">
+        <ul>
+          <li>✔️ <strong>Методології</strong> — краще для великих проєктів із власним UI, коли потрібна гнучкість і контроль над CSS.</li>
+          <li>⚡️ <strong>Фреймворки</strong> (Tailwind, Bootstrap) — швидкий старт, але складніше кастомізувати під великий масштаб.</li>
+        </ul>
+        <p>Ідеальний варіант — комбінувати: наприклад, Tailwind для утиліт + BEM для складних компонентів.</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <h2>💨 7. Tailwind CSS</h2>
+
+    <!-- 71. Як працює Tailwind -->
+    <div>
+      <div class="question">71. Як працює Tailwind CSS (utility-first підхід)?</div>
+      <div class="answer">
+        <p><strong>Tailwind CSS</strong> — це фреймворк із підходом <em>utility-first</em>, де ти використовуєш готові класи для стилізації без написання власного CSS.</p>
+        <div class="example"><pre>
+&lt;button class="bg-blue-500 text-white font-semibold px-4 py-2 rounded hover:bg-blue-600"&gt;
+  Натисни мене
+&lt;/button&gt;
+    </pre></div>
+        <p>Tailwind дозволяє створювати складні дизайни, комбінуючи утилітарні класи без необхідності писати нові стилі.</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 72. JIT компіляція -->
+    <div>
+      <div class="question">72. Що таке JIT-компіляція у Tailwind?</div>
+      <div class="answer">
+        <p><strong>JIT (Just-In-Time Compiler)</strong> генерує класи «на льоту», тільки ті, що реально використовуються у твоєму HTML/JSX.</p>
+        <ul>
+          <li>⚡️ Миттєве оновлення стилів у dev-режимі.</li>
+          <li>📦 Зменшує розмір кінцевого CSS.</li>
+          <li>🧩 Дозволяє використовувати динамічні значення (наприклад, <code>bg-[color]</code>).</li>
+        </ul>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 73. Purge -->
+    <div>
+      <div class="question">73. Як Tailwind прибирає невикористані стилі (purge / content)?</div>
+      <div class="answer">
+        <p>Tailwind сканує файли проєкту й залишає лише ті класи, що реально використовуються.</p>
+        <div class="example"><pre>
+/* tailwind.config.js */
+module.exports = {
+  content: ["./src/**/*.{html,js,ts,jsx,tsx}"],
+  theme: { extend: {} },
+  plugins: [],
+};
+    </pre></div>
+        <p>Це суттєво зменшує фінальний розмір CSS у продакшені.</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 74. Variants -->
+    <div>
+      <div class="question">74. Як працюють variants у Tailwind (hover:, focus:, md:)?</div>
+      <div class="answer">
+        <p>Variants дозволяють змінювати стилі залежно від стану або breakpoint’у:</p>
+        <div class="example"><pre>
+&lt;button class="bg-gray-300 hover:bg-gray-500 focus:ring-2 md:bg-blue-500"&gt;
+  Кнопка
+&lt;/button&gt;
+    </pre></div>
+        <p>Префікси: <code>hover:</code>, <code>focus:</code>, <code>active:</code>, <code>md:</code>, <code>lg:</code>, <code>dark:</code> тощо.</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 75. Theme customization -->
+    <div>
+      <div class="question">75. Як реалізується theme customization у Tailwind?</div>
+      <div class="answer">
+        <p>Теми або свої кольори додаються через розділ <code>theme.extend</code> у конфігурації:</p>
+        <div class="example"><pre>
+/* tailwind.config.js */
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        brand: "#1E40AF",
+      },
+      fontFamily: {
+        sans: ["Inter", "sans-serif"],
+      },
+    },
+  },
+};
+    </pre></div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 76. Поєднання з BEM або React -->
+    <div>
+      <div class="question">76. Як поєднувати Tailwind із BEM або React components?</div>
+      <div class="answer">
+        <p>Tailwind можна поєднувати з BEM для складних компонентів або з React через props.</p>
+        <div class="example"><pre>
+function Button({ type }) {
+  const base = "px-4 py-2 rounded text-white";
+  const styles = type === "primary" ? "bg-blue-600" : "bg-gray-500";
+  return &lt;button class={`${base} ${styles}`}&gt;Click&lt;/button&gt;;
+}
+    </pre></div>
+        <p>Tailwind добре працює з компонентним підходом.</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 77. @apply -->
+    <div>
+      <div class="question">77. Як писати кастомні класи у Tailwind через @apply?</div>
+      <div class="answer">
+        <p>Використовуй <code>@apply</code> у власному CSS, щоб поєднати кілька утиліт у новий клас:</p>
+        <div class="example"><pre>
+/* styles.css */
+.btn {
+  @apply bg-blue-600 text-white font-semibold px-4 py-2 rounded hover:bg-blue-700;
+}
+    </pre></div>
+        <p>Це допомагає уникнути дублювання однакових класів у HTML.</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- 78. Dark mode -->
+    <div>
+      <div class="question">78. Як зробити dark-mode у Tailwind?</div>
+      <div class="answer">
+        <p>Tailwind має вбудовану підтримку темної теми. Активується через <code>darkMode</code> у конфігурації:</p>
+        <div class="example"><pre>
+/* tailwind.config.js */
+module.exports = {
+  darkMode: "class", // або "media"
+};
+    </pre></div>
+        <p>Потім використовуєш префікс <code>dark:</code>:</p>
+        <div class="example"><pre>
+&lt;div class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white"&gt;...</div&gt;
+        </pre></div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- 79. Plugins -->
+  <div>
+    <div class="question">79. Як додавати плагіни у Tailwind?</div>
+    <div class="answer">
+      <p>Tailwind дозволяє підключати офіційні та кастомні плагіни через <code>plugins</code>:</p>
+      <div class="example"><pre>
+/* tailwind.config.js */
+const forms = require("@tailwindcss/forms");
+module.exports = {
+  plugins: [forms],
+};
+    </pre></div>
+      <p>Популярні плагіни: <code>@tailwindcss/forms</code>, <code>@tailwindcss/typography</code>, <code>@tailwindcss/aspect-ratio</code>.</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- 80. Tailwind у продакшені -->
+  <div>
+    <div class="question">80. Як оптимізувати Tailwind CSS у продакшені?</div>
+    <div class="answer">
+      <ul>
+        <li>🧹 Використовуй <strong>purge/content</strong> для видалення зайвих стилів.</li>
+        <li>⚙️ Увімкни <code>NODE_ENV=production</code> — Tailwind згенерує мінімізований CSS.</li>
+        <li>📦 Збери все у бандл через PostCSS або Vite.</li>
+      </ul>
+      <div class="example"><pre>
+NODE_ENV=production npx tailwindcss -o build.css --minify
+    </pre></div>
+    </div>
+  </div>
+
+  <hr>
+
+  <h2>⚡️ 8. Performance & Advanced CSS</h2>
+
+  <!-- 81. Critical Rendering Path -->
+  <div>
+    <div class="question">81. Що таке Critical Rendering Path і як CSS впливає на нього?</div>
+    <div class="answer">
+      <p><strong>Critical Rendering Path (CRP)</strong> — це процес, який браузер проходить, щоб перетворити HTML, CSS і JS у пікселі на екрані.</p>
+      <ul>
+        <li>CSS блокує рендеринг сторінки — поки не завантажиться, сторінка не відображається.</li>
+        <li>Тому важливо мінімізувати і оптимізувати CSS.</li>
+      </ul>
+      <p><strong>Оптимізація:</strong></p>
+      <ul>
+        <li>Винось критичні стилі inline у <code>&lt;head&gt;</code>.</li>
+        <li>Використовуй <code>media</code> атрибут (<code>media="print"</code>).</li>
+        <li>Використовуй <code>preload</code> для важливих CSS.</li>
+      </ul>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- 82. Render-blocking CSS -->
+  <div>
+    <div class="question">82. Як мінімізувати render-blocking CSS?</div>
+    <div class="answer">
+      <p>Щоб сторінка швидше відображалась, CSS не повинен блокувати побудову DOM.</p>
+      <div class="example"><pre>
+&lt;link rel="preload" href="styles.css" as="style" onload="this.rel='stylesheet'"&gt;
+&lt;noscript&gt;&lt;link rel="stylesheet" href="styles.css"&gt;&lt;/noscript&gt;
+    </pre></div>
+      <ul>
+        <li>Розбий CSS на критичний і не критичний.</li>
+        <li>Використовуй lazy-loading для великих стилів.</li>
+        <li>Використовуй PostCSS або tools (PurgeCSS, CriticalCSS).</li>
+      </ul>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- 83. Repaint & Reflow -->
+  <div>
+    <div class="question">83. Що таке repaint і reflow?</div>
+    <div class="answer">
+      <p><strong>Reflow</strong> — це перерахунок розміщення елементів (layout).
+        <strong>Repaint</strong> — це оновлення зовнішнього вигляду (color, background тощо).</p>
+      <p>Reflow → Repaint = важка операція ⚠️</p>
+      <p><strong>Що викликає reflow:</strong></p>
+      <ul>
+        <li>Зміна розміру вікна.</li>
+        <li>Маніпуляції з DOM (appendChild, offsetWidth).</li>
+        <li>Зміна шрифтів або CSS layout.</li>
+      </ul>
+      <p>Оптимізація: мінімізуй зміни в DOM, використовуй <code>transform</code> замість <code>top/left</code>.</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- 84. Layout thrashing -->
+  <div>
+    <div class="question">84. Що таке layout thrashing?</div>
+    <div class="answer">
+      <p>Це ситуація, коли JavaScript постійно чергує операції «читання» і «запис» DOM, змушуючи браузер щоразу робити reflow.</p>
+      <div class="example"><pre>
+// ❌ Погано
+div.style.width = div.offsetWidth + 10 + 'px';
+
+// ✅ Добре
+const width = div.offsetWidth;
+div.style.width = width + 10 + 'px';
+    </pre></div>
+      <p>💡 Рішення — кешуй значення перед зміною стилів.</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- 85. DevTools Performance -->
+  <div>
+    <div class="question">85. Як DevTools допомагає аналізувати продуктивність CSS?</div>
+    <div class="answer">
+      <p>У Chrome DevTools вкладка <strong>Performance</strong> показує:</p>
+      <ul>
+        <li>Кількість reflow/repaint.</li>
+        <li>Час рендерингу кожного фрейму.</li>
+        <li>Вкладку <strong>Rendering → Paint flashing</strong> — підсвічує repaint-зони.</li>
+      </ul>
+      <p>Аналізуй, які стилі часто перераховуються, щоб уникнути надмірного перерендеру.</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- 86. CSS optimization -->
+  <div>
+    <div class="question">86. Як оптимізувати CSS у продакшені?</div>
+    <div class="answer">
+      <ul>
+        <li>🧹 Використовуй PurgeCSS / Tailwind content для видалення зайвих стилів.</li>
+        <li>📦 Мінімізуй CSS (gzip, cssnano).</li>
+        <li>🚀 Винось критичний CSS inline, решту — async.</li>
+        <li>⚙️ Розділяй стилі по сторінках або компонентно.</li>
+      </ul>
+      <div class="example"><pre>
+npx postcss src/styles.css -o dist/styles.min.css --env production
+    </pre></div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- 87. content-visibility -->
+  <div>
+    <div class="question">87. Що таке content-visibility: auto?</div>
+    <div class="answer">
+      <p>Ця властивість дозволяє браузеру не рендерити елементи, поки вони не з’являться у viewport.</p>
+      <div class="example"><pre>
+.card {
+  content-visibility: auto;
+  contain-intrinsic-size: 300px;
+}
+    </pre></div>
+      <p>Результат — сторінка рендериться значно швидше (lazy-rendering).</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- 88. contain -->
+  <div>
+    <div class="question">88. Як працює властивість contain?</div>
+    <div class="answer">
+      <p><strong>contain</strong> обмежує вплив елемента на решту сторінки, що зменшує кількість reflow.</p>
+      <div class="example"><pre>
+.component {
+  contain: layout paint;
+}
+    </pre></div>
+      <p>Браузер розглядає цей елемент як “ізольований контейнер”.</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- 89. @layer -->
+  <div>
+    <div class="question">89. Як @layer допомагає керувати специфічністю?</div>
+    <div class="answer">
+      <p>У CSS Layers можна визначати рівні стилів (base, components, utilities) і контролювати порядок накладання без !important.</p>
+      <div class="example"><pre>
+@layer base {
+  h1 { color: black; }
+}
+@layer components {
+  .title { color: blue; }
+}
+@layer utilities {
+  .text-red { color: red; }
+}
+    </pre></div>
+      <p>Останній визначений шар має пріоритет, але все ще легко керований.</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- 90. CSS Houdini -->
+  <div>
+    <div class="question">90. Що таке CSS Houdini і як він розширює можливості CSS?</div>
+    <div class="answer">
+      <p><strong>CSS Houdini</strong> — це набір API, який дозволяє розробникам писати власні CSS-властивості та парсери.</p>
+      <ul>
+        <li>Можна створювати кастомні властивості з поведінкою.</li>
+        <li>Підвищує гнучкість браузерного рендерингу.</li>
+      </ul>
+      <div class="example"><pre>
+// Реєстрація нової властивості
+CSS.registerProperty({
+  name: "--rotation",
+  syntax: "&lt;angle&gt;",
+  inherits: false,
+  initialValue: "0deg",
+});
+    </pre></div>
+      <p>Наприклад, тепер можна анімувати <code>--rotation</code> як звичайну властивість.</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <h2>🧠 10. Advanced / Trick CSS Questions</h2>
+
+  <!-- 91. Stacking context -->
+  <div>
+    <div class="question">91. Як працює stacking context (і які властивості його створюють)?</div>
+    <div class="answer">
+      <p><strong>Stacking context</strong> — це середовище, у якому елементи накладаються один на одного (<code>z-index</code> працює лише всередині нього).</p>
+      <p><strong>Створюється коли:</strong></p>
+      <ul>
+        <li>position: relative / absolute / fixed + z-index;</li>
+        <li>opacity &lt; 1;</li>
+        <li>transform, filter, perspective;</li>
+        <li>isolation: isolate або mix-blend-mode.</li>
+      </ul>
+      <div class="example"><pre>
+.parent {
+  position: relative;
+  z-index: 10;
+}
+.child {
+  position: absolute;
+  z-index: 5; /* тільки в межах parent */
+}
+    </pre></div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- 92. CSS Triangle -->
+  <div>
+    <div class="question">92. Як зробити трикутник у CSS без зображень?</div>
+    <div class="answer">
+      <p>Трикутники створюються через властивість <code>border</code> із прозорими сторонами.</p>
+      <div class="example"><pre>
+.triangle {
+  width: 0;
+  height: 0;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  border-bottom: 100px solid red;
+}
+    </pre></div>
+      <p>Робить елемент нульового розміру з кольоровим одним бордером.</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- 93. clip-path & mask-image -->
+  <div>
+    <div class="question">93. Що таке clip-path і mask-image?</div>
+    <div class="answer">
+      <ul>
+        <li><code>clip-path</code> — обрізає елемент за заданою формою (полігон, коло).</li>
+        <li><code>mask-image</code> — приховує частини елемента за допомогою прозорості.</li>
+      </ul>
+      <div class="example"><pre>
+.circle {
+  clip-path: circle(50% at 50% 50%);
+}
+
+.mask {
+  mask-image: url(mask.svg);
+  -webkit-mask-image: url(mask.svg);
+}
+    </pre></div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- 94. Glassmorphism -->
+  <div>
+    <div class="question">94. Як зробити скляний ефект (glassmorphism) лише CSS?</div>
+    <div class="answer">
+      <p>Glassmorphism — це напівпрозорий фон із розмиттям і відблиском.</p>
+      <div class="example"><pre>
+.glass {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+    </pre></div>
+      <p>Використовує <code>backdrop-filter</code>, тому працює не у всіх браузерах (особливо IE).</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- 95. Logical properties -->
+  <div>
+    <div class="question">95. Що таке logical properties (margin-inline, padding-block)?</div>
+    <div class="answer">
+      <p>Логічні властивості адаптують layout під напрямок письма (LTR / RTL / вертикальний текст).</p>
+      <div class="example"><pre>
+.box {
+  padding-block: 20px;   /* top + bottom */
+  margin-inline: 10px;   /* left + right */
+}
+    </pre></div>
+      <p>Дозволяє автоматично підтримувати мови з іншим напрямком тексту.</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- 96. Adaptive grid без media queries -->
+  <div>
+    <div class="question">96. Як зробити адаптивну grid без media queries (через minmax і auto-fit)?</div>
+    <div class="answer">
+      <p>Grid може сам адаптувати кількість колонок без використання media queries.</p>
+      <div class="example"><pre>
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+    </pre></div>
+      <p>Кількість колонок автоматично змінюється відповідно до ширини контейнера.</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- 97. :has() -->
+  <div>
+    <div class="question">97. Як працює :has() — новий CSS селектор?</div>
+    <div class="answer">
+      <p><code>:has()</code> — перший селектор, що дозволяє вибирати <em>батьківський</em> елемент залежно від дочірнього.</p>
+      <div class="example"><pre>
+article:has(img) {
+  border: 2px solid green;
+}
+input:has(+ label) {
+  background: #f9f9f9;
+}
+    </pre></div>
+      <p>Підтримується у сучасних браузерах (Chrome 105+, Safari 15.4+).</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- 98. accent-color / color-scheme / scroll-timeline -->
+  <div>
+    <div class="question">98. Що таке accent-color, color-scheme, scroll-timeline?</div>
+    <div class="answer">
+      <ul>
+        <li><strong>accent-color</strong> — дозволяє задати колір елементів форм (checkbox, range).</li>
+        <li><strong>color-scheme</strong> — повідомляє браузеру про підтримку темної/світлої теми.</li>
+        <li><strong>scroll-timeline</strong> — дає змогу створювати анімації, що залежать від скролу.</li>
+      </ul>
+      <div class="example"><pre>
+input[type="checkbox"] {
+  accent-color: #007bff;
+}
+
+:root {
+  color-scheme: light dark;
+}
+
+@scroll-timeline scroll {
+  scroll-source: body;
+  orientation: block;
+}
+    </pre></div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- 99. CSS Variables Spacing System -->
+  <div>
+    <div class="question">99. Як створити власну spacing-систему через CSS Variables?</div>
+    <div class="answer">
+      <p>Можна оголосити змінні для відступів, щоб зберегти консистентність дизайну.</p>
+      <div class="example"><pre>
+:root {
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 32px;
+}
+.card {
+  padding: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+    </pre></div>
+      <p>Такі змінні легко масштабувати під теми чи breakpoints.</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- 100. backdrop-filter -->
+  <div>
+    <div class="question">100. Як працює backdrop-filter і які його обмеження?</div>
+    <div class="answer">
+      <p><strong>backdrop-filter</strong> застосовує ефекти (blur, brightness, contrast) до області позаду елемента.</p>
+      <div class="example"><pre>
+.overlay {
+  backdrop-filter: blur(8px) brightness(0.8);
+  background: rgba(0, 0, 0, 0.3);
+}
+    </pre></div>
+      <p>Працює лише на елементах із напівпрозорим фоном і не підтримується в IE.</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- BONUS -->
+  <div>
+    <div class="question">101. Як створити кастомний scrollbar?</div>
+    <div class="answer">
+      <p>Можна стилізувати скролбар через псевдоелементи <code>::-webkit-scrollbar</code>.</p>
+      <div class="example"><pre>
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(#007bff, #00bcd4);
+  border-radius: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+    </pre></div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div>
+    <div class="question">102. Як зробити “skewed” або “angled” секцію без SVG?</div>
+    <div class="answer">
+      <p>Можна використати <code>transform: skewY()</code> або псевдоелемент із <code>clip-path</code>.</p>
+      <div class="example"><pre>
+.section {
+  background: #007bff;
+  transform: skewY(-3deg);
+  margin: 50px 0;
+}
+    </pre></div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div>
+    <div class="question">103. Як CSS впливає на FCP та CLS?</div>
+    <div class="answer">
+      <ul>
+        <li><strong>FCP (First Contentful Paint):</strong> великі CSS-файли затримують перше відображення контенту → оптимізуй критичні стилі.</li>
+        <li><strong>CLS (Cumulative Layout Shift):</strong> неправильні розміри елементів (зображень, шрифтів) викликають стрибки контенту.</li>
+      </ul>
+      <p>💡 Завжди задавай <code>width</code> і <code>height</code> для медіа, щоб уникнути CLS.</p>
+    </div>
+  </div>
+
+</div>
+<script>
+  // === Scroll to top ===
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // === Theme toggle ===
+  const toggleBtn = document.getElementById('themeToggle');
+  const body = document.body;
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  body.setAttribute('data-theme', savedTheme);
+  toggleBtn.textContent = savedTheme === 'light' ? '🌙' : '☀️';
+
+  toggleBtn.addEventListener('click', () => {
+    const currentTheme = body.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    body.setAttribute('data-theme', newTheme);
+    toggleBtn.textContent = newTheme === 'light' ? '🌙' : '☀️';
+    localStorage.setItem('theme', newTheme);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frontend Interview – Каталог тем</title>
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #e3f2fd, #fce4ec);
+      --container-bg: rgba(255, 255, 255, 0.75);
+      --text-color: #1a237e;
+      --link-bg: rgba(255, 255, 255, 0.9);
+      --link-hover-bg: #e3f2fd;
+      --link-color: #0d47a1;
+      --footer-color: #616161;
+      --shadow: rgba(0, 0, 0, 0.1);
+    }
+
+    [data-theme="dark"] {
+      --bg-gradient: linear-gradient(135deg, #121212, #1e1e1e);
+      --container-bg: rgba(40, 40, 40, 0.8);
+      --text-color: #e0e0e0;
+      --link-bg: rgba(60, 60, 60, 0.9);
+      --link-hover-bg: #263238;
+      --link-color: #90caf9;
+      --footer-color: #9e9e9e;
+      --shadow: rgba(0, 0, 0, 0.5);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif;
+      background: var(--bg-gradient);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+      transition: background 0.5s ease;
+    }
+
+    .container {
+      background: var(--container-bg);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 50px 40px;
+      max-width: 780px;
+      width: 100%;
+      box-shadow: 0 15px 40px var(--shadow);
+      animation: fadeIn 0.6s ease-out;
+      position: relative;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 34px;
+      color: var(--text-color);
+      margin-bottom: 40px;
+      letter-spacing: 0.5px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    li a {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 18px 22px;
+      background: var(--link-bg);
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--link-color);
+      font-size: 18px;
+      font-weight: 500;
+      box-shadow: 0 3px 8px var(--shadow);
+      transition: all 0.3s ease;
+    }
+
+    li a:hover {
+      background: var(--link-hover-bg);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(33, 150, 243, 0.2);
+    }
+
+    li span.icon {
+      font-size: 24px;
+    }
+
+    @media (min-width: 600px) {
+      ul {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 14px;
+      color: var(--footer-color);
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      color: var(--text-color);
+    }
+
+    .theme-toggle:hover {
+      transform: rotate(20deg);
+    }
+  </style>
+</head>
+<body data-theme="dark">
+<div class="container">
+  <button class="theme-toggle" id="themeToggle" title="Змінити тему">☀️</button>
+  <h1>Frontend Interview Каталог</h1>
+  <ul>
+
+    <!-- ===================== FRONTEND / JAVASCRIPT ===================== -->
+    <li><a href="frontend/javascript/frontend-interview-js.html">
+      <span class="icon">💡</span>JavaScript — Основи</a>
+    </li>
+
+    <li><a href="frontend/javascript/frontend-interview-js-advanced.html">
+      <span class="icon">🔥</span>JavaScript — Advanced</a>
+    </li>
+
+    <li><a href="frontend/javascript/frontend-interview-js-practice.html">
+      <span class="icon">🚀</span>JavaScript — Практика</a>
+    </li>
+
+    <li><a href="frontend/javascript/frontend-interview-general.html">
+      <span class="icon">🌐</span>General Frontend Q&A</a>
+    </li>
+
+    <li><a href="frontend/javascript/softserve-js-interview.html">
+      <span class="icon">🏢</span>SoftServe — JS Interview</a>
+    </li>
+
+    <li><a href="frontend/javascript/epam-js-interview.html">
+      <span class="icon">🏢</span>EPAM — JS Interview</a>
+    </li>
+
+
+    <!-- ===================== TYPESCRIPT ===================== -->
+    <li><a href="frontend/typescript/frontend-interview-typescript.html">
+      <span class="icon">🔷</span>TypeScript — Основи та типізація</a>
+    </li>
+
+
+    <!-- ===================== CSS / SCSS ===================== -->
+    <li><a href="frontend/html-css/frontend-interview-css-scss.html">
+      <span class="icon">🎨</span>CSS / SCSS — Стилі, Flex, Grid, адаптивність</a>
+    </li>
+
+
+    <!-- ===================== REACT ===================== -->
+    <li><a href="frontend/react/frontend-interview-react.html">
+      <span class="icon">⚛️</span>React — Компоненти, хуки, стан</a>
+    </li>
+
+
+    <!-- ===================== NEXT.JS ===================== -->
+    <li><a href="frontend/nextjs/frontend-interview-nextjs.html">
+      <span class="icon">⚡</span>Next.js — SSR, маршрутизація, API</a>
+    </li>
+
+
+    <!-- ===================== BACKEND / NODEJS ===================== -->
+    <li><a href="backend/nodejs/frontend-interview-nodejs.html">
+      <span class="icon">🖥️</span>Node.js — Основи бекенду</a>
+    </li>
+
+
+    <!-- ===================== DATABASE ===================== -->
+    <li><a href="backend/database/frontend-interview-database.html">
+      <span class="icon">🗄️</span>Databases — SQL / NoSQL</a>
+    </li>
+
+
+    <!-- ===================== DEVOPS ===================== -->
+    <li><a href="devops/frontend-interview-devops.html">
+      <span class="icon">🛠️</span>DevOps — Основи інфраструктури</a>
+    </li>
+
+
+    <!-- ===================== CI/CD ===================== -->
+    <li><a href="devops/ci-cd/frontend-interview-ci-cd.html">
+      <span class="icon">🔁</span>CI/CD — Pipelines та автоматизація</a>
+    </li>
+
+
+    <!-- ===================== GIT ===================== -->
+    <li><a href="git/frontend-interview-git.html">
+      <span class="icon">🌿</span>Git — Гілки, merge, rebase</a>
+    </li>
+
+
+    <!-- ===================== CHEAT SHEETS ===================== -->
+    <li><a href="cheat-sheets/javascript-cheat-sheet.html">
+      <span class="icon">📘</span>JavaScript Cheat Sheet</a>
+    </li>
+
+  </ul>
+
+  <div class="footer">© 2025 Serhii Kandyba | Frontend Interview Prep</div>
+</div>
+
+<script>
+  const toggleBtn = document.getElementById('themeToggle');
+  const body = document.body;
+
+  // Завантаження збереженої теми або темна за замовчуванням
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  body.setAttribute('data-theme', savedTheme);
+  toggleBtn.textContent = savedTheme === 'light' ? '🌙' : '☀️';
+
+  toggleBtn.addEventListener('click', () => {
+    const currentTheme = body.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    body.setAttribute('data-theme', newTheme);
+    toggleBtn.textContent = newTheme === 'light' ? '🌙' : '☀️';
+    localStorage.setItem('theme', newTheme);
+  });
+</script>
+</body>
+</html>

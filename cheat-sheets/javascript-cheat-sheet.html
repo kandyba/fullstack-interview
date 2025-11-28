@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>JavaScript — Шпаргалка / Довідник (UA)</title>
+  <style>
+    :root {
+      --accent: #0a66ff;
+      --ink: #1c1e21;
+      --muted: #6b7280;
+      --bg: #f7f7fb;
+      --card: #ffffff;
+      --code: #f3f4f6;
+      --border: #e5e7eb;
+    }
+
+    [data-theme="dark"] {
+      --accent: #4aa8ff;
+      --ink: #e2e2e2;
+      --muted: #9ca3af;
+      --bg: #1e1e1e;
+      --card: #2a2a2a;
+      --code: #252526;
+      --border: #3c3c3c;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      line-height: 1.55;
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    .wrap {
+      max-width: 1060px;
+      margin: 24px auto;
+      padding: 0 16px;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      z-index: 10;
+      transition: background 0.4s ease, border 0.4s ease;
+    }
+
+    .bar {
+      max-width: 1060px;
+      margin: 0 auto;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding: 10px 16px;
+    }
+
+    .bar h1 {
+      font-size: 18px;
+      margin: 0;
+      font-weight: 700;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .search {
+      flex: 1;
+    }
+
+    .search input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      background: var(--card);
+      color: var(--ink);
+      transition: background 0.3s ease, color 0.3s ease, border 0.3s ease;
+    }
+
+    .search input::placeholder {
+      color: var(--muted);
+    }
+
+    .theme-toggle {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: var(--accent);
+      transition: transform 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      transform: rotate(20deg);
+    }
+
+    .toc {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin: 16px 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 6px 14px;
+      transition: background 0.4s ease, border 0.4s ease;
+    }
+
+    .toc a {
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s ease;
+    }
+
+    .toc a:hover {
+      color: var(--accent);
+    }
+
+    h2 {
+      margin: 28px 0 10px;
+      font-size: 20px;
+      color: var(--accent);
+    }
+
+    section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 16px;
+      margin: 14px 0;
+      transition: background 0.4s ease, border 0.4s ease;
+    }
+
+    .mini {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: -2px;
+      margin-bottom: 8px;
+    }
+
+    pre {
+      background: var(--code);
+      padding: 10px 12px;
+      border-left: 4px solid var(--accent);
+      border-radius: 6px;
+      overflow: auto;
+      font-family: ui-monospace, Consolas, Monaco, monospace;
+      font-size: 13px;
+      margin: 8px 0;
+      transition: background 0.4s ease, border 0.4s ease;
+    }
+
+    code {
+      font-family: ui-monospace, Consolas, Monaco, monospace;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 10px;
+    }
+
+    .pill {
+      display: inline-block;
+      background: rgba(59, 130, 246, 0.15);
+      color: var(--ink);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 2px 8px;
+      margin: 0 6px 6px 0;
+      font-size: 12px;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    [data-theme="dark"] .pill {
+      background: rgba(59, 130, 246, 0.25);
+      color: #e5e5e5;
+    }
+
+    .top {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight: 600;
+      box-shadow: 0 6px 20px rgba(10, 102, 255, .25);
+      cursor: pointer;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body data-theme="dark">
+<header>
+  <div class="bar wrap">
+    <h1>JavaScript — Шпаргалка / Довідник</h1>
+    <div class="search">
+      <input id="q" type="search" placeholder="Шукати по розділах та прикладах (наприклад: reduce, optional chaining, event)...">
+    </div>
+    <button id="themeToggle" class="theme-toggle" title="Змінити тему">☀️</button>
+  </div>
+</header>
+
+<div class="wrap">
+  <!-- TOC -->
+  <nav class="toc" aria-label="Зміст">
+    <a href="#basics">1. Основи</a>
+    <a href="#variables">2. Змінні та типи</a>
+    <a href="#operators">3. Оператори</a>
+    <a href="#control">4. Умови та цикли</a>
+    <a href="#functions">5. Функції / this</a>
+    <a href="#arrays">6. Масиви</a>
+    <a href="#strings">7. Рядки</a>
+    <a href="#objects">8. Об’єкти / Map / Set</a>
+    <a href="#numbers-math">9. Числа і Math</a>
+    <a href="#date">10. Дата і час</a>
+    <a href="#regex">11. Регулярні вирази</a>
+    <a href="#json">12. JSON</a>
+    <a href="#modules-classes">13. Модулі та класи</a>
+    <a href="#async">14. Promise / Async/Await / fetch</a>
+    <a href="#dom">15. DOM</a>
+    <a href="#events">16. Події</a>
+    <a href="#browser">17. Браузерне API</a>
+    <a href="#error">18. Помилки</a>
+    <a href="#syntax-sugar">19. Синтаксичний цукор</a>
+    <a href="#gotchas">20. Корисні дрібниці</a>
+  </nav>
+
+  <!-- 1 BASICS -->
+  <section id="basics">
+    <h2>1. Основи</h2>
+    <div class="mini">Типізація, консоль, базові операції</div>
+    <pre>// Вивід і типи
+console.log('Hi'); typeof 123; typeof null; typeof undefined;
+// Строге порівняння
+1 == '1'   // true (coercion)
+1 === '1'  // false (без приведення типу)</pre>
+    <div>
+      <span class="pill">strict equality</span>
+      <span class="pill">typeof</span>
+      <span class="pill">console</span>
+    </div>
+  </section>
+
+  <!-- 2 VARIABLES -->
+  <section id="variables">
+    <h2>2. Змінні та типи</h2>
+    <div class="row">
+        <pre>// let / const / var
+let a = 1; const PI = 3.14; var legacy = 'ok';</pre>
+      <pre>// Примітиви: string, number, boolean, null, undefined, symbol, bigint
+let s='text', n=10, b=true, x=null, u=undefined, sym=Symbol('id'), big=10n;</pre>
+    </div>
+    <div>
+      <span class="pill">let/const</span><span class="pill">primitive</span><span class="pill">bigint</span>
+    </div>
+  </section>
+
+  <!-- 3 OPERATORS -->
+  <section id="operators">
+    <h2>3. Оператори</h2>
+    <div class="row">
+        <pre>// Арифметика / Порівняння / Логічні
+a+b, a-b, a*b, a/b, a%2, a**2
+a<b, a>=b, a===b
+a && b, a || b, !a</pre>
+      <pre>// Nullish / Опціональне ланцюж.
+const v = user.input ?? 'default';
+const city = user?.address?.city;</pre>
+    </div>
+    <div>
+      <span class="pill">??</span><span class="pill">?.</span><span class="pill">&& ||= &&=</span>
+    </div>
+  </section>
+
+  <!-- 4 CONTROL -->
+  <section id="control">
+    <h2>4. Умови та цикли</h2>
+    <div class="row">
+        <pre>// if / switch
+if (x>10) {...} else {...}
+switch(role){case 'admin':...;break;default:...}</pre>
+      <pre>// for / while / for..of / for..in
+for(let i=0;i<5;i++){...}
+while(cond){...}
+for (const v of arr){...}
+for (const k in obj){...}</pre>
+    </div>
+    <div class="mini">for..of — значення ітерабельних; for..in — ключі об’єкта.</div>
+  </section>
+
+  <!-- 5 FUNCTIONS -->
+  <section id="functions">
+    <h2>5. Функції / this</h2>
+    <div class="row">
+        <pre>// Оголошення
+function add(a,b){return a+b}
+const sum=(a,b)=>a+b; (function(){/*IIFE*/})();</pre>
+      <pre>// this / bind / call / apply
+const obj={x:10, get(){return this.x}};
+const f=obj.get; f()        // undefined (у strict)
+const g=obj.get.bind(obj); g() // 10
+fn.call(ctx, a, b); fn.apply(ctx, [a,b]);</pre>
+    </div>
+    <div class="mini">Стрілкові функції беруть <code>this</code> з оточення (не мають власного).</div>
+  </section>
+
+  <!-- 6 ARRAYS -->
+  <section id="arrays">
+    <h2>6. Масиви</h2>
+    <div class="row">
+        <pre>// CRUD
+arr.push(v); arr.pop();
+arr.shift(); arr.unshift(v);
+arr.splice(i, del, ...ins);
+arr.slice(a,b); arr.concat(b);</pre>
+      <pre>// Пошук
+arr.indexOf(v); arr.includes(v);
+arr.find(fn); arr.findIndex(fn);</pre>
+      <pre>// Перетворення
+arr.map(fn); arr.filter(fn);
+arr.reduce((acc,v)=>acc+v,0);
+arr.flat(2); arr.flatMap(fn);</pre>
+      <pre>// Інше
+arr.some(fn); arr.every(fn);
+arr.sort((a,b)=>a-b); arr.reverse();
+[...new Set(arr)] // унікальні</pre>
+    </div>
+    <div class="mini">Пам’ятай: <code>sort</code> мутує масив; роби копію <code>[...arr].sort(...)</code>.</div>
+  </section>
+
+  <!-- 7 STRINGS -->
+  <section id="strings">
+    <h2>7. Рядки</h2>
+    <div class="row">
+        <pre>str.length; str.toUpperCase(); str.toLowerCase();
+str.includes('js'); str.startsWith('J'); str.endsWith('!');</pre>
+      <pre>str.indexOf('a'); str.slice(0,3); str.substring(0,3);
+str.replace('a','b'); str.replaceAll('a','b');</pre>
+      <pre>str.split(','); '  x  '.trim();
+`Hello, ${name}!`</pre>
+    </div>
+  </section>
+
+  <!-- 8 OBJECTS / MAP / SET -->
+  <section id="objects">
+    <h2>8. Об’єкти / Map / Set</h2>
+    <div class="row">
+        <pre>// Об’єкти
+const user={name:'Ann',age:30};
+user.name; user['age']; delete user.age;
+Object.keys(user); Object.values(user); Object.entries(user);
+Object.assign({}, user, {role:'admin'});</pre>
+      <pre>// Map / Set
+const m=new Map([['k',1]]); m.get('k'); m.set('x',2); m.has('x'); m.delete('x');
+const s=new Set([1,2,2]); s.add(3); s.has(2); s.size; [...s]</pre>
+      <pre>// WeakMap / WeakSet (тільки об’єкти, без перешкоди GC)
+const wm=new WeakMap(); const ws=new WeakSet();</pre>
+    </div>
+  </section>
+
+  <!-- 9 NUMBERS MATH -->
+  <section id="numbers-math">
+    <h2>9. Числа і Math</h2>
+    <div class="row">
+        <pre>Number('10'); parseInt('10'); parseFloat('10.5');
+isNaN(v); Number.isInteger(v);</pre>
+      <pre>Math.round(4.6); Math.floor(4.9); Math.ceil(4.1); Math.trunc(4.9);
+Math.max(1,9); Math.min(1,9); Math.abs(-5); Math.random();</pre>
+    </div>
+  </section>
+
+  <!-- 10 DATE -->
+  <section id="date">
+    <h2>10. Дата і час</h2>
+    <div class="row">
+        <pre>const d=new Date();
+d.getFullYear(); d.getMonth(); d.getDate();
+d.getHours(); d.getMinutes(); d.getSeconds();
+d.toISOString(); d.getTime();</pre>
+    </div>
+  </section>
+
+  <!-- 11 REGEX -->
+  <section id="regex">
+    <h2>11. Регулярні вирази</h2>
+    <div class="row">
+        <pre>// Пошук / тест
+const re=/\d+/g; re.test('abc123'); 'abc123'.match(re);</pre>
+      <pre>// Замінa
+'2025-11-02'.replace(/-/g,'/');</pre>
+    </div>
+  </section>
+
+  <!-- 12 JSON -->
+  <section id="json">
+    <h2>12. JSON</h2>
+    <div class="row">
+        <pre>const s=JSON.stringify({a:1});
+const o=JSON.parse('{"a":1}');</pre>
+    </div>
+  </section>
+
+  <!-- 13 MODULES & CLASSES -->
+  <section id="modules-classes">
+    <h2>13. Модулі та класи</h2>
+    <div class="row">
+        <pre>// ES Modules
+export const PI=3.14; export default function util(){}
+import util, { PI } from './util.js';</pre>
+      <pre>// Класи
+class Person{
+  constructor(name){this.name=name}
+  say(){return `Hi, ${this.name}`}
+}
+class Admin extends Person{
+  constructor(n){super(n)}
+}</pre>
+    </div>
+  </section>
+
+  <!-- 14 ASYNC -->
+  <section id="async">
+    <h2>14. Promise / Async/Await / fetch</h2>
+    <div class="row">
+        <pre>// Promise
+new Promise((res,rej)=>{ res(42) })
+ .then(v=>v+1).catch(console.error).finally(()=>{})</pre>
+      <pre>// async/await + fetch
+async function load(){
+  const r=await fetch('/api');
+  if(!r.ok) throw new Error('HTTP '+r.status);
+  const data=await r.json();
+  return data;
+}</pre>
+      <pre>// Паралельне очікування
+const [a,b]=await Promise.all([pa,pb]);</pre>
+    </div>
+  </section>
+
+  <!-- 15 DOM -->
+  <section id="dom">
+    <h2>15. DOM</h2>
+    <div class="row">
+        <pre>const el=document.querySelector('#id');
+el.textContent='Hi'; el.innerHTML='<b>Hi</b>';
+el.classList.add('active'); el.setAttribute('role','button');</pre>
+      <pre>// Створення / вставка
+const node=document.createElement('div');
+node.append('text'); document.body.appendChild(node);</pre>
+    </div>
+  </section>
+
+  <!-- 16 EVENTS -->
+  <section id="events">
+    <h2>16. Події</h2>
+    <div class="row">
+        <pre>el.addEventListener('click', (e)=>{
+  e.preventDefault(); e.stopPropagation();
+});</pre>
+      <pre>// Делегування
+document.addEventListener('click', (e)=>{
+  if(e.target.matches('.btn')){ /* ... */ }
+});</pre>
+    </div>
+  </section>
+
+  <!-- 17 BROWSER -->
+  <section id="browser">
+    <h2>17. Браузерне API</h2>
+    <div class="row">
+        <pre>// Storage
+localStorage.setItem('k','v');
+localStorage.getItem('k'); localStorage.removeItem('k');</pre>
+      <pre>// URL / Location
+location.href; history.pushState({},'', '/path');</pre>
+      <pre>// Таймери
+setTimeout(fn,1000); const id=setInterval(fn,500); clearInterval(id);</pre>
+    </div>
+  </section>
+
+  <!-- 18 ERROR -->
+  <section id="error">
+    <h2>18. Помилки</h2>
+    <div class="row">
+      <pre>try{ risky() }catch(e){ console.error(e.message) }finally{ cleanup() }</pre>
+      <pre>throw new Error('Oops');</pre>
+    </div>
+  </section>
+
+  <!-- 19 SUGAR -->
+  <section id="syntax-sugar">
+    <h2>19. Синтаксичний цукор</h2>
+    <div class="row">
+        <pre>// Деструктуризація
+const {name,age}=user; const [first,...rest]=arr;</pre>
+      <pre>// Spread / Rest
+const copy={...obj, x:1}; fn(...args); function fn(a,...rest){}</pre>
+      <pre>// Логічні присвоєння
+a ||= 10; a &&= compute(); a ??= 'fallback';</pre>
+    </div>
+  </section>
+
+  <!-- 20 GOTCHAS -->
+  <section id="gotchas">
+    <h2>20. Корисні дрібниці</h2>
+    <div class="row">
+      <pre>Array.isArray(v); Object.is(NaN, NaN); Object.freeze(obj);</pre>
+      <pre>// Перевірка truthy/falsy
+!!v; // швидке приведення до Boolean</pre>
+      <pre>// Клон простих структур
+const clone=JSON.parse(JSON.stringify(obj));</pre>
+    </div>
+    <div class="mini muted">Для глибоких/циклічних структур краще структуроване клонування (<code>structuredClone</code> у сучасних браузерах).</div>
+  </section>
+
+  <button class="top" onclick="window.scrollTo({top:0,behavior:'smooth'})">Вгору</button>
+</div>
+
+<script>
+  // === Theme toggle ===
+  const toggleBtn = document.getElementById('themeToggle');
+  const body = document.body;
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  body.setAttribute('data-theme', savedTheme);
+  toggleBtn.textContent = savedTheme === 'light' ? '🌙' : '☀️';
+
+  toggleBtn.addEventListener('click', () => {
+    const currentTheme = body.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    body.setAttribute('data-theme', newTheme);
+    toggleBtn.textContent = newTheme === 'light' ? '🌙' : '☀️';
+    localStorage.setItem('theme', newTheme);
+  });
+
+  // === Simple search filter ===
+  const q = document.getElementById('q');
+  const sections = [...document.querySelectorAll('section')];
+  q.addEventListener('input', e => {
+    const term = e.target.value.toLowerCase().trim();
+    sections.forEach(s => {
+      if (!term) { s.style.display = ''; return; }
+      const hay = (s.textContent || '').toLowerCase();
+      s.style.display = hay.includes(term) ? '' : 'none';
+    });
+  });
+</script>
+</body>
+</html>
