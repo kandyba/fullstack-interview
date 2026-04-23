@@ -75,6 +75,8 @@
     .question {
       font-weight: bold;
       margin: 20px 0 10px;
+      font-size: 25px;
+      color: #4aa8ff;
     }
 
     .answer {
@@ -266,15 +268,8 @@
         <li><code>relative</code> — елемент позиціонується відносно його звичайного місця в потоці.</li>
         <li><code>absolute</code> — елемент позиціонується відносно найближчого батька з <code>position: relative</code>.</li>
         <li><code>fixed</code> — елемент позиціонується відносно вікна браузера і залишається на місці при прокручуванні сторінки.</li>
+        <li><strong>sticky</strong> — комбінує relative і fixed (прилипання під час скролу).</li>
       </ul>
-    </div>
-  </div>
-
-  <!-- 7. What is Webpack? -->
-  <div>
-    <div class="question">7. Що таке Webpack?</div>
-    <div class="answer example">
-      <p>Webpack — це збирач модулів для JavaScript. Він дозволяє збирати ресурси, такі як JavaScript, CSS, зображення та шрифти, у єдиний бандл або кілька бандлів. Webpack використовується для оптимізації й автоматизації процесів зборки проектів.</p>
     </div>
   </div>
 
@@ -531,6 +526,7 @@ p { color: blue; }
 #main { color: green; } /* переможе */
     </pre></div>
       </div>
+      <p>!important має найвищий пріоритет, але якщо кілька правил з !important, тоді перемагає те, що має більшу специфічність — тому inline + !important є максимальним пріоритетом у CSS.</p>
     </div>
 
     <hr>
@@ -888,27 +884,6 @@ body {
 
     <hr>
 
-    <!-- 32. Одиниці вимірювання -->
-    <div>
-      <div class="question">32. Як працюють %, em, rem, vw, vh, clamp()?</div>
-      <div class="answer">
-        <ul>
-          <li><code>%</code> — відносно батьківського елемента.</li>
-          <li><code>em</code> — відносно розміру шрифту батьківського елемента.</li>
-          <li><code>rem</code> — відносно шрифту елемента <code>html</code>.</li>
-          <li><code>vw</code> / <code>vh</code> — 1% від ширини / висоти viewport.</li>
-          <li><code>clamp(min, preferred, max)</code> — автоматично підбирає значення в заданих межах.</li>
-        </ul>
-        <div class="example"><pre>
-font-size: clamp(1rem, 2vw, 2rem);
-width: 80%;
-height: 50vh;
-    </pre></div>
-      </div>
-    </div>
-
-    <hr>
-
     <!-- 33. Media Queries -->
     <div>
       <div class="question">33. Як працюють media queries — різниця між min-width і max-width?</div>
@@ -973,11 +948,10 @@ height: 50vh;
       <div class="answer">
         <p>Використовуй атрибути <code>srcset</code> і <code>sizes</code> для підвантаження потрібного розміру залежно від екрану.</p>
         <div class="example"><pre>
-<img
   src="image-800.jpg"
   srcset="image-400.jpg 400w, image-800.jpg 800w, image-1200.jpg 1200w"
   sizes="(max-width: 600px) 400px, 800px"
-  alt="Responsive image">
+  alt="Responsive image"
     </pre></div>
       </div>
     </div>
@@ -1034,23 +1008,6 @@ h1 {
 
     <hr>
 
-    <!-- 40. Breakpoints -->
-    <div>
-      <div class="question">40. Як визначити breakpoints і не вигадувати з голови?</div>
-      <div class="answer">
-        <p>Breakpoints базують на контенті, а не на пристроях. Типові значення:</p>
-        <ul>
-          <li>Mobile: 0–600px</li>
-          <li>Tablet: 601–992px</li>
-          <li>Laptop: 993–1200px</li>
-          <li>Desktop: 1201px+</li>
-        </ul>
-        <p>Але краще орієнтуйся на реальні “злами” дизайну — коли контент починає виглядати погано.</p>
-      </div>
-    </div>
-
-    <hr>
-
     <h2>🎨 4. Візуальні ефекти, transitions, animations</h2>
 
     <!-- 41. Transition vs Animation -->
@@ -1086,29 +1043,6 @@ h1 {
 }
 .box {
   animation: move 2s infinite alternate;
-}
-    </pre></div>
-      </div>
-    </div>
-
-    <hr>
-
-    <!-- 43. Infinite animation -->
-    <div>
-      <div class="question">43. Як зробити нескінченну анімацію або затримку між циклами?</div>
-      <div class="answer">
-        <ul>
-          <li><code>animation-iteration-count: infinite;</code> — нескінчне повторення.</li>
-          <li><code>animation-delay</code> — затримка перед початком.</li>
-          <li><code>animation-direction: alternate;</code> — чергування напрямку.</li>
-        </ul>
-        <div class="example"><pre>
-.ball {
-  animation: bounce 1s infinite alternate;
-}
-@keyframes bounce {
-  from { transform: translateY(0); }
-  to { transform: translateY(-50px); }
 }
     </pre></div>
       </div>
@@ -1191,52 +1125,6 @@ h1 {
 
     <hr>
 
-    <!-- 49. Fade-in, slide-in, spinner -->
-    <div>
-      <div class="question">49. Як зробити fade-in, slide-in або spinner тільки CSS-ом?</div>
-      <div class="answer">
-        <p>Приклади:</p>
-        <h4>Fade-in</h4>
-        <div class="example"><pre>
-.fade {
-  animation: fadeIn 1s ease-in;
-}
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-    </pre></div>
-
-        <h4>Slide-in</h4>
-        <div class="example"><pre>
-.slide {
-  animation: slideIn 0.8s ease-out;
-}
-@keyframes slideIn {
-  from { transform: translateX(-100%); }
-  to { transform: translateX(0); }
-}
-    </pre></div>
-
-        <h4>Spinner</h4>
-        <div class="example"><pre>
-.spinner {
-  border: 4px solid #ccc;
-  border-top: 4px solid #007BFF;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
-}
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-    </pre></div>
-      </div>
-    </div>
-
-    <hr>
-
     <!-- 50. prefers-reduced-motion -->
     <div>
       <div class="question">50. Що таке prefers-reduced-motion і для чого воно потрібне?</div>
@@ -1247,221 +1135,6 @@ h1 {
   * {
     animation-duration: 0s !important;
     transition: none !important;
-  }
-}
-    </pre></div>
-      </div>
-    </div>
-
-    <hr>
-
-    <h2>⚙️ 5. SCSS / Препроцесори</h2>
-
-    <!-- 51. SASS vs SCSS -->
-    <div>
-      <div class="question">51. У чому різниця між SASS і SCSS синтаксисом?</div>
-      <div class="answer">
-        <ul>
-          <li><strong>SASS</strong> — старіший синтаксис без фігурних дужок і крапок з комою (на зразок YAML).</li>
-          <li><strong>SCSS</strong> — сучасний синтаксис, максимально схожий на звичайний CSS.</li>
-        </ul>
-        <div class="example"><pre>
-/* SCSS */
-.button {
-  color: white;
-  background: blue;
-}
-
-/* SASS */
-.button
-  color: white
-  background: blue
-    </pre></div>
-      </div>
-    </div>
-
-    <hr>
-
-    <!-- 52. Змінні, mixins, extends, placeholders -->
-    <div>
-      <div class="question">52. Як працюють змінні, mixins, extends і placeholders у SCSS?</div>
-      <div class="answer">
-        <ul>
-          <li><code>$variable</code> — зберігає значення для повторного використання.</li>
-          <li><code>@mixin</code> — шаблон, який можна підключати через <code>@include</code>.</li>
-          <li><code>@extend</code> — наслідує стилі іншого селектора.</li>
-          <li><code>%placeholder</code> — як <code>@extend</code>, але не створює власного селектора у CSS.</li>
-        </ul>
-        <div class="example"><pre>
-$primary: #007BFF;
-
-@mixin flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-%btn-base {
-  padding: 10px 20px;
-  border-radius: 5px;
-}
-
-.button {
-  @include flex-center;
-  @extend %btn-base;
-  background: $primary;
-}
-    </pre></div>
-      </div>
-    </div>
-
-    <hr>
-
-    <!-- 53. Nesting -->
-    <div>
-      <div class="question">53. Що таке nesting і чому надмірна вкладеність — антипатерн?</div>
-      <div class="answer">
-        <p><strong>Nesting</strong> — це можливість вкладати селектори один у інший для зручності структури.</p>
-        <div class="example"><pre>
-.card {
-  padding: 10px;
-
-  h2 { font-size: 20px; }
-
-  .btn {
-    color: white;
-  }
-}
-    </pre></div>
-        <p>Надмірний nesting (&gt;3 рівнів) ускладнює підтримку коду й збільшує специфічність.</p>
-      </div>
-    </div>
-
-    <hr>
-
-    <!-- 54. Partials -->
-    <div>
-      <div class="question">54. Як використовуються partials (_variables.scss, _mixins.scss)?</div>
-      <div class="answer">
-        <p>Partials — це окремі SCSS-файли, які не компілюються самостійно (починаються з “_”) і підключаються через <code>@use</code> або <code>@import</code>.</p>
-        <div class="example"><pre>
-/* _variables.scss */
-$primary: #007BFF;
-
-/* main.scss */
-@use 'variables';
-
-.button {
-  background: variables.$primary;
-}
-    </pre></div>
-      </div>
-    </div>
-
-    <hr>
-
-    <!-- 55. @function -->
-    <div>
-      <div class="question">55. Як створити функцію у SCSS (@function)?</div>
-      <div class="answer">
-        <p>Функції у SCSS дозволяють повертати обчислені значення.</p>
-        <div class="example"><pre>
-@function rem($px) {
-  @return $px / 16 * 1rem;
-}
-
-h1 {
-  font-size: rem(24);
-}
-    </pre></div>
-      </div>
-    </div>
-
-    <hr>
-
-    <!-- 56. Maps -->
-    <div>
-      <div class="question">56. Що таке maps у SCSS?</div>
-      <div class="answer">
-        <p><strong>Map</strong> — це структура даних у форматі ключ–значення.</p>
-        <div class="example"><pre>
-$colors: (
-  primary: #007BFF,
-  success: #28a745,
-  danger: #dc3545
-);
-
-.button {
-  background: map-get($colors, primary);
-}
-    </pre></div>
-      </div>
-    </div>
-
-    <hr>
-
-    <!-- 57. Компіляція SCSS -->
-    <div>
-      <div class="question">57. Як SCSS компілюється у звичайний CSS?</div>
-      <div class="answer">
-        <p>Компіляція — це процес перетворення SCSS у чистий CSS через препроцесор (наприклад, Gulp, Webpack або CLI-команду):</p>
-        <div class="example"><pre>
-sass styles.scss styles.css --style compressed
-    </pre></div>
-      </div>
-    </div>
-
-    <hr>
-
-    <!-- 58. Структура SCSS -->
-    <div>
-      <div class="question">58. Як організувати структуру SCSS-проєкту?</div>
-      <div class="answer">
-        <p>Зазвичай використовують модульну структуру:</p>
-        <ul>
-          <li><strong>base/</strong> — типографіка, reset</li>
-          <li><strong>layout/</strong> — сітки, header, footer</li>
-          <li><strong>components/</strong> — кнопки, картки</li>
-          <li><strong>utilities/</strong> — змінні, міксіни</li>
-          <li><strong>main.scss</strong> — точка входу</li>
-        </ul>
-      </div>
-    </div>
-
-    <hr>
-
-    <!-- 59. CSS variables з JS -->
-    <div>
-      <div class="question">59. Як підключати SCSS-змінні у JS через CSS variables?</div>
-      <div class="answer">
-        <p>Передай значення SCSS-змінних у :root як CSS-перемінні:</p>
-        <div class="example"><pre>
-/* SCSS */
-:root {
-  --primary: #{$primary};
-}
-
-/* JS */
-const color = getComputedStyle(document.documentElement)
-  .getPropertyValue('--primary');
-    </pre></div>
-      </div>
-    </div>
-
-    <hr>
-
-    <!-- 60. BEM у SCSS -->
-    <div>
-      <div class="question">60. Як реалізувати BEM у SCSS?</div>
-      <div class="answer">
-        <p>SCSS полегшує написання BEM через вкладеність і амперсанд <code>&amp;</code>:</p>
-        <div class="example"><pre>
-.block {
-  &__element {
-    color: black;
-  }
-  &--modifier {
-    color: red;
   }
 }
     </pre></div>
@@ -2282,26 +1955,6 @@ CSS.registerProperty({
 
   <hr>
 
-  <!-- 92. CSS Triangle -->
-  <div>
-    <div class="question">92. Як зробити трикутник у CSS без зображень?</div>
-    <div class="answer">
-      <p>Трикутники створюються через властивість <code>border</code> із прозорими сторонами.</p>
-      <div class="example"><pre>
-.triangle {
-  width: 0;
-  height: 0;
-  border-left: 50px solid transparent;
-  border-right: 50px solid transparent;
-  border-bottom: 100px solid red;
-}
-    </pre></div>
-      <p>Робить елемент нульового розміру з кольоровим одним бордером.</p>
-    </div>
-  </div>
-
-  <hr>
-
   <!-- 93. clip-path & mask-image -->
   <div>
     <div class="question">93. Що таке clip-path і mask-image?</div>
@@ -2338,23 +1991,6 @@ CSS.registerProperty({
 }
     </pre></div>
       <p>Використовує <code>backdrop-filter</code>, тому працює не у всіх браузерах (особливо IE).</p>
-    </div>
-  </div>
-
-  <hr>
-
-  <!-- 95. Logical properties -->
-  <div>
-    <div class="question">95. Що таке logical properties (margin-inline, padding-block)?</div>
-    <div class="answer">
-      <p>Логічні властивості адаптують layout під напрямок письма (LTR / RTL / вертикальний текст).</p>
-      <div class="example"><pre>
-.box {
-  padding-block: 20px;   /* top + bottom */
-  margin-inline: 10px;   /* left + right */
-}
-    </pre></div>
-      <p>Дозволяє автоматично підтримувати мови з іншим напрямком тексту.</p>
     </div>
   </div>
 
@@ -2480,22 +2116,6 @@ input[type="checkbox"] {
 }
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
-}
-    </pre></div>
-    </div>
-  </div>
-
-  <hr>
-
-  <div>
-    <div class="question">102. Як зробити “skewed” або “angled” секцію без SVG?</div>
-    <div class="answer">
-      <p>Можна використати <code>transform: skewY()</code> або псевдоелемент із <code>clip-path</code>.</p>
-      <div class="example"><pre>
-.section {
-  background: #007bff;
-  transform: skewY(-3deg);
-  margin: 50px 0;
 }
     </pre></div>
     </div>

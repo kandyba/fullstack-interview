@@ -75,6 +75,8 @@
     .question {
       font-weight: bold;
       margin: 20px 0 10px;
+      font-size: 25px;
+      color: #4aa8ff;
     }
 
     .answer {
@@ -200,18 +202,6 @@
       <p><strong>Непримітивні:</strong> object (включаючи array, function, date тощо).</p>
     </div>
 
-    <div class="question">8. Event Loop</div>
-    <div class="answer">
-      <p>Event Loop — це механізм, який дозволяє JavaScript виконувати асинхронний код у середовищі з одним потоком, обробляючи черги <em>callback’ів</em> (microtasks і macrotasks).</p>
-      <div class="example"><pre>
-console.log('1');
-setTimeout(() => console.log('2'), 0);
-Promise.resolve().then(() => console.log('3'));
-console.log('4');
-// Результат: 1, 4, 3, 2
-      </pre></div>
-    </div>
-
     <div class="question">9. AJAX</div>
     <div class="answer">
       <p>AJAX (Asynchronous JavaScript and XML) — це технологія для обміну даними з сервером без перезавантаження сторінки.</p>
@@ -222,23 +212,18 @@ fetch('/api/data')
       </pre></div>
     </div>
 
-    <div class="question">10. Методи масивів</div>
-    <div class="answer">
-      <p>Основні: <code>map()</code>, <code>filter()</code>, <code>forEach()</code>, <code>reduce()</code>, <code>find()</code>, <code>some()</code>, <code>every()</code>, <code>sort()</code>, <code>slice()</code>, <code>splice()</code>.</p>
-    </div>
-
-    <div class="question">11. Hoisting</div>
-    <div class="answer">
-      <p>Механізм, при якому оголошення змінних і функцій “піднімаються” на початок області видимості.
-        Наприклад, функції можна викликати до їх оголошення.</p>
-    </div>
-
     <div class="question">12. Що означає «this» в JavaScript?</div>
     <div class="answer">
-      <p><code>this</code> — це контекст виконання функції. Його значення залежить від того, як була викликана функція.</p>
+      <p><code>this</code> — це контекст виконання функції. Значення this обчислюється під час виконання і залежить від контексту.</p>
       <ul>
-        <li>У методі об’єкта — посилається на об’єкт;</li>
-        <li>У звичайній функції — <code>undefined</code> (у strict mode) або глобальний об’єкт;</li>
+        <li>У методі об’єкта <code>this</code> — посилається на об’єкт;</li>
+        <li>
+          У звичайній функції без контексту виклику <code>this === undefined</code> у <code>"use strict"</code>
+        </li>
+        <li>
+          У несуворому режимі, якщо звичайну функцію викликати без об’єкта,
+          <code>this</code> буде глобальним об’єктом (<code>window</code> у браузері).
+        </li>
         <li>У стрілковій функції — бере <code>this</code> із зовнішнього контексту.</li>
       </ul>
     </div>
@@ -286,10 +271,10 @@ data.sort((a,b) => b % 2 - a % 2);
     <div class="question">18. Методи forEach, map, filter, reduce</div>
     <div class="answer">
       <ul>
-        <li><strong>forEach</strong> — просто перебір елементів;</li>
-        <li><strong>map</strong> — створює новий масив;</li>
-        <li><strong>filter</strong> — повертає лише ті, що відповідають умові;</li>
-        <li><strong>reduce</strong> — зводить масив до одного значення (сума, об’єкт тощо).</li>
+        <li><strong>forEach</strong> — виконує функцію для кожного елемента (нічого не повертає);</li>
+        <li><strong>map</strong> — повертає новий масив з результатів виклику функції;</li>
+        <li><strong>filter</strong> — повертає новий масив елементів, що задовольняють умову;</li>
+        <li><strong>reduce</strong> — акумулює значення масиву в одне (число, об’єкт, масив тощо).</li>
       </ul>
     </div>
   </div>
@@ -457,8 +442,6 @@ str[0] = 'H'; // не змінюється (immutable)
     </div>
   </div>
 
-  <h2>Junior — JavaScript логіка, змінні, таймери</h2>
-
   <div>
     <div class="question">1. Як перевірити, що змінна дорівнює NaN?</div>
     <div class="answer">
@@ -507,21 +490,6 @@ const c = 3; // блочна і незмінна
       </ul>
     </div>
 
-    <div class="question">5. Що таке деструктуризація?</div>
-    <div class="answer">
-      <p>Деструктуризація — це синтаксис, який дозволяє «розпаковувати» об’єкти або масиви у змінні.</p>
-      <div class="example"><pre>
-// Об'єкт
-const user = {name: 'John', age: 30};
-const {name, age} = user;
-
-// Масив
-const arr = [1, 2, 3];
-const [a, b, ...rest] = arr;
-    </pre></div>
-      <p>Можна задавати значення за замовчуванням або перейменовувати властивості.</p>
-    </div>
-
     <div class="question">6. Для чого призначені методи setTimeout та setInterval?</div>
     <div class="answer">
       <p>Це асинхронні методи для виконання функцій із затримкою:</p>
@@ -537,7 +505,7 @@ clearInterval(timer); // зупинити
     </div>
   </div>
 
-  <h2>Junior — Асинхронність, масиви, колекції</h2>
+  <h2>Асинхронність, масиви, колекції</h2>
 
   <div>
     <div class="question">1. Порівняйте підходи до роботи з асинхронним кодом: callbacks vs promises vs async/await.</div>
@@ -803,6 +771,14 @@ const add = counter();
 add(); // 1
 add(); // 2
     </pre></div>
+      <div>
+        Функції автоматично запам’ятовують, де вони були створені, використовуючи приховану властивість
+        [[Environment]], а потім їхній код може отримати доступ до зовнішніх змінних.
+      </div>
+      <div>
+        Коли під час співбесіди запитують “що таке замикання?”, правильною відповіддю буде визначення замикання та
+        пояснення, що всі функції в JavaScript є замиканнями, і, можливо, ще кілька слів про технічні деталі: властивість [[Environment]], і як взагалі працюють лексичні середовища.
+      </div>
     </div>
 
     <div class="question">3. Що таке втрата контексту, коли вона відбувається і як її запобігти?</div>
@@ -840,14 +816,6 @@ document.body.appendChild(el);
 &lt;script src="file.js" async&gt;&lt;/script&gt;
 &lt;script src="file.js" defer&gt;&lt;/script&gt;
     </pre></div>
-    </div>
-
-    <div class="question">6. Яка різниця між властивостями HTML-елементів <code>innerHTML</code> і <code>innerText</code>?</div>
-    <div class="answer">
-      <ul>
-        <li><strong>innerHTML</strong> — повертає або встановлює HTML-код усередині елемента.</li>
-        <li><strong>innerText</strong> — повертає або встановлює лише текст, без HTML-тегів.</li>
-      </ul>
     </div>
 
     <div class="question">7. Опишіть процес спливання (bubbling) подій у DOM.</div>

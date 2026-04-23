@@ -75,6 +75,8 @@
     .question {
       font-weight: bold;
       margin: 20px 0 10px;
+      font-size: 25px;
+      color: #4aa8ff;
     }
 
     .answer {
@@ -500,28 +502,6 @@ const showArrow = () => {
       </div>
     </div>
 
-    <!-- 4. Замикання -->
-    <div>
-      <div class="question">4. Що таке замикання (closure)?</div>
-      <div class="answer">
-        <p><strong>Замикання</strong> — це функція разом з усіма зовнішніми змінними, які їй доступні.
-          Вкладена функція «замикає» у собі контекст (змінні) батьківської функції.</p>
-        <p>Простими словами, замикання дозволяє функції запам’ятовувати змінні з області, де вона була створена, навіть після того, як ця область перестала існувати.</p>
-        <div class="example"><pre>
-function parent() {
-  const a = 5;
-  return function child() {
-    console.log(a); // child має доступ до змінної з parent()
-  };
-}
-
-const fn = parent();
-fn(); // 5
-    </pre></div>
-        <p><strong>Навіщо потрібно:</strong> для створення приватних змінних, інкапсуляції логіки або роботи з лічильниками.</p>
-      </div>
-    </div>
-
     <!-- 5 -->
     <div>
       <div class="question">5. Що таке колбек (callback) функція?</div>
@@ -717,19 +697,6 @@ const copy2 = Object.assign({}, obj);
       </div>
     </div>
 
-    <!-- 7 -->
-    <div>
-      <div class="question">7. Що таке деструктуризація об’єкта?</div>
-      <div class="answer">
-        <p>Це синтаксис, який дозволяє “розпаковувати” значення властивостей у змінні.</p>
-        <div class="example"><pre>
-const user = { name: "Serhii", age: 36 };
-const { name, age } = user;
-console.log(name, age); // Serhii 36
-      </pre></div>
-      </div>
-    </div>
-
     <!-- 8 -->
     <div>
       <div class="question">8. Як об’єднати два об’єкти?</div>
@@ -740,24 +707,6 @@ const obj1 = { a: 1 };
 const obj2 = { b: 2 };
 const merged = { ...obj1, ...obj2 }; // { a:1, b:2 }
       </pre></div>
-      </div>
-    </div>
-
-    <!-- 9 -->
-    <div>
-      <div class="question">9. Що таке this у контексті об’єкта?</div>
-      <div class="answer">
-        <p><code>this</code> вказує на поточний об’єкт, у контексті якого виконується функція.</p>
-        <div class="example"><pre>
-const user = {
-  name: "Serhii",
-  greet() {
-    console.log("Hi, " + this.name);
-  }
-};
-user.greet(); // Hi, Serhii
-      </pre></div>
-        <p>У стрілкових функціях <code>this</code> не має власного контексту — воно успадковується.</p>
       </div>
     </div>
 
@@ -1326,27 +1275,6 @@ function sayHi() {
 }
       </pre></div>
         <p><code>let</code> і <code>const</code> теж “піднімаються”, але не ініціалізуються → ReferenceError.</p>
-      </div>
-    </div>
-
-    <!-- 4 -->
-    <div>
-      <div class="question">4. Що таке замикання (closure)?</div>
-      <div class="answer">
-        <p><strong>Closure</strong> — це функція, яка “пам’ятає” змінні з області видимості, де вона була створена, навіть після того, як ця область завершила виконання.</p>
-        <div class="example"><pre>
-function makeCounter() {
-  let count = 0;
-  return function() {
-    count++;
-    return count;
-  };
-}
-
-const counter = makeCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2
-      </pre></div>
       </div>
     </div>
 
@@ -2457,9 +2385,19 @@ console.log(weakMap.get(obj)); // "ok"
         <li>WeakMap не підтримує ітерацію (<code>for..of</code> не працює).</li>
         <li>WeakMap не має властивості <code>size</code>.</li>
         <li>WeakSet працює аналогічно, але зберігає лише об’єкти без ключів.</li>
+        <li>WeakMap не підтримує ітерацію та методи keys(), values(), entries(), тому немає способу отримати всі ключі або значення від нього.</li>
       </ul>
+      <pre>
+  WeakMap має лише такі методи:
+
+  weakMap.set(key, value)
+  weakMap.get(key)
+  weakMap.delete(key)
+  weakMap.has(key)
+      </pre>
 
       <p>✅ Використовується для зберігання даних, що “прив’язані” до об’єктів (наприклад, кеш).</p>
+      <p>Jсновну роботу WeakMap/WeakSet – бути «додатковим» сховищем даних для об’єктів, які зберігаються/управляються в іншому місці.</p>
     </div>
   </div>
 
@@ -2920,29 +2858,6 @@ console.log(factorial(5)); // 120
     </div>
     <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
   </div>
-
-  <div>
-    <div class="question">66. Як працюють "Generators" в JavaScript?</div>
-    <div class="answer">
-      <p>Generators дозволяють створювати функції, які можуть зупиняти своє виконання і відновлювати його пізніше. Вони використовуються для роботи з асинхронними операціями або великими наборами даних.</p>
-      <div class="example">
-            <pre>
-function* idGenerator() {
-    let id = 1;
-    while (true) {
-        yield id++;
-    }
-}
-
-const gen = idGenerator();
-console.log(gen.next().value); // 1
-console.log(gen.next().value); // 2
-            </pre>
-      </div>
-    </div>
-    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
-  </div>
-
 
 </div>
 

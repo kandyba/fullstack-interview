@@ -75,6 +75,8 @@
     .question {
       font-weight: bold;
       margin: 20px 0 10px;
+      font-size: 25px;
+      color: #4aa8ff;
     }
 
     .answer {
@@ -259,13 +261,70 @@ function Example() {
 
       <h4>🔹 Основні хуки React:</h4>
       <ul>
-        <li><code>useState</code> — для зберігання стану.</li>
-        <li><code>useEffect</code> — для побічних ефектів (запити, підписки, таймери).</li>
-        <li><code>useContext</code> — для доступу до контексту без пропсів.</li>
-        <li><code>useRef</code> — для збереження змінних між рендерами або доступу до DOM-елемента.</li>
-        <li><code>useMemo</code> — для мемоізації обчислень.</li>
-        <li><code>useCallback</code> — для мемоізації функцій, щоб уникати зайвих ререндерів.</li>
+        <li>
+          <code>useState</code> — зберігає локальний стан компонента.
+          <br>Використовується для простих значень і керування UI (input, toggle, modal).
+        </li>
+
+        <li>
+          <code>useEffect</code> — виконує побічні ефекти після рендеру.
+          <br>Підходить для запитів до API, таймерів, підписок.
+          <br>Масив залежностей визначає, коли ефект запускається:
+          <ul>
+            <li><code>[]</code> — лише при монтуванні;</li>
+            <li><code>[dep]</code> — при зміні залежності;</li>
+            <li>без масиву — після кожного рендеру.</li>
+          </ul>
+          На відміну від <code>useLayoutEffect</code>, не блокує відмалювання.
+        </li>
+
+        <li>
+          <code>useContext</code> — дозволяє отримувати дані з Context без прокидування props.
+          <br>Зручний для теми, локалі, auth.
+          <br>Не є state-manager’ом і може спричиняти зайві ререндери.
+        </li>
+
+        <li>
+          <code>useRef</code> — зберігає мутабельне значення або DOM-елемент між рендерами.
+          <br>Зміна <code>ref.current</code> не викликає повторний рендер.
+        </li>
+
+        <li>
+          <code>useMemo</code> — мемоізує результат обчислень.
+          <br>Застосовується для важких операцій, щоб не перераховувати їх на кожен рендер.
+        </li>
+
+        <li>
+          <code>useCallback</code> — мемоізує функції.
+          <br>Корисний при передачі колбеків у дочірні компоненти, особливо з <code>React.memo</code>.
+        </li>
+
+        <li>
+          <code>useReducer</code> — керує складним станом через reducer.
+          <br>Підходить для чіткої логіки переходів і великої кількості дій.
+        </li>
+
+        <li>
+          <code>useLayoutEffect</code> — синхронний ефект, який виконується до paint.
+          <br>Використовується для вимірювання або синхронної зміни DOM.
+        </li>
+
+        <li>
+          <code>useTransition</code> — дозволяє позначити оновлення як некритичні.
+          <br>Допомагає уникати блокування UI при важких оновленнях.
+        </li>
+
+        <li>
+          <code>useImperativeHandle</code> — контролює публічний API компонента через <code>ref</code>.
+          <br>Використовується разом з <code>forwardRef</code>.
+        </li>
+
+        <li>
+          <code>useDeferredValue</code> — відтерміновує оновлення значення.
+          <br>Схоже на debounce, але реалізовано на рівні React.
+        </li>
       </ul>
+
 
       <div class="example"><pre>
 import { useState, useEffect } from "react";

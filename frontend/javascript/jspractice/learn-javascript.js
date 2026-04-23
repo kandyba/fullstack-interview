@@ -1027,8 +1027,22 @@ function checkBrakets(str) {
 
 checkBrakets('(((()))');
 
+const arr = [1,2,3];
 
+const sum = arr.reduce((a, b) => a + b, 0);
 
+const data = [1,4,2,5,6];
+
+data.sort((a, b) => b % 2 - a % 2);
+
+const promise = new Promise((resolve, reject) => {
+  setTimeout(() => resolve("OK"), 1000);
+});
+
+async function data() {
+  let data = await fetch('jnxkjnasjknx')
+    return data;
+}
 
 
 

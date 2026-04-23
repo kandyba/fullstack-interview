@@ -75,6 +75,8 @@
     .question {
       font-weight: bold;
       margin: 20px 0 10px;
+      font-size: 25px;
+      color: #4aa8ff;
     }
 
     .answer {
@@ -155,12 +157,12 @@
         <li><strong>GET</strong> — отримати дані з сервера.</li>
         <li><strong>HEAD</strong> — отримати лише заголовки без тіла відповіді.</li>
         <li><strong>POST</strong> — відправити дані на сервер (наприклад, форма, JSON).</li>
+        <li><strong>PATCH</strong> — часткове оновлення ресурсу.</li>
         <li><strong>PUT</strong> — замінити існуючий ресурс повністю.</li>
         <li><strong>DELETE</strong> — видалити вказаний ресурс.</li>
         <li><strong>CONNECT</strong> — створює тунель (наприклад, через HTTPS-проксі).</li>
         <li><strong>OPTIONS</strong> — повертає дозволені методи для ресурсу.</li>
         <li><strong>TRACE</strong> — тестовий запит, який повертає отримане повідомлення.</li>
-        <li><strong>PATCH</strong> — часткове оновлення ресурсу.</li>
       </ul>
     </div>
   </div>
@@ -227,30 +229,6 @@ PATCH /user/1
 
   <button class="scroll-top" onclick="scrollToTop()">▲ До початку</button>
 
-  <!-- 8. Принципи ООП -->
-  <div>
-    <div class="question">8. На яких трьох принципах базується ООП? Розкажіть коротко про кожен.</div>
-    <div class="answer">
-      <p><strong>ООП (Об’єктно-орієнтоване програмування)</strong> базується на трьох головних принципах:</p>
-      <ul>
-        <li><strong>Інкапсуляція</strong> — приховування внутрішньої реалізації об’єкта, доступ тільки через публічні методи.</li>
-        <li><strong>Наслідування</strong> — створення нових класів на основі існуючих для повторного використання коду.</li>
-        <li><strong>Поліморфізм</strong> — можливість використовувати один інтерфейс для різних типів об’єктів.</li>
-      </ul>
-      <div class="example"><pre>
-// Приклад
-class Animal {
-  speak() { console.log("Тварина видає звук"); }
-}
-class Dog extends Animal {
-  speak() { console.log("Гав-гав!"); }
-}
-const dog = new Dog();
-dog.speak(); // Гав-гав!
-      </pre></div>
-    </div>
-  </div>
-
   <!-- 9. Патерни проєктування -->
   <div>
     <div class="question">9. Які патерни проєктування ви найчастіше використовуєте?</div>
@@ -258,11 +236,27 @@ dog.speak(); // Гав-гав!
       <p><strong>Патерни проєктування</strong> — це готові рішення типових проблем у розробці.
         Найбільш поширені у фронтенді:</p>
       <ul>
-        <li><strong>Singleton</strong> — лише один екземпляр класу (наприклад, глобальний Store у Redux).</li>
-        <li><strong>Observer</strong> — підписники реагують на зміни стану (React state, RxJS).</li>
-        <li><strong>Factory</strong> — створення об’єктів без зазначення конкретного класу.</li>
-        <li><strong>Strategy</strong> — взаємозамінні алгоритми виконання дії.</li>
-        <li><strong>Decorator</strong> — динамічне розширення функціоналу об’єкта.</li>
+        <li>
+          <strong>Singleton</strong> — лише один екземпляр класу
+          (глобальний Store у Redux, config, logger).
+        </li>
+        <li>
+          <strong>Observer</strong> — підписники реагують на зміни стану
+          (React state, event listeners, RxJS).
+        </li>
+        <li>
+          <strong>Factory</strong> — створення об’єктів через функцію-фабрику
+          (createUser, createButton, API client).
+        </li>
+        <li>
+          <strong>Strategy</strong> — вибір одного з кількох алгоритмів виконання
+          (різні способи валідації, сортування, оплати).
+        </li>
+        <li>
+          <strong>Decorator</strong> — додавання функціоналу без зміни вихідного коду
+          (HOC у React, middleware, логування).
+        </li>
+
       </ul>
       <div class="example"><pre>
 // Singleton приклад
@@ -318,19 +312,27 @@ console.log(c1 === c2); // true
     <div class="answer">
       <p><strong>SOLID</strong> — п’ять принципів якісного об’єктно-орієнтованого коду:</p>
       <ul>
-        <li><strong>S — Single Responsibility</strong> — кожен клас має виконувати лише одну задачу.</li>
-        <li><strong>O — Open/Closed</strong> — клас відкритий для розширення, але закритий для змін.</li>
-        <li><strong>L — Liskov Substitution</strong> — підкласи повинні коректно замінювати базові класи.</li>
-        <li><strong>I — Interface Segregation</strong> — багато спеціалізованих інтерфейсів краще, ніж один універсальний.</li>
-        <li><strong>D — Dependency Inversion</strong> — залежність від абстракцій, а не від конкретних реалізацій.</li>
+        <li>
+          <strong>S — Single Responsibility</strong> — один клас = одна задача
+          (AuthService — логін, Logger — логування).
+        </li>
+        <li>
+          <strong>O — Open/Closed</strong> — нова логіка додається без зміни існуючого коду
+          (додаємо нову Strategy / Validator).
+        </li>
+        <li>
+          <strong>L — Liskov Substitution</strong> — підклас працює там, де очікується базовий клас
+          (будь-який PaymentService → pay()).
+        </li>
+        <li>
+          <strong>I — Interface Segregation</strong> — краще кілька вузьких інтерфейсів
+          (Readable, Writable замість одного BigInterface).
+        </li>
+        <li>
+          <strong>D — Dependency Inversion</strong> — залежимо від абстракції
+          (service приймає repository через constructor).
+        </li>
       </ul>
-      <div class="example"><pre>
-// Порушення SRP:
-class User {
-  saveToDB() {}
-  sendEmail() {} // ❌ краще винести в окремий сервіс
-}
-      </pre></div>
     </div>
   </div>
 

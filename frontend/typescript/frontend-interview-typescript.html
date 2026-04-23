@@ -75,6 +75,8 @@
     .question {
       font-weight: bold;
       margin: 20px 0 10px;
+      font-size: 25px;
+      color: #4aa8ff;
     }
 
     .answer {
@@ -206,19 +208,6 @@ interface User {
   age: number;
 }
 let user: User = { name: "Alice", age: 30 };
-        </pre>
-      </div>
-    </div>
-
-    <div class="question">8. Що таке Generic типи?</div>
-    <div class="answer">
-      <p>Generic типи дозволяють створювати компоненти, які можуть працювати з різними типами даних.</p>
-      <div class="example">
-        <pre>
-function identity<T>(arg: T): T {
-  return arg;
-}
-let output = identity<string>("Hello");
         </pre>
       </div>
     </div>
@@ -377,23 +366,6 @@ console.log(user.name);
   </div>
 
   <div>
-    <div class="question">18. Як TypeScript працює з інтерфейсами?</div>
-    <div class="answer">
-      Інтерфейси описують структуру об'єктів, а також дозволяють використовувати розширення.
-      <div class="example">
-      <pre>
-interface User {
-  id: number;
-  name: string;
-}
-const user: User = { id: 1, name: "Іван" };
-      </pre>
-      </div>
-    </div>
-    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
-  </div>
-
-  <div>
     <div class="question">19. Чим відрізняється тип від інтерфейсу?</div>
     <div class="answer">
       Основна відмінність: <code>type</code> може бути використаний для створення об'єднань та примітивів, тоді як <code>interface</code> — для опису об'єктів. Інтерфейси можна розширювати, а типи об'єднувати.
@@ -414,20 +386,6 @@ interface User {
 const user: User = { id: 1, name: "Іван" };
 user.name = "Петро"; // Можливо
 // user.id = 2; // Помилка
-      </pre>
-      </div>
-    </div>
-    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
-  </div>
-  <div>
-    <div class="question">21. Що таке Tuple у TypeScript?</div>
-    <div class="answer">
-      Tuple — це тип масиву з фіксованою кількістю елементів, де кожен елемент має свій визначений тип.
-      <div class="example">
-      <pre>
-const user: [number, string] = [1, "Іван"];
-console.log(user[0]); // 1
-console.log(user[1]); // "Іван"
       </pre>
       </div>
     </div>
@@ -593,22 +551,6 @@ if (typeof value === "string") {
     </div>
     <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
   </div>
-  <div>
-    <div class="question">31. Що таке Generics у TypeScript?</div>
-    <div class="answer">
-      Generics — це механізм, який дозволяє створювати компоненти, що можуть працювати з різними типами даних.
-      <div class="example">
-      <pre>
-function identity<T>(value: T): T {
-  return value;
-}
-console.log(identity<string>("Привіт")); // "Привіт"
-console.log(identity<number>(123)); // 123
-      </pre>
-      </div>
-    </div>
-    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
-  </div>
 
   <div>
     <div class="question">32. Як використовувати тип <code>Record</code>?</div>
@@ -621,47 +563,6 @@ const roles: UserRoles = {
   admin: "Адміністратор",
   user: "Користувач",
 };
-      </pre>
-      </div>
-    </div>
-    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
-  </div>
-
-  <div>
-    <div class="question">33. Що таке Utility Types у TypeScript?</div>
-    <div class="answer">
-      Utility Types — це вбудовані типи TypeScript, які допомагають змінювати або використовувати інші типи.
-      <div class="example">
-      <pre>
-// Partial
-interface User {
-  name: string;
-  age: number;
-}
-const partialUser: Partial<User> = { name: "Іван" };
-
-// Readonly
-const readonlyUser: Readonly<User> = { name: "Іван", age: 25 };
-// readonlyUser.age = 30; // Помилка
-      </pre>
-      </div>
-    </div>
-    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
-  </div>
-
-  <div>
-    <div class="question">34. Як працює Omit у TypeScript?</div>
-    <div class="answer">
-      <code>Omit</code> створює новий тип, видаляючи вказані ключі з існуючого типу.
-      <div class="example">
-      <pre>
-interface User {
-  id: number;
-  name: string;
-  age: number;
-}
-type UserWithoutAge = Omit<User, "age">;
-const user: UserWithoutAge = { id: 1, name: "Іван" };
       </pre>
       </div>
     </div>
@@ -688,39 +589,7 @@ const user: UserNameOnly = { name: "Іван" };
   </div>
 
   <div>
-    <div class="question">36. Як працює keyof у TypeScript?</div>
-    <div class="answer">
-      <code>keyof</code> отримує всі ключі об'єкта у вигляді об'єднання строкових літералів.
-      <div class="example">
-      <pre>
-interface User {
-  id: number;
-  name: string;
-}
-type UserKeys = keyof User; // "id" | "name"
-      </pre>
-      </div>
-    </div>
-    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
-  </div>
-
-  <div>
-    <div class="question">37. Як працює Conditional Types?</div>
-    <div class="answer">
-      Conditional Types дозволяють створювати типи, засновані на умовах.
-      <div class="example">
-      <pre>
-type IsString<T> = T extends string ? true : false;
-type Check1 = IsString<string>; // true
-type Check2 = IsString<number>; // false
-      </pre>
-      </div>
-    </div>
-    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
-  </div>
-
-  <div>
-    <div class="question">38. Як використовувати Overload функції в TypeScript?</div>
+    <div class="question">38. Як використовувати Overloading функції в TypeScript?</div>
     <div class="answer">
       Overload дозволяє визначити кілька сигнатур для однієї функції.
       <div class="example">
@@ -732,45 +601,6 @@ function combine(a: any, b: any): any {
 }
 console.log(combine(1, 2)); // 3
 console.log(combine("Привіт, ", "світе")); // "Привіт, світе"
-      </pre>
-      </div>
-    </div>
-    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
-  </div>
-
-  <div>
-    <div class="question">39. Що таке Type Guards?</div>
-    <div class="answer">
-      Type Guards використовуються для уточнення типів в умовах.
-      <div class="example">
-      <pre>
-function isString(value: unknown): value is string {
-  return typeof value === "string";
-}
-const value: unknown = "Привіт";
-if (isString(value)) {
-  console.log(value.toUpperCase());
-}
-      </pre>
-      </div>
-    </div>
-    <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
-  </div>
-
-  <div>
-    <div class="question">40. Як працює Assertion Functions у TypeScript?</div>
-    <div class="answer">
-      Assertion Functions використовуються для підтвердження певного типу значення.
-      <div class="example">
-      <pre>
-function assertIsNumber(value: unknown): asserts value is number {
-  if (typeof value !== "number") {
-    throw new Error("Value is not a number");
-  }
-}
-const value: unknown = 123;
-assertIsNumber(value);
-console.log(value.toFixed(2)); // 123.00
       </pre>
       </div>
     </div>

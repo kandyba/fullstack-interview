@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Технічна співбесіда з JavaScript</title>
+  <title>Технічна співбесіда з JavaScript Softserve</title>
   <style>
     :root {
       --bg: #f9f9f9;
@@ -84,7 +84,8 @@
     .question {
       font-weight: bold;
       margin: 20px 0 10px;
-      color: var(--accent);
+      font-size: 25px;
+      color: #4aa8ff;
     }
 
     .answer {
@@ -134,12 +135,12 @@
 
 <body data-theme="dark">
 <header>
-  <h1>Технічна співбесіда з JavaScript</h1>
+  <h1>Технічна співбесіда з JavaScript Softserve</h1>
   <button id="themeToggle" class="theme-toggle" title="Змінити тему">☀️</button>
 </header>
 
 <div class="container">
-  <div class="section-title">01-intro: Основи JavaScript</div>
+  <div class="section-title">01-intro: Основи JavaScript Softserve</div>
 
   <div class="question">1. Які є типи даних в JS, основна різниця між ними?</div>
   <div class="answer">
@@ -1479,9 +1480,38 @@ document.body.appendChild(el);</pre></div>
   <div class="question">1. Яка різниця між var та let</div>
   <div class="answer">
     <ul>
-      <li><code>var</code> — функціональна область видимості, піднімається (hoisting), можна переоголошувати</li>
-      <li><code>let</code> — блочна область видимості, не можна переоголошувати в межах одного блоку, є TDZ</li>
+      <li><code>var</code> функціональний scope</li>
+      <li><code>let</code> блоковий scope</li>
+
+      <li><code>var</code> піднімається з undefined</li>
+      <li><code>let</code> піднімається без ініціалізації → TDZ</li>
+
+      <li><code>var</code> можна повторно оголошувати</li>
+      <li><code>let</code> не можна повторно оголошувати в одному scope</li>
+
+      <li><code>var</code> додається в глобальний об’єкт window</li>
+      <li><code>let</code> не додається в window</li>
+
+      <li><code>var</code> одна змінна на всі ітерації циклу</li>
+      <li><code>let</code> нова змінна для кожної ітерації циклу</li>
+
+      <li><code>var</code> зберігається у Variable Environment Record</li>
+      <li><code>let</code> зберігається у Lexical Environment Record</li>
     </ul>
+    <div class="question">Прив’язка до Environment Record — коротко</div>
+
+    <div>var зберігається у Variable Environment Record</div>
+    <div>→ ініціалізується одразу значенням undefined</div>
+    <div>→ не має TDZ</div>
+    <div>→ має функціональний scope</div>
+    <div>→ не реагує на блоки {}</div>
+
+    <div>let / const зберігаються у Lexical Environment Record</div>
+    <div>→ створюються під час hoisting, але без ініціалізації</div>
+    <div>→ через це існує Temporal Dead Zone (TDZ)</div>
+    <div>→ мають блоковий scope</div>
+    <div>→ створюються наново для кожного блоку або ітерації циклу</div>
+    <div>Це і є внутрішня причина, чому var поводиться «по-старому», а let/const — сучасно й безпечніше.</div>
   </div>
 
   <div class="question">2. Які особливості є в arrow functions (=&gt;) порівняно із звичайними функціями</div>
@@ -1491,6 +1521,20 @@ document.body.appendChild(el);</pre></div>
       <li>Не мають <code>arguments</code></li>
       <li>Не можна викликати з <code>new</code> — не є конструкторами</li>
       <li>Коротший синтаксис</li>
+    </ul>
+  </div>
+
+  <div class="question">2.2 Що таке лексичне середовище (Lexical Environment)</div>
+  <div class="answer">
+    <ul>
+      <li>Об’єкт Lexical Environment складається з двох частин</li>
+      <li>1 - Запис середовища (Environment Record) – об’єкт, який зберігає всі локальні змінні в якості своїх
+        властивостей (та деяку іншу інформацію, наприклад значення this).</li>
+      <li>2 - Посилання на зовнішнє лексичне середовище, яке пов’язане із зовнішнім кодом.</li>
+      <li>“Змінна” це лише властивість спеціального внутрішнього об’єкта, Запис середовища (Environment Record). “Отримати або змінити змінну” означає “отримати або змінити властивість цього об’єкта”</li>
+      <li>Різниця в тому, що функція створена за допомогою Function Declaration, ініціалізується миттєво і повністю.
+        Ось чому ми можемо використовувати функцію, оголошену з Function Declaration, ще до рядка з оголошенням.</li>
+      <li>Коли код хоче отримати доступ до змінної – спочатку шукає її у внутрішньому лексичному середовищі, потім у зовнішньому, потім у зовнішньому до попереднього і так далі поки не дійде до глобального.</li>
     </ul>
   </div>
 
@@ -1513,14 +1557,6 @@ const copy = [...arr];</pre></div>
       <li>Працює тільки при оголошенні функцій або в деструктуризації</li>
       <li>Не працює для не-ітерабельних значень</li>
     </ul>
-  </div>
-
-  <div class="question">5. Що таке деструктуризація, який процес вона спрощує</div>
-  <div class="answer">
-    <p>Це синтаксис для витягування значень з масивів або обʼєктів у змінні.</p>
-    <p>Спрощує доступ до елементів без звернень типу <code>obj.prop</code> чи <code>arr[0]</code>.</p>
-    <div class="example"><pre>const [a, b] = [1, 2];
-const {x, y} = {x: 10, y: 20};</pre></div>
   </div>
 
   <div class="question">6. Що таке тип даних Symbol, яка його особливість</div>
