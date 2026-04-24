@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Методи масивів — reduce, filter, sort, map, forEach</title>
+  <style>
+    :root {
+      --bg: #f9f9f9;
+      --text: #1c1e21;
+      --card: #ffffff;
+      --border: #e5e7eb;
+      --accent: #007bff;
+      --code-bg: #f4f4f4;
+    }
+
+    [data-theme="dark"] {
+      --bg: #1e1e1e;
+      --text: #e2e2e2;
+      --card: #2a2a2a;
+      --border: #3c3c3c;
+      --accent: #4aa8ff;
+      --code-bg: #252526;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0 20px;
+      background-color: var(--bg);
+      color: var(--text);
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+      color: var(--accent);
+    }
+
+    .theme-toggle {
+      background: none;
+      border: none;
+      font-size: 22px;
+      color: var(--accent);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      transform: rotate(20deg);
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      background: var(--card);
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border-radius: 5px;
+      border: 1px solid var(--border);
+      transition: background 0.4s ease, border 0.4s ease;
+    }
+
+    .question {
+      font-weight: bold;
+      margin: 20px 0 10px;
+      font-size: 25px;
+      color: #4aa8ff;
+    }
+
+    .answer {
+      margin-bottom: 20px;
+    }
+
+    .example {
+      background: var(--code-bg);
+      border-left: 4px solid var(--accent);
+      padding: 10px;
+      margin: 10px 0;
+      overflow-x: auto;
+      border-radius: 4px;
+      transition: background 0.4s ease, border 0.4s ease;
+    }
+
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .scroll-top {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 15px;
+      font-size: 14px;
+      color: #fff;
+      background-color: var(--accent);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+
+    .scroll-top:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body data-theme="dark">
+<header>
+  <h1>Методи масивів у JavaScript (reduce, filter, sort, map, forEach)</h1>
+  <button id="themeToggle" class="theme-toggle" title="Змінити тему">☀️</button>
+</header>
+<div class="container">
+    <!-- 1 -->
+  <div>
+    <div class="question">1. Сума масиву (reduce)</div>
+    <div class="answer">
+      <p><strong>Завдання:</strong> Повернути суму всіх значень у масиві.</p>
+      <pre>const array = [1, 2, 3, 4, 5];
+const sumOfArray = array.reduce((a, b) =&gt; a + b, 0);
+console.log(sumOfArray); // 15</pre>
+      <p><strong>Пояснення:</strong></p>
+      <ul>
+        <li><code>reduce()</code> проходить по всьому масиву і накопичує результат.</li>
+        <li><strong>a</strong> — акумулятор (поточна сума).</li>
+        <li><strong>b</strong> — поточне значення елемента.</li>
+        <li><strong>0</strong> — початкове значення.</li>
+      </ul>
+      <p><strong>Тип методу:</strong> акумулює значення в одне (наприклад, суму, середнє або конкатенацію рядків).</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 2 -->
+  <div>
+    <div class="question">2. Фільтрація парних чисел (filter)</div>
+    <div class="answer">
+      <p><strong>Завдання:</strong> Отримати лише парні числа з масиву.</p>
+      <pre>const inputs = [1, 2, 3, 4, 5, 6];
+const result = inputs.filter(x =&gt; x % 2 === 0);
+console.log(result); // [2, 4, 6]</pre>
+      <p><strong>Пояснення:</strong> <code>filter()</code> створює новий масив, що містить лише елементи, які проходять перевірку умови.</p>
+      <p>У даному прикладі <code>x % 2 === 0</code> залишає лише парні числа.</p>
+      <p><strong>Тип методу:</strong> створює новий масив із відфільтрованими елементами.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 3 -->
+  <div>
+    <div class="question">3. Сортування парних чисел (sort)</div>
+    <div class="answer">
+      <p><strong>Завдання:</strong> Відсортувати масив так, щоб парні числа йшли перед непарними.</p>
+      <pre>const data = [5, 2, 8, 3, 1, 4];
+data.sort((a, b) =&gt; a % 2 - b % 2);
+console.log(data); // [2, 8, 4, 5, 3, 1]</pre>
+      <p><strong>Пояснення:</strong></p>
+      <ul>
+        <li><code>a % 2</code> повертає 0 для парних і 1 для непарних чисел.</li>
+        <li>Якщо <code>a</code> парне, а <code>b</code> непарне — результат буде від’ємним, тому <code>a</code> стане раніше.</li>
+      </ul>
+      <p><strong>Тип методу:</strong> змінює початковий масив, впорядковуючи елементи за заданою умовою.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 4 -->
+  <div>
+    <div class="question">4. Використання forEach, map, filter, reduce</div>
+    <div class="answer">
+      <p><strong>Порівняння методів:</strong></p>
+      <table border="1" cellspacing="0" cellpadding="6">
+        <tr><th>Метод</th><th>Призначення</th><th>Повертає</th></tr>
+        <tr><td><code>forEach()</code></td><td>Виконує дію над кожним елементом</td><td><code>undefined</code></td></tr>
+        <tr><td><code>map()</code></td><td>Створює новий масив із результатів функції</td><td>Новий масив</td></tr>
+        <tr><td><code>filter()</code></td><td>Вибирає елементи, що відповідають умові</td><td>Новий масив</td></tr>
+        <tr><td><code>reduce()</code></td><td>Перетворює масив у одне значення</td><td>Будь-яке значення</td></tr>
+      </table>
+
+      <p><strong>Приклад комбінації методів:</strong></p>
+      <pre>const arr = [1, 2, 3, 4, 5];
+const result = arr
+  .filter(x =&gt; x % 2 === 0) // [2, 4]
+  .map(x =&gt; x * 2)          // [4, 8]
+  .reduce((a, b) =&gt; a + b); // 12
+console.log(result);</pre>
+      <p><strong>Пояснення:</strong> тут ми спочатку фільтруємо парні, потім подвоюємо їх і підсумовуємо результат.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 5 -->
+  <div>
+    <div class="question">5. Знайти мінімальне та максимальне значення в масиві</div>
+    <div class="answer">
+      <p><strong>Завдання:</strong> Знайти min і max без циклу for.</p>
+      <pre>const numbers = [3, 7, 1, 9, 2];
+const min = Math.min(...numbers);
+const max = Math.max(...numbers);
+console.log(min, max); // 1 9</pre>
+      <p><strong>Пояснення:</strong> оператор <code>...</code> розгортає масив у список аргументів.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 6 -->
+  <div>
+    <div class="question">6. Підрахунок кількості кожного елемента в масиві</div>
+    <div class="answer">
+      <p><strong>Завдання:</strong> Порахувати, скільки разів зустрічається кожне слово.</p>
+      <pre>const words = ['apple', 'banana', 'apple', 'orange', 'banana', 'apple'];
+const count = words.reduce((acc, el) =&gt; {
+  acc[el] = (acc[el] || 0) + 1;
+  return acc;
+}, {});
+console.log(count); // { apple: 3, banana: 2, orange: 1 }</pre>
+      <p><strong>Тип методу:</strong> <code>reduce()</code> — створює об’єкт-лічильник.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 7 -->
+  <div>
+    <div class="question">7. Знайти унікальні значення</div>
+    <div class="answer">
+      <p><strong>Завдання:</strong> Видалити дублікати з масиву.</p>
+      <pre>const arr = [1, 2, 2, 3, 4, 4, 5];
+const unique = [...new Set(arr)];
+console.log(unique); // [1, 2, 3, 4, 5]</pre>
+      <p><strong>Пояснення:</strong> <code>Set</code> зберігає лише унікальні значення.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 8 -->
+  <div>
+    <div class="question">8. Перевірити, чи всі елементи парні (every)</div>
+    <div class="answer">
+      <pre>const nums = [2, 4, 6, 8];
+const allEven = nums.every(n =&gt; n % 2 === 0);
+console.log(allEven); // true</pre>
+      <p><strong>Пояснення:</strong> <code>every()</code> повертає true, якщо всі елементи задовольняють умову.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 9 -->
+  <div>
+    <div class="question">9. Перевірити, чи є хоча б одне від’ємне число (some)</div>
+    <div class="answer">
+      <pre>const numbers = [3, -2, 7, 4];
+const hasNegative = numbers.some(n =&gt; n &lt; 0);
+console.log(hasNegative); // true</pre>
+      <p><strong>Пояснення:</strong> <code>some()</code> повертає true, якщо хоча б один елемент відповідає умові.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 10 -->
+  <div>
+    <div class="question">10. Знайти перший елемент, що відповідає умові (find)</div>
+    <div class="answer">
+      <pre>const users = [
+  { name: 'Alex', age: 20 },
+  { name: 'John', age: 30 },
+  { name: 'Bob', age: 25 }
+];
+const result = users.find(u =&gt; u.age &gt; 25);
+console.log(result); // { name: 'John', age: 30 }</pre>
+      <p><strong>Пояснення:</strong> <code>find()</code> повертає перший знайдений елемент або undefined.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 11 -->
+  <div>
+    <div class="question">11. Отримати масив тільки з імен користувачів (map)</div>
+    <div class="answer">
+      <pre>const users = [
+  { name: 'Alice', age: 25 },
+  { name: 'Bob', age: 30 }
+];
+const names = users.map(u =&gt; u.name);
+console.log(names); // ['Alice', 'Bob']</pre>
+      <p><strong>Тип методу:</strong> <code>map()</code> створює новий масив із перетворених значень.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 12 -->
+  <div>
+    <div class="question">12. Об’єднати кілька масивів у один (concat / flat)</div>
+    <div class="answer">
+      <pre>const a = [1, 2];
+const b = [3, 4];
+const c = [5, 6];
+const merged = a.concat(b, c);
+console.log(merged); // [1, 2, 3, 4, 5, 6]
+
+// або
+const nested = [[1, 2], [3, 4]];
+console.log(nested.flat()); // [1, 2, 3, 4]</pre>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 13 -->
+  <div>
+    <div class="question">13. Середнє арифметичне чисел у масиві</div>
+    <div class="answer">
+      <pre>const nums = [10, 20, 30, 40];
+const avg = nums.reduce((a, b) =&gt; a + b) / nums.length;
+console.log(avg); // 25</pre>
+      <p><strong>Пояснення:</strong> <code>reduce()</code> підсумовує елементи, потім ділимо на кількість.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 14 -->
+  <div>
+    <div class="question">14. Отримати масив чисел з рядка</div>
+    <div class="answer">
+      <pre>const input = "5,10,15,20";
+const numbers = input.split(',').map(Number);
+console.log(numbers); // [5, 10, 15, 20]</pre>
+      <p><strong>Пояснення:</strong> <code>split()</code> перетворює рядок у масив, <code>map(Number)</code> конвертує елементи в числа.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 15 -->
+  <div>
+    <div class="question">15. Згрупувати об’єкти за властивістю</div>
+    <div class="answer">
+      <pre>const users = [
+  { name: 'Alice', city: 'Kyiv' },
+  { name: 'Bob', city: 'Lviv' },
+  { name: 'Tom', city: 'Kyiv' }
+];
+const grouped = users.reduce((acc, user) =&gt; {
+  (acc[user.city] = acc[user.city] || []).push(user);
+  return acc;
+}, {});
+console.log(grouped);
+// { Kyiv: [{...}, {...}], Lviv: [{...}] }</pre>
+      <p><strong>Пояснення:</strong> типове завдання на <code>reduce()</code> — групування за ключем.</p>
+    </div>
+  </div>
+
+  <!-- 16 -->
+  <div>
+    <div class="question">16. Підрахувати кількість ключів в об’єкті</div>
+    <div class="answer">
+      <pre>const user = { name: 'Alex', age: 25, city: 'Kyiv' };
+const count = Object.keys(user).length;
+console.log(count); // 3</pre>
+      <p><strong>Пояснення:</strong> <code>Object.keys()</code> повертає масив усіх ключів об’єкта, і через <code>.length</code> дізнаємось їхню кількість.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 17 -->
+  <div>
+    <div class="question">17. Злиття двох об’єктів</div>
+    <div class="answer">
+      <pre>const a = { name: 'Alice', age: 25 };
+const b = { city: 'Lviv', age: 30 };
+const merged = { ...a, ...b };
+console.log(merged); // { name: 'Alice', age: 30, city: 'Lviv' }</pre>
+      <p><strong>Пояснення:</strong> деструктуризація дозволяє об’єднувати об’єкти, а пізніші ключі перекривають попередні.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 18 -->
+  <div>
+    <div class="question">18. Перевірити, чи існує властивість у об’єкті</div>
+    <div class="answer">
+      <pre>const user = { name: 'Bob', age: 30 };
+console.log('age' in user); // true
+console.log(user.hasOwnProperty('email')); // false</pre>
+      <p><strong>Пояснення:</strong> <code>in</code> перевіряє наявність ключа навіть у прототипі, а <code>hasOwnProperty()</code> — лише у власних властивостях.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 19 -->
+  <div>
+    <div class="question">19. Глибоке копіювання об’єкта</div>
+    <div class="answer">
+      <pre>const user = { name: 'Anna', address: { city: 'Kyiv' } };
+const copy = structuredClone(user);
+copy.address.city = 'Lviv';
+console.log(user.address.city); // Kyiv</pre>
+      <p><strong>Пояснення:</strong> <code>structuredClone()</code> створює повну копію без спільних посилань. Альтернатива — <code>JSON.parse(JSON.stringify(obj))</code>.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 20 -->
+  <div>
+    <div class="question">20. Перетворити об’єкт на масив пар [ключ, значення]</div>
+    <div class="answer">
+      <pre>const obj = { a: 1, b: 2, c: 3 };
+const entries = Object.entries(obj);
+console.log(entries); // [['a',1], ['b',2], ['c',3]]</pre>
+      <p><strong>Пояснення:</strong> <code>Object.entries()</code> — зручно для циклів, map або побудови таблиць.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 21 -->
+  <div>
+    <div class="question">21. Перетворити масив пар у об’єкт</div>
+    <div class="answer">
+      <pre>const pairs = [['a', 1], ['b', 2], ['c', 3]];
+const obj = Object.fromEntries(pairs);
+console.log(obj); // { a: 1, b: 2, c: 3 }</pre>
+      <p><strong>Типове завдання:</strong> обернене до <code>Object.entries()</code>.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 22 -->
+  <div>
+    <div class="question">22. Знайти ключ за значенням</div>
+    <div class="answer">
+      <pre>const colors = { red: '#f00', green: '#0f0', blue: '#00f' };
+const key = Object.keys(colors).find(k =&gt; colors[k] === '#0f0');
+console.log(key); // 'green'</pre>
+      <p><strong>Пояснення:</strong> <code>Object.keys()</code> + <code>find()</code> дозволяють швидко знайти ключ по значенню.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 23 -->
+  <div>
+    <div class="question">23. Згрупувати об’єкти за ключем</div>
+    <div class="answer">
+      <pre>const users = [
+  { name: 'Alex', city: 'Kyiv' },
+  { name: 'John', city: 'Lviv' },
+  { name: 'Kate', city: 'Kyiv' }
+];
+const grouped = users.reduce((acc, u) =&gt; {
+  (acc[u.city] = acc[u.city] || []).push(u);
+  return acc;
+}, {});
+console.log(grouped);
+// { Kyiv: [{Alex}, {Kate}], Lviv: [{John}] }</pre>
+      <p><strong>Пояснення:</strong> класична задача на <code>reduce()</code> — групування по властивості.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 24 -->
+  <div>
+    <div class="question">24. Отримати вкладену властивість без помилки (Optional chaining)</div>
+    <div class="answer">
+      <pre>const data = { user: { profile: { name: 'Olena' } } };
+const name = data?.user?.profile?.name || 'Unknown';
+console.log(name); // 'Olena'</pre>
+      <p><strong>Пояснення:</strong> оператор <code>?.</code> запобігає помилці, якщо властивість відсутня.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 25 -->
+  <div>
+    <div class="question">25. Сортування масиву об’єктів за ключем</div>
+    <div class="answer">
+      <pre>const users = [
+  { name: 'Bob', age: 25 },
+  { name: 'Alice', age: 30 },
+  { name: 'Tom', age: 20 }
+];
+users.sort((a, b) =&gt; a.age - b.age);
+console.log(users);
+// [{Tom,20}, {Bob,25}, {Alice,30}]</pre>
+      <p><strong>Пояснення:</strong> <code>sort()</code> змінює оригінальний масив. Дуже типове завдання “відсортуй об’єкти за віком”.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 26 -->
+  <div>
+    <div class="question">26. Перевернути рядок (reverse string)</div>
+    <div class="answer">
+      <pre>const str = 'JavaScript';
+const reversed = str.split('').reverse().join('');
+console.log(reversed); // 'tpircSavaJ'</pre>
+      <p><strong>Пояснення:</strong>
+        <code>split('')</code> перетворює рядок у масив символів,
+        <code>reverse()</code> змінює порядок,
+        <code>join('')</code> знову збирає в рядок.
+      </p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 27 -->
+  <div>
+    <div class="question">27. Перевірити, чи є рядок паліндромом</div>
+    <div class="answer">
+      <pre>const str = 'level';
+const isPalindrome = str === str.split('').reverse().join('');
+console.log(isPalindrome); // true</pre>
+      <p><strong>Пояснення:</strong> паліндром читається однаково з обох боків.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 28 -->
+  <div>
+    <div class="question">28. Зробити першу букву великою (capitalize)</div>
+    <div class="answer">
+      <pre>const str = 'hello world';
+const capitalized = str.charAt(0).toUpperCase() + str.slice(1);
+console.log(capitalized); // 'Hello world'</pre>
+      <p><strong>Пояснення:</strong> <code>charAt(0)</code> бере першу букву, <code>slice(1)</code> — решту рядка.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 29 -->
+  <div>
+    <div class="question">29. Зробити великою першу букву кожного слова</div>
+    <div class="answer">
+      <pre>const str = 'frontend developer interview';
+const result = str
+  .split(' ')
+  .map(word =&gt; word[0].toUpperCase() + word.slice(1))
+  .join(' ');
+console.log(result); // 'Frontend Developer Interview'</pre>
+      <p><strong>Пояснення:</strong> часто дають для перевірки <code>split</code> + <code>map</code>.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 30 -->
+  <div>
+    <div class="question">30. Порахувати кількість голосних у рядку</div>
+    <div class="answer">
+      <pre>const str = 'JavaScript';
+const count = str.match(/[aeiou]/gi)?.length || 0;
+console.log(count); // 3</pre>
+      <p><strong>Пояснення:</strong> використовуємо регулярку для голосних. Символ <code>?</code> запобігає помилці, якщо збігів нема.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 31 -->
+  <div>
+    <div class="question">31. Знайти найдовше слово у реченні</div>
+    <div class="answer">
+      <pre>const str = 'I am learning JavaScript daily';
+const longest = str.split(' ').reduce((a, b) =&gt; (b.length &gt; a.length ? b : a));
+console.log(longest); // 'JavaScript'</pre>
+      <p><strong>Пояснення:</strong> класика reduce + порівняння довжини.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 32 -->
+  <div>
+    <div class="question">32. Підрахунок кількості слів у рядку</div>
+    <div class="answer">
+      <pre>const str = 'Frontend is fun';
+const words = str.trim().split(/\s+/).length;
+console.log(words); // 3</pre>
+      <p><strong>Пояснення:</strong> регулярка <code>/\s+/</code> розбиває рядок за будь-якою кількістю пробілів.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 33 -->
+  <div>
+    <div class="question">33. Порахувати кількість входжень символа</div>
+    <div class="answer">
+      <pre>const str = 'banana';
+const count = str.split('a').length - 1;
+console.log(count); // 3</pre>
+      <p><strong>Пояснення:</strong> розділяємо рядок по символу та вираховуємо кількість розділень.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 34 -->
+  <div>
+    <div class="question">34. Видалити всі пробіли з рядка</div>
+    <div class="answer">
+      <pre>const str = '  Hello   World  ';
+const cleaned = str.replace(/\s+/g, '');
+console.log(cleaned); // 'HelloWorld'</pre>
+      <p><strong>Пояснення:</strong> <code>\s+</code> — усі пробільні символи, <code>g</code> — глобально.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 35 -->
+  <div>
+    <div class="question">35. Порахувати кількість унікальних символів</div>
+    <div class="answer">
+      <pre>const str = 'success';
+const uniqueCount = new Set(str).size;
+console.log(uniqueCount); // 5</pre>
+      <p><strong>Пояснення:</strong> <code>Set</code> зберігає лише унікальні символи.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 36 -->
+  <div>
+    <div class="question">36. FizzBuzz</div>
+    <div class="answer">
+      <p><strong>Завдання:</strong> Вивести числа від 1 до 20, але:</p>
+      <ul>
+        <li>Якщо число ділиться на 3 — «Fizz»</li>
+        <li>Якщо на 5 — «Buzz»</li>
+        <li>Якщо на 3 і 5 — «FizzBuzz»</li>
+      </ul>
+      <pre>for (let i = 1; i &lt;= 20; i++) {
+  let output = '';
+  if (i % 3 === 0) output += 'Fizz';
+  if (i % 5 === 0) output += 'Buzz';
+  console.log(output || i);
+}</pre>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 37 -->
+  <div>
+    <div class="question">37. Факторіал числа (рекурсія)</div>
+    <div class="answer">
+      <pre>function factorial(n) {
+  return n === 0 ? 1 : n * factorial(n - 1);
+}
+console.log(factorial(5)); // 120</pre>
+      <p><strong>Пояснення:</strong> рекурсивний виклик множить n на результат для n − 1.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 38 -->
+  <div>
+    <div class="question">38. Числа Фібоначчі (ітеративно)</div>
+    <div class="answer">
+      <pre>function fibonacci(n) {
+  const seq = [0, 1];
+  for (let i = 2; i &lt; n; i++) {
+    seq[i] = seq[i - 1] + seq[i - 2];
+  }
+  return seq;
+}
+console.log(fibonacci(8)); // [0,1,1,2,3,5,8,13]</pre>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 39 -->
+  <div>
+    <div class="question">39. Знайти мінімум і максимум у масиві (без Math.min)</div>
+    <div class="answer">
+      <pre>const arr = [10, 2, 8, -3, 7];
+let min = arr[0], max = arr[0];
+for (const num of arr) {
+  if (num &lt; min) min = num;
+  if (num &gt; max) max = num;
+}
+console.log(min, max); // -3 10</pre>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 40 -->
+  <div>
+    <div class="question">40. Перевірити, чи є два масиви анаграмами</div>
+    <div class="answer">
+      <pre>function isAnagram(a, b) {
+  return a.toLowerCase().split('').sort().join('') ===
+         b.toLowerCase().split('').sort().join('');
+}
+console.log(isAnagram('listen', 'silent')); // true</pre>
+      <p><strong>Пояснення:</strong> анаграма — коли однаковий набір літер у різному порядку.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 41 -->
+  <div>
+    <div class="question">41. Знайти всі дублікати у масиві</div>
+    <div class="answer">
+      <pre>const arr = [1, 2, 3, 2, 4, 3, 5];
+const duplicates = arr.filter((item, i) =&gt; arr.indexOf(item) !== i);
+console.log([...new Set(duplicates)]); // [2, 3]</pre>
+      <p><strong>Пояснення:</strong> фільтруємо елементи, які вже зустрічались раніше.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 42 -->
+  <div>
+    <div class="question">42. Знайти унікальні елементи (без Set)</div>
+    <div class="answer">
+      <pre>const arr = [1, 2, 2, 3, 4, 4];
+const unique = arr.filter((item, i) =&gt; arr.indexOf(item) === i);
+console.log(unique); // [1, 2, 3, 4]</pre>
+      <p><strong>Пояснення:</strong> залишаємо перше входження кожного елемента.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 43 -->
+  <div>
+    <div class="question">43. Підрахунок суми цифр числа</div>
+    <div class="answer">
+      <pre>const num = 12345;
+const sum = num
+  .toString()
+  .split('')
+  .reduce((a, b) =&gt; a + +b, 0);
+console.log(sum); // 15</pre>
+      <p><strong>Пояснення:</strong> переводимо число у рядок і підсумовуємо цифри.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 44 -->
+  <div>
+    <div class="question">44. Знайти друге за величиною число в масиві</div>
+    <div class="answer">
+      <pre>const arr = [10, 5, 8, 20, 15];
+const secondMax = [...new Set(arr)].sort((a,b) =&gt; b - a)[1];
+console.log(secondMax); // 15</pre>
+      <p><strong>Пояснення:</strong> Set прибирає дублікати, sort() впорядковує у спадному порядку.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 45 -->
+  <div>
+    <div class="question">45. Порахувати кількість парних та непарних чисел</div>
+    <div class="answer">
+      <pre>const arr = [1,2,3,4,5,6];
+const stats = arr.reduce((acc, n) =&gt; {
+  n % 2 === 0 ? acc.even++ : acc.odd++;
+  return acc;
+}, { even: 0, odd: 0 });
+console.log(stats); // { even: 3, odd: 3 }</pre>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 46 -->
+  <div>
+    <div class="question">46. Перевірити, чи є масив відсортованим</div>
+    <div class="answer">
+      <pre>const arr = [1, 2, 3, 4, 5];
+const sorted = arr.every((v, i, a) =&gt; i === 0 || a[i-1] &lt;= v);
+console.log(sorted); // true</pre>
+      <p><strong>Пояснення:</strong> кожен елемент повинен бути не меншим за попередній.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 47 -->
+  <div>
+    <div class="question">47. Обчислити суму всіх парних чисел у вкладеному масиві</div>
+    <div class="answer">
+      <pre>const arr = [[1,2], [3,4,6], [5,8]];
+const sum = arr
+  .flat()
+  .filter(n =&gt; n % 2 === 0)
+  .reduce((a,b) =&gt; a + b, 0);
+console.log(sum); // 20</pre>
+      <p><strong>Пояснення:</strong> <code>flat()</code> розгортає вкладені масиви, далі фільтруємо парні й підсумовуємо.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 48 -->
+  <div>
+    <div class="question">48. Перевірити, чи всі символи унікальні (unique string)</div>
+    <div class="answer">
+      <pre>function allUnique(str) {
+  return new Set(str).size === str.length;
+}
+console.log(allUnique('abc')); // true
+console.log(allUnique('aabc')); // false</pre>
+      <p><strong>Пояснення:</strong> якщо довжина <code>Set</code> менша за довжину рядка — є дублікати.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 49 -->
+  <div>
+    <div class="question">49. Затримка виконання через setTimeout</div>
+    <div class="answer">
+      <pre>console.log('Start');
+setTimeout(() =&gt; console.log('After 2 seconds'), 2000);
+console.log('End');
+// Start → End → After 2 seconds</pre>
+      <p><strong>Пояснення:</strong> <code>setTimeout</code> додає колбек у чергу макротасок, тому виконується після синхронного коду.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 50 -->
+  <div>
+    <div class="question">50. Вивести числа з паузою (через замикання)</div>
+    <div class="answer">
+      <pre>for (let i = 1; i &lt;= 3; i++) {
+  setTimeout(() =&gt; console.log(i), i * 1000);
+}
+// 1 через 1с, 2 через 2с, 3 через 3с</pre>
+      <p><strong>Пояснення:</strong> <code>let</code> створює власну область видимості для кожної ітерації, тому значення i зберігається.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 51 -->
+  <div>
+    <div class="question">51. Створити функцію sleep(ms) з Promise</div>
+    <div class="answer">
+      <pre>const sleep = ms =&gt; new Promise(res =&gt; setTimeout(res, ms));
+
+async function demo() {
+  console.log('Wait...');
+  await sleep(2000);
+  console.log('Done after 2s');
+}
+demo();</pre>
+      <p><strong>Пояснення:</strong> <code>await sleep()</code> ставить виконання на паузу без блокування потоку.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 52 -->
+  <div>
+    <div class="question">52. Ланцюжок Promise</div>
+    <div class="answer">
+      <pre>Promise.resolve(2)
+  .then(x =&gt; x * 2)
+  .then(x =&gt; x + 3)
+  .then(console.log); // 7</pre>
+      <p><strong>Пояснення:</strong> кожен <code>then()</code> отримує результат попереднього Promise.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 53 -->
+  <div>
+    <div class="question">53. Promise.all()</div>
+    <div class="answer">
+      <pre>const p1 = Promise.resolve(1);
+const p2 = Promise.resolve(2);
+const p3 = Promise.resolve(3);
+
+Promise.all([p1, p2, p3]).then(values =&gt; console.log(values));
+// [1, 2, 3]</pre>
+      <p><strong>Пояснення:</strong> <code>Promise.all()</code> очікує завершення всіх промісів, або відхиляє при першій помилці.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 54 -->
+  <div>
+    <div class="question">54. Promise.race()</div>
+    <div class="answer">
+      <pre>const slow = new Promise(r =&gt; setTimeout(() =&gt; r('slow'), 2000));
+const fast = new Promise(r =&gt; setTimeout(() =&gt; r('fast'), 500));
+
+Promise.race([slow, fast]).then(console.log); // 'fast'</pre>
+      <p><strong>Пояснення:</strong> <code>race()</code> повертає результат першого виконаного Promise.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 55 -->
+  <div>
+    <div class="question">55. async/await з обробкою помилок</div>
+    <div class="answer">
+      <pre>async function fetchData() {
+  try {
+    throw new Error('Network error');
+  } catch (e) {
+    console.error('Помилка:', e.message);
+  } finally {
+    console.log('Done');
+  }
+}
+fetchData();</pre>
+      <p><strong>Пояснення:</strong> <code>try/catch</code> працює з <code>await</code> аналогічно синхронному коду.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 56 -->
+  <div>
+    <div class="question">56. Паралельне виконання кількох async-запитів</div>
+    <div class="answer">
+      <pre>async function loadAll() {
+  const [user, posts] = await Promise.all([
+    fetch('/api/user'),
+    fetch('/api/posts')
+  ]);
+  console.log(user.status, posts.status);
+}
+loadAll();</pre>
+      <p><strong>Пояснення:</strong> <code>Promise.all()</code> дає паралельність і швидше завантаження.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 57 -->
+  <div>
+    <div class="question">57. Відмінність між microtask і macrotask</div>
+    <div class="answer">
+      <pre>console.log('1');
+setTimeout(() =&gt; console.log('2'), 0);
+Promise.resolve().then(() =&gt; console.log('3'));
+console.log('4');
+// Порядок: 1, 4, 3, 2</pre>
+      <p><strong>Пояснення:</strong> microtasks (Promise) виконуються перед macrotasks (setTimeout).</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 58 -->
+  <div>
+    <div class="question">58. Логування послідовності async/await</div>
+    <div class="answer">
+      <pre>async function test() {
+  console.log('A');
+  await Promise.resolve();
+  console.log('B');
+}
+test();
+console.log('C');
+// Порядок: A, C, B</pre>
+      <p><strong>Пояснення:</strong> <code>await</code> відправляє продовження у microtask queue, тому <code>C</code> з’явиться раніше.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 59 -->
+  <div>
+    <div class="question">59. Реалізувати таймер з Promise</div>
+    <div class="answer">
+      <pre>function delay(ms) {
+  return new Promise(res =&gt; setTimeout(res, ms));
+}
+async function run() {
+  for (let i = 3; i &gt; 0; i--) {
+    console.log(i);
+    await delay(1000);
+  }
+  console.log('Go!');
+}
+run();</pre>
+      <p><strong>Пояснення:</strong> <code>await delay()</code> створює асинхронну паузу між циклами.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 60 -->
+  <div>
+    <div class="question">60. Обробити кілька запитів з очікуванням кожного (послідовно)</div>
+    <div class="answer">
+      <pre>const urls = ['url1', 'url2', 'url3'];
+
+async function fetchSequentially() {
+  for (const url of urls) {
+    console.log('Fetching', url);
+    await fetch(url);
+  }
+  console.log('All done');
+}
+fetchSequentially();</pre>
+      <p><strong>Пояснення:</strong> цикл з <code>await</code> виконує запити один за одним, а не паралельно.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 61 -->
+  <div>
+    <div class="question">61. Змінити колір елемента при натисканні кнопки</div>
+    <div class="answer">
+      <pre>&lt;button id="btn"&gt;Змінити колір&lt;/button&gt;
+&lt;div id="box" style="width:100px;height:100px;background:red;margin-top:10px"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+document.getElementById('btn').addEventListener('click', () =&gt; {
+  const box = document.getElementById('box');
+  box.style.background = box.style.background === 'red' ? 'green' : 'red';
+});
+&lt;/script&gt;</pre>
+      <p><strong>Пояснення:</strong> змінюємо inline-стиль через <code>style</code>.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 62 -->
+  <div>
+    <div class="question">62. Лічильник кліків по кнопці</div>
+    <div class="answer">
+      <pre>&lt;button id="countBtn"&gt;Click me&lt;/button&gt;
+&lt;p id="counter"&gt;0&lt;/p&gt;
+
+&lt;script&gt;
+let count = 0;
+document.getElementById('countBtn').addEventListener('click', () =&gt; {
+  document.getElementById('counter').textContent = ++count;
+});
+&lt;/script&gt;</pre>
+      <p><strong>Пояснення:</strong> простий лічильник — часте базове тестове завдання.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 63 -->
+  <div>
+    <div class="question">63. Додати новий елемент до списку</div>
+    <div class="answer">
+      <pre>&lt;ul id="list"&gt;&lt;li&gt;Item 1&lt;/li&gt;&lt;/ul&gt;
+&lt;button id="add"&gt;Add&lt;/button&gt;
+
+&lt;script&gt;
+document.getElementById('add').addEventListener('click', () =&gt; {
+  const li = document.createElement('li');
+  li.textContent = `Item ${document.querySelectorAll('li').length + 1}`;
+  document.getElementById('list').appendChild(li);
+});
+&lt;/script&gt;</pre>
+      <p><strong>Пояснення:</strong> використовуємо <code>createElement</code> і <code>appendChild</code>.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 64 -->
+  <div>
+    <div class="question">64. Видалити елемент зі списку при кліку</div>
+    <div class="answer">
+      <pre>&lt;ul id="removable"&gt;
+  &lt;li&gt;Apple&lt;/li&gt;
+  &lt;li&gt;Banana&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;script&gt;
+document.getElementById('removable').addEventListener('click', e =&gt; {
+  if (e.target.tagName === 'LI') e.target.remove();
+});
+&lt;/script&gt;</pre>
+      <p><strong>Пояснення:</strong> делегування подій — клік на <code>ul</code> ловить усі події <code>li</code>.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 65 -->
+  <div>
+    <div class="question">65. Відстежити позицію скролу сторінки</div>
+    <div class="answer">
+      <pre>window.addEventListener('scroll', () =&gt; {
+  console.log(window.scrollY);
+});</pre>
+      <p><strong>Пояснення:</strong> <code>scrollY</code> показує вертикальну позицію прокрутки.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 66 -->
+  <div>
+    <div class="question">66. Реалізувати debounce для подій скролу</div>
+    <div class="answer">
+      <pre>function debounce(fn, delay) {
+  let timeout;
+  return (...args) =&gt; {
+    clearTimeout(timeout);
+    timeout = setTimeout(() =&gt; fn(...args), delay);
+  };
+}
+
+window.addEventListener('scroll', debounce(() =&gt; {
+  console.log('Scroll event (debounced)');
+}, 300));</pre>
+      <p><strong>Пояснення:</strong> debounce виконує функцію лише після завершення серії подій.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 67 -->
+  <div>
+    <div class="question">67. Реалізувати throttle для подій resize</div>
+    <div class="answer">
+      <pre>function throttle(fn, delay) {
+  let last = 0;
+  return (...args) =&gt; {
+    const now = Date.now();
+    if (now - last &gt; delay) {
+      last = now;
+      fn(...args);
+    }
+  };
+}
+
+window.addEventListener('resize', throttle(() =&gt; {
+  console.log('Resize event (throttled)');
+}, 500));</pre>
+      <p><strong>Пояснення:</strong> throttle обмежує частоту виконання функції.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 68 -->
+  <div>
+    <div class="question">68. Отримати дані з API і показати у списку</div>
+    <div class="answer">
+      <pre>&lt;ul id="users"&gt;&lt;/ul&gt;
+
+&lt;script&gt;
+async function loadUsers() {
+  const res = await fetch('https://jsonplaceholder.typicode.com/users');
+  const users = await res.json();
+  const list = document.getElementById('users');
+  users.slice(0, 5).forEach(u =&gt; {
+    const li = document.createElement('li');
+    li.textContent = u.name;
+    list.appendChild(li);
+  });
+}
+loadUsers();
+&lt;/script&gt;</pre>
+      <p><strong>Пояснення:</strong> використовуємо <code>fetch()</code> та <code>async/await</code> для запиту даних.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 69 -->
+  <div>
+    <div class="question">69. Динамічне перемикання теми (dark/light)</div>
+    <div class="answer">
+      <pre>&lt;button id="themeBtn"&gt;Toggle Theme&lt;/button&gt;
+
+&lt;script&gt;
+const btn = document.getElementById('themeBtn');
+btn.addEventListener('click', () =&gt; {
+  document.body.classList.toggle('dark');
+});
+&lt;/script&gt;
+
+&lt;style&gt;
+body.dark { background: #222; color: #fff; transition: 0.3s; }
+&lt;/style&gt;</pre>
+      <p><strong>Пояснення:</strong> <code>classList.toggle()</code> зручно використовувати для зміни теми.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 70 -->
+  <div>
+    <div class="question">70. Створити модальне вікно (popup)</div>
+    <div class="answer">
+      <pre>&lt;button id="open"&gt;Відкрити&lt;/button&gt;
+&lt;div id="modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);"&gt;
+  &lt;div style="background:#fff;padding:20px;margin:100px auto;width:300px"&gt;
+    &lt;p&gt;Привіт!&lt;/p&gt;
+    &lt;button id="close"&gt;Закрити&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+const modal = document.getElementById('modal');
+document.getElementById('open').onclick = () =&gt; modal.style.display = 'block';
+document.getElementById('close').onclick = () =&gt; modal.style.display = 'none';
+&lt;/script&gt;</pre>
+      <p><strong>Пояснення:</strong> базовий приклад створення модалки без бібліотек.</p>
+    </div>
+  </div>
+
+  <button class="scroll-top" onclick="scrollToTop()">↑ До початку</button>
+
+  <hr class="hr"/>
+
+  <!-- 71 -->
+  <div>
+    <div class="question">71. Глибоке копіювання об’єкта (deep clone)</div>
+    <div class="answer">
+      <pre>const obj = { a: 1, b: { c: 2 } };
+const clone = JSON.parse(JSON.stringify(obj));
+clone.b.c = 99;
+console.log(obj.b.c); // 2</pre>
+      <p><strong>Пояснення:</strong> <code>JSON.stringify + parse</code> створює глибоку копію, але не працює з функціями, <code>Map</code>, <code>Set</code>.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 72 -->
+  <div>
+    <div class="question">72. Реалізувати flatten() — розгортання вкладених масивів</div>
+    <div class="answer">
+      <pre>function flatten(arr) {
+  return arr.reduce((acc, val) =&gt;
+    Array.isArray(val) ? acc.concat(flatten(val)) : acc.concat(val), []);
+}
+console.log(flatten([1, [2, [3, 4]], 5])); // [1,2,3,4,5]</pre>
+      <p><strong>Пояснення:</strong> рекурсивно зводимо вкладені масиви у плоский список.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 73 -->
+  <div>
+    <div class="question">73. Поліфіл для Array.map()</div>
+    <div class="answer">
+      <pre>Array.prototype.myMap = function(fn) {
+  const result = [];
+  for (let i = 0; i &lt; this.length; i++) {
+    result.push(fn(this[i], i, this));
+  }
+  return result;
+};
+
+console.log([1, 2, 3].myMap(x =&gt; x * 2)); // [2,4,6]</pre>
+      <p><strong>Пояснення:</strong> ітерація через <code>this</code> — псевдозмінна масиву всередині прототипу.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 74 -->
+  <div>
+    <div class="question">74. Поліфіл для Function.bind()</div>
+    <div class="answer">
+      <pre>Function.prototype.myBind = function(context, ...args) {
+  const fn = this;
+  return function(...rest) {
+    return fn.apply(context, [...args, ...rest]);
+  };
+};
+
+function greet(greeting) {
+  console.log(greeting + ', ' + this.name);
+}
+
+const person = { name: 'Serhii' };
+const hiSerhii = greet.myBind(person, 'Привіт');
+hiSerhii(); // Привіт, Serhii</pre>
+      <p><strong>Пояснення:</strong> реалізація <code>bind()</code> через <code>apply()</code> і замикання аргументів.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 75 -->
+  <div>
+    <div class="question">75. Реалізувати memoization (кешування результатів)</div>
+    <div class="answer">
+      <pre>function memoize(fn) {
+  const cache = {};
+  return (...args) =&gt; {
+    const key = JSON.stringify(args);
+    if (cache[key]) return cache[key];
+    const result = fn(...args);
+    cache[key] = result;
+    return result;
+  };
+}
+
+const slowSquare = n =&gt; { for(let i=0;i&lt;1e7;i++); return n*n; };
+const fastSquare = memoize(slowSquare);
+
+console.time('1'); fastSquare(5); console.timeEnd('1');
+console.time('2'); fastSquare(5); console.timeEnd('2');</pre>
+      <p><strong>Пояснення:</strong> повторні виклики з тими самими аргументами повертають результат миттєво.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 76 -->
+  <div>
+    <div class="question">76. Реалізувати власний Promise</div>
+    <div class="answer">
+      <pre>class MyPromise {
+  constructor(executor) {
+    this.thenFn = null;
+    executor(this.resolve.bind(this));
+  }
+  resolve(value) {
+    if (this.thenFn) this.thenFn(value);
+  }
+  then(fn) {
+    this.thenFn = fn;
+    return this;
+  }
+}
+
+new MyPromise(res =&gt; res(42))
+  .then(v =&gt; console.log(v)); // 42</pre>
+      <p><strong>Пояснення:</strong> спрощена реалізація <code>Promise</code> через callback.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 77 -->
+  <div>
+    <div class="question">77. Реалізувати debounce із leading edge</div>
+    <div class="answer">
+      <pre>function debounce(fn, delay, immediate = false) {
+  let timeout;
+  return function(...args) {
+    const callNow = immediate &amp;&amp; !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(() =&gt; timeout = null, delay);
+    if (callNow) fn(...args);
+  };
+}
+
+const log = debounce(() =&gt; console.log('Run'), 1000, true);
+window.addEventListener('scroll', log);</pre>
+      <p><strong>Пояснення:</strong> <code>immediate</code> дозволяє викликати функцію одразу на першій події.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 78 -->
+  <div>
+    <div class="question">78. Event delegation на динамічних елементах</div>
+    <div class="answer">
+      <pre>&lt;ul id="menu"&gt;&lt;/ul&gt;
+&lt;button id="add"&gt;Add item&lt;/button&gt;
+
+&lt;script&gt;
+const menu = document.getElementById('menu');
+document.getElementById('add').onclick = () =&gt; {
+  const li = document.createElement('li');
+  li.textContent = 'Item ' + (menu.children.length + 1);
+  menu.appendChild(li);
+};
+
+menu.addEventListener('click', e =&gt; {
+  if (e.target.tagName === 'LI') console.log('Clicked:', e.target.textContent);
+});
+&lt;/script&gt;</pre>
+      <p><strong>Пояснення:</strong> делегування дозволяє ловити події навіть на нових елементах.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 79 -->
+  <div>
+    <div class="question">79. Простий observer pattern (підписка/видача)</div>
+    <div class="answer">
+      <pre>class EventEmitter {
+  constructor() { this.events = {}; }
+  on(event, fn) { (this.events[event] ||= []).push(fn); }
+  emit(event, data) { (this.events[event] || []).forEach(fn =&gt; fn(data)); }
+}
+
+const bus = new EventEmitter();
+bus.on('hello', msg =&gt; console.log('Got:', msg));
+bus.emit('hello', 'Привіт, Сергію!');</pre>
+      <p><strong>Пояснення:</strong> це база для власного EventBus або Pub/Sub системи.</p>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <!-- 80 -->
+  <div>
+    <div class="question">80. Виконати асинхронні функції послідовно (без циклу for)</div>
+    <div class="answer">
+      <pre>const tasks = [
+  () =&gt; Promise.resolve('A'),
+  () =&gt; Promise.resolve('B'),
+  () =&gt; Promise.resolve('C')
+];
+
+tasks.reduce((p, fn) =&gt; p.then(fn).then(console.log), Promise.resolve());
+// A, B, C</pre>
+      <p><strong>Пояснення:</strong> reduce створює ланцюжок Promise, що виконується послідовно.</p>
+    </div>
+  </div>
+
+  <button class="scroll-top" onclick="scrollToTop()">↑ До початку</button>
+
+
+
+
+  <button class="scroll-top" onclick="scrollToTop()">↑ До початку</button>
+</div>
+
+<script>
+  // === Scroll to top ===
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // === Theme toggle ===
+  const toggleBtn = document.getElementById('themeToggle');
+  const body = document.body;
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  body.setAttribute('data-theme', savedTheme);
+  toggleBtn.textContent = savedTheme === 'light' ? '🌙' : '☀️';
+
+  toggleBtn.addEventListener('click', () => {
+    const currentTheme = body.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    body.setAttribute('data-theme', newTheme);
+    toggleBtn.textContent = newTheme === 'light' ? '🌙' : '☀️';
+    localStorage.setItem('theme', newTheme);
+  });
+</script>
+</body>
+</html>

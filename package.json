@@ -2,7 +2,7 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "npm --prefix app run dev -- --host --port 3000 --strictPort"
   },
   "devDependencies": {
     "nodemon": "^3.0.0"

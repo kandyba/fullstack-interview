@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Технічна співбесіда з JavaScript</title>
+  <style>
+    :root {
+      --bg: #f9f9f9;
+      --text: #1c1e21;
+      --card: #ffffff;
+      --border: #e5e7eb;
+      --accent: #007bff;
+      --code-bg: #f4f4f4;
+    }
+
+    [data-theme="dark"] {
+      --bg: #1e1e1e;
+      --text: #e2e2e2;
+      --card: #2a2a2a;
+      --border: #3c3c3c;
+      --accent: #4aa8ff;
+      --code-bg: #252526;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0 20px;
+      background-color: var(--bg);
+      color: var(--text);
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+      color: var(--accent);
+    }
+
+    .theme-toggle {
+      background: none;
+      border: none;
+      font-size: 22px;
+      color: var(--accent);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      transform: rotate(20deg);
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      background: var(--card);
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border-radius: 5px;
+      border: 1px solid var(--border);
+      transition: background 0.4s ease, border 0.4s ease;
+    }
+
+    .section-title {
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--accent);
+      margin: 30px 0 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--accent);
+    }
+
+    .question {
+      font-weight: bold;
+      margin: 20px 0 10px;
+      font-size: 25px;
+      color: #4aa8ff;
+    }
+
+    .answer {
+      margin-bottom: 20px;
+    }
+
+    .example {
+      background: var(--code-bg);
+      border-left: 4px solid var(--accent);
+      padding: 10px;
+      margin: 10px 0;
+      overflow-x: auto;
+      border-radius: 4px;
+      transition: background 0.4s ease, border 0.4s ease;
+    }
+
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .scroll-top {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 15px;
+      font-size: 14px;
+      color: #fff;
+      background-color: var(--accent);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+
+    .scroll-top:hover {
+      background-color: #0056b3;
+    }
+
+    ul {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+
+<body data-theme="dark">
+<header>
+  <h1>Технічна співбесіда Avenga</h1>
+  <button id="themeToggle" class="theme-toggle" title="Змінити тему">☀️</button>
+</header>
+
+<div class="container">
+  <div class="section-title">01-intro: Основи HTML / CSS / Browser</div>
+
+  <div class="question">
+    1. Як можна знайти посилання в тексті на конкретний ресурс за допомогою CSS?
+  </div>
+  <div class="answer">
+    <p>Використовуються селектори атрибутів <code>href</code>.</p>
+    <pre>a[href="https://example.com"] {}
+a[href^="https"] {}
+a[href$=".pdf"] {}
+a[href*="google"] {}</pre>
+    <p><strong>Follow-up:</strong> у чому різниця між <code>^</code>, <code>$</code>, <code>*</code>?</p>
+    <p><strong>Відповідь:</strong> починається з / закінчується на / містить підрядок.</p>
+  </div>
+
+  <div class="question">
+    2. Як можна вирівняти елемент по горизонталі та вертикалі?
+  </div>
+  <div class="answer">
+    <p><strong>Flexbox</strong> — найпопулярніший спосіб.</p>
+    <pre>.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}</pre>
+
+    <p><strong>Grid</strong> — зручно для двовимірних layout.</p>
+    <pre>.container {
+  display: grid;
+  place-items: center;
+}</pre>
+
+    <p><strong>Position + transform</strong> — класичний спосіб.</p>
+    <pre>.box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}</pre>
+
+    <p><strong>Margin auto</strong> — горизонтальне вирівнювання блоку.</p>
+    <pre>.box {
+  width: 200px;
+  margin: 0 auto;
+}</pre>
+
+    <p><strong>Text-align</strong> — для inline / inline-block.</p>
+    <pre>.container {
+  text-align: center;
+}</pre>
+
+    <p><strong>Follow-up:</strong> який спосіб найкращий?</p>
+    <p><strong>Відповідь:</strong> Flex або Grid — сучасні та універсальні.</p>
+  </div>
+
+  <div class="question">
+    3. Як відбувається завантаження сторінки в браузері?
+  </div>
+  <div class="answer">
+    <p>1. Браузер робить HTTP-запит за HTML.</p>
+    <p>2. HTML парситься → створюється DOM.</p>
+    <p>3. CSS парситься → створюється CSSOM.</p>
+    <p>4. DOM + CSSOM → Render Tree.</p>
+    <p>5. Layout → Paint → Composite.</p>
+    <p><strong>Follow-up:</strong> що блокує рендер?</p>
+    <p><strong>Відповідь:</strong> CSS та синхронний JavaScript.</p>
+  </div>
+
+  <div class="question">
+    4. Як можна пришвидшити завантаження сторінки? Які є основні методи оптимізації?
+  </div>
+  <div class="answer">
+    <p>
+      Мета оптимізації — швидше показати користувачу перший екран
+      і зменшити час завантаження ресурсів.
+    </p>
+
+    <p><strong>Мінімізація CSS / JS</strong> — зменшення розміру файлів
+      шляхом видалення пробілів, коментарів і зайвого коду.</p>
+
+    <p><strong>Code splitting</strong> — розбиття JS на чанки,
+      щоб не завантажувати весь код одразу.</p>
+
+    <p><strong>Lazy loading</strong> — відкладене завантаження зображень,
+      компонентів або сторінок.</p>
+
+    <p><strong>Кешування</strong> — повторне використання ресурсів
+      через browser cache та HTTP-заголовки.</p>
+
+    <p><strong>Оптимізація зображень</strong> — стиснення,
+      правильні формати (WebP, AVIF), адаптивні розміри.</p>
+
+    <p><strong>CDN</strong> — віддача файлів з найближчого до користувача сервера.</p>
+
+    <p><strong>Follow-up:</strong> що оптимізуєш в першу чергу?</p>
+    <p><strong>Відповідь:</strong> critical CSS, зображення, початковий JS-бандл.</p>
+  </div>
+
+  <div class="question">
+    5. Що таке Critical CSS?
+  </div>
+  <div class="answer">
+    <p>
+      Critical CSS — це стилі, необхідні для відображення першого екрану (above-the-fold).
+    </p>
+    <p>
+      Інлайниться в <code>&lt;head&gt;</code>, щоб браузер міг швидко відмалювати сторінку,
+      а решта CSS підвантажується пізніше.
+    </p>
+    <p><strong>Follow-up:</strong> навіщо це потрібно?</p>
+    <p><strong>Відповідь:</strong> для покращення FCP та швидшого рендеру.</p>
+  </div>
+
+  <div class="question">
+    6. Як працює lazy loading?
+  </div>
+  <div class="answer">
+    <p>
+      Lazy loading — це відкладене завантаження ресурсів,
+      які не потрібні одразу.
+    </p>
+    <p>
+      Зображення, компоненти або JS-код підвантажуються
+      лише тоді, коли потрапляють у viewport або потрібні користувачу.
+    </p>
+    <pre>&lt;img src="photo.jpg" loading="lazy" /&gt;</pre>
+    <p><strong>Follow-up:</strong> де не варто використовувати?</p>
+    <p><strong>Відповідь:</strong> для критичного контенту першого екрану.</p>
+  </div>
+
+  <div class="section-title">01-intro: Основи зображень</div>
+
+  <!-- 8 -->
+  <div class="question">
+    8. Які типи зображень ти знаєш? Які переваги та недоліки кожного з них?
+  </div>
+  <div class="answer">
+    <p><strong>JPEG / JPG</strong> — растровий формат з втратами.</p>
+    <p>➕ Малий розмір файлу, добре підходить для фото.</p>
+    <p>➖ Втрата якості при стисненні, немає прозорості.</p>
+
+    <p><strong>PNG</strong> — растровий формат без втрат.</p>
+    <p>➕ Підтримує прозорість, висока якість.</p>
+    <p>➖ Більший розмір файлу порівняно з JPG.</p>
+
+    <p><strong>SVG</strong> — векторний формат.</p>
+    <p>➕ Масштабується без втрати якості, малий розмір для іконок.</p>
+    <p>➖ Погано підходить для фотографій.</p>
+
+    <p><strong>WebP</strong> — сучасний растровий формат.</p>
+    <p>➕ Менший розмір, ніж JPG/PNG, підтримує прозорість.</p>
+    <p>➖ Потрібна перевірка підтримки старими браузерами.</p>
+
+    <p><strong>AVIF</strong> — сучасний растровий формат нового покоління.</p>
+    <p>➕ Найкраще стиснення і якість.</p>
+    <p>➖ Підтримка ще не всюди і повільніше кодується.</p>
+
+    <p><strong>Follow-up:</strong> який формат обереш для фото на сайті?</p>
+    <p><strong>Відповідь:</strong> WebP або AVIF з fallback на JPG.</p>
+  </div>
+
+  <!-- 9 -->
+  <div class="question">
+    9. Різниця між растровим та векторним зображенням?
+  </div>
+  <div class="answer">
+    <p><strong>Растрові зображення</strong> складаються з пікселів.</p>
+    <p>При збільшенні втрачають якість.</p>
+    <p>Приклади: JPG, PNG, WebP, AVIF.</p>
+
+    <p><strong>Векторні зображення</strong> описуються формулами та кривими.</p>
+    <p>Масштабуються без втрати якості.</p>
+    <p>Приклади: SVG.</p>
+
+    <p><strong>Follow-up:</strong> що краще для іконок?</p>
+    <p><strong>Відповідь:</strong> SVG — легкий і масштабований.</p>
+  </div>
+
+  <div class="section-title">06-images: Responsive images, Retina, Optimization</div>
+
+  <!-- 1 -->
+  <div class="question">
+    1. Як можна підвантажувати картинки під різні роздільні здатності екранів?
+  </div>
+  <div class="answer">
+    <p>
+      Основний спосіб — використання <code>srcset</code> та <code>sizes</code>,
+      щоб браузер сам обрав оптимальне зображення.
+    </p>
+
+    <pre>&lt;img
+  src="image-400.jpg"
+  srcset="
+    image-400.jpg 400w,
+    image-800.jpg 800w,
+    image-1600.jpg 1600w
+  "
+  sizes="(max-width: 600px) 100vw, 50vw"
+  alt=""
+/&gt;</pre>
+
+    <p>
+      Браузер враховує:
+    </p>
+    <p>• ширину екрана</p>
+    <p>• щільність пікселів</p>
+    <p>• значення <code>sizes</code></p>
+
+    <p><strong>Follow-up:</strong> хто вирішує, яку картинку завантажити?</p>
+    <p><strong>Відповідь:</strong> браузер, а не розробник.</p>
+  </div>
+
+  <!-- 2 -->
+  <div class="question">
+    2. Як ще можна підвантажувати різні картинки? (окрім srcset)
+  </div>
+  <div class="answer">
+    <p>
+      Через тег <code>&lt;picture&gt;</code>,
+      який дозволяє комбінувати формати та media-запити.
+    </p>
+
+    <pre>&lt;picture&gt;
+  &lt;source srcset="image.webp" type="image/webp"&gt;
+  &lt;source srcset="image.jpg" type="image/jpeg"&gt;
+  &lt;img src="image.jpg" alt=""&gt;
+&lt;/picture&gt;</pre>
+
+    <p>
+      Також можна використовувати <strong>media queries</strong>
+      для вибору зображення під конкретні умови.
+    </p>
+
+    <pre>&lt;picture&gt;
+  &lt;source media="(max-width: 600px)" srcset="mobile.jpg"&gt;
+  &lt;source media="(min-width: 601px)" srcset="desktop.jpg"&gt;
+  &lt;img src="desktop.jpg" alt=""&gt;
+&lt;/picture&gt;</pre>
+
+    <p><strong>Follow-up:</strong> коли picture краще за srcset?</p>
+    <p><strong>Відповідь:</strong> коли потрібні різні формати або різний контент для breakpoint’ів.</p>
+  </div>
+
+  <!-- 3 -->
+  <div class="question">
+    3. Яку роль відіграють формати зображень (WebP, JPG, PNG)?
+  </div>
+  <div class="answer">
+    <p>
+      <strong>WebP</strong> — сучасний формат з кращим стисненням,
+      ніж JPG і PNG.
+    </p>
+
+    <p>• менший розмір файлу</p>
+    <p>• підтримка прозорості</p>
+    <p>• підходить для фото і UI</p>
+
+    <p>
+      Зазвичай використовують WebP з fallback
+      на JPG або PNG через <code>&lt;picture&gt;</code>.
+    </p>
+  </div>
+
+  <!-- 4 -->
+  <div class="question">
+    4. Що таке Retina та як працювати з екранами з високою щільністю пікселів?
+  </div>
+  <div class="answer">
+    <p>
+      <strong>Retina</strong> — це екрани з високою щільністю пікселів,
+      де на один CSS-піксель припадає кілька фізичних пікселів.
+    </p>
+
+    <p>
+      Щоб зображення виглядали чітко,
+      потрібно завантажувати картинки з більшою роздільною здатністю.
+    </p>
+
+    <pre>&lt;img
+  src="icon.png"
+  srcset="icon.png 1x, icon@2x.png 2x"
+  alt=""
+/&gt;</pre>
+
+    <p><strong>Що таке DPI:</strong></p>
+    <p>
+      DPI (<em>dots per inch</em>) — кількість пікселів на дюйм.
+      Чим вище DPI, тим більше деталей може відобразити екран.
+    </p>
+
+    <p>
+      На екранах з високим DPI
+      стандартні картинки виглядають розмитими,
+      якщо не використати <code>2x</code> або <code>3x</code> версії.
+    </p>
+
+    <p><strong>Follow-up:</strong> що краще для ретини — PNG чи SVG?</p>
+    <p><strong>Відповідь:</strong> SVG, бо масштабується без втрати якості.</p>
+  </div>
+
+  <!-- 10 -->
+  <div class="question">
+    10. PNG — це який тип зображення?
+  </div>
+  <div class="answer">
+    <p>
+      <strong>PNG</strong> — це растровий формат зображення
+      з безвтратним стисненням.
+    </p>
+    <p>
+      Підтримує прозорість (<code>alpha channel</code>)
+      та використовується для іконок, UI-елементів, скріншотів.
+    </p>
+
+    <p><strong>Follow-up:</strong> чому PNG важчий за JPG?</p>
+    <p>
+      <strong>Відповідь:</strong>
+      тому що не використовує стиснення з втратами.
+    </p>
+  </div>
+
+  <div class="section-title">02-js-basics: Основи JavaScript</div>
+
+  <!-- 1 -->
+  <div class="question">
+    1. Як можна оголосити функції в JS?
+  </div>
+  <div class="answer">
+    <p><strong>Function Declaration:</strong></p>
+    <pre>function sum(a, b) {
+  return a + b;
+}</pre>
+
+    <p><strong>Function Expression:</strong></p>
+    <pre>const sum = function(a, b) {
+  return a + b;
+};</pre>
+
+    <p><strong>Arrow Function:</strong></p>
+    <pre>const sum = (a, b) => a + b;</pre>
+
+    <p><strong>Follow-up:</strong> який спосіб використовують найчастіше?</p>
+    <p><strong>Відповідь:</strong> arrow function та function expression.</p>
+  </div>
+
+  <!-- 2 -->
+  <div class="question">
+    2. Різниця між function expression, arrow function та function declaration?
+  </div>
+  <div class="answer">
+    <p><strong>Function Declaration</strong> — піднімається через hoisting.</p>
+    <p><strong>Function Expression</strong> — не піднімається.</p>
+    <p><strong>Arrow Function</strong> — не має власного <code>this</code>, <code>arguments</code>.</p>
+
+    <p><strong>Follow-up:</strong> чи можна використовувати arrow як constructor?</p>
+    <p><strong>Відповідь:</strong> ні, у arrow немає <code>this</code> та <code>prototype</code>.</p>
+  </div>
+
+  <!-- 3 -->
+  <div class="question">
+    3. Що таке hoisting?
+  </div>
+  <div class="answer">
+    <p>
+      Hoisting — це механізм, за яким оголошення змінних і функцій
+      піднімаються на початок області видимості.
+    </p>
+
+    <pre>console.log(a); // undefined
+var a = 5;</pre>
+
+    <p><code>let</code> та <code>const</code> hoisting мають, але доступні лише після ініціалізації (TDZ).</p>
+
+    <p><strong>Follow-up:</strong> чи hoisting — це реальне переміщення коду?</p>
+    <p><strong>Відповідь:</strong> ні, це поведінка execution context.</p>
+  </div>
+
+  <!-- 4 -->
+  <div class="question">
+    4. Що таке замикання (closure) в JS?
+  </div>
+  <div class="answer">
+    <p>
+      Closure — це доступ функції до змінних із зовнішньої області
+      після завершення її виконання.
+    </p>
+
+    <pre>function counter() {
+  let count = 0;
+  return function () {
+    count++;
+    return count;
+  };
+}
+
+const inc = counter();
+inc(); // 1
+inc(); // 2</pre>
+
+    <p><strong>Follow-up:</strong> де використовується?</p>
+    <p><strong>Відповідь:</strong> приватні змінні, callbacks, React hooks.</p>
+  </div>
+
+  <!-- 5 -->
+  <div class="question">
+    5. Що таке контекст виконання (execution context) в JS?
+  </div>
+  <div class="answer">
+    <p>
+      Execution context — це середовище, в якому виконується код.
+    </p>
+    <p>Містить:</p>
+    <p>• змінні</p>
+    <p>• значення <code>this</code></p>
+    <p>• scope chain</p>
+
+    <p><strong>Типи:</strong> Global, Function, Eval.</p>
+
+    <p><strong>Follow-up:</strong> скільки global context?</p>
+    <p><strong>Відповідь:</strong> один на програму.</p>
+  </div>
+
+  <!-- 6 -->
+  <div class="question">
+    6. Що таке this в JS? Як визначається його значення?
+  </div>
+  <div class="answer">
+    <p><strong>this</strong> — це контекст виклику функції.</p>
+
+    <p><strong>Метод обʼєкта:</strong> <code>this</code> → обʼєкт.</p>
+    <p><strong>Звичайна функція:</strong> <code>undefined</code> у strict mode.</p>
+    <p><strong>Arrow function:</strong> бере <code>this</code> із зовнішнього контексту.</p>
+    <p><strong>call/apply/bind:</strong> задається вручну.</p>
+
+    <p><strong>Follow-up:</strong> від чого залежить this?</p>
+    <p><strong>Відповідь:</strong> від способу виклику, а не оголошення.</p>
+  </div>
+
+  <!-- 7 -->
+  <div class="question">
+    7. Що таке глобальний об'єкт в JS? Який він у браузері та Node.js?
+  </div>
+  <div class="answer">
+    <p>
+      Глобальний обʼєкт — це обʼєкт, який містить глобальні змінні та функції.
+    </p>
+    <p><strong>Browser:</strong> <code>window</code></p>
+    <p><strong>Node.js:</strong> <code>global</code></p>
+    <p><strong>Універсальний:</strong> <code>globalThis</code></p>
+
+    <p><strong>Follow-up:</strong> навіщо globalThis?</p>
+    <p><strong>Відповідь:</strong> для кросплатформенного коду.</p>
+  </div>
+
+  <!-- 8 -->
+  <div class="question">
+    8. Що належить до глобальної області видимості (global scope) в window?
+  </div>
+  <div class="answer">
+    <p>• глобальні змінні (<code>var</code>)</p>
+    <p>• глобальні функції</p>
+    <p>• <code>document</code>, <code>location</code>, <code>history</code></p>
+    <p>• <code>setTimeout</code>, <code>fetch</code></p>
+
+    <p><strong>Follow-up:</strong> чи потрапляють <code>let</code> і <code>const</code> у window?</p>
+    <p><strong>Відповідь:</strong> ні.</p>
+  </div>
+
+  <!-- 9 -->
+  <div class="question">
+    9. Як можна задати this для функції вручну?
+  </div>
+  <div class="answer">
+    <p>Через <code>call</code>, <code>apply</code>, <code>bind</code>.</p>
+
+    <pre>fn.call(obj, a, b);
+fn.apply(obj, [a, b]);
+const bound = fn.bind(obj);</pre>
+
+    <p><strong>Follow-up:</strong> який виконує одразу?</p>
+    <p><strong>Відповідь:</strong> call та apply.</p>
+  </div>
+
+  <!-- 10 -->
+  <div class="question">
+    10. В чому різниця між bind та call / apply?
+  </div>
+  <div class="answer">
+    <p><strong>call / apply</strong> — викликають функцію одразу.</p>
+    <p><strong>bind</strong> — повертає нову функцію з привʼязаним <code>this</code>.</p>
+
+    <p><strong>Різниця call/apply:</strong> аргументи окремо / масивом.</p>
+  </div>
+
+  <!-- 11 -->
+  <div class="question">
+    11. Які способи роботи з асинхронним кодом в JS ти знаєш?
+  </div>
+  <div class="answer">
+    <p><strong>Callbacks</strong> — базовий, але може призводити до callback hell.</p>
+
+    <p><strong>Promises</strong></p>
+    <pre>fetch(url)
+  .then(res => res.json())
+  .then(data => console.log(data));</pre>
+
+    <p><strong>async / await</strong> — синтаксичний цукор над Promise.</p>
+    <pre>const data = await fetch(url);</pre>
+
+    <p><strong>Follow-up:</strong> як обробляти помилки?</p>
+    <p><strong>Відповідь:</strong> <code>.catch()</code> або <code>try/catch</code>.</p>
+  </div>
+
+  <div class="section-title">03-async-patterns: Observer, Events, MobX/Saga</div>
+
+  <div class="question">
+    1. Чи працював з MobX або Redux-Saga? Як це повʼязано з асинхронним кодом?
+  </div>
+  <div class="answer">
+    <p><strong>MobX</strong> — state management на базі реактивності: <code>observable</code> + <code>observer</code>. Асинхронність зазвичай роблять в actions (async/await), а UI автоматично реагує на зміни.</p>
+    <p><strong>Redux-Saga</strong> — middleware для Redux, яке керує async потоками через generator-функції (effects типу <code>takeLatest</code>, <code>call</code>, <code>put</code>). Це відділяє async-логіку від компонентів і reducer’ів.</p>
+    <p><strong>Плюси:</strong> краще структурування async, менше логіки в компонентах, контроль над race conditions.</p>
+    <p><strong>Мінуси:</strong> складність, більше абстракцій, треба домовленості в команді.</p>
+    <p><strong>Follow-up:</strong> що б обрав для простого проєкту?</p>
+    <p><strong>Відповідь:</strong> RTK Query / async thunks / React Query; Saga — коли потрібні складні потоки.</p>
+  </div>
+
+  <div class="question">
+    2. Які патерни проєктування ти знаєш?
+  </div>
+  <div class="answer">
+    <p><strong>Creational:</strong> Factory, Singleton.</p>
+    <p><strong>Structural:</strong> Decorator, Adapter.</p>
+    <p><strong>Behavioral:</strong> Observer, Strategy.</p>
+    <p><strong>Follow-up:</strong> який найчастіше в UI?</p>
+    <p><strong>Відповідь:</strong> Observer (події/стан), Strategy (різні алгоритми), Decorator (HOC/middleware).</p>
+  </div>
+
+  <div class="question">
+    3. Як працює Observer pattern?
+  </div>
+  <div class="answer">
+    <p>
+      <strong>Observer pattern</strong> — це взаємодія
+      «один-до-багатьох», де один обʼєкт (Subject)
+      повідомляє підписників (Observers) про події або зміни.
+    </p>
+
+    <p>
+      У браузері класичний приклад Observer — це
+      <code>addEventListener</code>, який реалізований через callbacks.
+    </p>
+
+    <p><strong>Ролі:</strong></p>
+    <p>• <strong>Subject</strong> — DOM-елемент (кнопка)</p>
+    <p>• <strong>Observer</strong> — callback-функція</p>
+    <p>• <strong>Подія</strong> — click, input, scroll</p>
+
+    <p>
+      Callback у цьому випадку і є Observer —
+      функція, яка чекає на подію і реагує на неї.
+    </p>
+
+    <p><strong>Як це працює крок за кроком:</strong></p>
+    <p>1. Observer підписується на подію через <code>addEventListener</code></p>
+    <p>2. Браузер зберігає callback у внутрішньому списку слухачів</p>
+    <p>3. При виникненні події браузер проходить по списку listeners</p>
+    <p>4. Кожен callback викликається з обʼєктом події</p>
+
+    <pre>const onClick = () => {
+  console.log('button clicked');
+};
+
+button.addEventListener('click', onClick);</pre>
+
+    <p>
+      Коли користувач клікає кнопку,
+      браузер автоматично повідомляє всіх підписників —
+      викликає їх callbacks.
+    </p>
+
+    <p><strong>Відписка (unsubscribe):</strong></p>
+    <pre>button.removeEventListener('click', onClick);</pre>
+
+    <p>
+      Відписка є важливою частиною Observer pattern,
+      інакше callbacks продовжать викликатися
+      та можуть призводити до витоків памʼяті.
+    </p>
+
+    <p><strong>Чому це Observer pattern:</strong></p>
+    <p>
+      • Subject не знає, хто саме на нього підписаний<br>
+      • може бути будь-яка кількість observers<br>
+      • реакція відбувається лише при події<br>
+      • звʼязок між обʼєктами слабкий (loose coupling)
+    </p>
+
+    <p><strong>Практичні приклади застосування:</strong></p>
+    <p>• DOM events (<code>addEventListener</code>)</p>
+    <p>• React (зміна state → rerender компонентів)</p>
+    <p>• MobX (<code>observable</code> → <code>observer</code>)</p>
+    <p>• RxJS (<code>subscribe / next</code>)</p>
+
+    <p><strong>Follow-up:</strong> коли викликається callback?</p>
+    <p>
+      <strong>Відповідь:</strong>
+      коли подія відбувається і доходить до елемента
+      на відповідній фазі
+      (capturing / target / bubbling).
+    </p>
+  </div>
+
+
+  <div class="question">
+    4. Якщо підписався на подію, як відписатися від неї?
+  </div>
+  <div class="answer">
+    <p>У DOM — через <code>removeEventListener</code> з тим самим типом події і тим самим callback (та опціями, якщо використовувались).</p>
+    <pre>const onClick = () => console.log('click');
+
+btn.addEventListener('click', onClick);
+btn.removeEventListener('click', onClick);</pre>
+    <p><strong>Важливо:</strong> якщо передати нову функцію (інший reference) — відписка не спрацює.</p>
+  </div>
+
+  <div class="question">
+    5. Якщо підписався на подію — що відбувається далі?
+  </div>
+  <div class="answer">
+    <p>Браузер додає callback у список слухачів (listeners) для конкретного елемента і типу події.</p>
+    <p>Коли подія трапляється, браузер проходить по списку listeners і викликає їх у порядку реєстрації.</p>
+    <p>Подія проходить фази: <strong>capturing</strong> → <strong>target</strong> → <strong>bubbling</strong> (якщо bubbling є).</p>
+    <p><strong>Follow-up:</strong> що таке event delegation?</p>
+    <p><strong>Відповідь:</strong> ставимо один listener на батька і ловимо події від дітей через bubbling.</p>
+  </div>
+
+  <div class="question">
+    6. Дати розгорнуту відповідь: "Як працює Observer?"
+  </div>
+  <div class="answer">
+    <p><strong>Observer</strong> — це шаблон взаємодії "один-до-багатьох": один Subject повідомляє багато Observer’ів.</p>
+    <p><strong>Навіщо:</strong> розв’язує жорстку залежність — Subject не знає деталей підписників, тільки викликає їх.</p>
+    <p><strong>Структура:</strong></p>
+    <p>• Subject зберігає список підписників</p>
+    <p>• методи: <code>subscribe</code>, <code>unsubscribe</code>, <code>notify</code></p>
+    <p>• Observer — це callback/об’єкт з методом <code>update</code></p>
+    <p><strong>Приклад з життям:</strong> кнопка (Subject) → обробники кліку (Observers); store → компоненти.</p>
+    <p><strong>Типова помилка:</strong> не відписуватися → витоки памʼяті (особливо в SPA).</p>
+  </div>
+
+  <div class="question">
+    7. Розповісти про <code>addEventListener</code> та принцип роботи цього патерну.
+  </div>
+  <div class="answer">
+    <p><code>addEventListener(type, callback, options)</code> реєструє callback як слухача події.</p>
+    <p><strong>type:</strong> 'click', 'input', 'scroll', ...</p>
+    <p><strong>callback:</strong> функція, яка отримає об’єкт події <code>event</code>.</p>
+    <p><strong>options:</strong> налаштування фази і поведінки.</p>
+
+    <pre>btn.addEventListener('click', (e) => {
+  console.log(e.type);        // 'click'
+  console.log(e.target);      // елемент, по якому клікнули
+});</pre>
+
+    <p><strong>Фази події:</strong></p>
+    <p>• Capturing: зверху вниз (якщо <code>{ capture: true }</code>)</p>
+    <p>• Target: на цільовому елементі</p>
+    <p>• Bubbling: знизу вверх (за замовчуванням)</p>
+
+    <p><strong>Корисні options:</strong></p>
+    <p>• <code>{ once: true }</code> — виконається 1 раз</p>
+    <p>• <code>{ passive: true }</code> — не викликаємо <code>preventDefault</code> (краще для scroll)</p>
+    <p>• <code>{ capture: true }</code> — слухати на фазі capturing</p>
+
+    <pre>window.addEventListener('scroll', onScroll, { passive: true });
+btn.addEventListener('click', onClick, { once: true });</pre>
+  </div>
+
+  <div class="question">
+    8. Практичне застосування Observer: де реально використовується?
+  </div>
+  <div class="answer">
+    <p><strong>DOM events:</strong> click/input/scroll — класичний Observer.</p>
+    <p><strong>State management:</strong> MobX (observable → observer), React state (компонент реагує на зміни).</p>
+    <p><strong>Streams:</strong> RxJS (subscribe → next/error/complete).</p>
+    <p><strong>Pub/Sub в додатку:</strong> event bus для внутрішніх подій.</p>
+
+    <pre>// RxJS ідея (спрощено)
+const observers = [];
+const subscribe = (fn) => observers.push(fn);
+const next = (v) => observers.forEach(fn => fn(v));</pre>
+
+    <p><strong>Follow-up:</strong> чому це корисно?</p>
+    <p><strong>Відповідь:</strong> слабке зв’язування модулів і реакція на зміни без прямого виклику один одного.</p>
+  </div>
+
+  <div class="question">
+    9. Коли викличиться callback, переданий в <code>addEventListener</code>?
+  </div>
+  <div class="answer">
+    <p>Коли відбудеться відповідна подія (наприклад, 'click') і подія дійде до елемента на потрібній фазі (capturing/target/bubbling).</p>
+    <p>Callback викликається з обʼєктом події <code>event</code> і з <code>this</code>, що вказує на елемент (для звичайної функції).</p>
+
+    <pre>btn.addEventListener('click', function (e) {
+  console.log(this === btn); // true
+});
+
+btn.addEventListener('click', (e) => {
+  // arrow бере this ззовні
+});</pre>
+
+    <p><strong>Follow-up:</strong> як зупинити спливання?</p>
+    <p><strong>Відповідь:</strong> <code>e.stopPropagation()</code> (а дефолтну дію — <code>e.preventDefault()</code>).</p>
+  </div>
+
+  <div class="section-title">04-react-core: Ререндер, Virtual DOM, Controlled / Uncontrolled</div>
+
+  <!-- 1 -->
+  <div class="question">
+    1. Що зробити, щоб компонент ререндерився в React?
+  </div>
+  <div class="answer">
+    <p>Компонент у React ререндериться, коли змінюються його вхідні дані або контекст.</p>
+
+    <p><strong>Основні причини ререндеру:</strong></p>
+    <p>• при зміні <strong>props</strong></p>
+    <p>• при оновленні <strong>state</strong> через <code>useState</code> (<code>setState</code>)</p>
+    <p>• при зміні значення <strong>Context</strong></p>
+    <p>• при ререндері батьківського компонента</p>
+    <p>
+      • при зміні значення <strong>key</strong> між рендерами —
+      React перемонтовує компонент
+    </p>
+    <p><strong>Follow-up:</strong> чи ререндер завжди означає оновлення DOM?</p>
+    <p><strong>Відповідь:</strong> ні, React може вирішити, що DOM не потребує змін.</p>
+  </div>
+
+  <!-- 2 -->
+  <div class="question">
+    2. Як React знає, що саме потрібно ререндерити?
+  </div>
+  <div class="answer">
+    <p>
+      React порівнює попередній і новий результат рендеру
+      за допомогою Virtual DOM.
+    </p>
+    <p>
+      Він визначає мінімальний набір змін,
+      які потрібно застосувати до реального DOM.
+    </p>
+
+    <p><strong>Ключова ідея:</strong> не оновлювати весь DOM, а лише те, що змінилось.</p>
+  </div>
+
+  <!-- 3 -->
+  <div class="question">
+    3. Що таке Virtual DOM?
+  </div>
+  <div class="answer">
+    <p>
+      <strong>Virtual DOM</strong> — це легковажне JS-представлення реального DOM.
+    </p>
+    <p>
+      Кожен рендер створює нове дерево Virtual DOM,
+      яке потім порівнюється з попереднім.
+    </p>
+
+    <p><strong>Навіщо:</strong></p>
+    <p>• реальний DOM повільний</p>
+    <p>• JS-операції значно швидші</p>
+    <p>• можна виконати batch-оновлення</p>
+  </div>
+
+  <!-- 4 -->
+  <div class="question">
+    4. Як Virtual DOM працює під капотом? Як відбувається порівняння?
+  </div>
+  <div class="answer">
+    <p>
+      Після кожного ререндеру React:
+    </p>
+    <p>1. Створює нове дерево Virtual DOM</p>
+    <p>2. Порівнює його з попереднім (diffing)</p>
+    <p>3. Обчислює різницю</p>
+    <p>4. Застосовує мінімальні зміни до реального DOM</p>
+
+    <p><strong>Основні евристики diffing алгоритму:</strong></p>
+    <p>
+      • елементи різного типу → повна заміна піддерева
+    </p>
+    <p>
+      • однакові типи → оновлюються лише props
+    </p>
+    <p>
+      • списки порівнюються за <code>key</code>
+    </p>
+
+    <p><strong>Приклад:</strong></p>
+    <pre>// було
+&lt;li key="1"&gt;A&lt;/li&gt;
+&lt;li key="2"&gt;B&lt;/li&gt;
+
+// стало
+&lt;li key="2"&gt;B&lt;/li&gt;
+&lt;li key="1"&gt;A&lt;/li&gt;</pre>
+
+    <p>
+      Завдяки <code>key</code> React не перевмонтуює елементи,
+      а лише міняє їх місцями.
+    </p>
+
+    <p><strong>Важливо:</strong> без key React може зробити зайві DOM-операції.</p>
+  </div>
+
+  <!-- 5 -->
+  <div class="question">
+    5. Що таке reconciliation в React?
+  </div>
+  <div class="answer">
+    <p>
+      <strong>Reconciliation</strong> — це процес узгодження
+      старого і нового Virtual DOM.
+    </p>
+    <p>
+      Саме під час reconciliation React вирішує,
+      що потрібно оновити, змінити або видалити.
+    </p>
+
+    <p><strong>Простими словами:</strong> reconciliation = diffing + update.</p>
+  </div>
+
+  <!-- 6 -->
+  <div class="question">
+    6. Різниця між контрольованим та неконтрольованим компонентом?
+  </div>
+  <div class="answer">
+    <p><strong>Контрольований компонент</strong> — стан інпуту зберігається в React.</p>
+    <pre>&lt;input value={value} onChange={e => setValue(e.target.value)} /&gt;</pre>
+
+    <p><strong>Неконтрольований компонент</strong> — стан зберігається в DOM.</p>
+    <pre>&lt;input defaultValue="test" ref={inputRef} /&gt;</pre>
+
+    <p><strong>Головна різниця:</strong> хто керує станом — React чи браузер.</p>
+  </div>
+
+  <!-- 7 -->
+  <div class="question">
+    7. В чому краще використовувати контрольовані компоненти?
+  </div>
+  <div class="answer">
+    <p>
+      Контрольовані компоненти краще використовувати,
+      коли потрібно:
+    </p>
+    <p>• валідація в реальному часі</p>
+    <p>• синхронізація значень</p>
+    <p>• умовна логіка UI</p>
+    <p>• повний контроль над формою</p>
+
+    <p><strong>Типові кейси:</strong> auth, фільтри, step-форми.</p>
+  </div>
+
+  <!-- 8 -->
+  <div class="question">
+    8. Коли доцільно використовувати неконтрольовані компоненти?
+  </div>
+  <div class="answer">
+    <p>
+      У неконтрольованих компонентах
+      React створює DOM-елементи,
+      а браузер сам керує їх станом.
+    </p>
+
+    <p><strong>Корисно для:</strong></p>
+    <p>
+      • великих форм з багатьма інпутами,
+      де не потрібно контролювати кожен символ
+    </p>
+    <p>
+      • інтеграції зі сторонніми бібліотеками
+      (date picker, rich text editor)
+    </p>
+    <p>
+      • простих одноразових форм
+    </p>
+
+    <p><strong>Плюс:</strong> менше ререндерів.</p>
+    <p><strong>Мінус:</strong> менше контролю та складніша логіка.</p>
+  </div>
+
+  <div class="section-title">05-react-hooks: Hooks, Context, Optimization</div>
+
+  <!-- 1 -->
+  <div class="question">
+    1. Якими хуками ти користуєшся найчастіше?
+  </div>
+  <div class="answer">
+    <p>
+      Найчастіше використовую базові хуки:
+      <code>useState</code>, <code>useEffect</code>, <code>useRef</code>,
+      <code>useMemo</code>, <code>useCallback</code>, <code>useContext</code>.
+    </p>
+
+    <p><strong>Коротко по призначенню:</strong></p>
+    <p>• <code>useState</code> — локальний стан</p>
+    <p>• <code>useEffect</code> — побічні ефекти</p>
+    <p>• <code>useRef</code> — DOM або мутабельне значення без ререндеру</p>
+    <p>• <code>useMemo</code> — мемоізація значень</p>
+    <p>• <code>useCallback</code> — мемоізація функцій</p>
+    <p>• <code>useContext</code> — доступ до глобальних даних</p>
+  </div>
+
+  <!-- 2 -->
+  <div class="question">
+    2. Для яких цілей використовується useMemo?
+  </div>
+  <div class="answer">
+    <p>
+      <code>useMemo</code> використовується для мемоізації
+      результату обчислень між рендерами.
+    </p>
+
+    <p><strong>Навіщо:</strong></p>
+    <p>• уникнути повторних важких обчислень</p>
+    <p>• зменшити навантаження при частих ререндерах</p>
+    <p>• оптимізувати продуктивність</p>
+
+    <pre>const total = useMemo(() => {
+  return items.reduce((sum, i) => sum + i.price, 0);
+}, [items]);</pre>
+
+    <p><strong>Важливо:</strong></p>
+    <p>
+      <code>useMemo</code> працює зі <strong>значеннями</strong>,
+      а не з функціями (для цього є <code>useCallback</code>).
+    </p>
+
+    <p><strong>Follow-up:</strong> чи варто обгортати все в useMemo?</p>
+    <p><strong>Відповідь:</strong> ні, useMemo має оверхед і потрібен лише там, де є реальна проблема з продуктивністю.</p>
+  </div>
+
+  <!-- 3 -->
+  <div class="question">
+    3. Для чого використовується useContext?
+  </div>
+  <div class="answer">
+    <p>
+      <code>useContext</code> дозволяє отримувати дані з React Context
+      без прокидування props через багато рівнів.
+    </p>
+
+    <p><strong>Типові кейси:</strong></p>
+    <p>• тема (theme)</p>
+    <p>• локалізація</p>
+    <p>• auth / user</p>
+    <p>• feature flags</p>
+
+    <pre>const ThemeContext = createContext();
+
+const theme = useContext(ThemeContext);</pre>
+  </div>
+
+  <!-- 4 -->
+  <div class="question">
+    4. Де зберігаються дані useContext в React?
+  </div>
+  <div class="answer">
+    <p>
+      Дані зберігаються у <code>value</code> провайдера
+      (<code>&lt;Context.Provider&gt;</code>).
+    </p>
+
+    <pre>&lt;AuthContext.Provider value={user}&gt;
+  &lt;App /&gt;
+&lt;/AuthContext.Provider&gt;</pre>
+
+    <p>
+      Усі дочірні компоненти отримують доступ до цього значення
+      через <code>useContext</code>.
+    </p>
+  </div>
+
+  <!-- 5 -->
+  <div class="question">
+    5. Context — це global state?
+  </div>
+  <div class="answer">
+    <p>
+      Так, Context можна вважати глобальним станом,
+      але він <strong>не є повноцінним state-manager’ом</strong>.
+    </p>
+
+    <p><strong>Відмінності:</strong></p>
+    <p>• немає middleware</p>
+    <p>• немає інструментів дебагу</p>
+    <p>• при зміні value ререндеряться всі споживачі</p>
+  </div>
+
+  <!-- 6 -->
+  <div class="question">
+    6. Плюси та мінуси useContext
+  </div>
+  <div class="answer">
+    <p><strong>Плюси:</strong></p>
+    <p>• простий API</p>
+    <p>• немає prop drilling</p>
+    <p>• вбудований у React</p>
+
+    <p><strong>Мінуси:</strong></p>
+    <p>• всі споживачі ререндеряться при зміні value</p>
+    <p>• не підходить для часто змінюваного стану</p>
+
+    <p>
+      <strong>Висновок:</strong>
+      useContext варто використовувати для даних,
+      які змінюються рідко.
+    </p>
+  </div>
+
+  <!-- 7 -->
+  <div class="question">
+    7. Які є способи оптимізації React-додатку?
+  </div>
+  <div class="answer">
+    <p>• <code>React.memo</code></p>
+    <p>• <code>useMemo</code>, <code>useCallback</code></p>
+    <p>• правильні <code>key</code> у списках</p>
+    <p>• code splitting / lazy loading</p>
+    <p>• уникання зайвого state</p>
+    <p>• розділення логіки і UI</p>
+
+    <p><strong>Follow-up:</strong> з чого починати?</p>
+    <p><strong>Відповідь:</strong> з аналізу ререндерів (React DevTools).</p>
+  </div>
+
+  <!-- 8 -->
+  <div class="question">
+    8. Що таке кастомні хуки в React?
+  </div>
+  <div class="answer">
+    <p>
+      Кастомний хук — це функція,
+      яка використовує інші хуки
+      і інкапсулює логіку.
+    </p>
+
+    <p><strong>Правила:</strong></p>
+    <p>• імʼя починається з <code>use</code></p>
+    <p>• можна викликати інші хуки</p>
+  </div>
+
+  <!-- 9 -->
+  <div class="question">
+    9. Чи писав ти кастомні хуки? Наведи приклад.
+  </div>
+  <div class="answer">
+    <pre>function useToggle(initial = false) {
+  const [value, setValue] = useState(initial);
+  const toggle = () => setValue(v => !v);
+  return [value, toggle];
+}</pre>
+
+    <p>
+      Такий хук дозволяє перевикористовувати логіку
+      без дублювання коду.
+    </p>
+  </div>
+
+  <!-- 10 -->
+  <div class="question">
+    10. Чим кастомний хук відрізняється від звичайної функції?
+  </div>
+  <div class="answer">
+    <p><strong>Кастомний хук:</strong></p>
+    <p>• може використовувати React hooks</p>
+    <p>• підпорядковується правилам хуків</p>
+
+    <p><strong>Звичайна функція:</strong></p>
+    <p>• не має доступу до хуків</p>
+    <p>• не зберігає React-стан</p>
+
+    <p><strong>Ключова різниця:</strong> хуки інтегровані в lifecycle React.</p>
+  </div>
+
+  <!-- 11 -->
+  <div class="question">
+    11. Розкажи більше про useEffect
+  </div>
+  <div class="answer">
+    <p>
+      <code>useEffect</code> використовується для побічних ефектів
+      після рендеру компонента.
+    </p>
+
+    <p><strong>Типові кейси:</strong></p>
+    <p>• запити до API</p>
+    <p>• підписки</p>
+    <p>• таймери</p>
+    <p>• синхронізація з DOM</p>
+
+    <p><strong>Залежності:</strong></p>
+    <p>• <code>[]</code> — лише при монтуванні</p>
+    <p>• <code>[dep]</code> — при зміні залежності</p>
+    <p>• без масиву — після кожного рендеру</p>
+
+    <pre>useEffect(() => {
+  fetchData();
+  return () => cleanup();
+}, [id]);</pre>
+
+    <p><strong>Важливо:</strong> неправильні залежності → infinite loop.</p>
+  </div>
+
+  <div class="section-title">07-browser-storage: Детальніше про Browser Storage</div>
+
+  <!-- 1 -->
+  <div class="question">
+    1. Які стореджі є в браузері? Детальна різниця між ними
+  </div>
+  <div class="answer">
+    <p>Основні browser storage:</p>
+
+    <p><strong>localStorage</strong></p>
+    <p>• Розмір: ~5–10 MB на домен</p>
+    <p>• Час життя: безстроково (поки не видалять вручну)</p>
+    <p>• Доступ: всі вкладки одного домену</p>
+    <p>• Тип даних: лише рядки</p>
+    <p>• Не надсилається на сервер</p>
+
+    <p><strong>sessionStorage</strong></p>
+    <p>• Розмір: ~5 MB</p>
+    <p>• Час життя: поки відкрита вкладка</p>
+    <p>• Доступ: тільки в межах однієї вкладки</p>
+    <p>• Тип даних: лише рядки</p>
+    <p>• Не надсилається на сервер</p>
+
+    <p><strong>Cookies</strong></p>
+    <p>• Розмір: ~4 KB на cookie</p>
+    <p>• Кількість: ~20–50 cookies на домен</p>
+    <p>• Час життя: задається (session або persistent)</p>
+    <p>• Автоматично надсилаються на сервер</p>
+  </div>
+
+  <!-- 2 -->
+  <div class="question">
+    2. Детально: localStorage
+  </div>
+  <div class="answer">
+    <p>
+      <strong>localStorage</strong> — синхронне key-value сховище,
+      доступне через JavaScript.
+    </p>
+
+    <pre>localStorage.setItem('theme', 'dark');
+localStorage.getItem('theme');</pre>
+
+    <p><strong>Особливості:</strong></p>
+    <p>• блокує main thread (синхронний API)</p>
+    <p>• не підходить для великих або чутливих даних</p>
+    <p>• дані переживають перезавантаження сторінки</p>
+
+    <p><strong>Типові кейси:</strong></p>
+    <p>• theme</p>
+    <p>• language</p>
+    <p>• UI preferences</p>
+  </div>
+
+  <!-- 3 -->
+  <div class="question">
+    3. Детально: sessionStorage
+  </div>
+  <div class="answer">
+    <p>
+      <strong>sessionStorage</strong> працює так само, як localStorage,
+      але обмежений життєвим циклом вкладки.
+    </p>
+
+    <p><strong>Особливість:</strong></p>
+    <p>
+      навіть якщо відкрити ту саму сторінку в новій вкладці —
+      дані не будуть спільними.
+    </p>
+
+    <p><strong>Типові кейси:</strong></p>
+    <p>• кроки multi-step форми</p>
+    <p>• тимчасові фільтри</p>
+    <p>• draft-стан</p>
+  </div>
+
+  <!-- 4 -->
+  <div class="question">
+    4. Детально: cookies
+  </div>
+  <div class="answer">
+    <p>
+      <strong>Cookies</strong> — дані, які браузер зберігає
+      і може надсилати на сервер разом з HTTP-запитами.
+    </p>
+
+    <p><strong>Час життя:</strong></p>
+    <p>• session cookies — до закриття браузера</p>
+    <p>• persistent cookies — за <code>expires</code> або <code>max-age</code></p>
+
+    <p><strong>Обмеження:</strong></p>
+    <p>• маленький розмір (~4KB)</p>
+    <p>• кожен HTTP-запит стає важчим</p>
+
+    <p><strong>Безпека:</strong></p>
+    <p>• <code>HttpOnly</code> — недоступна з JS (захист від XSS)</p>
+    <p>• <code>Secure</code> — лише HTTPS</p>
+    <p>• <code>SameSite</code> — захист від CSRF</p>
+
+    <pre>Set-Cookie: sessionId=abc;
+  HttpOnly;
+  Secure;
+  SameSite=Strict;
+  Max-Age=3600;</pre>
+
+    <p><strong>Follow-up:</strong> де безпечніше зберігати auth-токен?</p>
+    <p>
+      <strong>Відповідь:</strong>
+      HttpOnly cookie — безпечніше, ніж localStorage.
+    </p>
+  </div>
+
+  <!-- 5 -->
+  <div class="question">
+    5. Коротке порівняння (як на співбесіді)
+  </div>
+  <div class="answer">
+    <p><strong>localStorage</strong> — великий, довгоживучий, тільки клієнт</p>
+    <p><strong>sessionStorage</strong> — тимчасовий, на вкладку</p>
+    <p><strong>cookies</strong> — маленькі, але доступні серверу</p>
+  </div>
+
+
+  <!--  Як можна знайти посилання в тексті на кокретний ресурс за допомогою css?-->
+<!--  Як можна вирівняти елемент по горизонталі, та по вертикалі. Назвати як можна більше способів.-->
+<!--  Як відбувається завантаження сторінки в браузері?-->
+<!--  Як можна пришвидшити заватаження сторінки? Які є основні методи оптимізації? Які ти використовував?-->
+<!--  Що таке critical css?-->
+<!--  Як працює lazy loading?-->
+<!--  Які типи зображень ти знаєш? Які переваги та недоліки кожного з них?-->
+<!--  Різниця між растровим та векторним зображенням?-->
+<!--  Png це який тип?-->
+<!--      Як можна підвантажувати потрібні картинки під різні роздільні здатності екранів? (в результаті вони очікували, що я скажу про srcset та picture)-->
+<!--  як можна це робити ще? (в результаті вони очікували, що я скажу про media queries)-->
+<!--  Також я ще додав про webp формат, що він краще стискається ніж jpg та png-->
+<!--  Також ще про ретину. Тут я трохи почав тупити. Потім він спитав, чи чув я про dpi. Я сказав, що можу розкрити це-->
+<!--  питання, вони відповіли, що не треба. Але я б сказав, що dpi це dots per inch, і для ретини треба завантажувати картинки з більшою роздільною здатністю,-->
+<!--  щоб вони виглядали чітко на екранах з високою щільністю пікселів.-->
+
+<!--  Які стореджи є в браузері? Різниця між ними?-->
+<!--  localStorage, sessionStorage, cookies.-->
+<!--  Різниця між localStorage та sessionStorage?-->
+<!--  Різниця між cookies та localStorage?-->
+<!--  Розкажи більше про cookies. Чи завжди вони надсилаються на сервер? Якщо ні, що можна зробити, щоб вони не надсилалися?-->
+
+
+<!--  Як можна оголосити функції в JS?-->
+<!--  Різниця між function expression, arrow function та function declaration?-->
+<!--  Що таке hoisting?-->
+<!--  Що таке замикання (closure) в JS? Навести приклад.-->
+<!--  Що таке контекст виконання (execution context) в JS?-->
+<!--  Що таке this в JS? Як його значення визначається в різних випадках?-->
+<!--  Що таке глобальний об'єкт в JS? Та який глобальний обєкт в global?-->
+<!--  Що належить до глобальної області видимості (global scope) в window?-->
+<!--  Як можна задати this для функції вручну?-->
+<!--  В чому різниця між bind та call/apply?-->
+<!--  Які способи роботи ти знаєш з асинхронним кодом в JS?-->
+
+<!--  (на співбесіді мене ще питали про mobX та saga в контексті того, що це може допомогти працювати з кодом асихронно)Чи-->
+<!--  працював з mobX або saga?-->
+<!--  Які патерни проєктування ти знаєш?-->
+<!--  Як працює observer pattern?-->
+<!--  Якщо підписаввся на подію, як відписатися від неї?-->
+<!--  Якщо підписався на подію що відбувається далі?-->
+<!--  Дати розгорнуту відповідь на питання: "Як працює observer"-->
+<!--  Розповіди повністю про addEventListener та приницп роботи цього патерну.-->
+<!--  Розповісти про observer не лише теорію, але і практичне застосування і більше прикладів застосування.-->
+<!--  Коли викличиться callback функція передана в addEventListener?-->
+
+<!--  Що зробити, щоб компонент ререндерився в React?-->
+<!--  - за рахунок пропсів-->
+<!--  - за рахунок стейту-->
+<!--  - за рахунок контексту-->
+<!--  - при зміні бітьківського компонента-->
+<!--  - при зміні ключа (key)-->
+<!--  &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+<!--  Як реакт знає що саме требе ререндити?-->
+<!--  Розкажи більше про Virtual DOM?-->
+<!--  Як він працює під капотом? Як відбувається порівняння? (тут треба значно більше розкрити специфіку роботи та алгоритми)-->
+<!--  Що таке reconciliation в React?-->
+<!--  Чи знає ти різницю між контрольованим та неконтрольованим компонентом в React?-->
+<!--  В чому краще використовувати контрольовані компоненти?-->
+<!--  Які є варінати застосування неконтрольованих компонентів? (на співбесіді сказали, що важливо знати приклади. Можна-->
+<!--  використати якщо є велика форма з багатьма інпутами, і не варто кожен інпут робити контрольованим)-->
+<!--  У випадку неконтрольованого компоненту рендером займається не React, а браузер. Тобто React просто створює DOM елементи і вставляє їх в DOM,-->
+<!--  а браузер вже сам керує їх станом. Це може бути корисно для.-->
+<!--  - великих форм з багатьма інпутами, де не потрібно відслідковувати кожен інпут окремо-->
+<!--  - інтеграції з сторонніми бібліотеками, які вже керують-->
+
+<!--  Хуки. Якими хуками ти користуєшся найчастіше?-->
+<!--  useState, useEffect, useRef, useMemo, useCallback, useContext-->
+<!--  Для яких цілей використовуються useMemo? (тут дати більше розширене пояснення)-->
+<!--  Для чого використовується useContext?-->
+<!--  Де ми зберігаємо данні useContext в React?-->
+<!--  Context це global state.-->
+<!--  Плюси та мінуси useContext. (треба використовувати там де дані не змінюються дуже часто)-->
+<!--  Які є способи оптимізації React додатку?-->
+<!--  Що таке кастомні хуки в React?-->
+<!--  Чи писав ти кастомні хуки? Наведи приклад.-->
+<!--  Чим кастомний хук відрізняється від звичайної функції? Наведи приклади.-->
+<!--  Розкажи більше про useEffect-->
+</div>
+
+<script>
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  const toggleBtn = document.getElementById('themeToggle');
+  const body = document.body;
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  body.setAttribute('data-theme', savedTheme);
+  toggleBtn.textContent = savedTheme === 'light' ? '🌙' : '☀️';
+
+  toggleBtn.addEventListener('click', () => {
+    const currentTheme = body.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    body.setAttribute('data-theme', newTheme);
+    toggleBtn.textContent = newTheme === 'light' ? '🌙' : '☀️';
+    localStorage.setItem('theme', newTheme);
+  });
+</script>
+</body>
+</html>

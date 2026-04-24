@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Angular - Технічна співбесіда</title>
+</head>
+<body>
+  <div class="question">
+    <strong>Що таке Angular і які його основні переваги?</strong>
+  </div>
+  <div class="answer">
+    <p>Angular - це платформа та фреймворк для створення одно-сторінкових клієнтських додатків з використанням HTML і TypeScript.</p>
+    <p><strong>Основні переваги:</strong></p>
+    <ul>
+      <li><code>TypeScript</code> - сильна типізація з коробки</li>
+      <li><code>Dependency Injection</code> - вбудована система DI</li>
+      <li><code>CLI</code> - потужний інструмент для генерації коду</li>
+      <li><code>RxJS</code> - реактивне програмування</li>
+      <li><code>Two-way binding</code> - двостороння прив'язка даних</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <strong>Що таке компонент в Angular?</strong>
+  </div>
+  <div class="answer">
+    <p>Компонент - це основний будівельний блок Angular додатку, який складається з:</p>
+    <ul>
+      <li><code>@Component</code> декоратора з метаданими</li>
+      <li>TypeScript класу з логікою</li>
+      <li>HTML шаблону</li>
+      <li>CSS стилів (optional)</li>
+    </ul>
+    <pre><code>@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = 'My App';
+}</code></pre>
+  </div>
+
+  <div class="question">
+    <strong>Що таке директиви в Angular?</strong>
+  </div>
+  <div class="answer">
+    <p>Директиви - це класи, які додають поведінку до елементів DOM.</p>
+    <p><strong>Типи директив:</strong></p>
+    <ul>
+      <li><code>Structural</code> - змінюють структуру DOM (*ngIf, *ngFor)</li>
+      <li><code>Attribute</code> - змінюють вигляд або поведінку (ngClass, ngStyle)</li>
+      <li><code>Component</code> - директиви з шаблоном</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <strong>Що таке сервіси в Angular?</strong>
+  </div>
+  <div class="answer">
+    <p>Сервіси - це класи, які містять бізнес-логіку та можуть бути впроваджені в компоненти через Dependency Injection.</p>
+    <pre><code>@Injectable({
+  providedIn: 'root'
+})
+export class DataService {
+  getData() {
+    return this.http.get('/api/data');
+  }
+}</code></pre>
+  </div>
+
+  <div class="question">
+    <strong>Що таке lifecycle hooks в Angular?</strong>
+  </div>
+  <div class="answer">
+    <p>Lifecycle hooks - це методи, які дозволяють реагувати на різні події життєвого циклу компонента:</p>
+    <ul>
+      <li><code>ngOnInit()</code> - ініціалізація після створення</li>
+      <li><code>ngOnChanges()</code> - зміна input властивостей</li>
+      <li><code>ngOnDestroy()</code> - перед знищенням компонента</li>
+      <li><code>ngAfterViewInit()</code> - після ініціалізації view</li>
+      <li><code>ngDoCheck()</code> - кастомна перевірка змін</li>
+    </ul>
+  </div>
+</body>
+</html>

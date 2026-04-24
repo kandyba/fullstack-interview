@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Технічна співбесіда — Загальні питання</title>
+  <style>
+    :root {
+      --bg: #f9f9f9;
+      --text: #1c1e21;
+      --card: #ffffff;
+      --border: #e5e7eb;
+      --accent: #007bff;
+      --code-bg: #f4f4f4;
+    }
+
+    [data-theme="dark"] {
+      --bg: #1e1e1e;
+      --text: #e2e2e2;
+      --card: #2a2a2a;
+      --border: #3c3c3c;
+      --accent: #4aa8ff;
+      --code-bg: #252526;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0 20px;
+      background-color: var(--bg);
+      color: var(--text);
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+      color: var(--accent);
+    }
+
+    .theme-toggle {
+      background: none;
+      border: none;
+      font-size: 22px;
+      color: var(--accent);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      transform: rotate(20deg);
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      background: var(--card);
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border-radius: 5px;
+      border: 1px solid var(--border);
+      transition: background 0.4s ease, border 0.4s ease;
+    }
+
+    .question {
+      font-weight: bold;
+      margin: 20px 0 10px;
+      font-size: 25px;
+      color: #4aa8ff;
+    }
+
+    .answer {
+      margin-bottom: 20px;
+    }
+
+    .example {
+      background: var(--code-bg);
+      border-left: 4px solid var(--accent);
+      padding: 10px;
+      margin: 10px 0;
+      overflow-x: auto;
+      border-radius: 4px;
+      transition: background 0.4s ease, border 0.4s ease;
+    }
+
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .scroll-top {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 15px;
+      font-size: 14px;
+      color: #fff;
+      background-color: var(--accent);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+
+    .scroll-top:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body data-theme="dark">
+<header>
+  <h1>Запитання та відповіді для технічної співбесіди — Загальні питання</h1>
+  <button id="themeToggle" class="theme-toggle" title="Змінити тему">☀️</button>
+</header>
+<div class="container">
+  <!-- 1. HTTP -->
+  <div>
+    <div class="question">1. Що таке HTTP?</div>
+    <div class="answer">
+      <p><strong>HTTP (HyperText Transfer Protocol)</strong> — це протокол передачі даних між клієнтом (наприклад, браузером) і сервером.
+        Він визначає, як запити (requests) і відповіді (responses) обмінюються у веб-мережі.</p>
+      <p>HTTP є основою Всесвітньої павутини (WWW) і використовується для завантаження вебсторінок, зображень, відео та API-запитів.</p>
+    </div>
+  </div>
+
+  <!-- 2. Структура HTTP-запиту -->
+  <div>
+    <div class="question">2. З чого складається HTTP-запит?</div>
+    <div class="answer">
+      <p>Кожне HTTP-повідомлення складається з трьох основних частин:</p>
+      <ul>
+        <li><strong>Стартовий рядок</strong> — визначає тип повідомлення (наприклад, <code>GET /index.html HTTP/1.1</code>).</li>
+        <li><strong>Заголовки (Headers)</strong> — описують параметри передачі, формат контенту, авторизацію тощо.</li>
+        <li><strong>Тіло повідомлення (Body)</strong> — містить дані (наприклад, JSON або форму).</li>
+      </ul>
+      <p>Тіло завжди відділяється від заголовків пустим рядком.</p>
+    </div>
+  </div>
+
+  <!-- 3. Методи HTTP -->
+  <div>
+    <div class="question">3. Які методи HTTP-запитів ви знаєте?</div>
+    <div class="answer">
+      <ul>
+        <li><strong>GET</strong> — отримати дані з сервера.</li>
+        <li><strong>HEAD</strong> — отримати лише заголовки без тіла відповіді.</li>
+        <li><strong>POST</strong> — відправити дані на сервер (наприклад, форма, JSON).</li>
+        <li><strong>PATCH</strong> — часткове оновлення ресурсу.</li>
+        <li><strong>PUT</strong> — замінити існуючий ресурс повністю.</li>
+        <li><strong>DELETE</strong> — видалити вказаний ресурс.</li>
+        <li><strong>CONNECT</strong> — створює тунель (наприклад, через HTTPS-проксі).</li>
+        <li><strong>OPTIONS</strong> — повертає дозволені методи для ресурсу.</li>
+        <li><strong>TRACE</strong> — тестовий запит, який повертає отримане повідомлення.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 4. PUT vs PATCH -->
+  <div>
+    <div class="question">4. У чому різниця між PUT і PATCH?</div>
+    <div class="answer">
+      <p><strong>PUT</strong> повністю замінює існуючий ресурс, навіть якщо передано лише частину полів.
+        <strong>PATCH</strong> змінює тільки ті поля, які зазначені у тілі запиту.</p>
+      <pre>
+PUT /user/1
+{
+  "name": "Serhii",
+  "age": 36
+}
+
+PATCH /user/1
+{
+  "age": 37
+}
+      </pre>
+    </div>
+  </div>
+
+  <!-- 5. WebSocket -->
+  <div>
+    <div class="question">5. Що таке WebSocket?</div>
+    <div class="answer">
+      <p><strong>WebSocket</strong> — це двосторонній протокол зв’язку, який дозволяє клієнту і серверу обмінюватися даними в режимі реального часу через постійне з’єднання.</p>
+      <p>На відміну від HTTP, WebSocket не потребує повторних запитів — сервер може самостійно надсилати повідомлення клієнту.</p>
+      <p>Використовується для чату, біржових котирувань, онлайн-ігор, push-нотифікацій тощо.</p>
+    </div>
+  </div>
+
+  <!-- 6. REST API -->
+  <div>
+    <div class="question">6. Що таке REST API?</div>
+    <div class="answer">
+      <p><strong>REST (Representational State Transfer)</strong> — це архітектурний стиль побудови API, який базується на стандартних методах HTTP.</p>
+      <ul>
+        <li>Кожен ресурс має власний URL.</li>
+        <li>Використовуються методи <code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code> тощо.</li>
+        <li>Обмін даними зазвичай відбувається у форматі JSON.</li>
+        <li>Сервер не зберігає стан клієнта між запитами (stateless).</li>
+      </ul>
+      <p>REST API — основа більшості сучасних веб-сервісів.</p>
+    </div>
+  </div>
+
+  <!-- 7. WebRTC -->
+  <div>
+    <div class="question">7. Що таке WebRTC?</div>
+    <div class="answer">
+      <p><strong>WebRTC (Web Real-Time Communication)</strong> — це технологія для обміну аудіо, відео та іншими даними між браузерами у реальному часі без проміжних серверів.</p>
+      <ul>
+        <li>Дозволяє створювати відео- та аудіо-дзвінки.</li>
+        <li>Забезпечує обмін файлами peer-to-peer.</li>
+        <li>Має низьку затримку та шифрування даних.</li>
+      </ul>
+      <p>Використовується у сервісах типу Google Meet, Zoom, Discord тощо.</p>
+    </div>
+  </div>
+
+  <button class="scroll-top" onclick="scrollToTop()">▲ До початку</button>
+
+  <!-- 9. Патерни проєктування -->
+  <div>
+    <div class="question">9. Які патерни проєктування ви найчастіше використовуєте?</div>
+    <div class="answer">
+      <p><strong>Патерни проєктування</strong> — це готові рішення типових проблем у розробці.
+        Найбільш поширені у фронтенді:</p>
+      <ul>
+        <li>
+          <strong>Singleton</strong> — лише один екземпляр класу
+          (глобальний Store у Redux, config, logger).
+        </li>
+        <li>
+          <strong>Observer</strong> — підписники реагують на зміни стану
+          (React state, event listeners, RxJS).
+        </li>
+        <li>
+          <strong>Factory</strong> — створення об’єктів через функцію-фабрику
+          (createUser, createButton, API client).
+        </li>
+        <li>
+          <strong>Strategy</strong> — вибір одного з кількох алгоритмів виконання
+          (різні способи валідації, сортування, оплати).
+        </li>
+        <li>
+          <strong>Decorator</strong> — додавання функціоналу без зміни вихідного коду
+          (HOC у React, middleware, логування).
+        </li>
+
+      </ul>
+      <pre>
+// Singleton приклад
+class Config {
+  constructor() {
+    if (Config.instance) return Config.instance;
+    this.api = "https://api.example.com";
+    Config.instance = this;
+  }
+}
+const c1 = new Config();
+const c2 = new Config();
+console.log(c1 === c2); // true
+      </pre>
+    </div>
+  </div>
+
+  <!-- 10. package.json -->
+  <div>
+    <div class="question">10. Для чого потрібен файл package.json?</div>
+    <div class="answer">
+      <p><strong>package.json</strong> — це основний файл конфігурації Node.js або фронтенд-проєкту, який зберігає метадані та залежності.</p>
+      <p>Основні розділи:</p>
+      <ul>
+        <li><strong>name</strong> — назва пакета.</li>
+        <li><strong>version</strong> — поточна версія застосунку.</li>
+        <li><strong>scripts</strong> — команди для запуску (<code>npm run start</code>).</li>
+        <li><strong>dependencies</strong> — бібліотеки, необхідні для роботи.</li>
+        <li><strong>devDependencies</strong> — бібліотеки лише для розробки (Webpack, ESLint).</li>
+      </ul>
+      <pre>
+{
+  "name": "my-app",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}
+      </pre>
+    </div>
+  </div>
+
+  <!-- 11. SOLID -->
+  <div>
+    <div class="question">11. Розкажіть про принципи SOLID.</div>
+    <div class="answer">
+      <p><strong>SOLID</strong> — п’ять принципів якісного об’єктно-орієнтованого коду:</p>
+      <ul>
+        <li>
+          <strong>S — Single Responsibility</strong> — один клас = одна задача
+          (AuthService — логін, Logger — логування).
+        </li>
+        <li>
+          <strong>O — Open/Closed</strong> — нова логіка додається без зміни існуючого коду
+          (додаємо нову Strategy / Validator).
+        </li>
+        <li>
+          <strong>L — Liskov Substitution</strong> — підклас працює там, де очікується базовий клас
+          (будь-який PaymentService → pay()).
+        </li>
+        <li>
+          <strong>I — Interface Segregation</strong> — краще кілька вузьких інтерфейсів
+          (Readable, Writable замість одного BigInterface).
+        </li>
+        <li>
+          <strong>D — Dependency Inversion</strong> — залежимо від абстракції
+          (service приймає repository через constructor).
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 12. npm і yarn -->
+  <div>
+    <div class="question">12. Що таке npm і yarn?</div>
+    <div class="answer">
+      <p><strong>npm (Node Package Manager)</strong> — менеджер пакетів, який встановлюється разом із Node.js і використовується для встановлення бібліотек.</p>
+      <p><strong>Yarn</strong> — альтернатива npm, створена Facebook, яка забезпечує швидше встановлення, кешування пакетів і кращу роботу з блокуванням залежностей (<code>yarn.lock</code>).</p>
+      <pre>
+npm install react
+yarn add react
+      </pre>
+    </div>
+  </div>
+
+  <!-- 13. Git -->
+  <div>
+    <div class="question">13. Що таке Git і які основні команди ви використовуєте?</div>
+    <div class="answer">
+      <p><strong>Git</strong> — це система контролю версій, яка дозволяє відслідковувати зміни у коді та працювати в команді.</p>
+      <p>Основні команди:</p>
+      <ul>
+        <li><code>git init</code> — створити репозиторій.</li>
+        <li><code>git add .</code> — додати зміни до індексу.</li>
+        <li><code>git commit -m "msg"</code> — зафіксувати зміни.</li>
+        <li><code>git push / pull</code> — відправити або отримати зміни з віддаленого репозиторію.</li>
+        <li><code>git branch</code> — перегляд або створення гілок.</li>
+        <li><code>git merge</code> — об’єднання гілок.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 14. JSON vs XML -->
+  <div>
+    <div class="question">14. Чим відрізняються JSON і XML?</div>
+    <div class="answer">
+      <ul>
+        <li><strong>JSON (JavaScript Object Notation)</strong> — формат обміну даними, простий і зручний для JavaScript.</li>
+        <li><strong>XML (eXtensible Markup Language)</strong> — старіший формат, більш громіздкий.</li>
+        <li>JSON швидший, легший для читання і має менший розмір.</li>
+      </ul>
+      <pre>
+// JSON
+{ "name": "Serhii", "age": 36 }
+
+// XML
+&lt;user&gt;
+  &lt;name&gt;Serhii&lt;/name&gt;
+  &lt;age&gt;36&lt;/age&gt;
+&lt;/user&gt;
+      </pre>
+    </div>
+  </div>
+
+  <!-- 15. CORS -->
+  <div>
+    <div class="question">15. Що таке CORS?</div>
+    <div class="answer">
+      <p><strong>CORS (Cross-Origin Resource Sharing)</strong> — механізм безпеки браузера, який контролює доступ до ресурсів із різних доменів.</p>
+      <p>Наприклад, якщо ваш фронтенд на <code>example.com</code> робить запит до <code>api.server.com</code>, сервер повинен надіслати заголовок:</p>
+      <pre>
+Access-Control-Allow-Origin: *
+      </pre>
+      <p>Без цього запиту браузер заблокує відповідь.</p>
+    </div>
+  </div>
+
+  <!-- 16. HTTPS, DNS, cookies/session/token -->
+  <div>
+    <div class="question">16. HTTPS, DNS, cookies, session, token — коротко поясніть.</div>
+    <div class="answer">
+      <ul>
+        <li><strong>HTTPS</strong> — захищена версія HTTP, шифрує дані за допомогою SSL/TLS.</li>
+        <li><strong>DNS</strong> — система доменних імен, перетворює адресу типу <code>google.com</code> у IP-адресу.</li>
+        <li><strong>Cookies</strong> — невеликі файли у браузері, зберігають дані користувача (сесії, налаштування).</li>
+        <li><strong>Session</strong> — тимчасові дані на сервері, що зберігають стан користувача під час сеансу.</li>
+        <li><strong>Token</strong> — спосіб автентифікації без збереження стану (часто у форматі JWT).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="question">Що відбувається після того, як користувач вводить URL у браузері та натискає Enter?</div>
+  <div class="answer">
+    <ol>
+      <li><strong>DNS-запит:</strong> Браузер визначає IP-адресу домену (наприклад, shop.com) через DNS (Domain Name System).</li>
+      <li><strong>Створення TCP-з'єднання:</strong> Через протокол TCP (і TLS, якщо HTTPS) встановлюється безпечне з'єднання з сервером.</li>
+      <li><strong>Відправка HTTP-запиту:</strong> Браузер надсилає HTTP GET-запит до сервера на отримання ресурсу (наприклад, index.html).</li>
+      <li><strong>Сервер обробляє запит:</strong> Сервер читає файл з диска або генерує його динамічно.</li>
+      <li><strong>Сервер надсилає відповідь:</strong> Відправляє HTML-код разом із HTTP-заголовками назад до браузера.</li>
+      <li><strong>Браузер рендерить сторінку:</strong> Аналізує HTML, завантажує CSS, JS, зображення, запускає скрипти, показує результат.</li>
+    </ol>
+  </div>
+
+  <div class="question">Основні абревіатури, які варто знати</div>
+  <div class="answer">
+    <ul>
+      <li><strong>URL</strong> — Uniform Resource Locator (уніфікований локатор ресурсу)</li>
+      <li><strong>HTTP</strong> — HyperText Transfer Protocol (протокол передачі гіпертексту)</li>
+      <li><strong>HTTPS</strong> — HTTP Secure (HTTP + шифрування через TLS)</li>
+      <li><strong>DNS</strong> — Domain Name System (система доменних імен)</li>
+      <li><strong>IP</strong> — Internet Protocol (унікальна адреса в інтернеті)</li>
+      <li><strong>TCP</strong> — Transmission Control Protocol (протокол керування передачею)</li>
+      <li><strong>TLS</strong> — Transport Layer Security (протокол шифрування)</li>
+      <li><strong>HTML</strong> — HyperText Markup Language (мова розмітки)</li>
+      <li><strong>CSS</strong> — Cascading Style Sheets (каскадні таблиці стилів)</li>
+      <li><strong>JS</strong> — JavaScript (скриптова мова для вебу)</li>
+      <li><strong>CDN</strong> — Content Delivery Network (мережа доставки контенту)</li>
+      <li><strong>API</strong> — Application Programming Interface (інтерфейс прикладного програмування)</li>
+      <li><strong>JSON</strong> — JavaScript Object Notation (текстовий формат обміну даними)</li>
+      <li><strong>DOM</strong> — Document Object Model (об'єктна модель документа)</li>
+      <li><strong>BOM</strong> — Browser Object Model (об'єктна модель браузера)</li>
+    </ul>
+  </div>
+
+  <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+
+  <div class="question">Які етапи завантаження та рендерингу сторінки в браузері?</div>
+  <div class="answer">
+    <ol>
+      <li><strong>Отримання HTML:</strong> браузер отримує HTML від сервера.</li>
+      <li><strong>Парсинг HTML:</strong> створюється DOM (Document Object Model).</li>
+      <li><strong>Завантаження ресурсів:</strong> CSS, JS, шрифти, зображення — паралельно.</li>
+      <li><strong>Парсинг CSS:</strong> створюється CSSOM (CSS Object Model).</li>
+      <li><strong>Об’єднання DOM + CSSOM → Render Tree:</strong> структура для візуалізації.</li>
+      <li><strong>Layout (Reflow):</strong> обчислення розмірів та позицій елементів.</li>
+      <li><strong>Painting:</strong> пікселі елементів виводяться на екран.</li>
+      <li><strong>JS виконується:</strong> синхронно під час парсингу або після (якщо async/defer).</li>
+    </ol>
+  </div>
+
+  <button class="scroll-top" onclick="scrollToTop()">Вгору</button>
+
+
+
+</div>
+
+<script>
+  // === Scroll to top ===
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // === Theme toggle ===
+  const toggleBtn = document.getElementById('themeToggle');
+  const body = document.body;
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  body.setAttribute('data-theme', savedTheme);
+  toggleBtn.textContent = savedTheme === 'light' ? '🌙' : '☀️';
+
+  toggleBtn.addEventListener('click', () => {
+    const currentTheme = body.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    body.setAttribute('data-theme', newTheme);
+    toggleBtn.textContent = newTheme === 'light' ? '🌙' : '☀️';
+    localStorage.setItem('theme', newTheme);
+  });
+</script>
+</body>
+</html>

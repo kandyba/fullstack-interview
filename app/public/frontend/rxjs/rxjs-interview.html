@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RxJS - Технічна співбесіда</title>
+</head>
+<body>
+  <div class="question">
+    <strong>Що таке RxJS і навіщо він потрібен?</strong>
+  </div>
+  <div class="answer">
+    <p>RxJS (Reactive Extensions for JavaScript) - це бібліотека для реактивного програмування з використанням Observables.</p>
+    <p><strong>Основні переваги:</strong></p>
+    <ul>
+      <li>Управління асинхронними операціями</li>
+      <li>Композиція складних потоків даних</li>
+      <li>Обробка подій</li>
+      <li>Скасування операцій</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <strong>Що таке Observable?</strong>
+  </div>
+  <div class="answer">
+    <p>Observable - це потік даних, на який можна підписатися і отримувати значення з плином часу.</p>
+    <pre><code>const observable = new Observable(subscriber => {
+  subscriber.next(1);
+  subscriber.next(2);
+  setTimeout(() => {
+    subscriber.next(3);
+    subscriber.complete();
+  }, 1000);
+});
+
+observable.subscribe({
+  next: value => console.log(value),
+  complete: () => console.log('Done')
+});</code></pre>
+  </div>
+
+  <div class="question">
+    <strong>Різниця між Observable і Promise?</strong>
+  </div>
+  <div class="answer">
+    <p><strong>Observable:</strong></p>
+    <ul>
+      <li>Множинні значення</li>
+      <li>Можна скасувати (unsubscribe)</li>
+      <li>Lazy - виконується тільки при підписці</li>
+      <li>Багато операторів для трансформації</li>
+    </ul>
+    <p><strong>Promise:</strong></p>
+    <ul>
+      <li>Одне значення</li>
+      <li>Не можна скасувати</li>
+      <li>Eager - виконується одразу</li>
+      <li>Обмежені методи (.then, .catch)</li>
+    </ul>
+  </div>
+
+  <div class="question">
+    <strong>Що таке Subject в RxJS?</strong>
+  </div>
+  <div class="answer">
+    <p>Subject - це спеціальний тип Observable, який дозволяє multicast значення багатьом Observer'ам.</p>
+    <p><strong>Типи Subject:</strong></p>
+    <ul>
+      <li><code>Subject</code> - базовий multicasting</li>
+      <li><code>BehaviorSubject</code> - зберігає поточне значення</li>
+      <li><code>ReplaySubject</code> - replay N останніх значень</li>
+      <li><code>AsyncSubject</code> - емітить тільки останнє значення</li>
+    </ul>
+    <pre><code>const subject = new BehaviorSubject(0);
+subject.next(1);
+subject.subscribe(val => console.log(val)); // 1
+subject.next(2); // 2</code></pre>
+  </div>
+
+  <div class="question">
+    <strong>Популярні оператори RxJS?</strong>
+  </div>
+  <div class="answer">
+    <p><strong>Transformation:</strong> <code>map</code>, <code>switchMap</code>, <code>mergeMap</code>, <code>concatMap</code></p>
+    <p><strong>Filtering:</strong> <code>filter</code>, <code>debounceTime</code>, <code>distinctUntilChanged</code>, <code>take</code></p>
+    <p><strong>Combination:</strong> <code>combineLatest</code>, <code>merge</code>, <code>forkJoin</code>, <code>zip</code></p>
+    <p><strong>Error Handling:</strong> <code>catchError</code>, <code>retry</code>, <code>retryWhen</code></p>
+    <pre><code>input$.pipe(
+  debounceTime(300),
+  distinctUntilChanged(),
+  switchMap(term => this.search(term))
+).subscribe(results => console.log(results));</code></pre>
+  </div>
+</body>
+</html>
