@@ -3,7 +3,7 @@ import { Navigate, Route } from 'react-router-dom';
 import App from '../components/App';
 import NotFound from '../components/NotFound';
 
-const AppRoutes = () => (
+const appRoutes = (
   <>
     <Route path="/" element={<App />} />
     <Route path="/questions" element={<App />} />
@@ -17,4 +17,4 @@ const AppRoutes = () => (
   </>
 );
 
-export default AppRoutes;
+export default appRoutes;

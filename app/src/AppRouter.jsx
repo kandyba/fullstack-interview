@@ -1,15 +1,13 @@
 import React from 'react';
 import { BrowserRouter, Routes } from 'react-router-dom';
 import { LanguageProvider } from './contexts/LanguageContext';
-import AppRoutes from './routes/AppRoutes';
+import appRoutes from './routes/AppRoutes';
 
 const AppRouter = () => {
   return (
     <BrowserRouter>
       <LanguageProvider>
-        <Routes>
-          <AppRoutes />
-        </Routes>
+        <Routes>{appRoutes}</Routes>
       </LanguageProvider>
     </BrowserRouter>
   );
