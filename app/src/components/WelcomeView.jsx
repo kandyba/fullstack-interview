@@ -4,7 +4,6 @@ import { getAllLeafTopics } from '../data/topics';
 import { parseHTMLContent } from '../utils/htmlParser';
 import { useLanguage } from '../contexts/LanguageContext';
 import RoadMapProgress from './RoadMapProgress';
-import '../styles/WelcomeView.css';
 
 const WelcomeView = ({ onSelectTopic }) => {
   const [stats, setStats] = useState({
@@ -25,9 +24,7 @@ const WelcomeView = ({ onSelectTopic }) => {
         if (!topic.file) continue;
 
         try {
-          const response = await fetch(`/${topic.file}`);
-          const html = await response.text();
-          const parsed = await parseHTMLContent(html);
+          const parsed = await parseHTMLContent(topic.file);
           
           if (topic.questionRange) {
             const [start, end] = topic.questionRange;
@@ -59,8 +56,8 @@ const WelcomeView = ({ onSelectTopic }) => {
 
   if (stats.loading) {
     return (
-      <div className="welcome-view">
-        <div className="welcome-loading">
+      <div className="mx-auto flex w-full max-w-6xl flex-1 items-center justify-center px-4 py-10">
+        <div className="text-center text-slate-500 dark:text-slate-400">
           <p>{t('loading')}</p>
         </div>
       </div>
@@ -68,47 +65,47 @@ const WelcomeView = ({ onSelectTopic }) => {
   }
 
   return (
-    <div className="welcome-view">
-      <div className="welcome-header">
-        <h1 className="welcome-title">{t('welcomeTitle')}</h1>
-        <p className="welcome-subtitle">{t('welcomeSubtitle')}</p>
+    <div className="mx-auto w-full max-w-6xl flex-1 overflow-y-auto px-4 py-8">
+      <div className="mb-12 text-center">
+        <h1 className="bg-gradient-to-r from-emerald-500 to-teal-400 bg-clip-text text-3xl font-bold text-transparent md:text-5xl">{t('welcomeTitle')}</h1>
+        <p className="mt-3 text-base text-slate-500 dark:text-slate-400 md:text-lg">{t('welcomeSubtitle')}</p>
       </div>
 
       <RoadMapProgress onSelectTopic={onSelectTopic} />
 
-      <div className="stats-grid">
-        <div className="stat-card">
-          <div className="stat-icon questions-icon">
+      <div className="mb-10 grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
+        <div className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+          <div className="rounded-2xl bg-emerald-100 p-3 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-300">
             <FileQuestion size={48} />
           </div>
-          <div className="stat-content">
-            <div className="stat-number">{stats.totalQuestions}</div>
-            <div className="stat-label">{t('totalQuestions')}</div>
+          <div>
+            <div className="text-4xl font-bold text-slate-900 dark:text-slate-100">{stats.totalQuestions}</div>
+            <div className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">{t('totalQuestions')}</div>
           </div>
         </div>
 
-        <div className="stat-card">
-          <div className="stat-icon topics-icon">
+        <div className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+          <div className="rounded-2xl bg-blue-100 p-3 text-blue-600 dark:bg-blue-900/30 dark:text-blue-300">
             <FolderTree size={48} />
           </div>
-          <div className="stat-content">
-            <div className="stat-number">{stats.totalTopics}</div>
-            <div className="stat-label">{t('totalTopics')}</div>
+          <div>
+            <div className="text-4xl font-bold text-slate-900 dark:text-slate-100">{stats.totalTopics}</div>
+            <div className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">{t('totalTopics')}</div>
           </div>
         </div>
 
-        <div className="stat-card">
-          <div className="stat-icon tasks-icon">
+        <div className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+          <div className="rounded-2xl bg-violet-100 p-3 text-violet-600 dark:bg-violet-900/30 dark:text-violet-300">
             <Code size={48} />
           </div>
-          <div className="stat-content">
-            <div className="stat-number">{stats.practicalTasks}</div>
-            <div className="stat-label">{t('practicalTasks')}</div>
+          <div>
+            <div className="text-4xl font-bold text-slate-900 dark:text-slate-100">{stats.practicalTasks}</div>
+            <div className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">{t('practicalTasks')}</div>
           </div>
         </div>
       </div>
 
-      <div className="welcome-hint">
+      <div className="text-center text-slate-500 dark:text-slate-400">
         <p>💡 {t('selectTopic')}</p>
       </div>
     </div>

@@ -15,7 +15,10 @@ export const useAppNavigation = () => {
   const [favoritesRefresh, setFavoritesRefresh] = useState(0);
   
   // Визначити поточну сторінку з URL
-  const currentPage = location.pathname.startsWith('/tasks') ? 'tasks' : 'questions';
+  const currentPage =
+    location.pathname.startsWith('/tasks') || location.pathname.startsWith('/js-practice')
+      ? 'tasks'
+      : 'questions';
   
   // Синхронізувати topicId з URL
   useEffect(() => {
@@ -24,6 +27,16 @@ export const useAppNavigation = () => {
       if (topic) {
         setSelectedTopic(topic);
         setShowingFavorites(false);
+      } else {
+        navigate('/404', { replace: true });
+      }
+    } else if (location.pathname === '/js-practice') {
+      const topic = findTopicById('js-practice');
+      if (topic) {
+        setSelectedTopic(topic);
+        setShowingFavorites(false);
+      } else {
+        navigate('/404', { replace: true });
       }
     } else if (location.pathname === '/favorites') {
       setShowingFavorites(true);
@@ -32,7 +45,7 @@ export const useAppNavigation = () => {
       setSelectedTopic(null);
       setShowingFavorites(false);
     }
-  }, [topicId, location.pathname]);
+  }, [topicId, location.pathname, navigate]);
 
   const handleSelectTopic = (topicOrId) => {
     setShowingFavorites(false);
@@ -49,7 +62,11 @@ export const useAppNavigation = () => {
     
     setSelectedTopic(topic);
     if (topic?.id) {
-      navigate(`/questions/${topic.id}`);
+      if (topic.id === 'js-practice') {
+        navigate('/js-practice');
+      } else {
+        navigate(`/questions/${topic.id}`);
+      }
     }
   };
 
@@ -62,7 +79,7 @@ export const useAppNavigation = () => {
 
   const handlePageChange = (page) => {
     if (page === 'tasks') {
-      navigate('/tasks');
+      navigate('/js-practice');
     } else {
       navigate('/questions');
     }

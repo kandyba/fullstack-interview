@@ -3,7 +3,6 @@ import { CheckCircle2, Circle, ChevronRight, BookOpen } from 'lucide-react';
 import { learningRoadMap, findTopicById } from '../data/topics';
 import { loadProgress, markTopicCompleted, unmarkTopicCompleted } from '../utils/progress';
 import { useLanguage } from '../contexts/LanguageContext';
-import '../styles/RoadMapProgress.css';
 
 const RoadMapProgress = ({ onSelectTopic }) => {
   const [completedTopics, setCompletedTopics] = useState([]);
@@ -69,35 +68,35 @@ const RoadMapProgress = ({ onSelectTopic }) => {
   };
 
   return (
-    <div className="roadmap-progress">
-      <div className="roadmap-header">
-        <div className="roadmap-title-section">
-          <BookOpen size={28} className="roadmap-icon" />
+    <div className="mx-auto mb-10 max-w-5xl px-0 md:px-2">
+      <div className="mb-8">
+        <div className="mb-5 flex items-start gap-3">
+          <BookOpen size={26} className="mt-1 text-emerald-500" />
           <div>
-            <h2 className="roadmap-title">{t('roadmap') || 'Learning Road Map'}</h2>
-            <p className="roadmap-subtitle">
+            <h2 className="text-2xl font-semibold text-slate-900 dark:text-slate-100 md:text-3xl">{t('roadmap') || 'Learning Road Map'}</h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400 md:text-base">
               {t('roadmapSubtitle') || 'Структурований шлях від Junior до Senior розробника'}
             </p>
           </div>
         </div>
         
-        <div className="roadmap-total-progress">
-          <div className="progress-stats">
-            <span className="progress-count">
+        <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900 md:p-5">
+          <div className="mb-3 flex items-center justify-between">
+            <span className="text-base font-semibold text-slate-900 dark:text-slate-100">
               {totalProgress.completed} / {totalProgress.total}
             </span>
-            <span className="progress-percentage">{totalProgress.percentage}%</span>
+            <span className="text-2xl font-bold text-emerald-500">{totalProgress.percentage}%</span>
           </div>
-          <div className="progress-bar-container">
+          <div className="h-3 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
             <div 
-              className="progress-bar-fill"
+              className="h-full rounded-full bg-linear-to-r from-emerald-500 to-teal-400 transition-all"
               style={{ width: `${totalProgress.percentage}%` }}
             />
           </div>
         </div>
       </div>
 
-      <div className="roadmap-levels">
+      <div className="space-y-4">
         {Object.entries(groupedTopics).map(([level, items]) => {
           if (items.length === 0) return null;
           
@@ -106,23 +105,23 @@ const RoadMapProgress = ({ onSelectTopic }) => {
           const levelColor = levelColors[level];
 
           return (
-            <div key={level} className="roadmap-level">
+            <div key={level} className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:shadow dark:border-slate-700 dark:bg-slate-900">
               <button
-                className={`level-header ${isExpanded ? 'expanded' : ''}`}
+                className={`flex w-full items-center gap-3 px-4 py-3 transition hover:bg-slate-50 dark:hover:bg-slate-800/40 ${isExpanded ? 'border-b border-slate-200 dark:border-slate-700' : ''}`}
                 onClick={() => setExpandedLevel(isExpanded ? null : level)}
                 style={{ '--level-color': levelColor }}
               >
-                <div className="level-info">
-                  <span className="level-badge" style={{ backgroundColor: levelColor }}>
+                <div className="flex min-w-40 items-center gap-2">
+                  <span className="rounded-md px-2 py-1 text-xs font-semibold uppercase tracking-wide text-white" style={{ backgroundColor: levelColor }}>
                     {level}
                   </span>
-                  <span className="level-progress-text">
+                  <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
                     {progress.completed} / {progress.total} {t('topics') || 'тем'}
                   </span>
                 </div>
-                <div className="level-progress-bar">
+                <div className="h-2 flex-1 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
                   <div 
-                    className="level-progress-fill"
+                    className="h-full rounded-full transition-all"
                     style={{ 
                       width: `${progress.percentage}%`,
                       backgroundColor: levelColor
@@ -131,12 +130,12 @@ const RoadMapProgress = ({ onSelectTopic }) => {
                 </div>
                 <ChevronRight 
                   size={20} 
-                  className={`level-chevron ${isExpanded ? 'rotated' : ''}`} 
+                  className={`shrink-0 text-slate-500 transition-transform dark:text-slate-400 ${isExpanded ? 'rotate-90' : ''}`} 
                 />
               </button>
 
               {isExpanded && (
-                <div className="level-topics">
+                <div className="space-y-1 p-2">
                   {items.map((roadItem, index) => {
                     const topic = findTopicById(roadItem.id);
                     const isCompleted = completedTopics.includes(roadItem.id);
@@ -144,27 +143,27 @@ const RoadMapProgress = ({ onSelectTopic }) => {
                     return (
                       <div
                         key={roadItem.id}
-                        className={`roadmap-topic ${isCompleted ? 'completed' : ''}`}
+                        className={`flex items-center gap-3 rounded-lg px-2 py-2 transition hover:bg-slate-50 dark:hover:bg-slate-800/40 ${isCompleted ? 'opacity-70' : ''}`}
                       >
                         <button
-                          className="topic-checkbox"
+                          className="text-slate-400 transition hover:scale-105 hover:text-emerald-500 dark:text-slate-500"
                           onClick={(e) => toggleComplete(roadItem.id, e)}
                           aria-label={isCompleted ? 'Mark as incomplete' : 'Mark as complete'}
                         >
                           {isCompleted ? (
-                            <CheckCircle2 size={20} className="check-icon" />
+                            <CheckCircle2 size={20} className="text-emerald-500" />
                           ) : (
-                            <Circle size={20} className="circle-icon" />
+                            <Circle size={20} />
                           )}
                         </button>
 
                         <button
-                          className="topic-link"
+                          className="flex flex-1 items-center gap-2 rounded-md px-2 py-1 text-left transition hover:translate-x-1 hover:bg-white dark:hover:bg-slate-900"
                           onClick={() => topic && onSelectTopic(topic)}
                           disabled={!topic}
                         >
-                          <span className="topic-number">{index + 1}</span>
-                          <span className="topic-title">{roadItem.title}</span>
+                          <span className="inline-flex h-6 min-w-6 items-center justify-center rounded bg-slate-200 px-1 text-xs font-semibold text-slate-600 dark:bg-slate-800 dark:text-slate-300">{index + 1}</span>
+                          <span className={`text-sm font-medium ${isCompleted ? 'line-through text-slate-400 dark:text-slate-500' : 'text-slate-800 dark:text-slate-100'}`}>{roadItem.title}</span>
                         </button>
                       </div>
                     );

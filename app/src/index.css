@@ -1,23 +1,53 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
+  body {
+    font-family: Lexend, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif;
+    font-size: 16px;
+    @apply bg-slate-50 text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100;
+  }
+
+  code,
+  pre {
+    font-family: Consolas, Monaco, "Courier New", monospace;
+  }
 }
 
-body {
-  margin: 0;
-  font-family: 'Lexend', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@layer utilities {
+  .content-prose h4 {
+    @apply mt-4 mb-2 text-lg font-semibold;
+  }
 
-code {
-  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-}
+  .content-prose p {
+    @apply mb-3 leading-7;
+  }
 
-#root {
-  width: 100%;
-  min-height: 100vh;
+  .content-prose ul,
+  .content-prose ol {
+    @apply my-3 ml-6 list-disc space-y-1;
+  }
+
+  .content-prose pre {
+    @apply my-4 overflow-x-auto rounded-xl border border-slate-200 bg-slate-100 p-4 text-sm dark:border-slate-700 dark:bg-slate-900;
+  }
+
+  .content-prose code {
+    @apply rounded-md border border-slate-200 bg-slate-100 px-1.5 py-0.5 text-sm text-emerald-700 dark:border-slate-700 dark:bg-slate-900 dark:text-emerald-300;
+  }
+
+  .content-prose pre code {
+    @apply border-0 bg-transparent p-0 text-inherit;
+  }
+
+  mark.highlight {
+    @apply rounded bg-amber-300 px-1 text-slate-900;
+  }
 }
