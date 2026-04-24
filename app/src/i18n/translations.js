@@ -7,7 +7,7 @@ export const translations = {
     feedback: 'Feedback',
     
     // Search
-    searchPlaceholder: 'Пошук по запитаннях...',
+    searchPlaceholder: 'Пошук по запитаннях і темах...',
     searchResults: 'результатів',
     
     // Content
@@ -70,7 +70,7 @@ export const translations = {
     feedback: 'Feedback',
     
     // Search
-    searchPlaceholder: 'Search questions...',
+    searchPlaceholder: 'Search questions and topics...',
     searchResults: 'results',
     
     // Content

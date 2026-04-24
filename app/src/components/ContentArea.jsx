@@ -22,7 +22,7 @@ const QuestionCard = ({ question, index, topicId, onShowFavorites }) => {
   };
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-500 hover:shadow-md dark:border-slate-700 dark:bg-slate-900">
+    <div id={`question-${question.id}`} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-500 hover:shadow-md dark:border-slate-700 dark:bg-slate-900">
       <div className="mb-4 flex items-start gap-3">
         <span className="inline-flex h-8 min-w-8 items-center justify-center rounded-lg bg-emerald-500 px-2 text-sm font-semibold text-white">{index + 1}</span>
         <h3 className="flex-1 text-lg font-semibold leading-7 text-slate-900 dark:text-slate-100" dangerouslySetInnerHTML={{ __html: question.question }} />

@@ -9,6 +9,7 @@ import { useHTMLContent, useSearch } from '../hooks/useContent';
 import { useAppNavigation } from '../hooks/useAppNavigation';
 import { useTheme } from '../hooks/useTheme';
 import { searchInContent } from '../utils/htmlParser';
+import { getAllLeafTopics, findTopicById } from '../data/topics';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const App = () => {
@@ -38,6 +39,55 @@ const App = () => {
       questions: filtered
     };
   }, [content, debouncedTerm]);
+
+  const topicSuggestions = useMemo(() => {
+    const term = searchTerm.trim().toLowerCase();
+    if (!term) return [];
+
+    return getAllLeafTopics()
+      .filter((topic) => {
+        const haystack = `${topic.title} ${topic.level || ''} ${topic.id}`.toLowerCase();
+        return haystack.includes(term);
+      })
+      .sort((a, b) => a.title.localeCompare(b.title));
+  }, [searchTerm]);
+
+  // Generate question suggestions from filtered content
+  const questionSuggestions = useMemo(() => {
+    const term = searchTerm.trim().toLowerCase();
+    if (!term || !filteredContent?.questions) return [];
+
+    return filteredContent.questions
+      .filter((q) => q.question.toLowerCase().includes(term))
+      .slice(0, 5)
+      .map((q) => ({
+        ...q,
+        topicId: selectedTopic?.id,
+      }));
+  }, [searchTerm, filteredContent, selectedTopic]);
+
+  // Handle question suggestion click - navigate to topic and scroll to question
+  const handleSelectQuestionSuggestion = (question) => {
+    if (question.topicId) {
+      // Ensure we're on the topic
+      if (selectedTopic?.id !== question.topicId) {
+        handleSelectTopic(findTopicById(question.topicId));
+      }
+      
+      // Scroll to question after a brief delay to ensure DOM is updated
+      setTimeout(() => {
+        const questionElement = document.getElementById(`question-${question.id}`);
+        if (questionElement) {
+          questionElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          // Optional: add highlight effect
+          questionElement.classList.add('ring-2', 'ring-emerald-400', 'rounded-2xl');
+          setTimeout(() => {
+            questionElement.classList.remove('ring-2', 'ring-emerald-400', 'rounded-2xl');
+          }, 2000);
+        }
+      }, 100);
+    }
+  };
 
   const changeLanguage = (lang) => {
     setLanguage(lang);
@@ -91,6 +141,10 @@ const App = () => {
                 searchTerm={searchTerm}
                 onSearchChange={setSearchTerm}
                 resultsCount={filteredContent?.questions?.length || 0}
+                topicSuggestions={topicSuggestions}
+                questionSuggestions={questionSuggestions}
+                onSelectTopicSuggestion={handleSelectTopic}
+                onSelectQuestionSuggestion={handleSelectQuestionSuggestion}
               />
             )}
           </div>
