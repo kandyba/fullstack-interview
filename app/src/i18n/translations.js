@@ -1,6 +1,7 @@
 export const translations = {
   uk: {
     // Navigation
+    home: 'Головна',
     saved: '⭐ Збережені',
     questionsPage: 'Питання',
     tasks: 'JS Practice',
@@ -65,6 +66,7 @@ export const translations = {
   en: {
     // Navigation
     saved: '⭐ Saved',
+    home: 'Home',
     questionsPage: 'Questions',
     tasks: 'JS Practice',
     feedback: 'Feedback',

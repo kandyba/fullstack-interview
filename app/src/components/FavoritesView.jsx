@@ -101,7 +101,9 @@ const FavoritesView = ({ onSelectTopic, refreshTrigger }) => {
     return (
       <div className="mx-auto flex w-full max-w-6xl flex-1 items-center justify-center px-4 py-10">
         <div className="text-center text-slate-500 dark:text-slate-400">
-          <Star size={64} />
+          <div className="mb-3 flex justify-center">
+            <Star size={64} />
+          </div>
           <h2 className="mt-3 text-2xl font-semibold text-slate-900 dark:text-slate-100">{t('noFavorites')}</h2>
           <p>{t('noFavoritesHint')}</p>
         </div>
