@@ -47,6 +47,10 @@
     @apply border-0 bg-transparent p-0 text-inherit;
   }
 
+  .content-prose a {
+    @apply text-emerald-600 underline transition hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300;
+  }
+
   mark.highlight {
     @apply rounded bg-amber-300 px-1 text-slate-900;
   }

@@ -1,0 +1,162 @@
+{
+  "title": "Технічна співбесіда з JavaScript",
+  "questions": [
+    {
+      "id": "q-1",
+      "question": "Can you tell me about yourself?",
+      "answer": "\n    <p><span class=\"answer__label\">EN:</span>My name is Serhii, and I live in Kyiv. I am currently doing an internship as a Software Engineer. Now I am focusing on React and backend development.</p>\n    <hr class=\"answer__divider\">\n    <p><span class=\"answer__label\">UA:</span>Мене звати Сергій, я живу в Києві. Зараз я проходжу інтернатуру на позиції Software Engineer. Зараз я фокусуюсь на React та backend розробці.</p>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-2",
+      "question": "What are your hobbies?",
+      "answer": "\n    <p><span class=\"answer__label\">EN:</span>In my free time, I stay physically active. Even though I have a car, I prefer walking, and I also practice CrossFit and play tennis. I sometimes go to stand-up shows to support Ukrainian comedy, and I enjoy watching Netflix.</p>\n    <hr class=\"answer__divider\">\n    <p><span class=\"answer__label\">UA:</span>У вільний час я підтримую фізичну активність. Незважаючи на те, що я маю автомобіль, я надаю перевагу прогулянкам, а також займаюся кросфітом і граю в теніс. Час від часу я ходжу на стендап, щоб підтримати український гумор, і люблю дивитися Netflix.</p>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-3",
+      "question": "What is your favorite book?",
+      "answer": "\n    <p><span class=\"answer__label\">EN:</span>One of my favorite books is \"The Richest Man in Babylon\" by George S. Clason. It’s about financial discipline and smart money management.</p>\n    <hr class=\"answer__divider\">\n    <p><span class=\"answer__label\">UA:</span>Одна з моїх улюблених книг — <em>«Найбагатша людина в Вавилоні»</em> Джорджа С. Клейсона. Вона про фінансову дисципліну та розумне управління грошима.</p>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-4",
+      "question": "Follow-up: Can you briefly describe the book?",
+      "answer": "\n    <p><span class=\"answer__label\">EN:</span>The book is about a moneylender whose life is completely driven by money and control. It shows how greed can destroy human values and relationships.</p>\n    <hr class=\"answer__divider\">\n    <p><span class=\"answer__label\">UA:</span>Книга розповідає про лихваря, життя якого повністю керується грошима та контролем. Вона показує, як жадібність може руйнувати людські цінності та стосунки.</p>\n  ",
+      "isFollowUp": true
+    },
+    {
+      "id": "q-5",
+      "question": "Follow-up: Why do you like this book?",
+      "answer": "\n    <p><span class=\"answer__label\">EN:</span>I like this book because it clearly shows the psychological side of people.</p>\n    <hr class=\"answer__divider\">\n    <p><span class=\"answer__label\">UA:</span>Мені подобається ця книга, тому що вона чітко показує психологічну сторону людей.</p>\n  ",
+      "isFollowUp": true
+    },
+    {
+      "id": "q-6",
+      "question": "What do you watch on Netflix?",
+      "answer": "\n    <p><span class=\"answer__label\">EN:</span>Recently, I watched <em>Bridgerton</em>.</p>\n    <hr class=\"answer__divider\">\n    <p><span class=\"answer__label\">UA:</span>Останнім часом я дивився серіал <em>Bridgerton</em>.</p>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-7",
+      "question": "Follow-up: Can you describe the series?",
+      "answer": "\n    <p><span class=\"answer__label\">EN:</span>It is a period drama about high society, relationships, and personal choices in 19th-century London.</p>\n    <hr class=\"answer__divider\">\n    <p><span class=\"answer__label\">UA:</span>Це історичний серіал про вище суспільство, стосунки та особисті вибори в Лондоні XIX століття.</p>\n  ",
+      "isFollowUp": true
+    },
+    {
+      "id": "q-8",
+      "question": "What is your favorite TV series?",
+      "answer": "\n    <p><span class=\"answer__label\">EN:</span>My favorite TV series is <em>Friends</em>.</p>\n    <hr class=\"answer__divider\">\n    <p><span class=\"answer__label\">UA:</span>Мій улюблений серіал — <em>«Друзі»</em>.</p>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-9",
+      "question": "Follow-up: Describe it in one sentence.",
+      "answer": "\n    <p><span class=\"answer__label\">EN:</span>It is a comedy series about a group of friends and their everyday life.</p>\n    <hr class=\"answer__divider\">\n    <p><span class=\"answer__label\">UA:</span>Це комедійний серіал про групу друзів та їхнє повсякденне життя.</p>\n  ",
+      "isFollowUp": true
+    },
+    {
+      "id": "q-10",
+      "question": "What is your favorite movie?",
+      "answer": "\n    <p><span class=\"answer__label\">EN:</span>My favorite movie is <em>Forrest Gump</em>.</p>\n    <hr class=\"answer__divider\">\n    <p><span class=\"answer__label\">UA:</span>Мій улюблений фільм — <em>«Форрест Ґамп»</em>.</p>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-11",
+      "question": "Follow-up: Why do you like this movie?",
+      "answer": "\n    <p><span class=\"answer__label\">EN:</span>I like this movie because it shows how kindness and persistence can change a person’s life.</p>\n    <hr class=\"answer__divider\">\n    <p><span class=\"answer__label\">UA:</span>Мені подобається цей фільм, тому що він показує, як доброта та наполегливість можуть змінити життя людини.</p>\n  ",
+      "isFollowUp": true
+    },
+    {
+      "id": "q-12",
+      "question": "Why did you choose software development?",
+      "answer": "\n    <p><span class=\"answer__label\">EN:</span>I chose software development because I have a technical background and wanted to create real digital products. I enjoy building solutions that people actually use.</p>\n    <hr class=\"answer__divider\">\n    <p><span class=\"answer__label\">UA:</span>Я обрав розробку програмного забезпечення, тому що маю технічну освіту і хотів створювати реальні цифрові продукти. Мені подобається створювати рішення, якими реально користуються люди.</p>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-13",
+      "question": "Why do you want to apply for this internship?",
+      "answer": "\n    <p><span class=\"answer__label\">EN:</span>I want to gain real project experience, work with mentors, and grow in a professional environment. I also have strong expertise in HTML and SCSS, which allows me to contribute to the team from the beginning.</p>\n    <hr class=\"answer__divider\">\n    <p><span class=\"answer__label\">UA:</span>Я хочу отримати практичний досвід на реальних проєктах, працювати з менторами та розвиватися в професійному середовищі. Також я маю сильну експертизу в HTML та SCSS, що дозволяє мені підсилювати команду з самого початку.</p>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-14",
+      "question": "Why SoftServe?",
+      "answer": "\n    <p><span class=\"answer__label\">EN:</span>SoftServe offers a strong learning culture, mentorship, and real project experience, which are important for my professional growth.</p>\n    <hr class=\"answer__divider\">\n    <p><span class=\"answer__label\">UA:</span>SoftServe пропонує сильну культуру навчання, менторство та роботу над реальними проєктами, що важливо для мого професійного розвитку.</p>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-15",
+      "question": "What technologies are you most interested in?",
+      "answer": "\n    <p><span class=\"answer__label\">EN:</span>I am mostly interested in React and modern frontend technologies, especially building scalable and maintainable user interfaces.</p>\n    <hr class=\"answer__divider\">\n    <p><span class=\"answer__label\">UA:</span>Мене найбільше цікавить React і сучасні frontend-технології, особливо створення масштабованих та підтримуваних користувацьких інтерфейсів.</p>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-16",
+      "question": "Do you have any personal or study projects?",
+      "answer": "\n    <p><span class=\"answer__label\">EN:</span>Yes, I have worked on several personal and study projects using React, where I focused on UI implementation and application logic.</p>\n    <hr class=\"answer__divider\">\n    <p><span class=\"answer__label\">UA:</span>Так, я працював над кількома особистими та навчальними проєктами з використанням React, де зосереджувався на реалізації інтерфейсу та логіці застосунку.</p>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-17",
+      "question": "How do you usually learn new technologies?",
+      "answer": "\n    <p><span class=\"answer__label\">EN:</span>I like learning through platforms such as Udemy, where I have a subscription, as well as through YouTube channels and official documentation. I usually combine theory with practice.</p>\n    <hr class=\"answer__divider\">\n    <p><span class=\"answer__label\">UA:</span>Мені подобається навчатися на таких платформах, як Udemy, де я маю підписку, а також через YouTube-канали та офіційну документацію. Зазвичай я поєдную теорію з практикою.</p>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-18",
+      "question": "What are your strengths and weaknesses?",
+      "answer": "\n    <p><span class=\"answer__label\">EN:</span>My strengths are attention to detail and responsibility. My weakness is that I sometimes focus too much on details, but I am learning to manage my time better.</p>\n    <hr class=\"answer__divider\">\n    <p><span class=\"answer__label\">UA:</span>Мої сильні сторони — уважність до деталей та відповідальність. Моя слабка сторона — інколи я занадто зосереджуюсь на деталях, але вчуся краще керувати часом.</p>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-19",
+      "question": "How do you handle feedback?",
+      "answer": "\n    <p><span class=\"answer__label\">EN:</span>I see feedback as an opportunity to improve, so I listen carefully and apply it to my work.</p>\n    <hr class=\"answer__divider\">\n    <p><span class=\"answer__label\">UA:</span>Я сприймаю фідбек як можливість для розвитку, тому уважно слухаю та застосовую його у своїй роботі.</p>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-20",
+      "question": "What do you do if you don’t understand a task?",
+      "answer": "\n    <p><span class=\"answer__label\">EN:</span>I ask clarifying questions as early as possible to avoid misunderstandings later.</p>\n    <hr class=\"answer__divider\">\n    <p><span class=\"answer__label\">UA:</span>Я ставлю уточнювальні запитання якомога раніше, щоб уникнути непорозумінь у майбутньому.</p>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-21",
+      "question": "Have you ever worked in a team?",
+      "answer": "\n    <p><span class=\"answer__label\">EN:</span>Yes, I have worked in a team during training, where I collaborated with others on frontend tasks.</p>\n    <hr class=\"answer__divider\">\n    <p><span class=\"answer__label\">UA:</span>Так, я працював у команді під час навчання, де співпрацював з іншими над frontend-завданнями.</p>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-22",
+      "question": "How do you manage deadlines?",
+      "answer": "\n    <p><span class=\"answer__label\">EN:</span>I plan tasks in advance, set priorities, and track my progress regularly.</p>\n    <hr class=\"answer__divider\">\n    <p><span class=\"answer__label\">UA:</span>Я заздалегідь планую завдання, розставляю пріоритети та регулярно відстежую прогрес.</p>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-23",
+      "question": "How comfortable are you with English?",
+      "answer": "\n    <p><span class=\"answer__label\">EN:</span>I have an intermediate to upper-intermediate conversational level and can communicate confidently.</p>\n    <hr class=\"answer__divider\">\n    <p><span class=\"answer__label\">UA:</span>Я маю розмовний рівень англійської від intermediate до upper-intermediate і можу впевнено спілкуватися.</p>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-24",
+      "question": "How many hours a day can you dedicate to the internship?",
+      "answer": "\n    <p><span class=\"answer__label\">EN:</span>I can dedicate six to eight hours a day.</p>\n    <hr class=\"answer__divider\">\n    <p><span class=\"answer__label\">UA:</span>Я можу приділяти від шести до восьми годин на день.</p>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-25",
+      "question": "Where do you see yourself after this internship?",
+      "answer": "\n    <p><span class=\"answer__label\">EN:</span>I see myself continuing my career as a frontend developer at SoftServe.</p>\n    <hr class=\"answer__divider\">\n    <p><span class=\"answer__label\">UA:</span>Я бачу себе таким, що продовжує кар’єру frontend-розробника в SoftServe.</p>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-26",
+      "question": "What will you do if you receive an offer?",
+      "answer": "\n    <p><span class=\"answer__label\">EN:</span>I will gladly accept the offer and continue growing professionally in the company.</p>\n    <hr class=\"answer__divider\">\n    <p><span class=\"answer__label\">UA:</span>Я з радістю прийму офер і продовжу професійно розвиватися в компанії.</p>\n  ",
+      "isFollowUp": false
+    }
+  ],
+  "totalQuestions": 26
+}

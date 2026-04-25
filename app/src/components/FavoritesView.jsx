@@ -2,8 +2,40 @@ import React, { useState, useEffect } from 'react';
 import { Star, FileQuestion } from 'lucide-react';
 import { loadFavorites, removeFavorite } from '../utils/favorites';
 import { findTopicById } from '../data/topics';
-import { parseHTMLContent } from '../utils/htmlParser';
+import { loadTopicContent } from '../services/contentService';
 import { useLanguage } from '../contexts/LanguageContext';
+
+const buildGroupedFavorites = async (favorites) => {
+  const grouped = {};
+
+  for (const fav of favorites) {
+    const topic = findTopicById(fav.topicId);
+    if (!topic || !topic.file) continue;
+
+    try {
+      const parsed = await loadTopicContent(topic);
+      const question = parsed.questions.find((q) => q.id === fav.questionId);
+
+      if (question) {
+        if (!grouped[topic.id]) {
+          grouped[topic.id] = {
+            topic,
+            questions: []
+          };
+        }
+
+        grouped[topic.id].questions.push({
+          ...question,
+          favoriteData: fav
+        });
+      }
+    } catch (error) {
+      console.error('Error loading favorite:', error);
+    }
+  }
+
+  return grouped;
+};
 
 const FavoritesView = ({ onSelectTopic, refreshTrigger }) => {
   const [favorites, setFavorites] = useState([]);
@@ -23,45 +55,7 @@ const FavoritesView = ({ onSelectTopic, refreshTrigger }) => {
         return;
       }
 
-      const grouped = {};
-      
-      for (const fav of favs) {
-        const topic = findTopicById(fav.topicId);
-        if (!topic || !topic.file) continue;
-
-        try {
-          const parsed = await parseHTMLContent(topic.file);
-          
-          // Apply questionRange filter if topic has it
-          let questions = parsed.questions;
-          if (topic.questionRange) {
-            const [start, end] = topic.questionRange;
-            questions = questions.slice(start, end);
-            // Re-index question IDs after slicing
-            questions = questions.map((q, idx) => ({
-              ...q,
-              id: `q-${idx + 1}`
-            }));
-          }
-          
-          const question = questions.find(q => q.id === fav.questionId);
-          
-          if (question) {
-            if (!grouped[topic.id]) {
-              grouped[topic.id] = {
-                topic,
-                questions: []
-              };
-            }
-            grouped[topic.id].questions.push({
-              ...question,
-              favoriteData: fav
-            });
-          }
-        } catch (error) {
-          console.error('Error loading favorite:', error);
-        }
-      }
+      const grouped = await buildGroupedFavorites(favs);
 
       setGroupedFavorites(grouped);
       setFavorites(favs);
@@ -85,44 +79,7 @@ const FavoritesView = ({ onSelectTopic, refreshTrigger }) => {
       return;
     }
 
-    const grouped = {};
-    
-    for (const fav of favs) {
-      const topic = findTopicById(fav.topicId);
-      if (!topic || !topic.file) continue;
-
-      try {
-        const parsed = await parseHTMLContent(topic.file);
-        
-        // Apply questionRange filter if topic has it
-        let questions = parsed.questions;
-        if (topic.questionRange) {
-          const [start, end] = topic.questionRange;
-          questions = questions.slice(start, end);
-          questions = questions.map((q, idx) => ({
-            ...q,
-            id: `q-${idx + 1}`
-          }));
-        }
-        
-        const question = questions.find(q => q.id === fav.questionId);
-        
-        if (question) {
-          if (!grouped[topic.id]) {
-            grouped[topic.id] = {
-              topic,
-              questions: []
-            };
-          }
-          grouped[topic.id].questions.push({
-            ...question,
-            favoriteData: fav
-          });
-        }
-      } catch (error) {
-        console.error('Error loading favorite:', error);
-      }
-    }
+    const grouped = await buildGroupedFavorites(favs);
 
     setGroupedFavorites(grouped);
     setFavorites(favs);

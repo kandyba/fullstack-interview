@@ -1,0 +1,186 @@
+{
+  "title": "Технічна співбесіда (DevOps для Fullstack розробника)",
+  "questions": [
+    {
+      "id": "q-1",
+      "question": "Що таке DevOps?",
+      "answer": "\n      <p><strong>DevOps</strong> — це підхід до розробки, який поєднує <strong>Development (розробку)</strong> і <strong>Operations (експлуатацію)</strong> з метою автоматизації процесів доставки, деплою та підтримки застосунків.</p>\n      <p>Мета — швидше постачати якісний продукт, зменшити кількість помилок і прискорити оновлення.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-2",
+      "question": "Що таке CI/CD?",
+      "answer": "\n      <p><strong>CI/CD</strong> (Continuous Integration / Continuous Deployment) — це набір практик, які забезпечують безперервну інтеграцію коду та його автоматичне розгортання.</p>\n      <ul>\n        <li><strong>CI</strong> — автоматична перевірка та збірка після кожного пушу коду.</li>\n        <li><strong>CD</strong> — автоматичне деплоювання коду на сервер або хмару.</li>\n      </ul>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-3",
+      "question": "Які інструменти CI/CD ти використовував?",
+      "answer": "\n      <p>Найчастіше — <strong>GitHub Actions</strong>, <strong>GitLab CI/CD</strong> або <strong>Jenkins</strong>.</p>\n      <p>Для кожного пушу можна автоматично запускати тести, збірку та деплой.</p>\n      <pre>name: Build and Deploy\non: push\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v3\n      - run: npm install &amp;&amp; npm run build\n      </pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-4",
+      "question": "Що таке Docker і навіщо його використовують?",
+      "answer": "\n      <p><strong>Docker</strong> — це система контейнеризації, що дозволяє запускати застосунки в ізольованому середовищі.</p>\n      <p>Контейнери працюють однаково на будь-якому сервері — “працює в мене” = “працює всюди”.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-5",
+      "question": "Що таке Dockerfile?",
+      "answer": "\n      <p><strong>Dockerfile</strong> — це інструкція для створення Docker-образу.</p>\n      <pre>FROM node:18\nWORKDIR /app\nCOPY . .\nRUN npm install\nCMD [\"npm\", \"start\"]\n      </pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-6",
+      "question": "Для чого потрібен Docker Compose?",
+      "answer": "\n      <p>Він дозволяє запускати кілька контейнерів одночасно (наприклад, <code>frontend</code>, <code>backend</code> і <code>db</code>).</p>\n      <pre>services:\n  web:\n    build: .\n    ports: [\"3000:3000\"]\n  db:\n    image: postgres\n    environment:\n      POSTGRES_PASSWORD: root\n      </pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-7",
+      "question": "Чим контейнер відрізняється від віртуальної машини?",
+      "answer": "\n      <ul>\n        <li><strong>Віртуальна машина</strong> має власну ОС.</li>\n        <li><strong>Контейнер</strong> використовує ядро хоста, тому легший і швидше запускається.</li>\n      </ul>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-8",
+      "question": "Що таке Nginx і як його зазвичай використовують?",
+      "answer": "\n      <p><strong>Nginx</strong> — це HTTP-сервер, який часто працює як <strong>reverse proxy</strong>, балансувальник навантаження або статичний сервер.</p>\n      <pre>server {\n  listen 80;\n  server_name myapp.com;\n  location / {\n    proxy_pass http://localhost:3000;\n  }\n}\n      </pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-9",
+      "question": "Що таке змінні оточення (environment variables)?",
+      "answer": "\n      <p>Це змінні, що зберігають конфігураційні дані (паролі, API-ключі, URL бази тощо).</p>\n      <pre>PORT=3000\nDATABASE_URL=postgres://root:1234@localhost:5432/mydb\n      </pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-10",
+      "question": "Як зазвичай використовують .env файли?",
+      "answer": "\n      <p>Файл <code>.env</code> містить конфігураційні змінні, які підвантажуються у проєкт через бібліотеку, наприклад <code>dotenv</code>.</p>\n      <pre>require('dotenv').config();\nconsole.log(process.env.PORT);\n      </pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-11",
+      "question": "Що таке SSH і як ним користуватись?",
+      "answer": "\n      <p><strong>SSH (Secure Shell)</strong> — це протокол для безпечного підключення до віддаленого сервера.</p>\n      <pre>ssh user@192.168.0.10\nscp file.txt user@host:/home/user/\n      </pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-12",
+      "question": "Як можна запустити Node.js застосунок на сервері?",
+      "answer": "\n      <ul>\n        <li><strong>PM2</strong> — зручний процес-менеджер (<code>pm2 start app.js</code>).</li>\n        <li><strong>systemd</strong> — сервіс ОС для автозапуску після перезавантаження.</li>\n      </ul>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-13",
+      "question": "Які інструменти моніторингу ти знаєш?",
+      "answer": "\n      <p>Для базового моніторингу: <strong>htop, top, journalctl, docker stats</strong>.</p>\n      <p>Для продакшну: <strong>Prometheus, Grafana, Sentry</strong>.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-14",
+      "question": "Які етапи зазвичай має CI/CD pipeline?",
+      "answer": "\n      <ul>\n        <li>Lint + тести</li>\n        <li>Збірка (build)</li>\n        <li>Деплой (deploy)</li>\n        <li>Моніторинг і сповіщення</li>\n      </ul>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-15",
+      "question": "Як можна зробити резервну копію бази даних?",
+      "answer": "\n      <pre># PostgreSQL\npg_dump mydb &gt; backup.sql\n\n# MongoDB\nmongodump --db=mydb --out=/backup\n      </pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-16",
+      "question": "Які хмарні сервіси ти знаєш?",
+      "answer": "\n      <ul>\n        <li>AWS (EC2, S3, RDS)</li>\n        <li>Google Cloud Platform (GCP)</li>\n        <li>Azure</li>\n        <li>Vercel, Netlify — для деплою фронтенду</li>\n      </ul>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-17",
+      "question": "Що таке Reverse Proxy?",
+      "answer": "\n      <p>Це сервер, який приймає запити від користувача і перенаправляє їх на внутрішній застосунок.</p>\n      <p>Зазвичай використовується для SSL, кешу, балансування або приховування внутрішньої архітектури.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-18",
+      "question": "Як отримати безкоштовний SSL-сертифікат?",
+      "answer": "\n      <p>За допомогою <strong>Let's Encrypt</strong> і утиліти <code>certbot</code>.</p>\n      <pre>sudo certbot --nginx -d mysite.com\n      </pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-19",
+      "question": "Як переглянути логи процесу на сервері?",
+      "answer": "\n      <pre>journalctl -u nginx -f\ndocker logs my_container\npm2 logs\n      </pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-20",
+      "question": "У чому різниця між Continuous Delivery та Continuous Deployment?",
+      "answer": "\n      <p><strong>Continuous Delivery</strong> — автоматична збірка і тестування, але деплой — вручну.</p>\n      <p><strong>Continuous Deployment</strong> — деплой відбувається автоматично після успішних тестів.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-21",
+      "question": "Які інструменти для збірки застосунку ти використовував?",
+      "answer": "\n      <p>Залежно від стеку: <strong>Vite</strong>, <strong>Webpack</strong>, <strong>Gulp</strong> або <strong>Parcel</strong>.\n        На бекенді — <strong>npm scripts</strong> або <strong>Docker build</strong>.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-22",
+      "question": "Що таке Load Balancer?",
+      "answer": "\n      <p><strong>Load Balancer</strong> — це система, яка розподіляє навантаження між кількома серверами.\n        Це допомагає уникнути перевантаження одного вузла й підвищує доступність сервісу.</p>\n      <p>Приклад: <strong>Nginx</strong>, <strong>HAProxy</strong>, або балансувальники в AWS / GCP.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-23",
+      "question": "Як кешування допомагає в DevOps?",
+      "answer": "\n      <p>Кешування зменшує навантаження на сервер і базу даних.\n        Зазвичай використовується <strong>Redis</strong> або <strong>Cloudflare Cache</strong> для збереження частих запитів чи сесій користувачів.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-24",
+      "question": "Що таке log rotation?",
+      "answer": "\n      <p>Це процес автоматичного архівування старих логів і створення нових файлів журналів,\n        щоб запобігти переповненню диску.\n        У Linux зазвичай використовується утиліта <code>logrotate</code>.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-25",
+      "question": "Як оновлюються пакети безпеки на сервері?",
+      "answer": "\n      <p>Регулярно виконуються команди:</p>\n      <pre>sudo apt update\nsudo apt upgrade\n      </pre>\n      <p>На продакшн-серверах часто використовується <strong>unattended-upgrades</strong> або ручне оновлення після тестування.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-26",
+      "question": "Що таке firewall і для чого він потрібен?",
+      "answer": "\n      <p><strong>Firewall</strong> (брандмауер) — це система, що контролює мережевий трафік і захищає сервер від несанкціонованого доступу.</p>\n      <pre>sudo ufw enable\nsudo ufw allow 22/tcp\nsudo ufw allow 80,443/tcp\n      </pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-27",
+      "question": "Що таке rollback у контексті деплою?",
+      "answer": "\n      <p><strong>Rollback</strong> — це повернення до попередньої стабільної версії застосунку,\n        якщо після оновлення виникла помилка.</p>\n      <p>Зазвичай реалізується через:</p>\n      <ul>\n        <li>збереження попередніх Docker-образів,</li>\n        <li>Git-теги версій,</li>\n        <li>автоматичні backup-скрипти.</li>\n      </ul>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-28",
+      "question": "Як переглянути логи контейнера Docker?",
+      "answer": "\n      <pre>docker logs my_container\ndocker logs -f my_container   # у реальному часі\n      </pre>\n      <p>Також можна перенаправити логи у файл або систему моніторингу (наприклад, Loki чи ELK stack).</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-29",
+      "question": "Що таке Docker network і навіщо її створюють?",
+      "answer": "\n      <p>Docker network — це віртуальна мережа, у якій контейнери можуть спілкуватися між собою по імені сервісу.</p>\n      <pre>docker network create mynet\ndocker run --network=mynet backend\ndocker run --network=mynet frontend\n      </pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-30",
+      "question": "Як зберігаються секрети у CI/CD системах?",
+      "answer": "\n      <p>Усі конфіденційні дані (паролі, ключі API) зберігаються у зашифрованому вигляді в CI/CD-сховищі секретів.\n        Наприклад:</p>\n      <ul>\n        <li><strong>GitHub Secrets</strong> — через Settings → Secrets</li>\n        <li><strong>GitLab Variables</strong> — Settings → CI/CD → Variables</li>\n      </ul>\n      <p>У workflow їх можна викликати як <code>${{ secrets.MY_KEY }}</code>.</p>\n    ",
+      "isFollowUp": false
+    }
+  ],
+  "totalQuestions": 30
+}

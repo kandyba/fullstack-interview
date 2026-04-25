@@ -1,0 +1,594 @@
+{
+  "title": "JS Practice — Live Coding задачі",
+  "questions": [
+    {
+      "id": "q-1",
+      "question": "Warm-up: сума масиву через цикл for",
+      "answer": "\n      <p><strong>Завдання:</strong> Повернути суму всіх значень у масиві <strong>без reduce</strong>.</p>\n      <p><strong>Вхід:</strong> <code>[1, 2, 3, 4, 5]</code></p>\n      <p><strong>Очікуваний результат:</strong> <code>15</code></p>\n      <pre>const array = [1, 2, 3, 4, 5];\nlet sum = 0;\n\nfor (let i = 0; i &lt; array.length; i++) {\n  sum += array[i];\n}\n\nconsole.log(sum); // 15</pre>\n      <p><strong>Що озвучити на співбесіді:</strong> часова складність O(n), пам'ять O(1).</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-2",
+      "question": "Warm-up: відфільтрувати парні числа через цикл",
+      "answer": "\n      <p><strong>Завдання:</strong> Отримати лише парні числа з масиву <strong>без filter</strong>.</p>\n      <p><strong>Вхід:</strong> <code>[1, 2, 3, 4, 5, 6]</code></p>\n      <p><strong>Очікуваний результат:</strong> <code>[2, 4, 6]</code></p>\n      <pre>const input = [1, 2, 3, 4, 5, 6];\nconst even = [];\n\nfor (const n of input) {\n  if (n % 2 === 0) {\n    even.push(n);\n  }\n}\n\nconsole.log(even); // [2, 4, 6]</pre>\n      <p><strong>Що озвучити на співбесіді:</strong> чому повертаємо новий масив, а не мутуємо вхідний.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-3",
+      "question": "Warm-up: порахувати парні та непарні",
+      "answer": "\n      <p><strong>Завдання:</strong> Порахувати кількість парних і непарних чисел у масиві.</p>\n      <p><strong>Вхід:</strong> <code>[5, 2, 8, 3, 1, 4]</code></p>\n      <p><strong>Очікуваний результат:</strong> <code>{ even: 3, odd: 3 }</code></p>\n      <pre>const arr = [5, 2, 8, 3, 1, 4];\nlet even = 0;\nlet odd = 0;\n\nfor (const n of arr) {\n  if (n % 2 === 0) even++;\n  else odd++;\n}\n\nconsole.log({ even, odd }); // { even: 3, odd: 3 }</pre>\n      <p><strong>Що озвучити на співбесіді:</strong> edge case для порожнього масиву.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-4",
+      "question": "Warm-up: знайти найбільше число в масиві",
+      "answer": "\n      <p><strong>Завдання:</strong> Знайти максимальне значення через цикл <strong>без Math.max</strong>.</p>\n      <p><strong>Вхід:</strong> <code>[7, 3, 11, 2, 9]</code></p>\n      <p><strong>Очікуваний результат:</strong> <code>11</code></p>\n      <pre>const arr = [7, 3, 11, 2, 9];\nlet max = arr[0];\n\nfor (let i = 1; i &lt; arr.length; i++) {\n  if (arr[i] &gt; max) max = arr[i];\n}\n\nconsole.log(max); // 11</pre>\n      <p><strong>Що озвучити на співбесіді:</strong> як поведеться рішення для масиву з 1 елементом.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-5",
+      "question": "Знайти мінімальне та максимальне значення в масиві",
+      "answer": "\n      <p><strong>Завдання:</strong> Знайти <code>min</code> і <code>max</code> за один прохід масиву.</p>\n      <p><strong>Вхід:</strong> <code>[3, 7, 1, 9, 2]</code></p>\n      <p><strong>Очікуваний результат:</strong> <code>{ min: 1, max: 9 }</code></p>\n      <pre>function getMinMax(numbers) {\n  if (!Array.isArray(numbers) || numbers.length === 0) {\n    throw new Error('Array must be non-empty');\n  }\n\n  let min = numbers[0];\n  let max = numbers[0];\n\n  for (let i = 1; i &lt; numbers.length; i++) {\n    if (numbers[i] &lt; min) min = numbers[i];\n    if (numbers[i] &gt; max) max = numbers[i];\n  }\n\n  return { min, max };\n}\n\nconsole.log(getMinMax([3, 7, 1, 9, 2])); // { min: 1, max: 9 }</pre>\n      <p><strong>Що озвучити на співбесіді:</strong> O(n) час, O(1) пам'ять, плюс edge case для порожнього масиву.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-6",
+      "question": "Підрахунок кількості кожного елемента в масиві",
+      "answer": "\n      <p><strong>Завдання:</strong> Порахувати, скільки разів зустрічається кожне слово.</p>\n      <pre>const words = ['apple', 'banana', 'apple', 'orange', 'banana', 'apple'];\nconst count = words.reduce((acc, el) =&gt; {\n  acc[el] = (acc[el] || 0) + 1;\n  return acc;\n}, {});\nconsole.log(count); // { apple: 3, banana: 2, orange: 1 }</pre>\n      <p><strong>Тип методу:</strong> <code>reduce()</code> — створює об’єкт-лічильник.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-7",
+      "question": "Знайти унікальні значення",
+      "answer": "\n      <p><strong>Завдання:</strong> Видалити дублікати з масиву.</p>\n      <pre>const arr = [1, 2, 2, 3, 4, 4, 5];\nconst unique = [...new Set(arr)];\nconsole.log(unique); // [1, 2, 3, 4, 5]</pre>\n      <p><strong>Пояснення:</strong> <code>Set</code> зберігає лише унікальні значення.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-8",
+      "question": "Перевірити, чи всі елементи парні (every)",
+      "answer": "\n      <pre>const nums = [2, 4, 6, 8];\nconst allEven = nums.every(n =&gt; n % 2 === 0);\nconsole.log(allEven); // true</pre>\n      <p><strong>Пояснення:</strong> <code>every()</code> повертає true, якщо всі елементи задовольняють умову.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-9",
+      "question": "Перевірити, чи є хоча б одне від’ємне число (some)",
+      "answer": "\n      <pre>const numbers = [3, -2, 7, 4];\nconst hasNegative = numbers.some(n =&gt; n &lt; 0);\nconsole.log(hasNegative); // true</pre>\n      <p><strong>Пояснення:</strong> <code>some()</code> повертає true, якщо хоча б один елемент відповідає умові.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-10",
+      "question": "Знайти перший елемент, що відповідає умові (find)",
+      "answer": "\n      <pre>const users = [\n  { name: 'Alex', age: 20 },\n  { name: 'John', age: 30 },\n  { name: 'Bob', age: 25 }\n];\nconst result = users.find(u =&gt; u.age &gt; 25);\nconsole.log(result); // { name: 'John', age: 30 }</pre>\n      <p><strong>Пояснення:</strong> <code>find()</code> повертає перший знайдений елемент або undefined.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-11",
+      "question": "Отримати масив тільки з імен користувачів (map)",
+      "answer": "\n      <pre>const users = [\n  { name: 'Alice', age: 25 },\n  { name: 'Bob', age: 30 }\n];\nconst names = users.map(u =&gt; u.name);\nconsole.log(names); // ['Alice', 'Bob']</pre>\n      <p><strong>Тип методу:</strong> <code>map()</code> створює новий масив із перетворених значень.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-12",
+      "question": "Об’єднати кілька масивів у один (concat / flat)",
+      "answer": "\n      <pre>const a = [1, 2];\nconst b = [3, 4];\nconst c = [5, 6];\nconst merged = a.concat(b, c);\nconsole.log(merged); // [1, 2, 3, 4, 5, 6]\n\n// або\nconst nested = [[1, 2], [3, 4]];\nconsole.log(nested.flat()); // [1, 2, 3, 4]</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-13",
+      "question": "Середнє арифметичне чисел у масиві",
+      "answer": "\n      <pre>const nums = [10, 20, 30, 40];\nconst avg = nums.reduce((a, b) =&gt; a + b) / nums.length;\nconsole.log(avg); // 25</pre>\n      <p><strong>Пояснення:</strong> <code>reduce()</code> підсумовує елементи, потім ділимо на кількість.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-14",
+      "question": "Отримати масив чисел з рядка",
+      "answer": "\n      <pre>const input = \"5,10,15,20\";\nconst numbers = input.split(',').map(Number);\nconsole.log(numbers); // [5, 10, 15, 20]</pre>\n      <p><strong>Пояснення:</strong> <code>split()</code> перетворює рядок у масив, <code>map(Number)</code> конвертує елементи в числа.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-15",
+      "question": "Згрупувати об’єкти за властивістю",
+      "answer": "\n      <pre>const users = [\n  { name: 'Alice', city: 'Kyiv' },\n  { name: 'Bob', city: 'Lviv' },\n  { name: 'Tom', city: 'Kyiv' }\n];\nconst grouped = users.reduce((acc, user) =&gt; {\n  (acc[user.city] = acc[user.city] || []).push(user);\n  return acc;\n}, {});\nconsole.log(grouped);\n// { Kyiv: [{...}, {...}], Lviv: [{...}] }</pre>\n      <p><strong>Пояснення:</strong> типове завдання на <code>reduce()</code> — групування за ключем.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-16",
+      "question": "Підрахувати кількість ключів в об’єкті",
+      "answer": "\n      <pre>const user = { name: 'Alex', age: 25, city: 'Kyiv' };\nconst count = Object.keys(user).length;\nconsole.log(count); // 3</pre>\n      <p><strong>Пояснення:</strong> <code>Object.keys()</code> повертає масив усіх ключів об’єкта, і через <code>.length</code> дізнаємось їхню кількість.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-17",
+      "question": "Злиття двох об’єктів",
+      "answer": "\n      <pre>const a = { name: 'Alice', age: 25 };\nconst b = { city: 'Lviv', age: 30 };\nconst merged = { ...a, ...b };\nconsole.log(merged); // { name: 'Alice', age: 30, city: 'Lviv' }</pre>\n      <p><strong>Пояснення:</strong> деструктуризація дозволяє об’єднувати об’єкти, а пізніші ключі перекривають попередні.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-18",
+      "question": "Перевірити, чи існує властивість у об’єкті",
+      "answer": "\n      <pre>const user = { name: 'Bob', age: 30 };\nconsole.log('age' in user); // true\nconsole.log(user.hasOwnProperty('email')); // false</pre>\n      <p><strong>Пояснення:</strong> <code>in</code> перевіряє наявність ключа навіть у прототипі, а <code>hasOwnProperty()</code> — лише у власних властивостях.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-19",
+      "question": "Глибоке копіювання об’єкта",
+      "answer": "\n      <pre>const user = { name: 'Anna', address: { city: 'Kyiv' } };\nconst copy = structuredClone(user);\ncopy.address.city = 'Lviv';\nconsole.log(user.address.city); // Kyiv</pre>\n      <p><strong>Пояснення:</strong> <code>structuredClone()</code> створює повну копію без спільних посилань. Альтернатива — <code>JSON.parse(JSON.stringify(obj))</code>.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-20",
+      "question": "Перетворити об’єкт на масив пар [ключ, значення]",
+      "answer": "\n      <pre>const obj = { a: 1, b: 2, c: 3 };\nconst entries = Object.entries(obj);\nconsole.log(entries); // [['a',1], ['b',2], ['c',3]]</pre>\n      <p><strong>Пояснення:</strong> <code>Object.entries()</code> — зручно для циклів, map або побудови таблиць.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-21",
+      "question": "Перетворити масив пар у об’єкт",
+      "answer": "\n      <pre>const pairs = [['a', 1], ['b', 2], ['c', 3]];\nconst obj = Object.fromEntries(pairs);\nconsole.log(obj); // { a: 1, b: 2, c: 3 }</pre>\n      <p><strong>Типове завдання:</strong> обернене до <code>Object.entries()</code>.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-22",
+      "question": "Знайти ключ за значенням",
+      "answer": "\n      <pre>const colors = { red: '#f00', green: '#0f0', blue: '#00f' };\nconst key = Object.keys(colors).find(k =&gt; colors[k] === '#0f0');\nconsole.log(key); // 'green'</pre>\n      <p><strong>Пояснення:</strong> <code>Object.keys()</code> + <code>find()</code> дозволяють швидко знайти ключ по значенню.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-23",
+      "question": "Порахувати перетин двох масивів (for в for)",
+      "answer": "\n      <p><strong>Завдання:</strong> Повернути спільні значення двох масивів через подвійний цикл.</p>\n      <p><strong>Вхід:</strong> <code>[1, 2, 3, 4]</code> і <code>[3, 4, 5, 6]</code></p>\n      <p><strong>Очікуваний результат:</strong> <code>[3, 4]</code></p>\n      <pre>const a = [1, 2, 3, 4];\nconst b = [3, 4, 5, 6];\nconst intersection = [];\n\nfor (let i = 0; i &lt; a.length; i++) {\n  for (let j = 0; j &lt; b.length; j++) {\n    if (a[i] === b[j]) {\n      let exists = false;\n      for (let k = 0; k &lt; intersection.length; k++) {\n        if (intersection[k] === a[i]) {\n          exists = true;\n          break;\n        }\n      }\n\n      if (!exists) intersection.push(a[i]);\n    }\n  }\n}\n\nconsole.log(intersection); // [3, 4]</pre>\n      <p><strong>Що озвучити на співбесіді:</strong> це рішення O(n*m), а далі можна оптимізувати через Set.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-24",
+      "question": "Отримати вкладену властивість без помилки (Optional chaining)",
+      "answer": "\n      <pre>const data = { user: { profile: { name: 'Olena' } } };\nconst name = data?.user?.profile?.name || 'Unknown';\nconsole.log(name); // 'Olena'</pre>\n      <p><strong>Пояснення:</strong> оператор <code>?.</code> запобігає помилці, якщо властивість відсутня.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-25",
+      "question": "Сортування масиву об’єктів за ключем",
+      "answer": "\n      <pre>const users = [\n  { name: 'Bob', age: 25 },\n  { name: 'Alice', age: 30 },\n  { name: 'Tom', age: 20 }\n];\nusers.sort((a, b) =&gt; a.age - b.age);\nconsole.log(users);\n// [{Tom,20}, {Bob,25}, {Alice,30}]</pre>\n      <p><strong>Пояснення:</strong> <code>sort()</code> змінює оригінальний масив. Дуже типове завдання “відсортуй об’єкти за віком”.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-26",
+      "question": "Перевернути рядок (reverse string)",
+      "answer": "\n      <pre>const str = 'JavaScript';\nconst reversed = str.split('').reverse().join('');\nconsole.log(reversed); // 'tpircSavaJ'</pre>\n      <p><strong>Пояснення:</strong>\n        <code>split('')</code> перетворює рядок у масив символів,\n        <code>reverse()</code> змінює порядок,\n        <code>join('')</code> знову збирає в рядок.\n      </p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-27",
+      "question": "Перевірити, чи є рядок паліндромом",
+      "answer": "\n      <pre>const str = 'level';\nconst isPalindrome = str === str.split('').reverse().join('');\nconsole.log(isPalindrome); // true</pre>\n      <p><strong>Пояснення:</strong> паліндром читається однаково з обох боків.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-28",
+      "question": "Зробити першу букву великою (capitalize)",
+      "answer": "\n      <pre>const str = 'hello world';\nconst capitalized = str.charAt(0).toUpperCase() + str.slice(1);\nconsole.log(capitalized); // 'Hello world'</pre>\n      <p><strong>Пояснення:</strong> <code>charAt(0)</code> бере першу букву, <code>slice(1)</code> — решту рядка.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-29",
+      "question": "Зробити великою першу букву кожного слова",
+      "answer": "\n      <pre>const str = 'frontend developer interview';\nconst result = str\n  .split(' ')\n  .map(word =&gt; word[0].toUpperCase() + word.slice(1))\n  .join(' ');\nconsole.log(result); // 'Frontend Developer Interview'</pre>\n      <p><strong>Пояснення:</strong> часто дають для перевірки <code>split</code> + <code>map</code>.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-30",
+      "question": "Порахувати кількість голосних у рядку",
+      "answer": "\n      <pre>const str = 'JavaScript';\nconst count = str.match(/[aeiou]/gi)?.length || 0;\nconsole.log(count); // 3</pre>\n      <p><strong>Пояснення:</strong> використовуємо регулярку для голосних. Символ <code>?</code> запобігає помилці, якщо збігів нема.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-31",
+      "question": "Знайти найдовше слово у реченні",
+      "answer": "\n      <pre>const str = 'I am learning JavaScript daily';\nconst longest = str.split(' ').reduce((a, b) =&gt; (b.length &gt; a.length ? b : a));\nconsole.log(longest); // 'JavaScript'</pre>\n      <p><strong>Пояснення:</strong> класика reduce + порівняння довжини.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-32",
+      "question": "Підрахунок кількості слів у рядку",
+      "answer": "\n      <pre>const str = 'Frontend is fun';\nconst words = str.trim().split(/\\s+/).length;\nconsole.log(words); // 3</pre>\n      <p><strong>Пояснення:</strong> регулярка <code>/\\s+/</code> розбиває рядок за будь-якою кількістю пробілів.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-33",
+      "question": "Порахувати кількість входжень символа",
+      "answer": "\n      <pre>const str = 'banana';\nconst count = str.split('a').length - 1;\nconsole.log(count); // 3</pre>\n      <p><strong>Пояснення:</strong> розділяємо рядок по символу та вираховуємо кількість розділень.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-34",
+      "question": "Видалити всі пробіли з рядка",
+      "answer": "\n      <pre>const str = '  Hello   World  ';\nconst cleaned = str.replace(/\\s+/g, '');\nconsole.log(cleaned); // 'HelloWorld'</pre>\n      <p><strong>Пояснення:</strong> <code>\\s+</code> — усі пробільні символи, <code>g</code> — глобально.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-35",
+      "question": "Порахувати кількість унікальних символів",
+      "answer": "\n      <pre>const str = 'success';\nconst uniqueCount = new Set(str).size;\nconsole.log(uniqueCount); // 5</pre>\n      <p><strong>Пояснення:</strong> <code>Set</code> зберігає лише унікальні символи.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-36",
+      "question": "FizzBuzz",
+      "answer": "\n      <p><strong>Завдання:</strong> Вивести числа від 1 до 20, але:</p>\n      <ul>\n        <li>Якщо число ділиться на 3 — «Fizz»</li>\n        <li>Якщо на 5 — «Buzz»</li>\n        <li>Якщо на 3 і 5 — «FizzBuzz»</li>\n      </ul>\n      <pre>for (let i = 1; i &lt;= 20; i++) {\n  let output = '';\n  if (i % 3 === 0) output += 'Fizz';\n  if (i % 5 === 0) output += 'Buzz';\n  console.log(output || i);\n}</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-37",
+      "question": "Факторіал числа (рекурсія)",
+      "answer": "\n      <pre>function factorial(n) {\n  return n === 0 ? 1 : n * factorial(n - 1);\n}\nconsole.log(factorial(5)); // 120</pre>\n      <p><strong>Пояснення:</strong> рекурсивний виклик множить n на результат для n − 1.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-38",
+      "question": "Числа Фібоначчі (ітеративно)",
+      "answer": "\n      <pre>function fibonacci(n) {\n  if (n &lt;= 0) return [];\n  if (n === 1) return [0];\n\n  const seq = [0, 1];\n  for (let i = 2; i &lt; n; i++) {\n    seq[i] = seq[i - 1] + seq[i - 2];\n  }\n  return seq;\n}\n\nconsole.log(fibonacci(0)); // []\nconsole.log(fibonacci(1)); // [0]\nconsole.log(fibonacci(8)); // [0,1,1,2,3,5,8,13]</pre>\n      <p><strong>Пояснення:</strong> важливо покривати крайні випадки n=0 і n=1.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-39",
+      "question": "Знайти друге найбільше число (без sort і без Set)",
+      "answer": "\n      <p><strong>Завдання:</strong> Повернути друге найбільше число через цикл <strong>без sort</strong> і <strong>без Set</strong>.</p>\n      <p><strong>Вхід:</strong> <code>[10, 2, 8, 10, -3, 7]</code></p>\n      <p><strong>Очікуваний результат:</strong> <code>8</code></p>\n      <pre>function getSecondMax(arr) {\n  if (!Array.isArray(arr) || arr.length &lt; 2) {\n    throw new Error('Array must contain at least 2 elements');\n  }\n\n  let max = -Infinity;\n  let secondMax = -Infinity;\n\n  for (let i = 0; i &lt; arr.length; i++) {\n    const value = arr[i];\n\n    if (value &gt; max) {\n      secondMax = max;\n      max = value;\n    } else if (value &gt; secondMax &amp;&amp; value !== max) {\n      secondMax = value;\n    }\n  }\n\n  if (secondMax === -Infinity) {\n    throw new Error('Second distinct maximum does not exist');\n  }\n\n  return secondMax;\n}\n\nconsole.log(getSecondMax([10, 2, 8, 10, -3, 7])); // 8</pre>\n      <p><strong>Пояснення:</strong> один прохід O(n), без допоміжного сортування.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-40",
+      "question": "Перевірити, чи є два рядки анаграмами",
+      "answer": "\n      <pre>function isAnagram(a, b) {\n  return a.toLowerCase().split('').sort().join('') ===\n         b.toLowerCase().split('').sort().join('');\n}\nconsole.log(isAnagram('listen', 'silent')); // true</pre>\n      <p><strong>Пояснення:</strong> анаграма — коли однаковий набір літер у різному порядку.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-41",
+      "question": "Знайти всі дублікати у масиві",
+      "answer": "\n      <pre>const arr = [1, 2, 3, 2, 4, 3, 5];\nconst duplicates = [];\n\nfor (let i = 0; i &lt; arr.length; i++) {\n  for (let j = i + 1; j &lt; arr.length; j++) {\n    if (arr[i] === arr[j]) {\n      let alreadyAdded = false;\n\n      for (let k = 0; k &lt; duplicates.length; k++) {\n        if (duplicates[k] === arr[i]) {\n          alreadyAdded = true;\n          break;\n        }\n      }\n\n      if (!alreadyAdded) duplicates.push(arr[i]);\n      break;\n    }\n  }\n}\n\nconsole.log(duplicates); // [2, 3]</pre>\n      <p><strong>Пояснення:</strong> це варіант саме через <code>for</code> в <code>for</code>; на наступному кроці можна оптимізувати через Set/Map.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-42",
+      "question": "Знайти унікальні елементи (без Set)",
+      "answer": "\n      <pre>const arr = [1, 2, 2, 3, 4, 4];\nconst unique = arr.filter((item, i) =&gt; arr.indexOf(item) === i);\nconsole.log(unique); // [1, 2, 3, 4]</pre>\n      <p><strong>Пояснення:</strong> залишаємо перше входження кожного елемента.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-43",
+      "question": "Підрахунок суми цифр числа",
+      "answer": "\n      <pre>const num = 12345;\nconst sum = num\n  .toString()\n  .split('')\n  .reduce((a, b) =&gt; a + +b, 0);\nconsole.log(sum); // 15</pre>\n      <p><strong>Пояснення:</strong> переводимо число у рядок і підсумовуємо цифри.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-44",
+      "question": "Знайти друге за величиною число в масиві",
+      "answer": "\n      <pre>const arr = [10, 5, 8, 20, 15];\nconst secondMax = [...new Set(arr)].sort((a,b) =&gt; b - a)[1];\nconsole.log(secondMax); // 15</pre>\n      <p><strong>Пояснення:</strong> Set прибирає дублікати, sort() впорядковує у спадному порядку.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-45",
+      "question": "Порахувати кількість парних та непарних чисел",
+      "answer": "\n      <pre>const arr = [1,2,3,4,5,6];\nconst stats = arr.reduce((acc, n) =&gt; {\n  n % 2 === 0 ? acc.even++ : acc.odd++;\n  return acc;\n}, { even: 0, odd: 0 });\nconsole.log(stats); // { even: 3, odd: 3 }</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-46",
+      "question": "Перевірити, чи є масив відсортованим",
+      "answer": "\n      <pre>const arr = [1, 2, 3, 4, 5];\nconst sorted = arr.every((v, i, a) =&gt; i === 0 || a[i-1] &lt;= v);\nconsole.log(sorted); // true</pre>\n      <p><strong>Пояснення:</strong> кожен елемент повинен бути не меншим за попередній.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-47",
+      "question": "Обчислити суму всіх парних чисел у вкладеному масиві",
+      "answer": "\n      <pre>const arr = [[1,2], [3,4,6], [5,8]];\nconst sum = arr\n  .flat()\n  .filter(n =&gt; n % 2 === 0)\n  .reduce((a,b) =&gt; a + b, 0);\nconsole.log(sum); // 20</pre>\n      <p><strong>Пояснення:</strong> <code>flat()</code> розгортає вкладені масиви, далі фільтруємо парні й підсумовуємо.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-48",
+      "question": "Перевірити, чи всі символи унікальні (unique string)",
+      "answer": "\n      <pre>function allUnique(str) {\n  return new Set(str).size === str.length;\n}\nconsole.log(allUnique('abc')); // true\nconsole.log(allUnique('aabc')); // false</pre>\n      <p><strong>Пояснення:</strong> якщо довжина <code>Set</code> менша за довжину рядка — є дублікати.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-49",
+      "question": "Затримка виконання через setTimeout",
+      "answer": "\n      <pre>console.log('Start');\nsetTimeout(() =&gt; console.log('After 2 seconds'), 2000);\nconsole.log('End');\n// Start → End → After 2 seconds</pre>\n      <p><strong>Пояснення:</strong> <code>setTimeout</code> додає колбек у чергу макротасок, тому виконується після синхронного коду.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-50",
+      "question": "Вивести числа з паузою (через замикання)",
+      "answer": "\n      <pre>for (let i = 1; i &lt;= 3; i++) {\n  setTimeout(() =&gt; console.log(i), i * 1000);\n}\n// 1 через 1с, 2 через 2с, 3 через 3с</pre>\n      <p><strong>Пояснення:</strong> <code>let</code> створює власну область видимості для кожної ітерації, тому значення i зберігається.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-51",
+      "question": "Створити функцію sleep(ms) з Promise",
+      "answer": "\n      <pre>const sleep = ms =&gt; new Promise(res =&gt; setTimeout(res, ms));\n\nasync function demo() {\n  console.log('Wait...');\n  await sleep(2000);\n  console.log('Done after 2s');\n}\ndemo();</pre>\n      <p><strong>Пояснення:</strong> <code>await sleep()</code> ставить виконання на паузу без блокування потоку.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-52",
+      "question": "Ланцюжок Promise",
+      "answer": "\n      <pre>Promise.resolve(2)\n  .then(x =&gt; x * 2)\n  .then(x =&gt; x + 3)\n  .then(console.log); // 7</pre>\n      <p><strong>Пояснення:</strong> кожен <code>then()</code> отримує результат попереднього Promise.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-53",
+      "question": "Promise.all()",
+      "answer": "\n      <pre>const p1 = Promise.resolve(1);\nconst p2 = Promise.resolve(2);\nconst p3 = Promise.resolve(3);\n\nPromise.all([p1, p2, p3]).then(values =&gt; console.log(values));\n// [1, 2, 3]</pre>\n      <p><strong>Пояснення:</strong> <code>Promise.all()</code> очікує завершення всіх промісів, або відхиляє при першій помилці.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-54",
+      "question": "Promise.race()",
+      "answer": "\n      <pre>const slow = new Promise(r =&gt; setTimeout(() =&gt; r('slow'), 2000));\nconst fast = new Promise(r =&gt; setTimeout(() =&gt; r('fast'), 500));\n\nPromise.race([slow, fast]).then(console.log); // 'fast'</pre>\n      <p><strong>Пояснення:</strong> <code>race()</code> повертає результат першого виконаного Promise.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-55",
+      "question": "async/await з обробкою помилок",
+      "answer": "\n      <pre>async function fetchData() {\n  try {\n    throw new Error('Network error');\n  } catch (e) {\n    console.error('Помилка:', e.message);\n  } finally {\n    console.log('Done');\n  }\n}\nfetchData();</pre>\n      <p><strong>Пояснення:</strong> <code>try/catch</code> працює з <code>await</code> аналогічно синхронному коду.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-56",
+      "question": "Паралельне виконання кількох async-запитів",
+      "answer": "\n      <pre>async function loadAll() {\n  const [user, posts] = await Promise.all([\n    fetch('/api/user'),\n    fetch('/api/posts')\n  ]);\n  console.log(user.status, posts.status);\n}\nloadAll();</pre>\n      <p><strong>Пояснення:</strong> <code>Promise.all()</code> дає паралельність і швидше завантаження.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-57",
+      "question": "Відмінність між microtask і macrotask",
+      "answer": "\n      <pre>console.log('1');\nsetTimeout(() =&gt; console.log('2'), 0);\nPromise.resolve().then(() =&gt; console.log('3'));\nconsole.log('4');\n// Порядок: 1, 4, 3, 2</pre>\n      <p><strong>Пояснення:</strong> microtasks (Promise) виконуються перед macrotasks (setTimeout).</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-58",
+      "question": "Логування послідовності async/await",
+      "answer": "\n      <pre>async function test() {\n  console.log('A');\n  await Promise.resolve();\n  console.log('B');\n}\ntest();\nconsole.log('C');\n// Порядок: A, C, B</pre>\n      <p><strong>Пояснення:</strong> <code>await</code> відправляє продовження у microtask queue, тому <code>C</code> з’явиться раніше.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-59",
+      "question": "Реалізувати таймер з Promise",
+      "answer": "\n      <pre>function delay(ms) {\n  return new Promise(res =&gt; setTimeout(res, ms));\n}\nasync function run() {\n  for (let i = 3; i &gt; 0; i--) {\n    console.log(i);\n    await delay(1000);\n  }\n  console.log('Go!');\n}\nrun();</pre>\n      <p><strong>Пояснення:</strong> <code>await delay()</code> створює асинхронну паузу між циклами.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-60",
+      "question": "Обробити кілька запитів з очікуванням кожного (послідовно)",
+      "answer": "\n      <pre>const urls = ['url1', 'url2', 'url3'];\n\nasync function fetchSequentially() {\n  for (const url of urls) {\n    console.log('Fetching', url);\n    await fetch(url);\n  }\n  console.log('All done');\n}\nfetchSequentially();</pre>\n      <p><strong>Пояснення:</strong> цикл з <code>await</code> виконує запити один за одним, а не паралельно.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-61",
+      "question": "Змінити колір елемента при натисканні кнопки",
+      "answer": "\n      <pre>&lt;button id=\"btn\"&gt;Змінити колір&lt;/button&gt;\n&lt;div id=\"box\" style=\"width:100px;height:100px;background:red;margin-top:10px\"&gt;&lt;/div&gt;\n\n&lt;script&gt;\ndocument.getElementById('btn').addEventListener('click', () =&gt; {\n  const box = document.getElementById('box');\n  box.style.background = box.style.background === 'red' ? 'green' : 'red';\n});\n&lt;/script&gt;</pre>\n      <p><strong>Пояснення:</strong> змінюємо inline-стиль через <code>style</code>.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-62",
+      "question": "Лічильник кліків по кнопці",
+      "answer": "\n      <pre>&lt;button id=\"countBtn\"&gt;Click me&lt;/button&gt;\n&lt;p id=\"counter\"&gt;0&lt;/p&gt;\n\n&lt;script&gt;\nlet count = 0;\ndocument.getElementById('countBtn').addEventListener('click', () =&gt; {\n  document.getElementById('counter').textContent = ++count;\n});\n&lt;/script&gt;</pre>\n      <p><strong>Пояснення:</strong> простий лічильник — часте базове тестове завдання.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-63",
+      "question": "Додати новий елемент до списку",
+      "answer": "\n      <pre>&lt;ul id=\"list\"&gt;&lt;li&gt;Item 1&lt;/li&gt;&lt;/ul&gt;\n&lt;button id=\"add\"&gt;Add&lt;/button&gt;\n\n&lt;script&gt;\nconst list = document.getElementById('list');\ndocument.getElementById('add').addEventListener('click', () =&gt; {\n  const li = document.createElement('li');\n  li.textContent = `Item ${list.children.length + 1}`;\n  list.appendChild(li);\n});\n&lt;/script&gt;</pre>\n      <p><strong>Пояснення:</strong> використовуємо <code>createElement</code> і <code>appendChild</code>; <code>list.children.length</code> рахує елементи тільки в цільовому списку.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-64",
+      "question": "Видалити елемент зі списку при кліку",
+      "answer": "\n      <pre>&lt;ul id=\"removable\"&gt;\n  &lt;li&gt;Apple&lt;/li&gt;\n  &lt;li&gt;Banana&lt;/li&gt;\n&lt;/ul&gt;\n\n&lt;script&gt;\ndocument.getElementById('removable').addEventListener('click', e =&gt; {\n  if (e.target.tagName === 'LI') e.target.remove();\n});\n&lt;/script&gt;</pre>\n      <p><strong>Пояснення:</strong> делегування подій — клік на <code>ul</code> ловить усі події <code>li</code>.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-65",
+      "question": "Відстежити позицію скролу сторінки",
+      "answer": "\n      <pre>window.addEventListener('scroll', () =&gt; {\n  console.log(window.scrollY);\n});</pre>\n      <p><strong>Пояснення:</strong> <code>scrollY</code> показує вертикальну позицію прокрутки.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-66",
+      "question": "Реалізувати debounce для подій скролу",
+      "answer": "\n      <pre>function debounce(fn, delay) {\n  let timeout;\n  return (...args) =&gt; {\n    clearTimeout(timeout);\n    timeout = setTimeout(() =&gt; fn(...args), delay);\n  };\n}\n\nwindow.addEventListener('scroll', debounce(() =&gt; {\n  console.log('Scroll event (debounced)');\n}, 300));</pre>\n      <p><strong>Пояснення:</strong> debounce виконує функцію лише після завершення серії подій.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-67",
+      "question": "Реалізувати throttle для подій resize",
+      "answer": "\n      <pre>function throttle(fn, delay) {\n  let last = 0;\n  return (...args) =&gt; {\n    const now = Date.now();\n    if (now - last &gt; delay) {\n      last = now;\n      fn(...args);\n    }\n  };\n}\n\nwindow.addEventListener('resize', throttle(() =&gt; {\n  console.log('Resize event (throttled)');\n}, 500));</pre>\n      <p><strong>Пояснення:</strong> throttle обмежує частоту виконання функції.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-68",
+      "question": "Отримати дані з API і показати у списку",
+      "answer": "\n      <pre>&lt;ul id=\"users\"&gt;&lt;/ul&gt;\n\n&lt;script&gt;\nasync function loadUsers() {\n  const res = await fetch('https://jsonplaceholder.typicode.com/users');\n  const users = await res.json();\n  const list = document.getElementById('users');\n  users.slice(0, 5).forEach(u =&gt; {\n    const li = document.createElement('li');\n    li.textContent = u.name;\n    list.appendChild(li);\n  });\n}\nloadUsers();\n&lt;/script&gt;</pre>\n      <p><strong>Пояснення:</strong> використовуємо <code>fetch()</code> та <code>async/await</code> для запиту даних.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-69",
+      "question": "Динамічне перемикання теми (dark/light)",
+      "answer": "\n      <pre>&lt;button id=\"themeBtn\"&gt;Toggle Theme&lt;/button&gt;\n\n&lt;script&gt;\nconst btn = document.getElementById('themeBtn');\nbtn.addEventListener('click', () =&gt; {\n  document.body.classList.toggle('dark');\n});\n&lt;/script&gt;\n\n&lt;style&gt;\nbody.dark { background: #222; color: #fff; transition: 0.3s; }\n&lt;/style&gt;</pre>\n      <p><strong>Пояснення:</strong> <code>classList.toggle()</code> зручно використовувати для зміни теми.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-70",
+      "question": "Створити модальне вікно (popup)",
+      "answer": "\n      <pre>&lt;button id=\"open\"&gt;Відкрити&lt;/button&gt;\n&lt;div id=\"modal\" style=\"display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);\"&gt;\n  &lt;div style=\"background:#fff;padding:20px;margin:100px auto;width:300px\"&gt;\n    &lt;p&gt;Привіт!&lt;/p&gt;\n    &lt;button id=\"close\"&gt;Закрити&lt;/button&gt;\n  &lt;/div&gt;\n&lt;/div&gt;\n\n&lt;script&gt;\nconst modal = document.getElementById('modal');\ndocument.getElementById('open').onclick = () =&gt; modal.style.display = 'block';\ndocument.getElementById('close').onclick = () =&gt; modal.style.display = 'none';\n&lt;/script&gt;</pre>\n      <p><strong>Пояснення:</strong> базовий приклад створення модалки без бібліотек.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-71",
+      "question": "Глибоке копіювання об’єкта (deep clone)",
+      "answer": "\n      <pre>const obj = { a: 1, b: { c: 2 } };\nconst clone = JSON.parse(JSON.stringify(obj));\nclone.b.c = 99;\nconsole.log(obj.b.c); // 2</pre>\n      <p><strong>Пояснення:</strong> <code>JSON.stringify + parse</code> створює глибоку копію, але не працює з функціями, <code>Map</code>, <code>Set</code>.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-72",
+      "question": "Реалізувати flatten() — розгортання вкладених масивів",
+      "answer": "\n      <pre>function flatten(arr) {\n  return arr.reduce((acc, val) =&gt;\n    Array.isArray(val) ? acc.concat(flatten(val)) : acc.concat(val), []);\n}\nconsole.log(flatten([1, [2, [3, 4]], 5])); // [1,2,3,4,5]</pre>\n      <p><strong>Пояснення:</strong> рекурсивно зводимо вкладені масиви у плоский список.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-73",
+      "question": "Матриця: транспонування 2x3 у 3x2 (for в for)",
+      "answer": "\n      <p><strong>Завдання:</strong> Транспонувати матрицю через подвійний цикл.</p>\n      <p><strong>Вхід:</strong> <code>[[1,2,3],[4,5,6]]</code></p>\n      <p><strong>Очікуваний результат:</strong> <code>[[1,4],[2,5],[3,6]]</code></p>\n      <pre>const matrix = [\n  [1, 2, 3],\n  [4, 5, 6]\n];\n\nconst rows = matrix.length;\nconst cols = matrix[0].length;\nconst transposed = [];\n\nfor (let c = 0; c &lt; cols; c++) {\n  transposed[c] = [];\n  for (let r = 0; r &lt; rows; r++) {\n    transposed[c][r] = matrix[r][c];\n  }\n}\n\nconsole.log(transposed); // [[1,4],[2,5],[3,6]]</pre>\n      <p><strong>Пояснення:</strong> класична задача на <code>for</code> в <code>for</code> для перевірки мислення по індексах.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-74",
+      "question": "Поліфіл для Function.bind()",
+      "answer": "\n      <pre>Function.prototype.myBind = function(context, ...args) {\n  const fn = this;\n  return function(...rest) {\n    return fn.apply(context, [...args, ...rest]);\n  };\n};\n\nfunction greet(greeting) {\n  console.log(greeting + ', ' + this.name);\n}\n\nconst person = { name: 'Serhii' };\nconst hiSerhii = greet.myBind(person, 'Привіт');\nhiSerhii(); // Привіт, Serhii</pre>\n      <p><strong>Пояснення:</strong> реалізація <code>bind()</code> через <code>apply()</code> і замикання аргументів.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-75",
+      "question": "Реалізувати memoization (кешування результатів)",
+      "answer": "\n      <pre>function memoize(fn) {\n  const cache = {};\n  return (...args) =&gt; {\n    const key = JSON.stringify(args);\n    if (key in cache) return cache[key];\n    const result = fn(...args);\n    cache[key] = result;\n    return result;\n  };\n}\n\nconst slowSquare = n =&gt; { for(let i=0;i&lt;1e7;i++); return n*n; };\nconst fastSquare = memoize(slowSquare);\n\nconsole.time('1'); fastSquare(5); console.timeEnd('1');\nconsole.time('2'); fastSquare(5); console.timeEnd('2');</pre>\n      <p><strong>Пояснення:</strong> повторні виклики з тими самими аргументами повертають результат миттєво; перевірка <code>key in cache</code> коректно працює навіть для значень типу <code>0</code> або <code>false</code>.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-76",
+      "question": "Реалізувати власний Promise",
+      "answer": "\n      <pre>class MyPromise {\n  constructor(executor) {\n    this.thenFn = null;\n    executor(this.resolve.bind(this));\n  }\n  resolve(value) {\n    if (this.thenFn) this.thenFn(value);\n  }\n  then(fn) {\n    this.thenFn = fn;\n    return this;\n  }\n}\n\nnew MyPromise(res =&gt; res(42))\n  .then(v =&gt; console.log(v)); // 42</pre>\n      <p><strong>Пояснення:</strong> спрощена реалізація <code>Promise</code> через callback.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-77",
+      "question": "Реалізувати debounce із leading edge",
+      "answer": "\n      <pre>function debounce(fn, delay, immediate = false) {\n  let timeout;\n  return function(...args) {\n    const callNow = immediate &amp;&amp; !timeout;\n    clearTimeout(timeout);\n    timeout = setTimeout(() =&gt; timeout = null, delay);\n    if (callNow) fn(...args);\n  };\n}\n\nconst log = debounce(() =&gt; console.log('Run'), 1000, true);\nwindow.addEventListener('scroll', log);</pre>\n      <p><strong>Пояснення:</strong> <code>immediate</code> дозволяє викликати функцію одразу на першій події.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-78",
+      "question": "Event delegation на динамічних елементах",
+      "answer": "\n      <pre>&lt;ul id=\"menu\"&gt;&lt;/ul&gt;\n&lt;button id=\"add\"&gt;Add item&lt;/button&gt;\n\n&lt;script&gt;\nconst menu = document.getElementById('menu');\ndocument.getElementById('add').onclick = () =&gt; {\n  const li = document.createElement('li');\n  li.textContent = 'Item ' + (menu.children.length + 1);\n  menu.appendChild(li);\n};\n\nmenu.addEventListener('click', e =&gt; {\n  if (e.target.tagName === 'LI') console.log('Clicked:', e.target.textContent);\n});\n&lt;/script&gt;</pre>\n      <p><strong>Пояснення:</strong> делегування дозволяє ловити події навіть на нових елементах.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-79",
+      "question": "Простий observer pattern (підписка/видача)",
+      "answer": "\n      <pre>class EventEmitter {\n  constructor() { this.events = {}; }\n  on(event, fn) { (this.events[event] ||= []).push(fn); }\n  emit(event, data) { (this.events[event] || []).forEach(fn =&gt; fn(data)); }\n}\n\nconst bus = new EventEmitter();\nbus.on('hello', msg =&gt; console.log('Got:', msg));\nbus.emit('hello', 'Привіт, Сергію!');</pre>\n      <p><strong>Пояснення:</strong> це база для власного EventBus або Pub/Sub системи.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-80",
+      "question": "Виконати асинхронні функції послідовно (без циклу for)",
+      "answer": "\n      <pre>const tasks = [\n  () =&gt; Promise.resolve('A'),\n  () =&gt; Promise.resolve('B'),\n  () =&gt; Promise.resolve('C')\n];\n\ntasks.reduce((p, fn) =&gt; p.then(fn).then(console.log), Promise.resolve());\n// A, B, C</pre>\n      <p><strong>Пояснення:</strong> reduce створює ланцюжок Promise, що виконується послідовно.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-81",
+      "question": "MUST HAVE: Реалізувати debounce (найпопулярніше live coding)",
+      "answer": "\n      <p><strong>Що перевіряють:</strong> замикання, таймери, контроль частоти викликів.</p>\n      <pre>function debounce(fn, delay = 300) {\n  let timer = null;\n\n  return function (...args) {\n    clearTimeout(timer);\n    timer = setTimeout(() =&gt; {\n      fn.apply(this, args);\n    }, delay);\n  };\n}\n\nconst onInput = debounce((value) =&gt; console.log('API call:', value), 400);\nonInput('r');\nonInput('re');\nonInput('react'); // виконається лише останній виклик</pre>\n      <p><strong>Must know:</strong> чим debounce відрізняється від throttle і де що застосовувати.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-82",
+      "question": "MUST HAVE: Реалізувати throttle",
+      "answer": "\n      <p><strong>Що перевіряють:</strong> таймінг, продуктивність, події resize/scroll.</p>\n      <pre>function throttle(fn, delay = 300) {\n  let last = 0;\n\n  return function (...args) {\n    const now = Date.now();\n    if (now - last &gt;= delay) {\n      last = now;\n      fn.apply(this, args);\n    }\n  };\n}\n\nconst onScroll = throttle(() =&gt; console.log('scroll'), 200);\nwindow.addEventListener('scroll', onScroll);</pre>\n      <p><strong>Must know:</strong> throttle гарантує виконання раз на інтервал; debounce - після паузи.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-83",
+      "question": "MUST HAVE: Плоский масив (flatten) + аналіз складності",
+      "answer": "\n      <p><strong>Що перевіряють:</strong> рекурсія, робота з вкладеними структурами, Big-O.</p>\n      <pre>function flattenDeep(input) {\n  const result = [];\n\n  function walk(arr) {\n    for (const item of arr) {\n      if (Array.isArray(item)) {\n        walk(item);\n      } else {\n        result.push(item);\n      }\n    }\n  }\n\n  walk(input);\n  return result;\n}\n\nconsole.log(flattenDeep([1, [2, [3, 4]], 5])); // [1,2,3,4,5]</pre>\n      <p><strong>Must know:</strong> поясни, що часова складність O(n), де n - кількість усіх елементів.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-84",
+      "question": "MUST HAVE: Group By для масиву об'єктів",
+      "answer": "\n      <p><strong>Що перевіряють:</strong> reduce, побудова словників/індексів, data transformation.</p>\n      <pre>function groupBy(items, key) {\n  return items.reduce((acc, item) =&gt; {\n    const groupKey = item[key];\n    if (!acc[groupKey]) acc[groupKey] = [];\n    acc[groupKey].push(item);\n    return acc;\n  }, {});\n}\n\nconst users = [\n  { name: 'Anna', level: 'junior' },\n  { name: 'Bob', level: 'middle' },\n  { name: 'Kate', level: 'junior' }\n];\n\nconsole.log(groupBy(users, 'level'));</pre>\n      <p><strong>Must know:</strong> це одна з найбільш частих задач для FE/Node ролей.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-85",
+      "question": "MUST HAVE: Поліфіл map (розуміння API масивів)",
+      "answer": "\n      <p><strong>Що перевіряють:</strong> прототипи, edge cases, thisArg.</p>\n      <pre>Array.prototype.myMap = function (callback, thisArg) {\n  if (typeof callback !== 'function') {\n    throw new TypeError('callback must be a function');\n  }\n\n  const arr = this;\n  const result = new Array(arr.length);\n\n  for (let i = 0; i &lt; arr.length; i++) {\n    if (i in arr) {\n      result[i] = callback.call(thisArg, arr[i], i, arr);\n    }\n  }\n\n  return result;\n};\n\nconsole.log([1, 2, 3].myMap((x) =&gt; x * 10)); // [10, 20, 30]</pre>\n      <p><strong>Must know:</strong> sparse arrays, валідація callback, незмінність original array.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-86",
+      "question": "MUST HAVE: Promise.allSettled для частково успішних запитів",
+      "answer": "\n      <p><strong>Що перевіряють:</strong> async-оркестрація і обробка помилок.</p>\n      <pre>async function loadDashboard() {\n  const [user, feed, notifications] = await Promise.allSettled([\n    fetch('/api/user').then((r) =&gt; r.json()),\n    fetch('/api/feed').then((r) =&gt; r.json()),\n    fetch('/api/notifications').then((r) =&gt; r.json())\n  ]);\n\n  console.log({ user, feed, notifications });\n}\n\nloadDashboard();</pre>\n      <p><strong>Must know:</strong> коли використовувати all, allSettled, race, any.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-87",
+      "question": "MUST HAVE: Event Loop (передбачити порядок логів)",
+      "answer": "\n      <p><strong>Що перевіряють:</strong> microtask/macrotask та впевненість у JS runtime.</p>\n      <pre>console.log('A');\n\nsetTimeout(() =&gt; console.log('B'), 0);\n\nPromise.resolve()\n  .then(() =&gt; console.log('C'))\n  .then(() =&gt; console.log('D'));\n\nconsole.log('E');\n\n// Відповідь: A, E, C, D, B</pre>\n      <p><strong>Must know:</strong> Promise callbacks (microtasks) виконуються перед setTimeout (macrotasks).</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-88",
+      "question": "MUST HAVE: Замикання та фабрика лічильників",
+      "answer": "\n      <p><strong>Що перевіряють:</strong> lexical scope, інкапсуляція стану, чистий API.</p>\n      <pre>function createCounter(start = 0) {\n  let value = start;\n\n  return {\n    inc() {\n      value += 1;\n      return value;\n    },\n    dec() {\n      value -= 1;\n      return value;\n    },\n    get() {\n      return value;\n    }\n  };\n}\n\nconst counter = createCounter(10);\nconsole.log(counter.inc()); // 11\nconsole.log(counter.get()); // 11</pre>\n      <p><strong>Must know:</strong> поясни, чому зовні немає прямого доступу до <code>value</code>.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-89",
+      "question": "Codewars-style: Сума лише додатних чисел",
+      "answer": "\n      <p><strong>Завдання:</strong> Повернути суму тільки додатних чисел масиву.</p>\n      <p><strong>Вхід:</strong> <code>[1, -4, 7, 12]</code></p>\n      <p><strong>Очікуваний результат:</strong> <code>20</code></p>\n      <pre>function positiveSum(arr) {\n  let sum = 0;\n  for (let i = 0; i &lt; arr.length; i++) {\n    if (arr[i] &gt; 0) sum += arr[i];\n  }\n  return sum;\n}\n\nconsole.log(positiveSum([1, -4, 7, 12])); // 20</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-90",
+      "question": "Codewars-style: Видалити голосні з рядка",
+      "answer": "\n      <p><strong>Завдання:</strong> Повернути рядок без голосних <code>a, e, i, o, u</code>.</p>\n      <p><strong>Вхід:</strong> <code>\"This website is for losers LOL!\"</code></p>\n      <p><strong>Очікуваний результат:</strong> <code>\"Ths wbst s fr lsrs LL!\"</code></p>\n      <pre>function disemvowel(str) {\n  return str.replace(/[aeiou]/gi, '');\n}\n\nconsole.log(disemvowel('This website is for losers LOL!'));</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-91",
+      "question": "Codewars-style: Довжина найкоротшого слова",
+      "answer": "\n      <p><strong>Завдання:</strong> Знайти довжину найкоротшого слова в рядку.</p>\n      <p><strong>Вхід:</strong> <code>\"bitcoin take over the world maybe who knows perhaps\"</code></p>\n      <p><strong>Очікуваний результат:</strong> <code>3</code></p>\n      <pre>function findShort(str) {\n  const words = str.split(' ');\n  let min = words[0].length;\n\n  for (let i = 1; i &lt; words.length; i++) {\n    if (words[i].length &lt; min) min = words[i].length;\n  }\n\n  return min;\n}\n\nconsole.log(findShort('bitcoin take over the world maybe who knows perhaps')); // 3</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-92",
+      "question": "Codewars-style: Порахувати кількість голосних",
+      "answer": "\n      <p><strong>Завдання:</strong> Порахувати кількість голосних у рядку.</p>\n      <p><strong>Вхід:</strong> <code>\"abracadabra\"</code></p>\n      <p><strong>Очікуваний результат:</strong> <code>5</code></p>\n      <pre>function getCount(str) {\n  let count = 0;\n  const vowels = 'aeiou';\n\n  for (let i = 0; i &lt; str.length; i++) {\n    if (vowels.includes(str[i])) count++;\n  }\n\n  return count;\n}\n\nconsole.log(getCount('abracadabra')); // 5</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-93",
+      "question": "Codewars-style: Число у спадаючому порядку цифр",
+      "answer": "\n      <p><strong>Завдання:</strong> Перетворити число так, щоб його цифри йшли у спадному порядку.</p>\n      <p><strong>Вхід:</strong> <code>42145</code></p>\n      <p><strong>Очікуваний результат:</strong> <code>54421</code></p>\n      <pre>function descendingOrder(n) {\n  return Number(String(n).split('').sort((a, b) =&gt; b - a).join(''));\n}\n\nconsole.log(descendingOrder(42145)); // 54421</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-94",
+      "question": "Codewars-style: Перевірити, чи слово isogram",
+      "answer": "\n      <p><strong>Завдання:</strong> Повернути <code>true</code>, якщо в слові немає повторюваних літер (регістр ігноруємо).</p>\n      <p><strong>Вхід:</strong> <code>\"Dermatoglyphics\"</code></p>\n      <p><strong>Очікуваний результат:</strong> <code>true</code></p>\n      <pre>function isIsogram(str) {\n  const lower = str.toLowerCase();\n  const seen = new Set();\n\n  for (let i = 0; i &lt; lower.length; i++) {\n    if (seen.has(lower[i])) return false;\n    seen.add(lower[i]);\n  }\n\n  return true;\n}\n\nconsole.log(isIsogram('Dermatoglyphics')); // true</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-95",
+      "question": "Codewars-style: Найбільше і найменше число з рядка",
+      "answer": "\n      <p><strong>Завдання:</strong> Повернути рядок формату <code>\"max min\"</code> для чисел, записаних через пробіл.</p>\n      <p><strong>Вхід:</strong> <code>\"1 2 3 4 5\"</code></p>\n      <p><strong>Очікуваний результат:</strong> <code>\"5 1\"</code></p>\n      <pre>function highAndLow(numbers) {\n  const arr = numbers.split(' ').map(Number);\n  let min = arr[0];\n  let max = arr[0];\n\n  for (let i = 1; i &lt; arr.length; i++) {\n    if (arr[i] &lt; min) min = arr[i];\n    if (arr[i] &gt; max) max = arr[i];\n  }\n\n  return `${max} ${min}`;\n}\n\nconsole.log(highAndLow('1 2 3 4 5')); // '5 1'</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-96",
+      "question": "Codewars-style: Звести кожну цифру числа у квадрат",
+      "answer": "\n      <p><strong>Завдання:</strong> Для кожної цифри числа порахувати квадрат і склеїти результат.</p>\n      <p><strong>Вхід:</strong> <code>9119</code></p>\n      <p><strong>Очікуваний результат:</strong> <code>811181</code></p>\n      <pre>function squareDigits(num) {\n  return Number(\n    String(num)\n      .split('')\n      .map((d) =&gt; Number(d) ** 2)\n      .join('')\n  );\n}\n\nconsole.log(squareDigits(9119)); // 811181</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-97",
+      "question": "Codewars-style: Маскування рядка (зірочки крім 4 останніх)",
+      "answer": "\n      <p><strong>Завдання:</strong> Замаскувати всі символи, крім 4 останніх.</p>\n      <p><strong>Вхід:</strong> <code>\"4556364607935616\"</code></p>\n      <p><strong>Очікуваний результат:</strong> <code>\"############5616\"</code></p>\n      <pre>function maskify(str) {\n  if (str.length &lt;= 4) return str;\n  return '#'.repeat(str.length - 4) + str.slice(-4);\n}\n\nconsole.log(maskify('4556364607935616')); // '############5616'</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-98",
+      "question": "Codewars-style: Знайти позицію в алфавіті",
+      "answer": "\n      <p><strong>Завдання:</strong> Повернути позицію букви в алфавіті для одного символу.</p>\n      <p><strong>Вхід:</strong> <code>\"c\"</code></p>\n      <p><strong>Очікуваний результат:</strong> <code>3</code></p>\n      <pre>function alphabetPosition(char) {\n  const lower = char.toLowerCase();\n  if (lower &lt; 'a' || lower &gt; 'z') return -1;\n  return lower.charCodeAt(0) - 96;\n}\n\nconsole.log(alphabetPosition('c')); // 3</pre>\n    ",
+      "isFollowUp": false
+    }
+  ],
+  "totalQuestions": 98
+}

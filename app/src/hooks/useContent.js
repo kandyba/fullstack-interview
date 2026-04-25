@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { parseHTMLContent } from '../utils/htmlParser';
+import { loadTopicContent } from '../services/contentService';
 
 export const useHTMLContent = (topic) => {
   const [content, setContent] = useState(null);
@@ -16,26 +16,8 @@ export const useHTMLContent = (topic) => {
     setLoading(true);
     setError(null);
 
-    parseHTMLContent(topic.file)
+    loadTopicContent(topic)
       .then(data => {
-        // Filter questions by range if specified
-        if (topic.questionRange) {
-          const [start, end] = topic.questionRange;
-          data.questions = data.questions.slice(start, end);
-          // Re-index question IDs after slicing
-          data.questions = data.questions.map((q, idx) => ({
-            ...q,
-            id: `q-${idx + 1}`
-          }));
-          data.totalQuestions = data.questions.length;
-          // Update title to include level
-          if (topic.level) {
-            data.title = `${topic.title} (${topic.level})`;
-          }
-        } else if (topic.title) {
-          // Use topic title if available
-          data.title = topic.title;
-        }
         setContent(data);
         setLoading(false);
       })

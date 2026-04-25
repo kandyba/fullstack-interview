@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Code } from 'lucide-react';
 import { findTopicById } from '../data/topics';
-import { parseHTMLContent } from '../utils/htmlParser';
+import { loadTopicContent } from '../services/contentService';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const TasksView = () => {
@@ -19,7 +19,7 @@ const TasksView = () => {
       }
 
       try {
-        const parsed = await parseHTMLContent(jsPracticeTopic.file);
+        const parsed = await loadTopicContent(jsPracticeTopic);
         
         setTasks(parsed.questions);
         setLoading(false);

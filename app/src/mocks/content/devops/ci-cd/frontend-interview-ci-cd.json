@@ -1,0 +1,66 @@
+{
+  "title": "Технічна співбесіда з CI/CD",
+  "questions": [
+    {
+      "id": "q-1",
+      "question": "Що таке Continuous Integration (CI)",
+      "answer": "\n      <div class=\"example\">\n        <pre>    CI = Постійне інтегрування коду в спільну гілку (main/master).\n\n    Суть CI\n    Кожен пуш → автоматично запускається build і тести.\n    Мета: піймати помилки раніше, не ламати загальну гілку.\n\n    Навіщо це?\n    Менше конфліктів при злитті.\n    Код завжди у стабільному стані.\n    Команда рухається швидше, бо кожен інтегрує код регулярно.\n\nТиповий CI-процес\nDev працює локально.\nПушить у репозиторій.\nCI запускає збірку.\nЗапускаються тести.\nЯкщо все ок → зміна інтегрується.\nМоже автоматично йти на UAT/test-сервер.\n        </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-2",
+      "question": "Continuous Delivery (CD — delivery)",
+      "answer": "\n      <div class=\"example\">\n        <pre>  CD Delivery = автоматичне \"доставлення\" нової версії до середовища UAT.\n\n  Тобто:\n  CI зробив build + тести\n  CD Delivery автоматично деплоїть на UAT\n  А потім деплой на прод — вручну (кнопка, рішення менеджера)\n\n  Для чого?\n  QA може перевірити фічу в реальному середовищі.\n  Продакшн не ламається відразу.\n  Бізнес контролює реліз.\n        </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-3",
+      "question": "Continuous Deployment (CD — deployment)",
+      "answer": "\n      <div class=\"example\">\n        <pre>Continuous Deployment = повна автоматизація деплою:\nЦе найвищий рівень автоматизації.\n\nВідмінність:\n\nПідхід\t               Хто запускає прод деплой\nContinuous Delivery\t   людина (manual trigger)\nContinuous Deployment\t машина (автоматично)\n        </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-4",
+      "question": "CI/CD Pipeline (що таке pipeline)",
+      "answer": "\n      <div>Pipeline = ланцюжок автоматизованих кроків:</div>\n      <div>commit → build → test → deploy (UAT → prod)</div>\n\n      <div class=\"example\">\n        <pre>  Типовий pipeline:\n  Push to repo\n  Build code\n  Run tests\n  Deploy to UAT\n  Approve release\n  Deploy to PROD\n        </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-5",
+      "question": "Що таке GitHub Actions?",
+      "answer": "\n      <div class=\"example\">\n        <pre>Сервер автоматизації всередині GitHub. Дає змогу запускати скрипти при пуші, PR, релізі.\n        </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-6",
+      "question": "Що таке GitHub Actions — простими словами",
+      "answer": "\n      <div class=\"example\">\n        <pre>GitHub Actions складаються з:\n\nПоняття\t            Значення\nWorkflow\t          файл автоматизації .github/workflows/...yml\nJob\t                набір кроків, запускається на віртуалці\nStep\t              одна дія: команда або готовий action\nActions\t            готові шматки логіки (чуже “uses: …”)\nRunner\t            машина (Ubuntu / Windows / Mac), де крутиться код\nEvent\t              подія (push, PR, manual, cron), яка запускає workflow\n        </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-7",
+      "question": "Типові застосування GitHub Actions",
+      "answer": "\n      <strong>CI:</strong>\n      <div>build JS проекту</div>\n      <div>запуск Jest / Vitest</div>\n      <div>ESLint</div>\n      <div>Prettier</div>\n      <br>\n      <strong>CD:</strong>\n      <div>деплой на:</div>\n      <div>Vercel</div>\n      <div>Netlify</div>\n      <div>AWS / GCP / Azure</div>\n      <div>Docker Hub</div>\n      <div class=\"example\">\n        <pre>1. Розробники додають нові зміни.\n2. Зміни тестуються через автоматизовані тести.\n3. Після успішного тестування код інтегрується в основну гілку.\n4. За допомогою CD зміни можуть бути автоматично або вручну доставлені до продуктивного середовища.\n        </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-8",
+      "question": "Чому це важливо?",
+      "answer": "\n      <div>Прискорює розробку</div>\n      <div>Мінімізує ризики</div>\n      <div>Гарантує стабільність</div>\n      <div>Автоматизація економить години роботи</div>\n      <div>Дає можливість робити релізи кожного дня</div>\n      <div>Підтримує якісний та перевірений код</div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-9",
+      "question": "Шпаргалка, яку можна вивчити для співбесіди",
+      "answer": "\n      <strong>CI:</strong>\n      Автоматизація тестів і білду при кожному пуші — щоб інтеграція була безпечною.\n      <strong>Continuous Delivery:</strong>\n      Автоматичний деплой на UAT, а прод — вручну.\n      <strong>Continuous Deployment:</strong>\n      Автоматичний деплой на прод після UAT без участі людей.\n      <strong>GitHub Actions:</strong>\n      Це система автоматизації у GitHub, яка дозволяє запускати workflow-и при подіях (push, PR), використовуючи jobs, steps, runners та готові actions.\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-10",
+      "question": "Що таке workflow / job / step / runner?",
+      "answer": "\n      <div class=\"example\">\n        <pre>  Workflow — весь сценарій\n  Job — група кроків\n  Step — один крок\n  Runner — віртуальна машина\n        </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    }
+  ],
+  "totalQuestions": 10
+}

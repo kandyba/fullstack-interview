@@ -1,0 +1,36 @@
+{
+  "title": "RxJS - Технічна співбесіда",
+  "questions": [
+    {
+      "id": "q-1",
+      "question": "Що таке RxJS і навіщо він потрібен?",
+      "answer": "\n    <p>RxJS (Reactive Extensions for JavaScript) - це бібліотека для реактивного програмування з використанням Observables.</p>\n    <p><strong>Основні переваги:</strong></p>\n    <ul>\n      <li>Управління асинхронними операціями</li>\n      <li>Композиція складних потоків даних</li>\n      <li>Обробка подій</li>\n      <li>Скасування операцій</li>\n    </ul>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-2",
+      "question": "Що таке Observable?",
+      "answer": "\n    <p>Observable - це потік даних, на який можна підписатися і отримувати значення з плином часу.</p>\n    <pre><code>const observable = new Observable(subscriber =&gt; {\n  subscriber.next(1);\n  subscriber.next(2);\n  setTimeout(() =&gt; {\n    subscriber.next(3);\n    subscriber.complete();\n  }, 1000);\n});\n\nobservable.subscribe({\n  next: value =&gt; console.log(value),\n  complete: () =&gt; console.log('Done')\n});</code></pre>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-3",
+      "question": "Різниця між Observable і Promise?",
+      "answer": "\n    <p><strong>Observable:</strong></p>\n    <ul>\n      <li>Множинні значення</li>\n      <li>Можна скасувати (unsubscribe)</li>\n      <li>Lazy - виконується тільки при підписці</li>\n      <li>Багато операторів для трансформації</li>\n    </ul>\n    <p><strong>Promise:</strong></p>\n    <ul>\n      <li>Одне значення</li>\n      <li>Не можна скасувати</li>\n      <li>Eager - виконується одразу</li>\n      <li>Обмежені методи (.then, .catch)</li>\n    </ul>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-4",
+      "question": "Що таке Subject в RxJS?",
+      "answer": "\n    <p>Subject - це спеціальний тип Observable, який дозволяє multicast значення багатьом Observer'ам.</p>\n    <p><strong>Типи Subject:</strong></p>\n    <ul>\n      <li><code>Subject</code> - базовий multicasting</li>\n      <li><code>BehaviorSubject</code> - зберігає поточне значення</li>\n      <li><code>ReplaySubject</code> - replay N останніх значень</li>\n      <li><code>AsyncSubject</code> - емітить тільки останнє значення</li>\n    </ul>\n    <pre><code>const subject = new BehaviorSubject(0);\nsubject.next(1);\nsubject.subscribe(val =&gt; console.log(val)); // 1\nsubject.next(2); // 2</code></pre>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-5",
+      "question": "Популярні оператори RxJS?",
+      "answer": "\n    <p><strong>Transformation:</strong> <code>map</code>, <code>switchMap</code>, <code>mergeMap</code>, <code>concatMap</code></p>\n    <p><strong>Filtering:</strong> <code>filter</code>, <code>debounceTime</code>, <code>distinctUntilChanged</code>, <code>take</code></p>\n    <p><strong>Combination:</strong> <code>combineLatest</code>, <code>merge</code>, <code>forkJoin</code>, <code>zip</code></p>\n    <p><strong>Error Handling:</strong> <code>catchError</code>, <code>retry</code>, <code>retryWhen</code></p>\n    <pre><code>input$.pipe(\n  debounceTime(300),\n  distinctUntilChanged(),\n  switchMap(term =&gt; this.search(term))\n).subscribe(results =&gt; console.log(results));</code></pre>\n  ",
+      "isFollowUp": false
+    }
+  ],
+  "totalQuestions": 5
+}

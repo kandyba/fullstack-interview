@@ -1,0 +1,42 @@
+{
+  "title": "Redux - Основи",
+  "questions": [
+    {
+      "id": "q-1",
+      "question": "Що таке Redux?",
+      "answer": "\n    <p>Redux - це бібліотека для управління станом додатку. Вона реалізує Flux архітектуру з передбачуваними змінами стану.</p>\n    <p><strong>Три принципи Redux:</strong></p>\n    <ul>\n      <li><code>Single source of truth</code> - один Store для всього стану</li>\n      <li><code>State is read-only</code> - стан може бути змінений тільки через actions</li>\n      <li><code>Changes are made with pure functions</code> - reducers - чисті функції</li>\n    </ul>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-2",
+      "question": "Основні концепції Redux?",
+      "answer": "\n    <p><strong>Store:</strong> Зберігає стан додатку</p>\n    <p><strong>Actions:</strong> Об'єкти, що описують що сталося</p>\n    <p><strong>Reducers:</strong> Функції, що визначають як стан змінюється</p>\n    <p><strong>Dispatch:</strong> Метод для відправки actions</p>\n    <pre><code>// Action\nconst increment = { type: 'INCREMENT' };\n\n// Reducer\nfunction counter(state = 0, action) {\n  switch (action.type) {\n    case 'INCREMENT':\n      return state + 1;\n    default:\n      return state;\n  }\n}\n\n// Store\nconst store = createStore(counter);\nstore.dispatch(increment);</code></pre>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-3",
+      "question": "Що таке Action Creators?",
+      "answer": "\n    <p>Action Creators - це функції, які створюють actions.</p>\n    <pre><code>// Action Creator\nfunction addTodo(text) {\n  return {\n    type: 'ADD_TODO',\n    payload: {\n      id: Date.now(),\n      text,\n      completed: false\n    }\n  };\n}\n\n// Використання\nstore.dispatch(addTodo('Learn Redux'));</code></pre>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-4",
+      "question": "Що таке Middleware в Redux?",
+      "answer": "\n    <p>Middleware - це проміжний шар між dispatch action і reducer, який дозволяє розширити функціональність Redux.</p>\n    <p><strong>Популярні middleware:</strong></p>\n    <ul>\n      <li><code>redux-thunk</code> - для асинхронних actions</li>\n      <li><code>redux-saga</code> - складні side effects</li>\n      <li><code>redux-logger</code> - логування actions</li>\n    </ul>\n    <pre><code>// Redux Thunk приклад\nfunction fetchUsers() {\n  return async (dispatch) =&gt; {\n    dispatch({ type: 'FETCH_USERS_START' });\n    try {\n      const users = await api.getUsers();\n      dispatch({ type: 'FETCH_USERS_SUCCESS', payload: users });\n    } catch (error) {\n      dispatch({ type: 'FETCH_USERS_ERROR', error });\n    }\n  };\n}</code></pre>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-5",
+      "question": "Як працює combineReducers?",
+      "answer": "\n    <p><code>combineReducers</code> - утиліта для об'єднання декількох reducers в один root reducer.</p>\n    <pre><code>import { combineReducers } from 'redux';\n\nconst rootReducer = combineReducers({\n  users: usersReducer,\n  posts: postsReducer,\n  comments: commentsReducer\n});\n\n// Результуючий state\n{\n  users: { ... },\n  posts: { ... },\n  comments: { ... }\n}</code></pre>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-6",
+      "question": "React-Redux: connect vs hooks?",
+      "answer": "\n    <p><strong>connect (старий підхід):</strong></p>\n    <pre><code>const mapStateToProps = state =&gt; ({\n  count: state.counter\n});\n\nconst mapDispatchToProps = {\n  increment\n};\n\nexport default connect(mapStateToProps, mapDispatchToProps)(Counter);</code></pre>\n    <p><strong>Hooks (сучасний підхід):</strong></p>\n    <pre><code>import { useSelector, useDispatch } from 'react-redux';\n\nfunction Counter() {\n  const count = useSelector(state =&gt; state.counter);\n  const dispatch = useDispatch();\n  \n  return (\n    <button onclick=\"{()\" ==\"\"> dispatch(increment())}&gt;\n      {count}\n    </button>\n  );\n}</code></pre>\n  ",
+      "isFollowUp": false
+    }
+  ],
+  "totalQuestions": 6
+}

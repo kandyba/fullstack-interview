@@ -1,0 +1,294 @@
+{
+  "title": "Технічна співбесіда — Advanced Frontend (Частина 1)",
+  "questions": [
+    {
+      "id": "q-1",
+      "question": "Що таке Critical Rendering Path і як ти його оптимізуєш у SPA / SSR?",
+      "answer": "\n      <p><strong>CRP</strong> — шлях від отримання HTML до першого пікселя: DOM → CSSOM → Render Tree → Layout → Paint.</p>\n      <p><strong>Оптимізація:</strong> inline critical CSS, <code>defer/async</code> для JS, мінімізувати блокуючі ресурси, <code>font-display: swap</code>, компресія/HTTP2, зображення сучасних форматів, у SPA — code splitting; у SSR/SSG — швидший перший рендер.</p>\n      <pre>&lt;link rel=\"preload\" as=\"style\" href=\"/critical.css\"&gt;\n&lt;link rel=\"stylesheet\" href=\"/rest.css\" media=\"print\" onload=\"this.media='all'\"&gt;\n&lt;script src=\"/main.js\" defer&gt;&lt;/script&gt;</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-2",
+      "question": "Коли має сенс використовувати Web Workers і як вони впливають на main thread?",
+      "answer": "\n      <p><strong>Коли:</strong> важкі обчислення (парсинг великих JSON, сортування, крипто, зображення/canvas) — щоб не блокувати UI.</p>\n      <p><strong>Вплив:</strong> робота у фоновому потоці, main thread вільний, взаємодія через <code>postMessage</code>; доступу до DOM немає.</p>\n      <pre>// main.js\nconst w = new Worker('worker.js');\nw.postMessage(largeData);\nw.onmessage = (e) =&gt; render(e.data);\n\n// worker.js\nself.onmessage = (e) =&gt; {\n  const result = heavyCompute(e.data);\n  self.postMessage(result);\n};</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-3",
+      "question": "Різниця між render blocking, layout thrashing і reflow — як це виявити та зменшити?",
+      "answer": "\n      <p><strong>Render blocking:</strong> CSS/JS затримують побудову/рендер.</p>\n      <p><strong>Layout thrashing:</strong> чергування читань/записів layout властивостей у циклах → множинні reflow.</p>\n      <p><strong>Reflow:</strong> перерахунок геометрії, що може спричинити repaint.</p>\n      <p><strong>Зменшення:</strong> групувати DOM-зміни, читати перед записами, використовувати <code>transform/opacity</code>, <code>requestAnimationFrame</code>, CSS contain.</p>\n      <pre>// Погано (thrashing):\nfor (...) {\n  const h = el.offsetHeight; // read\n  el.style.height = (h + 10) + 'px'; // write\n}\n// Добре:\nconst h = el.offsetHeight;\nrequestAnimationFrame(() =&gt; { el.style.height = (h + 10) + 'px'; });</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-4",
+      "question": "Що таке TTI (Time to Interactive) і як його виміряти (Lighthouse, Web Vitals, Performance API)?",
+      "answer": "\n      <p><strong>TTI</strong> — момент, коли сторінка стає повністю інтерактивною: основні ресурси завантажені, обробка JS завершена, input відгук &lt; 50мс.</p>\n      <p><strong>Вимір:</strong> Lighthouse/Web Vitals. <strong>Поліпшення:</strong> code splitting, пріоритезація ресурсів, скорочення blocking JS, lazy для не-критичних частин.</p>\n      <pre>// інструменти: Lighthouse (TTI), Web Vitals (FID/INP як наближені до інтерактивності)</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-5",
+      "question": "Які стратегії кешування на клієнті ти знаєш (Cache First, SWR, stale-while-revalidate, network-only)?",
+      "answer": "\n      <p><strong>Cache First</strong> (миттєво з кешу, оновлення потім), <strong>Network First</strong> (свіжі дані, fallback кеш), <strong>Stale-While-Revalidate</strong> (показує кеш + фонове оновлення), <strong>Network Only / Cache Only</strong>.</p>\n      <pre>// Service Worker (Workbox):\nworkbox.routing.registerRoute(\n  /\\/api\\/data/,\n  new workbox.strategies.StaleWhileRevalidate()\n);</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-6",
+      "question": "Як працює preload, prefetch, dns-prefetch, preconnect — і коли що варто застосовувати?",
+      "answer": "\n      <p><strong>preload</strong> — критичні ресурси зараз; <strong>prefetch</strong> — ймовірні майбутні; <strong>dns-prefetch</strong> — підготовка DNS; <strong>preconnect</strong> — ранній TCP/TLS handshake.</p>\n      <pre>&lt;link rel=\"preconnect\" href=\"https://cdn.example.com\" crossorigin&gt;\n&lt;link rel=\"dns-prefetch\" href=\"//cdn.example.com\"&gt;\n&lt;link rel=\"preload\" as=\"font\" href=\"/fonts/main.woff2\" crossorigin&gt;\n&lt;link rel=\"prefetch\" href=\"/next-chunk.js\" as=\"script\"&gt;</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-7",
+      "question": "Як ти підходиш до code splitting і lazy loading? Коли краще розділяти, а коли об’єднувати?",
+      "answer": "\n      <p><strong>Розділяти:</strong> великі маршрути/рідко використовувані фічі, адмінки, editors.</p>\n      <p><strong>Об’єднувати:</strong> часто спільні та критичні частини (shared/vendor), щоб уникати надмірних запитів.</p>\n      <pre>// React:\nconst Settings = React.lazy(() =&gt; import('./pages/Settings'));\n&lt;Suspense fallback={&lt;Spinner /&gt;}&gt;&lt;Settings /&gt;&lt;/Suspense&gt;</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-8",
+      "question": "Як оптимізувати перформанс React-додатка при великій кількості компонентів?",
+      "answer": "\n      <p>Мемоізація (<code>React.memo</code>, <code>useMemo</code>, <code>useCallback</code>), розбивати контексти, селектори стану, віртуалізація списків (React Window/Virtuoso), уникати зайвих re-render через стабільні пропи/keys, профілювання DevTools.</p>\n      <pre>const Item = React.memo(function Item({ value }) { /* ... */ });\nconst list = useMemo(() =&gt; heavyTransform(data), [data]);</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-9",
+      "question": "Як зменшити великі bundle size — що реально працює (tree shaking, dynamic import, compression)?",
+      "answer": "\n      <p>Tree shaking (<code>sideEffects:false</code>), <code>import()</code> для не-критичних модулів, заміна важких залежностей (lodash → lodash-es / нативне), splitChunks, gzip/brotli, аналіз пакетів.</p>\n      <pre>// package.json\n\"sideEffects\": false\n// Аналіз:\nnpx webpack-bundle-analyzer dist/stats.json</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-10",
+      "question": "Як працює reconciliation у React і коли він може стати вузьким місцем?",
+      "answer": "\n      <p><strong>Reconciliation</strong> — diff нового й попереднього Virtual DOM і оновлення реального DOM з мінімальними змінами.</p>\n      <p><strong>Вузькі місця:</strong> глибокі дерева, нестабільні keys, важкі рендер-функції. <strong>Рішення:</strong> мемоізація, стабільні ключі, розбиття великих компонентів, PureComponent/React.memo.</p>\n      <pre>&lt;List&gt;{items.map(item =&gt; &lt;Row key={item.id} data={item}/&gt;)}&lt;/List&gt;</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-11",
+      "question": "Як працює Event Loop разом із microtasks і macrotasks у браузері?",
+      "answer": "\n      <p><strong>Event Loop</strong> — механізм, що керує чергою виконання коду. </p>\n      <p><strong>Macrotasks:</strong> setTimeout, setInterval, I/O, script, UI rendering.</p>\n      <p><strong>Microtasks:</strong> Promise callbacks, MutationObserver, queueMicrotask.</p>\n      <p>Після кожної макрозадачі виконується вся черга microtasks. Потім — оновлення DOM.</p>\n      <pre>console.log('A');\nsetTimeout(() =&gt; console.log('B'));\nPromise.resolve().then(() =&gt; console.log('C'));\nconsole.log('D');\n// A D C B</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-12",
+      "question": "Що таке task queue і rendering pipeline?",
+      "answer": "\n      <p><strong>Task Queue</strong> — черга задач, які виконуються Event Loop’ом. Кожен task — один цикл обробки подій (JS, input, render).</p>\n      <p><strong>Rendering pipeline:</strong> JavaScript → Style → Layout → Paint → Composite. </p>\n      <p>Якщо JS блокує main thread — фрейми пропускаються (jank). Використовують <code>requestAnimationFrame</code> для синхронізації з рендером.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-13",
+      "question": "Як працює garbage collection у JS і коли можуть з’являтися memory leaks?",
+      "answer": "\n      <p>JS використовує <strong>mark-and-sweep</strong> алгоритм: усі об’єкти, до яких є посилання, залишаються; інші — видаляються.</p>\n      <p><strong>Memory leaks:</strong> незакриті таймери, замикання, глобальні посилання, неочищені listeners або refs у React.</p>\n      <pre>useEffect(() =&gt; {\n  const id = setInterval(() =&gt; doSomething(), 1000);\n  return () =&gt; clearInterval(id); // важливо очистити\n}, []);</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-14",
+      "question": "Як браузер обробляє repaint і reflow, і як DevTools допомагає це відслідковувати?",
+      "answer": "\n      <p><strong>Reflow:</strong> перерахунок геометрії елементів.</p>\n      <p><strong>Repaint:</strong> оновлення вигляду (колір, фон) без зміни розміру.</p>\n      <p>У DevTools: вкладка Performance → Paint/Render/Composite events. Також у Rendering → “Paint flashing”.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-15",
+      "question": "Як працює Service Worker, lifecycle, та як його оновлювати без “білого екрана”?",
+      "answer": "\n      <p><strong>Service Worker</strong> — проксі між додатком і мережею. Має lifecycle: install → activate → fetch.</p>\n      <p>Для оновлення без “білого екрану”: використовуй <code>skipWaiting()</code> та <code>clients.claim()</code>, а також стратегію “update in background”.</p>\n      <pre>self.addEventListener('install', e =&gt; self.skipWaiting());\nself.addEventListener('activate', e =&gt; self.clients.claim());</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-16",
+      "question": "Що відбувається, коли ти вводиш URL у браузер і тиснеш Enter?",
+      "answer": "\n      <p>1. DNS lookup → IP.</p>\n      <p>2. TCP handshake (3-way) + TLS handshake (HTTPS).</p>\n      <p>3. Надсилається HTTP-запит.</p>\n      <p>4. Сервер відповідає → браузер завантажує HTML → будує DOM, CSSOM, JS.</p>\n      <p>5. Рендеринг: Layout → Paint → Composite → Interaction ready.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-17",
+      "question": "Як браузер вирішує, що можна паралельно завантажити, а що блокує рендеринг?",
+      "answer": "\n      <p>HTML парситься послідовно. CSS — <strong>render-blocking</strong>, JS — теж, якщо без <code>defer</code>/<code>async</code>. </p>\n      <p>Браузер має ліміт одночасних з’єднань (~6 на домен). <code>preload</code> і <code>HTTP/2</code> дозволяють краще розпаралелити завантаження.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-18",
+      "question": "Що таке Render Tree, DOM Tree, CSSOM, і як вони пов’язані?",
+      "answer": "\n      <p><strong>DOM Tree:</strong> структура HTML-елементів.</p>\n      <p><strong>CSSOM:</strong> дерево стилів після парсингу CSS.</p>\n      <p><strong>Render Tree:</strong> поєднання DOM + CSSOM (видимі елементи) → Layout → Paint.</p>\n      <pre>HTML + CSS → DOM + CSSOM → Render Tree → Layout → Paint → Composite</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-19",
+      "question": "Як відбувається compositing та чому GPU-рендеринг може бути повільним?",
+      "answer": "\n      <p><strong>Compositing:</strong> об’єднання шарів після Paint. CSS властивості типу <code>transform</code> або <code>opacity</code> створюють GPU-слої.</p>\n      <p><strong>Повільність:</strong> надмірна кількість шарів або великий обсяг текстур → переповнення відеопам’яті, контекстні перемикання GPU.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-20",
+      "question": "Як працює debounce/throttle і чому важливо їх застосовувати при scroll/resize подіях?",
+      "answer": "\n      <p><strong>Debounce:</strong> викликає функцію після паузи. <strong>Throttle:</strong> обмежує виклики певним інтервалом.</p>\n      <p>Зменшує навантаження на main thread, запобігає “лагам” при подіях, що тригеряться часто.</p>\n      <pre>// debounce\nfunction debounce(fn, delay) {\n  let t;\n  return (...args) =&gt; {\n    clearTimeout(t);\n    t = setTimeout(() =&gt; fn(...args), delay);\n  };\n}\n\n// throttle\nfunction throttle(fn, limit) {\n  let last = 0;\n  return (...args) =&gt; {\n    const now = Date.now();\n    if (now - last &gt;= limit) {\n      last = now;\n      fn(...args);\n    }\n  };\n}</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-21",
+      "question": "Як React 19 змінив роботу з асинхронними даними (use, Suspense, серверні компоненти)?",
+      "answer": "\n      <p>У React 19 з’явився <strong>use()</strong> — універсальний хук, який дозволяє очікувати Promise прямо у компоненті.</p>\n      <p><strong>Suspense</strong> тепер підтримує асинхронні дані без додаткових бібліотек. Серверні компоненти можуть виконувати async-логіку до відправки HTML клієнту.</p>\n      <pre>async function getUser() { return fetch('/api/user').then(r =&gt; r.json()); }\n\nfunction Profile() {\n  const user = use(getUser()); // автоматично чекає\n  return &lt;h2&gt;{user.name}&lt;/h2&gt;;\n}</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-22",
+      "question": "Як працюють Server Components і чому це важливо для продуктивності?",
+      "answer": "\n      <p><strong>Server Components</strong> — компоненти, що рендеряться на сервері без відправки JS-бандлу клієнту.</p>\n      <p>Це зменшує розмір JS, прискорює TTI та дозволяє безпечно отримувати дані (доступ до DB, API) без витоку токенів.</p>\n      <p>React комбінує серверні й клієнтські компоненти у єдине дерево через streaming SSR.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-23",
+      "question": "Чим відрізняються hydration і streaming SSR?",
+      "answer": "\n      <p><strong>Hydration</strong> — React “підключає” події до вже готового HTML з сервера.</p>\n      <p><strong>Streaming SSR</strong> — сервер надсилає HTML потоково частинами, дозволяючи швидше відобразити UI.</p>\n      <p>Hydration завершується після завантаження JS-бандлу, тоді як streaming SSR дозволяє показати skeleton або layout раніше.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-24",
+      "question": "Як ти налагоджуєш memory leaks у React (наприклад, у useEffect)?",
+      "answer": "\n      <p>Використовую профілювання Performance / Memory DevTools або Sentry Performance.</p>\n      <p>У React — очищення у <code>useEffect</code>, перевірка неконтрольованих setState після unmount, закриття WebSocket і таймерів.</p>\n      <pre>useEffect(() =&gt; {\n  const ws = new WebSocket('wss://...');\n  return () =&gt; ws.close(); // очищення\n}, []);</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-25",
+      "question": "Які ти використовуєш підходи до оптимізації ререндерів (React.memo, useCallback, useMemo)?",
+      "answer": "\n      <p><strong>React.memo</strong> — мемоізація компонентів за props.</p>\n      <p><strong>useMemo</strong> — кешує обчислення.</p>\n      <p><strong>useCallback</strong> — стабілізує функції між рендерами.</p>\n      <p>Також — селектори стану (Reselect, Zustand), спліт контекстів, <code>key</code>-оптимізація.</p>\n      <pre>const filtered = useMemo(() =&gt; data.filter(x =&gt; x.active), [data]);\nconst handleClick = useCallback(() =&gt; setOpen(true), []);</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-26",
+      "question": "Як правильно організувати глобальний state management (Redux, Zustand, Jotai, Signals)?",
+      "answer": "\n      <p>Залежить від масштабу:</p>\n      <ul>\n        <li>Redux — централізований state + middleware (redux-saga, thunk).</li>\n        <li>Zustand — легкий, без boilerplate, підтримує selectors.</li>\n        <li>Jotai / Signals — fine-grained реактивність, мінімальні ререндери.</li>\n      </ul>\n      <p>Великі застосунки: Redux Toolkit; дрібні — Zustand або Signals.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-27",
+      "question": "Як ти тестуєш компоненти — unit vs integration?",
+      "answer": "\n      <p><strong>Unit-тести:</strong> ізольовано, без DOM (Jest + Testing Library).</p>\n      <p><strong>Integration-тести:</strong> реальна поведінка користувача (рендер, події, routing).</p>\n      <p>Підхід: Testing Library — фокус на поведінці, а не на реалізації.</p>\n      <pre>test('shows greeting', () =&gt; {\n  render(&lt;App /&gt;);\n  expect(screen.getByText(/hello/i)).toBeInTheDocument();\n});</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-28",
+      "question": "Як працює Error Boundary, і коли він реально рятує?",
+      "answer": "\n      <p>Error Boundary — класовий компонент, що ловить помилки у піддереві React і відображає fallback-UI, не ламаючи весь додаток.</p>\n      <p>Не ловить помилки у event-handlers або async коді.</p>\n      <pre>class Boundary extends React.Component {\n  state = { hasError: false };\n  static getDerivedStateFromError() { return { hasError: true }; }\n  render() {\n    return this.state.hasError ? &lt;ErrorScreen /&gt; : this.props.children;\n  }\n}</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-29",
+      "question": "Як реалізувати власні hooks для повторного використання логіки?",
+      "answer": "\n      <p>Створюю функції, що інкапсулюють повторну логіку — роботу з API, form state, scroll events, animation state тощо.</p>\n      <p>Назви завжди починаються з <code>use</code>, щоб React міг відстежувати їхній стан.</p>\n      <pre>function useFetch(url) {\n  const [data, setData] = useState(null);\n  useEffect(() =&gt; {\n    fetch(url).then(r =&gt; r.json()).then(setData);\n  }, [url]);\n  return data;\n}</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-30",
+      "question": "Як би ти спроєктував Design System або UI-бібліотеку під власний продукт?",
+      "answer": "\n      <p>Створив би atomic дизайн систему (Atoms → Molecules → Organisms → Templates).</p>\n      <p>Компоненти у вигляді Storybook, ізольовані стилі (Tailwind, CSS Modules, Styled Components).</p>\n      <p>Теми через CSS variables або context. Документація — через Storybook Docs.</p>\n      <pre>// Button.tsx\nexport const Button = ({ variant = 'primary', ...props }) =&gt; (\n  &lt;button className={`btn btn--${variant}`} {...props} /&gt;\n);</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-31",
+      "question": "Як захистити SPA від XSS, CSRF, Clickjacking?",
+      "answer": "\n      <p><strong>XSS:</strong> уникати <code>dangerouslySetInnerHTML</code>, використовувати Content Security Policy (CSP), escape дані перед рендером.</p>\n      <p><strong>CSRF:</strong> застосовувати <code>SameSite</code> cookies, токени (CSRF token), перевірку реферера.</p>\n      <p><strong>Clickjacking:</strong> заборонити вбудовування сторінки через заголовок <code>X-Frame-Options: DENY</code> або <code>frame-ancestors</code> у CSP.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-32",
+      "question": "Як працює Content Security Policy (CSP) і як її правильно налаштувати?",
+      "answer": "\n      <p><strong>CSP</strong> — політика, що обмежує джерела завантаження ресурсів, щоб запобігти XSS.</p>\n      <p>Вказується у заголовку:</p>\n      <pre>Content-Security-Policy: default-src 'self'; img-src 'self' https:; script-src 'self' https://apis.google.com</pre>\n      <p>Також можна додати <code>report-uri</code> або <code>report-to</code> для моніторингу порушень.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-33",
+      "question": "Як зберігати JWT або токени без ризику витоку?",
+      "answer": "\n      <p><strong>Небезпечно:</strong> LocalStorage (можливість XSS-доступу).</p>\n      <p><strong>Безпечніше:</strong> HttpOnly secure cookie + SameSite.</p>\n      <p>Альтернатива — зберігати у пам’яті програми (in-memory) і рефрешити при перезавантаженні через secure refresh-token cookie.</p>\n      <pre>Set-Cookie: token=abc; HttpOnly; Secure; SameSite=Strict</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-34",
+      "question": "Як перевірити, що API виклики не піддаються маніпуляціям з боку клієнта?",
+      "answer": "\n      <p>На клієнті — ніяк повністю не гарантуєш безпеку. Перевірки повинні бути <strong>на сервері</strong>:</p>\n      <ul>\n        <li>JWT підпис (HMAC або RSA).</li>\n        <li>Перевірка ролей та доступів (RBAC/ABAC).</li>\n        <li>Rate limiting, CORS, request validation.</li>\n      </ul>\n      <p>Для додаткової безпеки — серверна валідація payload і timestamp-захист.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-35",
+      "question": "Як виявляти витоки даних у фронтенд-логах або аналітиці?",
+      "answer": "\n      <p>Не логувати персональні або секретні дані (PII, токени, паролі).</p>\n      <p>Використовувати <strong>Data Masking</strong> і Sentry/Datadog з фільтрацією sensitive інформації.</p>\n      <pre>Sentry.init({\n  beforeSend(event) {\n    delete event.request?.cookies;\n    return event;\n  }\n});</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-36",
+      "question": "Як працює SameSite cookie і чим відрізняється Strict / Lax / None?",
+      "answer": "\n      <p><strong>Strict:</strong> cookie надсилається тільки з того ж домену (найбезпечніше).</p>\n      <p><strong>Lax:</strong> cookie надсилається при навігації користувача (за посиланням).</p>\n      <p><strong>None:</strong> cookie доступне скрізь, але потрібно додати <code>Secure</code>.</p>\n      <pre>Set-Cookie: session=123; SameSite=Lax; Secure; HttpOnly</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-37",
+      "question": "Які основні загрози безпеці у SPA ти бачив на практиці?",
+      "answer": "\n      <ul>\n        <li>XSS через неконтрольований HTML або сторонні віджети.</li>\n        <li>CSRF при використанні LocalStorage токенів.</li>\n        <li>Несанкціоновані запити до API без перевірки ролей.</li>\n        <li>Витік даних через аналітику, logs або query params.</li>\n        <li>Hardcoded API keys у коді фронтенду.</li>\n      </ul>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-38",
+      "question": "Як ти підходиш до структуризації великого React-проєкту (modules, features, slices)?",
+      "answer": "\n      <p>Застосовую <strong>feature-based architecture</strong> або <strong>atomic design</strong>:</p>\n      <ul>\n        <li>src/features — бізнес-фічі (auth, users, posts)</li>\n        <li>src/entities — сутності з моделями даних</li>\n        <li>src/shared — утиліти, UI, hooks</li>\n        <li>src/pages — маршрути</li>\n      </ul>\n      <p>Кожна фіча має свої slice/store/tests/стилі — це спрощує масштабування.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-39",
+      "question": "Як би ти реалізував feature flags у фронтенді без деплою?",
+      "answer": "\n      <p>Використовую <strong>remote config</strong> (наприклад, Firebase Remote Config або власне API).</p>\n      <p>Фічі активуються через бекенд або JSON-конфіг, що кешується локально. Можна керувати через LaunchDarkly або ConfigCat.</p>\n      <pre>const flags = await fetch('/flags.json').then(r =&gt; r.json());\nif (flags.newUI) render(&lt;NewLayout /&gt;);</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-40",
+      "question": "Як ти організовуєш версіонування API і backward compatibility у фронті?",
+      "answer": "\n      <p>Використовую <strong>версіювання у URL</strong> або <strong>через заголовки</strong> (<code>Accept: application/vnd.api.v2+json</code>).</p>\n      <p>Для backward compatibility — feature flags, адаптери для старих endpointів, поступове видалення deprecated API.</p>\n      <pre>GET https://api.example.com/v2/users</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-41",
+      "question": "Як проєктувати Error handling у масштабному застосунку?",
+      "answer": "\n      <p>Підхід “<strong>global + local</strong> handling”:</p>\n      <ul>\n        <li>Глобальні Error Boundaries для React-UI.</li>\n        <li>Глобальний перехоплювач API-помилок (axios interceptors, fetch wrapper).</li>\n        <li>Сповіщення користувачу через Toast або modal.</li>\n        <li>Логування через Sentry, LogRocket, Datadog.</li>\n      </ul>\n      <pre>axios.interceptors.response.use(null, (error) =&gt; {\n  notify(error.message);\n  return Promise.reject(error);\n});</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-42",
+      "question": "Як зробити мікрофронтенди — і коли це реально виправдано?",
+      "answer": "\n      <p><strong>Мікрофронтенди</strong> — розподіл великого SPA на незалежні модулі, які можуть розроблятись і деплоїтись окремо.</p>\n      <p><strong>Реалізація:</strong> Module Federation (Webpack 5), single-spa, iframe/iframe-less shell.</p>\n      <p><strong>Виправдано:</strong> великі команди, ізольовані фічі, часті деплої. Але збільшує складність DevOps та комунікації між модулями.</p>\n      <pre>// host webpack.config.js\nnew ModuleFederationPlugin({\n  remotes: { profile: \"profileApp@http://localhost:3001/remoteEntry.js\" }\n});</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-43",
+      "question": "Як ти відстежуєш перформанс у продакшені (Sentry, Datadog, Perfume.js)?",
+      "answer": "\n      <p>Використовую <strong>Real User Monitoring (RUM)</strong> інструменти:</p>\n      <ul>\n        <li><strong>Sentry Performance</strong> — trace API-викликів, рендери, React commit time.</li>\n        <li><strong>Datadog / NewRelic</strong> — розподілений трейсинг, метрики ресурсів.</li>\n        <li><strong>Perfume.js</strong> або Web-Vitals — LCP, FID, CLS у runtime.</li>\n      </ul>\n      <pre>import Perfume from 'perfume.js';\nnew Perfume({ analyticsTracker: ({ metricName, data }) =&gt; {\n  sendToAnalytics(metricName, data);\n}});</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-44",
+      "question": "Як ти проводиш code review: що перевіряєш у першу чергу?",
+      "answer": "\n      <ul>\n        <li>Читабельність і консистентність коду.</li>\n        <li>Відсутність side-effectів, зайвих ререндерів.</li>\n        <li>Архітектурна відповідність (layers/features).</li>\n        <li>Безпека (XSS, валідація API-даних).</li>\n        <li>Оптимізація: performance, accessibility, bundle size.</li>\n      </ul>\n      <pre>✅ Small PRs\n✅ Meaningful names\n✅ Comments only where необхідно\n✅ Tests для критичної логіки</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-45",
+      "question": "Як ти впроваджуєш CI/CD для фронтенду, щоб мінімізувати людські помилки?",
+      "answer": "\n      <p>Типовий пайплайн:</p>\n      <ol>\n        <li>GitHub Actions / GitLab CI → запуск lint, tests, build.</li>\n        <li>Перевірка Lighthouse-score / bundle size.</li>\n        <li>Автоматичне деплоювання (Vercel, Netlify, AWS S3 + CloudFront).</li>\n        <li>Preview-деплої для PR (review apps).</li>\n      </ol>\n      <pre>on: [push]\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - run: npm ci &amp;&amp; npm run build</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-46",
+      "question": "Які типові анти-патерни у React-коді ти бачив і як їх уникнути?",
+      "answer": "\n      <ul>\n        <li>Зберігання несеріалізованих об’єктів у state → некоректні порівняння.</li>\n        <li>Виклик setState у кожному рендері → нескінченний цикл.</li>\n        <li>Залежності useEffect без масиву або з зайвими полями.</li>\n        <li>Відсутність keys у списках.</li>\n        <li>Великий контекст, що тригерить усі ререндери.</li>\n      </ul>\n      <p><strong>Рішення:</strong> мемоізація, селектори, DevTools Profiler, ESLint-rules (“react-hooks/exhaustive-deps”).</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-47",
+      "question": "Як ти приймаєш рішення між оптимізацією і читабельністю коду?",
+      "answer": "\n      <p>Залежно від контексту:</p>\n      <ul>\n        <li>Критичні ділянки (scroll, rendering, loops) — пріоритет перформансу.</li>\n        <li>Бізнес-логіка / UI — пріоритет підтримуваності.</li>\n      </ul>\n      <p>Завжди починаю з читабельного рішення → профілюю → оптимізую лише вузькі місця. Пишу коментарі, якщо оптимізація неочевидна.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-48",
+      "question": "Які запитання ти сам задаєш кандидату, коли проводиш співбесіду?",
+      "answer": "\n      <ul>\n        <li>Як ти визначаєш пріоритети між чистотою коду і швидкістю розробки?</li>\n        <li>Розкажи про найскладнішу оптимізацію у React-додатку.</li>\n        <li>Як ти організуєш state у великому SPA?</li>\n        <li>Що б ти зробив, якби продакшн-білд став повільним?</li>\n        <li>Як ти поясниш різницю між SSR, CSR і ISR людині, що не кодить?</li>\n      </ul>\n      <p>Мета — зрозуміти мислення, пріоритети і глибину практичного досвіду кандидата.</p>\n    ",
+      "isFollowUp": false
+    }
+  ],
+  "totalQuestions": 48
+}

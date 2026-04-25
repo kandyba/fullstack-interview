@@ -1,0 +1,48 @@
+{
+  "title": "Redux Toolkit",
+  "questions": [
+    {
+      "id": "q-1",
+      "question": "Що таке Redux Toolkit (RTK)?",
+      "answer": "\n    <p>Redux Toolkit - це офіційний рекомендований підхід для написання Redux логіки. Він включає утиліти для спрощення найпоширеніших use cases.</p>\n    <p><strong>Переваги:</strong></p>\n    <ul>\n      <li>Менше boilerplate коду</li>\n      <li>Вбудована підтримка Immer (immutable updates)</li>\n      <li>Автоматична генерація action creators</li>\n      <li>DevTools налаштовані з коробки</li>\n      <li>Вбудований Redux Thunk</li>\n    </ul>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-2",
+      "question": "Як створити slice в Redux Toolkit?",
+      "answer": "\n    <p><code>createSlice</code> - це функція, яка автоматично генерує action creators і reducer.</p>\n    <pre><code>import { createSlice } from '@reduxjs/toolkit';\n\nconst counterSlice = createSlice({\n  name: 'counter',\n  initialState: { value: 0 },\n  reducers: {\n    increment: state =&gt; {\n      // Immer дозволяє \"мутувати\" state\n      state.value += 1;\n    },\n    decrement: state =&gt; {\n      state.value -= 1;\n    },\n    incrementByAmount: (state, action) =&gt; {\n      state.value += action.payload;\n    }\n  }\n});\n\nexport const { increment, decrement, incrementByAmount } = counterSlice.actions;\nexport default counterSlice.reducer;</code></pre>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-3",
+      "question": "Як налаштувати Store в Redux Toolkit?",
+      "answer": "\n    <p><code>configureStore</code> - спрощує налаштування Store з middleware і DevTools.</p>\n    <pre><code>import { configureStore } from '@reduxjs/toolkit';\nimport counterReducer from './features/counter/counterSlice';\n\nexport const store = configureStore({\n  reducer: {\n    counter: counterReducer,\n    // інші reducers\n  }\n});\n\n// У React\nimport { Provider } from 'react-redux';\n\nReactDOM.render(\n  <provider store=\"{store}\">\n    <app>\n  </app></provider>,\n  document.getElementById('root')\n);</code></pre>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-4",
+      "question": "Що таке createAsyncThunk?",
+      "answer": "\n    <p><code>createAsyncThunk</code> - генерує thunk для асинхронних операцій з автоматичними pending/fulfilled/rejected actions.</p>\n    <pre><code>import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';\n\nexport const fetchUsers = createAsyncThunk(\n  'users/fetchUsers',\n  async (userId, thunkAPI) =&gt; {\n    const response = await userAPI.fetchById(userId);\n    return response.data;\n  }\n);\n\nconst usersSlice = createSlice({\n  name: 'users',\n  initialState: { entities: [], loading: 'idle' },\n  reducers: {},\n  extraReducers: (builder) =&gt; {\n    builder\n      .addCase(fetchUsers.pending, (state) =&gt; {\n        state.loading = 'pending';\n      })\n      .addCase(fetchUsers.fulfilled, (state, action) =&gt; {\n        state.entities = action.payload;\n        state.loading = 'idle';\n      })\n      .addCase(fetchUsers.rejected, (state) =&gt; {\n        state.loading = 'idle';\n      });\n  }\n});</code></pre>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-5",
+      "question": "Що таке RTK Query?",
+      "answer": "\n    <p>RTK Query - це потужний інструмент для data fetching і caching, вбудований в Redux Toolkit.</p>\n    <pre><code>import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';\n\nexport const api = createApi({\n  baseQuery: fetchBaseQuery({ baseUrl: '/api' }),\n  endpoints: (builder) =&gt; ({\n    getUsers: builder.query({\n      query: () =&gt; 'users'\n    }),\n    getUserById: builder.query({\n      query: (id) =&gt; `users/${id}`\n    }),\n    addUser: builder.mutation({\n      query: (user) =&gt; ({\n        url: 'users',\n        method: 'POST',\n        body: user\n      })\n    })\n  })\n});\n\nexport const { useGetUsersQuery, useGetUserByIdQuery, useAddUserMutation } = api;</code></pre>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-6",
+      "question": "Як використовувати RTK Query в компоненті?",
+      "answer": "\n    <p>RTK Query автоматично генерує hooks з управлінням станом loading/error/data.</p>\n    <pre><code>import { useGetUsersQuery, useAddUserMutation } from './api';\n\nfunction UsersList() {\n  const { data, error, isLoading } = useGetUsersQuery();\n  const [addUser, { isLoading: isAdding }] = useAddUserMutation();\n\n  if (isLoading) return <div>Loading...</div>;\n  if (error) return <div>Error: {error.message}</div>;\n\n  return (\n    <div>\n      {data.map(user =&gt; (\n        <div key=\"{user.id}\">{user.name}</div>\n      ))}\n      <button onclick=\"{()\" ==\"\"> addUser({ name: 'New User' })}\n        disabled={isAdding}\n      &gt;\n        Add User\n      </button>\n    </div>\n  );\n}</code></pre>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-7",
+      "question": "createEntityAdapter - навіщо потрібен?",
+      "answer": "\n    <p><code>createEntityAdapter</code> - генерує набір reusable reducers і selectors для управління нормалізованими даними.</p>\n    <pre><code>import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';\n\nconst usersAdapter = createEntityAdapter({\n  selectId: (user) =&gt; user.id,\n  sortComparer: (a, b) =&gt; a.name.localeCompare(b.name)\n});\n\nconst usersSlice = createSlice({\n  name: 'users',\n  initialState: usersAdapter.getInitialState(),\n  reducers: {\n    userAdded: usersAdapter.addOne,\n    usersLoaded: usersAdapter.setAll,\n    userUpdated: usersAdapter.updateOne,\n    userRemoved: usersAdapter.removeOne\n  }\n});\n\n// Автоматичні selectors\nexport const {\n  selectAll: selectAllUsers,\n  selectById: selectUserById,\n  selectIds: selectUserIds\n} = usersAdapter.getSelectors(state =&gt; state.users);</code></pre>\n  ",
+      "isFollowUp": false
+    }
+  ],
+  "totalQuestions": 7
+}

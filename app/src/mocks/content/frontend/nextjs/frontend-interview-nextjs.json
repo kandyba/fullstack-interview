@@ -1,0 +1,264 @@
+{
+  "title": "Технічна співбесіда з Next.js",
+  "questions": [
+    {
+      "id": "q-1",
+      "question": "Що таке Next.js і для чого він використовується?",
+      "answer": "\n    <p><strong>Next.js</strong> — це React-фреймворк для створення веб-додатків з рендерингом на сервері (<strong>SSR</strong>), статичною генерацією (<strong>SSG</strong>) та можливістю створення API-ендпоїнтів.</p>\n    <p>Він спрощує SEO, покращує продуктивність та надає вбудований роутинг і оптимізацію.</p>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-2",
+      "question": "Яка структура типової Next.js аплікації?",
+      "answer": "\n    <pre>📦 my-app/\n ┣ 📂 pages/\n ┃ ┣ index.js\n ┃ ┣ about.js\n ┃ ┗ 📂 api/\n ┃   ┗ hello.js\n ┣ 📂 components/\n ┣ 📂 public/\n ┣ 📂 styles/\n ┣ next.config.js\n ┣ package.json\n ┗ README.md\n    </pre>\n    <p><strong>/pages</strong> — автоматичний роутинг.<br>\n      <strong>/api</strong> — серверні ендпоїнти.<br>\n      <strong>/public</strong> — статичні файли.<br>\n      <strong>/components</strong> — UI-компоненти.</p>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-3",
+      "question": "У чому різниця між SSR, SSG, ISR та CSR?",
+      "answer": "\n    <ul>\n      <li><strong>SSR (Server-Side Rendering)</strong> — сторінка рендериться на сервері при кожному запиті (<code>getServerSideProps</code>).</li>\n      <li><strong>SSG (Static Site Generation)</strong> — сторінка створюється під час білду (<code>getStaticProps</code>).</li>\n      <li><strong>ISR (Incremental Static Regeneration)</strong> — статична сторінка оновлюється з певним інтервалом без повного білду.</li>\n      <li><strong>CSR (Client-Side Rendering)</strong> — рендеринг виконується повністю у браузері (як у чистому React).</li>\n    </ul>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-4",
+      "question": "Що таке getStaticProps, getServerSideProps та getStaticPaths?",
+      "answer": "\n    <ul>\n      <li><strong>getStaticProps</strong> — викликається під час білду, використовується для SSG.</li>\n      <li><strong>getServerSideProps</strong> — викликається при кожному запиті на сервер (SSR).</li>\n      <li><strong>getStaticPaths</strong> — генерує список шляхів для динамічних сторінок при SSG.</li>\n    </ul>\n    <pre>export async function getStaticProps() {\n  const res = await fetch('https://api.example.com/posts');\n  const posts = await res.json();\n  return { props: { posts } };\n}\n    </pre>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-5",
+      "question": "Як реалізується роутинг у Next.js?",
+      "answer": "\n    <p>Next.js має файловий роутинг — кожен файл у <code>/pages</code> автоматично стає маршрутом.</p>\n    <pre>/pages/about.js → /about\n/pages/blog/[id].js → /blog/1\n    </pre>\n    <p>Динамічні шляхи оголошуються через <code>[param]</code>, а catch-all — через <code>[...slug]</code>.</p>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-6",
+      "question": "Що таке API Routes у Next.js?",
+      "answer": "\n    <p><strong>API Routes</strong> дозволяють створювати серверні ендпоїнти без окремого бекенду.</p>\n    <pre>// /pages/api/hello.js\nexport default function handler(req, res) {\n  res.status(200).json({ message: 'Hello, API!' });\n}\n    </pre>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-7",
+      "question": "Як працює Image Optimization у Next.js?",
+      "answer": "\n    <p>Компонент <code>&lt;Image /&gt;</code> автоматично оптимізує зображення (lazy loading, responsive, формати WebP/AVIF).</p>\n    <pre>import Image from 'next/image';\n\n&lt;Image src=\"/hero.jpg\" alt=\"Hero\" width={800} height={400} /&gt;\n    </pre>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-8",
+      "question": "Що таке Middleware у Next.js?",
+      "answer": "\n    <p><strong>Middleware</strong> — це функції, що виконуються перед обробкою запиту сторінкою або API.\n      Використовуються для редиректів, аутентифікації, логування.</p>\n    <pre>// middleware.js\nimport { NextResponse } from 'next/server';\nexport function middleware(req) {\n  if (!req.cookies.token) return NextResponse.redirect('/login');\n}\n    </pre>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-9",
+      "question": "Що таке Layouts і як їх реалізувати?",
+      "answer": "\n    <p>Layout — це шаблон сторінки (header, footer, sidebar), який повторюється.\n      Його можна створити через обгортку або власний компонент.</p>\n    <pre>function Layout({ children }) {\n  return (\n    &lt;&gt;\n      &lt;Header /&gt;\n      &lt;main&gt;{children}&lt;/main&gt;\n      &lt;Footer /&gt;\n    &lt;/&gt;\n  );\n}\n    </pre>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-10",
+      "question": "Як реалізувати редирект у Next.js?",
+      "answer": "\n    <pre>export async function getServerSideProps() {\n  return {\n    redirect: {\n      destination: '/login',\n      permanent: false,\n    },\n  };\n}\n    </pre>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-11",
+      "question": "Як відбувається деплой Next.js-додатку?",
+      "answer": "\n    <ul>\n      <li>Найпростіше — через <strong>Vercel</strong> (автоматичний деплой з GitHub).</li>\n      <li>Також можливий деплой через Docker або Node.js сервер (<code>npm run build</code> → <code>npm start</code>).</li>\n      <li>Для SSG можна експортувати статику через <code>next export</code>.</li>\n    </ul>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-12",
+      "question": "Як оптимізувати продуктивність у Next.js?",
+      "answer": "\n    <ul>\n      <li>Використовувати <code>&lt;Image&gt;</code> для оптимізації зображень.</li>\n      <li>Кешувати дані (ISR, SWR, React Query).</li>\n      <li>Динамічно імпортувати компоненти: <code>dynamic(() =&gt; import('./Chart'))</code>.</li>\n      <li>Використовувати CDN і prefetch лінки.</li>\n    </ul>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-13",
+      "question": "Яка різниця між Next.js App Router і Pages Router?",
+      "answer": "\n    <ul>\n      <li><strong>Pages Router</strong> — класичний підхід через /pages (до версії 13).</li>\n      <li><strong>App Router</strong> — новий підхід (з Next.js 13) через /app, що базується на React Server Components.</li>\n      <li>App Router підтримує server actions, layouts, streaming.</li>\n    </ul>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-14",
+      "question": "Що таке Dynamic Import у Next.js і навіщо він потрібен?",
+      "answer": "\n      <p><strong>Dynamic import</strong> дозволяє динамічно завантажувати компоненти лише тоді, коли вони потрібні — це зменшує розмір початкового бандлу.</p>\n      <pre>import dynamic from 'next/dynamic';\nconst Chart = dynamic(() =&gt; import('../components/Chart'), { ssr: false });\n    </pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-15",
+      "question": "Що таке SWR і для чого його використовують?",
+      "answer": "\n      <p><strong>SWR (stale-while-revalidate)</strong> — це React-хук від Vercel для кешування даних та автоматичного оновлення.</p>\n      <pre>import useSWR from 'swr';\nconst { data, error } = useSWR('/api/user', fetcher);\n    </pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-16",
+      "question": "Як у Next.js реалізується 404 сторінка?",
+      "answer": "\n      <p>Потрібно створити файл <code>pages/404.js</code> — він автоматично використовується для неіснуючих маршрутів.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-17",
+      "question": "Як передати глобальні стилі або Layout на всі сторінки?",
+      "answer": "\n      <p>Глобальні стилі додаються у <code>_app.js</code> або через <code>app/layout.js</code> (App Router).</p>\n      <pre>import '../styles/global.css';\nexport default function App({ Component, pageProps }) {\n  return &lt;Component {...pageProps} /&gt;;\n}\n    </pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-18",
+      "question": "Як налаштувати environment variables у Next.js?",
+      "answer": "\n      <p>Через файли <code>.env.local</code>, <code>.env.development</code>, <code>.env.production</code>.</p>\n      <pre>NEXT_PUBLIC_API_URL=https://api.example.com\n    </pre>\n      <p>Доступ у коді: <code>process.env.NEXT_PUBLIC_API_URL</code>.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-19",
+      "question": "Як реалізувати редирект або rewrite у next.config.js?",
+      "answer": "\n      <pre>module.exports = {\n  async redirects() {\n    return [{ source: '/old', destination: '/new', permanent: true }];\n  },\n  async rewrites() {\n    return [{ source: '/blog/:slug', destination: '/api/post/:slug' }];\n  },\n};\n    </pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-20",
+      "question": "Як зробити кешування сторінок або даних у Next.js?",
+      "answer": "\n      <p>Для SSG можна додати параметр <code>revalidate</code> у <code>getStaticProps</code>:</p>\n      <pre>export async function getStaticProps() {\n  const data = await fetchData();\n  return { props: { data }, revalidate: 10 };\n}\n    </pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-21",
+      "question": "Як організувати приватні сторінки (auth guard) у Next.js?",
+      "answer": "\n      <p>Можна реалізувати через Middleware або умовний рендеринг у <code>getServerSideProps</code>.</p>\n      <pre>export async function getServerSideProps({ req }) {\n  if (!req.cookies.token) return { redirect: { destination: '/login', permanent: false } };\n  return { props: {} };\n}\n    </pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-22",
+      "question": "Як налаштувати глобальні метатеги для SEO?",
+      "answer": "\n      <p>Через компонент <code>&lt;Head&gt;</code> або в <code>layout.js</code> (App Router):</p>\n      <pre>import Head from 'next/head';\n&lt;Head&gt;\n  &lt;title&gt;My App&lt;/title&gt;\n  &lt;meta name=\"description\" content=\"Next.js SEO Example\" /&gt;\n&lt;/Head&gt;\n    </pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-23",
+      "question": "Як у Next.js обробляти помилки?",
+      "answer": "\n      <p>Створити файл <code>pages/_error.js</code> або <code>app/error.js</code> (App Router).\n        Також можна використовувати <code>ErrorBoundary</code> для локального відлову помилок.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-24",
+      "question": "Що таке React Server Components і як вони використовуються в Next.js 13+?",
+      "answer": "\n      <p>React Server Components (RSC) рендеряться на сервері без завантаження JavaScript у браузер, що зменшує розмір бандлу та підвищує швидкість.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-25",
+      "question": "Що таке Server Actions у Next.js?",
+      "answer": "\n      <p><strong>Server Actions</strong> дозволяють виконувати серверний код без API Route.\n        Використовуються для обробки форм або дій без створення окремого endpoint.</p>\n      <pre>\"use server\";\nexport async function addPost(data) {\n  await db.post.create({ data });\n}\n    </pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-26",
+      "question": "Як працює кешування у Next.js App Router?",
+      "answer": "\n      <p>Next.js автоматично кешує результат SSR/SSG запитів.\n        Можна керувати поведінкою через <code>fetch</code>:</p>\n      <pre>await fetch('/api/data', { cache: 'no-store' }); // без кешу\nawait fetch('/api/data', { next: { revalidate: 60 } }); // ISR\n    </pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-27",
+      "question": "Що таке Route Groups?",
+      "answer": "\n      <p>Route Groups (<code>(group)</code>) дозволяють групувати маршрути без впливу на URL.\n        Це зручно для layout’ів і структуризації великих проєктів.</p>\n      <pre>/app/(marketing)/page.js → /\n/app/(dashboard)/page.js → /\n    </pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-28",
+      "question": "Що таке Edge Functions у Next.js?",
+      "answer": "\n      <p><strong>Edge Functions</strong> виконуються ближче до користувача (на edge-серварах CDN) для зниження затримки.\n        Використовуються для перевірки токенів, редиректів або легких запитів.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-29",
+      "question": "Як реалізується streaming у Next.js?",
+      "answer": "\n      <p>Streaming дозволяє відображати сторінку частинами, не чекаючи повного SSR-рендеру.\n        Застосовується для швидшого показу контенту.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-30",
+      "question": "Як працює SEO-оптимізація у App Router?",
+      "answer": "\n      <p>У App Router метадані описуються через об’єкт <code>metadata</code> або функцію <code>generateMetadata()</code>.</p>\n      <pre>export const metadata = {\n  title: \"Blog\",\n  description: \"Next.js metadata API\"\n};\n    </pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-31",
+      "question": "Як у Next.js реалізується інтернаціоналізація (i18n)?",
+      "answer": "\n      <p>Через вбудовану опцію <code>i18n</code> у <code>next.config.js</code> або бібліотеки <strong>next-intl</strong>, <strong>react-intl</strong>.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-32",
+      "question": "Як порівняти Next.js з Nuxt і Remix?",
+      "answer": "\n      <ul>\n        <li><strong>Next.js</strong> — React, SSR + SSG, Vercel.</li>\n        <li><strong>Nuxt.js</strong> — аналог для Vue.js.</li>\n        <li><strong>Remix</strong> — ближчий до класичного fullstack з акцентом на forms і routes.</li>\n      </ul>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-33",
+      "question": "Як контролювати розмір бандлу і оптимізувати його?",
+      "answer": "\n      <ul>\n        <li>Використовувати <code>next/script</code> з атрибутами <code>lazyOnload</code>.</li>\n        <li>Використовувати dynamic import і Tree-Shaking.</li>\n        <li>Аналізувати через <code>next build --analyze</code>.</li>\n        <li>Мінімізувати глобальні залежності.</li>\n      </ul>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-34",
+      "question": "Як працює App Router порівняно з Pages Router на низькому рівні?",
+      "answer": "\n      <p>App Router базується на <strong>React Server Components (RSC)</strong> і працює через <strong>server + client boundary</strong>.\n        Кожна сторінка тепер — асинхронний серверний компонент, який може рендерити частини UI незалежно.\n        Pages Router — це client-side рендеринг з SSR/SSG підтримкою через старі API.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-35",
+      "question": "Як працює parallel routes і для чого вони потрібні?",
+      "answer": "\n      <p>Parallel routes дозволяють рендерити кілька незалежних сторінок одночасно в різних слотах layout-а.\n        Використовується для панелей, модалок, dashboard layout’ів.</p>\n      <pre>/app/@modal/(.)photo/[id]/page.js\n/app/@feed/page.js\n    </pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-36",
+      "question": "Як реалізується data fetching у App Router без getServerSideProps?",
+      "answer": "\n      <p>Усі серверні компоненти можуть виконувати <strong>async fetch</strong> безпосередньо всередині себе:</p>\n      <pre>export default async function Page() {\n  const data = await fetch('https://api.example.com/posts').then(r =&gt; r.json());\n  return &lt;Posts data={data} /&gt;;\n}\n    </pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-37",
+      "question": "Як використовуються React Cache і Suspense у Next.js?",
+      "answer": "\n      <p>Next.js використовує <strong>React Suspense</strong> для асинхронного завантаження компонентів і даних.\n        Кешування даних відбувається через <code>react.cache()</code> або <code>fetch</code> з опцією <code>next: { revalidate }</code>.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-38",
+      "question": "Як працює Client Component vs Server Component?",
+      "answer": "\n      <ul>\n        <li><strong>Server Component</strong> рендериться на сервері, не містить JS у клієнті.</li>\n        <li><strong>Client Component</strong> має директиву <code>\"use client\"</code> і дозволяє використовувати хуки, стани, ефекти.</li>\n      </ul>\n      <pre>\"use client\";\nimport { useState } from 'react';\nexport default function Counter() {\n  const [count, setCount] = useState(0);\n  return &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;{count}&lt;/button&gt;;\n}\n    </pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-39",
+      "question": "Як оптимізувати SSR-рендеринг у великих Next.js додатках?",
+      "answer": "\n      <ul>\n        <li>Використовувати streaming і <code>Suspense</code>.</li>\n        <li>Переходити на <strong>React Server Components</strong> для зменшення JS.</li>\n        <li>Виносити важкі запити у edge functions або ISR.</li>\n        <li>Використовувати кешування CDN і HTTP headers (Cache-Control).</li>\n      </ul>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-40",
+      "question": "Як організувати багатомовність з App Router (i18n routing)?",
+      "answer": "\n      <p>Через сегменти маршруту:</p>\n      <pre>/app/[lang]/page.js → /en /ua /pl\n    </pre>\n      <p>Дані локалі можна передавати через middleware або context provider.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-41",
+      "question": "Як працюють Static Params у App Router?",
+      "answer": "\n      <p>Функція <code>generateStaticParams()</code> генерує шляхи для SSG на етапі білду.</p>\n      <pre>export async function generateStaticParams() {\n  const posts = await fetch('https://api.example.com/posts').then(r =&gt; r.json());\n  return posts.map(post =&gt; ({ id: post.id }));\n}\n    </pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-42",
+      "question": "Як реалізувати custom server у Next.js?",
+      "answer": "\n      <p>Можна створити власний Node.js або Express сервер, який інтегрує Next.js middleware:</p>\n      <pre>import next from 'next';\nimport express from 'express';\nconst app = next({ dev: true });\nconst handle = app.getRequestHandler();\napp.prepare().then(() =&gt; {\n  const server = express();\n  server.get('/hello', (req, res) =&gt; res.send('Hello!'));\n  server.all('*', (req, res) =&gt; handle(req, res));\n  server.listen(3000);\n});\n    </pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-43",
+      "question": "Як організувати монорепозиторій з Next.js?",
+      "answer": "\n      <p>Next.js добре працює з <strong>Turborepo</strong> — інструментом для монорепозиторіїв від Vercel.</p>\n      <ul>\n        <li>Кожен пакет (frontend, shared, api) має власний <code>package.json</code>.</li>\n        <li>Загальні компоненти зберігаються у <code>/packages/ui</code>.</li>\n        <li>Кешування збірок та lint’у через Turborepo pipeline.</li>\n      </ul>\n      <pre>{\n  \"pipeline\": {\n    \"build\": { \"outputs\": [\".next/**\"] },\n    \"lint\": {}\n  }\n}\n    </pre>\n    ",
+      "isFollowUp": false
+    }
+  ],
+  "totalQuestions": 43
+}

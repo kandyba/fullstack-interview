@@ -5,7 +5,7 @@ import SearchBar from './SearchBar';
 import ContentArea from './ContentArea';
 import { topics, findTopicById } from '../data/topics';
 import { useHTMLContent, useSearch } from '../hooks/useContent';
-import { searchInContent } from '../utils/htmlParser';
+import { searchInContent } from '../services/contentService';
 
 const Dashboard = () => {
   const [selectedTopic, setSelectedTopic] = useState(null);
@@ -17,7 +17,7 @@ const Dashboard = () => {
     document.documentElement.classList.add('dark');
   }, []);
   
-  const { content, loading, error } = useHTMLContent(selectedTopic?.file);
+  const { content, loading, error } = useHTMLContent(selectedTopic);
   const { searchTerm, setSearchTerm, debouncedTerm } = useSearch();
 
   const filteredContent = useMemo(() => {

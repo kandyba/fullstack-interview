@@ -9,7 +9,7 @@ export const topics = [
         id: 'css-main', 
         title: 'HTML & CSS', 
         icon: '🎨',
-        file: 'frontend/html-css/frontend-interview-css-scss.html',
+        file: 'frontend/html-css/frontend-interview-css-scss.json',
         level: 'Junior-Middle'
       },
       {
@@ -20,48 +20,62 @@ export const topics = [
           { 
             id: 'js-general', 
             title: 'Web Basics', 
-            file: 'frontend/javascript/frontend-interview-general.html',
+            file: 'frontend/javascript/frontend-interview-general.json',
             level: 'Junior'
           },
-          { 
-            id: 'js-basics-junior', 
-            title: 'JS Основи', 
-            file: 'frontend/javascript/frontend-interview-js.html',
-            level: 'Junior',
-            questionRange: [0, 40]
+          {
+            id: 'js-core-concepts',
+            title: 'Core Concepts',
+            icon: '📘',
+            children: [
+              { 
+                id: 'js-core-concepts-main', 
+                title: 'Core Concepts', 
+                file: 'frontend/javascript/frontend-interview-js.json',
+                level: 'Junior-Middle',
+                questionRange: [0, 80]
+              }
+            ]
           },
-          { 
-            id: 'js-basics-middle', 
-            title: 'JS Основи', 
-            file: 'frontend/javascript/frontend-interview-js.html',
-            level: 'Middle',
-            questionRange: [40, 80]
+          {
+            id: 'js-advanced-topics',
+            title: 'Advanced Topics',
+            icon: '📗',
+            children: [
+              { 
+                id: 'js-advanced-middle', 
+                title: 'Advanced Topics', 
+                file: 'frontend/javascript/frontend-interview-js-advanced.json',
+                level: 'Middle',
+                questionRange: [0, 24]
+              },
+              { 
+                id: 'js-advanced-senior', 
+                title: 'Advanced Topics', 
+                file: 'frontend/javascript/frontend-interview-js-advanced.json',
+                level: 'Senior',
+                questionRange: [24, 48]
+              }
+            ]
           },
-          { 
-            id: 'js-advanced-middle', 
-            title: 'JS Advanced', 
-            file: 'frontend/javascript/frontend-interview-js-advanced.html',
-            level: 'Middle',
-            questionRange: [0, 24]
-          },
-          { 
-            id: 'js-basics-senior', 
-            title: 'JS Основи', 
-            file: 'frontend/javascript/frontend-interview-js.html',
-            level: 'Senior',
-            questionRange: [80, 124]
-          },
-          { 
-            id: 'js-advanced-senior', 
-            title: 'JS Advanced', 
-            file: 'frontend/javascript/frontend-interview-js-advanced.html',
-            level: 'Senior',
-            questionRange: [24, 48]
+          {
+            id: 'js-patterns-architecture',
+            title: 'Patterns & Architecture',
+            icon: '🏗️',
+            children: [
+              { 
+                id: 'js-patterns-senior', 
+                title: 'Patterns & Architecture', 
+                file: 'frontend/javascript/frontend-interview-js.json',
+                level: 'Senior',
+                questionRange: [80, 124]
+              }
+            ]
           },
           { 
             id: 'js-practice', 
             title: 'JS Practice', 
-            file: 'frontend/javascript/frontend-interview-js-practice.html',
+            file: 'frontend/javascript/frontend-interview-js-practice.json',
             level: 'All Levels'
           }
         ]
@@ -70,7 +84,7 @@ export const topics = [
         id: 'ts-main', 
         title: 'TypeScript', 
         icon: '🔷',
-        file: 'frontend/typescript/frontend-interview-typescript.html',
+        file: 'frontend/typescript/frontend-interview-typescript.json',
         level: 'Middle'
       },
       {
@@ -81,21 +95,21 @@ export const topics = [
           { 
             id: 'react-junior', 
             title: 'React', 
-            file: 'frontend/react/frontend-interview-react.html',
+            file: 'frontend/react/frontend-interview-react.json',
             level: 'Junior',
             questionRange: [0, 20]
           },
           { 
             id: 'react-middle', 
             title: 'React', 
-            file: 'frontend/react/frontend-interview-react.html',
+            file: 'frontend/react/frontend-interview-react.json',
             level: 'Middle',
             questionRange: [20, 35]
           },
           { 
             id: 'react-senior', 
             title: 'React', 
-            file: 'frontend/react/frontend-interview-react.html',
+            file: 'frontend/react/frontend-interview-react.json',
             level: 'Senior',
             questionRange: [35, 50]
           }
@@ -105,7 +119,7 @@ export const topics = [
         id: 'nextjs-main', 
         title: 'Next.js', 
         icon: '▲',
-        file: 'frontend/nextjs/frontend-interview-nextjs.html',
+        file: 'frontend/nextjs/frontend-interview-nextjs.json',
         level: 'Middle-Senior'
       },
       {
@@ -116,13 +130,13 @@ export const topics = [
           { 
             id: 'redux-basics', 
             title: 'Redux Основи', 
-            file: 'frontend/redux/redux-basics.html',
+            file: 'frontend/redux/redux-basics.json',
             level: 'Middle'
           },
           { 
             id: 'redux-toolkit', 
             title: 'Redux Toolkit', 
-            file: 'frontend/redux/redux-toolkit.html',
+            file: 'frontend/redux/redux-toolkit.json',
             level: 'Middle'
           }
         ]
@@ -131,28 +145,28 @@ export const topics = [
         id: 'angular-main', 
         title: 'Angular', 
         icon: '🅰️',
-        file: 'frontend/angular/angular-interview.html',
+        file: 'frontend/angular/angular-interview.json',
         level: 'Middle-Senior'
       },
       { 
         id: 'rxjs-main', 
         title: 'RxJS', 
         icon: '🌊',
-        file: 'frontend/rxjs/rxjs-interview.html',
+        file: 'frontend/rxjs/rxjs-interview.json',
         level: 'Middle'
       },
       { 
         id: 'ngrx-main', 
         title: 'NgRx', 
         icon: '🏪',
-        file: 'frontend/ngrx/ngrx-interview.html',
+        file: 'frontend/ngrx/ngrx-interview.json',
         level: 'Senior'
       },
       { 
         id: 'solid-main', 
         title: 'Принципи SOLID', 
         icon: '🏛️',
-        file: 'frontend/solid/solid-principles.html',
+        file: 'frontend/solid/solid-principles.json',
         level: 'Middle-Senior'
       }
     ]
@@ -166,14 +180,14 @@ export const topics = [
         id: 'nodejs-main', 
         title: 'Node.js', 
         icon: '🟢',
-        file: 'backend/nodejs/frontend-interview-nodejs.html',
+        file: 'backend/nodejs/frontend-interview-nodejs.json',
         level: 'Junior-Middle'
       },
       { 
         id: 'db-main', 
         title: 'Database', 
         icon: '🗄️',
-        file: 'backend/database/frontend-interview-database.html',
+        file: 'backend/database/frontend-interview-database.json',
         level: 'Middle'
       }
     ]
@@ -186,13 +200,13 @@ export const topics = [
       { 
         id: 'devops-main', 
         title: 'DevOps Основи', 
-        file: 'devops/frontend-interview-devops.html',
+        file: 'devops/frontend-interview-devops.json',
         level: 'Middle-Senior'
       },
       { 
         id: 'ci-cd', 
         title: 'CI/CD', 
-        file: 'devops/ci-cd/frontend-interview-ci-cd.html',
+        file: 'devops/ci-cd/frontend-interview-ci-cd.json',
         level: 'Middle-Senior'
       }
     ]
@@ -201,14 +215,14 @@ export const topics = [
     id: 'git-main', 
     title: 'Git', 
     icon: '📦',
-    file: 'git/frontend-interview-git.html',
+    file: 'git/frontend-interview-git.json',
     level: 'Junior-Middle'
   },
   { 
     id: 'english-main', 
     title: 'English Interview', 
     icon: '🇬🇧',
-    file: 'english/english.html',
+    file: 'english/english.json',
     level: 'All Levels'
   }
 ];
@@ -247,13 +261,12 @@ export const learningRoadMap = [
   // Junior Level - Основи
   { id: 'css-main', title: 'HTML & CSS', level: 'Junior', order: 1 },
   { id: 'js-general', title: 'Web Basics', level: 'Junior', order: 2 },
-  { id: 'js-basics-junior', title: 'JS Основи', level: 'Junior', order: 3 },
+  { id: 'js-core-concepts-main', title: 'JS Core Concepts', level: 'Junior', order: 3 },
   { id: 'git-main', title: 'Git', level: 'Junior', order: 4 },
   { id: 'react-junior', title: 'React', level: 'Junior', order: 5 },
   
   // Middle Level - Поглиблене вивчення
-  { id: 'js-basics-middle', title: 'JS Основи', level: 'Middle', order: 6 },
-  { id: 'js-advanced-middle', title: 'JS Advanced', level: 'Middle', order: 7 },
+  { id: 'js-advanced-middle', title: 'JS Advanced Topics', level: 'Middle', order: 7 },
   { id: 'ts-main', title: 'TypeScript', level: 'Middle', order: 8 },
   { id: 'react-middle', title: 'React', level: 'Middle', order: 9 },
   { id: 'redux-basics', title: 'Redux Основи', level: 'Middle', order: 10 },
@@ -263,8 +276,8 @@ export const learningRoadMap = [
   { id: 'solid-main', title: 'Принципи SOLID', level: 'Middle', order: 14 },
   
   // Senior Level - Експертні знання
-  { id: 'js-basics-senior', title: 'JS Основи', level: 'Senior', order: 15 },
-  { id: 'js-advanced-senior', title: 'JS Advanced', level: 'Senior', order: 16 },
+  { id: 'js-patterns-senior', title: 'JS Patterns & Architecture', level: 'Senior', order: 15 },
+  { id: 'js-advanced-senior', title: 'JS Advanced Topics', level: 'Senior', order: 16 },
   { id: 'react-senior', title: 'React', level: 'Senior', order: 17 },
   { id: 'nextjs-main', title: 'Next.js', level: 'Senior', order: 18 },
   { id: 'angular-main', title: 'Angular', level: 'Senior', order: 19 },

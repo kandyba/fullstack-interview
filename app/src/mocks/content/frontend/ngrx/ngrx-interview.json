@@ -1,0 +1,36 @@
+{
+  "title": "NgRx - Технічна співбесіда",
+  "questions": [
+    {
+      "id": "q-1",
+      "question": "Що таке NgRx?",
+      "answer": "\n    <p>NgRx - це бібліотека для управління станом в Angular додатках, яка реалізує Redux паттерн з використанням RxJS.</p>\n    <p><strong>Основні концепції:</strong></p>\n    <ul>\n      <li><code>Store</code> - єдине джерело правди для стану</li>\n      <li><code>Actions</code> - описують події</li>\n      <li><code>Reducers</code> - змінюють стан</li>\n      <li><code>Selectors</code> - читають стан</li>\n      <li><code>Effects</code> - side effects (HTTP, LocalStorage)</li>\n    </ul>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-2",
+      "question": "Як працюють Actions в NgRx?",
+      "answer": "\n    <p>Actions - це унікальні події, які описують зміни в додатку.</p>\n    <pre><code>import { createAction, props } from '@ngrx/store';\n\nexport const loadUsers = createAction(\n  '[Users] Load Users'\n);\n\nexport const loadUsersSuccess = createAction(\n  '[Users] Load Users Success',\n  props&lt;{ users: User[] }&gt;()\n);\n\nexport const loadUsersFailure = createAction(\n  '[Users] Load Users Failure',\n  props&lt;{ error: string }&gt;()\n);</code></pre>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-3",
+      "question": "Що таке Reducer в NgRx?",
+      "answer": "\n    <p>Reducer - це чиста функція, яка приймає поточний стан і action, і повертає новий стан.</p>\n    <pre><code>import { createReducer, on } from '@ngrx/store';\n\nexport interface UsersState {\n  users: User[];\n  loading: boolean;\n  error: string | null;\n}\n\nconst initialState: UsersState = {\n  users: [],\n  loading: false,\n  error: null\n};\n\nexport const usersReducer = createReducer(\n  initialState,\n  on(loadUsers, state =&gt; ({ ...state, loading: true })),\n  on(loadUsersSuccess, (state, { users }) =&gt; ({\n    ...state,\n    users,\n    loading: false\n  })),\n  on(loadUsersFailure, (state, { error }) =&gt; ({\n    ...state,\n    error,\n    loading: false\n  }))\n);</code></pre>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-4",
+      "question": "Що таке Selectors в NgRx?",
+      "answer": "\n    <p>Selectors - це чисті функції для читання частини стану з Store.</p>\n    <pre><code>import { createSelector, createFeatureSelector } from '@ngrx/store';\n\nexport const selectUsersState = createFeatureSelector<usersstate>('users');\n\nexport const selectAllUsers = createSelector(\n  selectUsersState,\n  state =&gt; state.users\n);\n\nexport const selectUsersLoading = createSelector(\n  selectUsersState,\n  state =&gt; state.loading\n);\n\n// У компоненті\nthis.users$ = this.store.select(selectAllUsers);</usersstate></code></pre>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-5",
+      "question": "Що таке Effects в NgRx?",
+      "answer": "\n    <p>Effects - це механізм для обробки side effects (HTTP запити, роутинг, LocalStorage).</p>\n    <pre><code>import { Injectable } from '@angular/core';\nimport { Actions, createEffect, ofType } from '@ngrx/effects';\nimport { of } from 'rxjs';\nimport { map, catchError, switchMap } from 'rxjs/operators';\n\n@Injectable()\nexport class UsersEffects {\n  loadUsers$ = createEffect(() =&gt;\n    this.actions$.pipe(\n      ofType(loadUsers),\n      switchMap(() =&gt;\n        this.usersService.getAll().pipe(\n          map(users =&gt; loadUsersSuccess({ users })),\n          catchError(error =&gt; of(loadUsersFailure({ error: error.message })))\n        )\n      )\n    )\n  );\n\n  constructor(\n    private actions$: Actions,\n    private usersService: UsersService\n  ) {}\n}</code></pre>\n  ",
+      "isFollowUp": false
+    }
+  ],
+  "totalQuestions": 5
+}

@@ -1,0 +1,54 @@
+{
+  "title": "SOLID Принципи",
+  "questions": [
+    {
+      "id": "q-1",
+      "question": "Що таке SOLID?",
+      "answer": "\n    <p><strong>SOLID</strong> - це п'ять принципів об'єктно-орієнтованого дизайну, які допомагають створювати більш підтримуваний, гнучкий та масштабований код.</p>\n    <ul>\n      <li><strong>S</strong> - Single Responsibility Principle (Принцип єдиної відповідальності)</li>\n      <li><strong>O</strong> - Open/Closed Principle (Принцип відкритості/закритості)</li>\n      <li><strong>L</strong> - Liskov Substitution Principle (Принцип підстановки Барбари Лісков)</li>\n      <li><strong>I</strong> - Interface Segregation Principle (Принцип розділення інтерфейсів)</li>\n      <li><strong>D</strong> - Dependency Inversion Principle (Принцип інверсії залежностей)</li>\n    </ul>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-2",
+      "question": "Single Responsibility Principle (SRP) - Принцип єдиної відповідальності",
+      "answer": "\n    <p><strong>Визначення:</strong> Кожен клас повинен мати лише одну причину для зміни, тобто одну відповідальність.</p>\n    <p><strong>❌ Погано:</strong> Клас робить забагато</p>\n    <pre><code>class UserService {\n  saveUser(user) { /* зберігає в БД */ }\n  sendEmail(user) { /* відправляє email */ }\n  generateReport(user) { /* генерує звіт */ }\n  validateUser(user) { /* валідація */ }\n}</code></pre>\n    <p><strong>✅ Добре:</strong> Кожен клас має одну відповідальність</p>\n    <pre><code>class UserRepository {\n  save(user) { /* тільки робота з БД */ }\n}\n\nclass EmailService {\n  send(user) { /* тільки відправка email */ }\n}\n\nclass ReportGenerator {\n  generate(user) { /* тільки генерація звітів */ }\n}\n\nclass UserValidator {\n  validate(user) { /* тільки валідація */ }\n}</code></pre>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-3",
+      "question": "Open/Closed Principle (OCP) - Принцип відкритості/закритості",
+      "answer": "\n    <p><strong>Визначення:</strong> Класи повинні бути відкриті для розширення, але закриті для модифікації.</p>\n    <p><strong>❌ Погано:</strong> Потрібно змінювати існуючий код</p>\n    <pre><code>class PaymentProcessor {\n  processPayment(type, amount) {\n    if (type === 'credit') {\n      // логіка кредитки\n    } else if (type === 'paypal') {\n      // логіка PayPal\n    } else if (type === 'crypto') {\n      // додаємо новий тип - змінюємо клас!\n    }\n  }\n}</code></pre>\n    <p><strong>✅ Добре:</strong> Розширюємо через нові класи</p>\n    <pre><code>class PaymentMethod {\n  process(amount) {\n    throw new Error('Must be implemented');\n  }\n}\n\nclass CreditCardPayment extends PaymentMethod {\n  process(amount) { /* логіка кредитки */ }\n}\n\nclass PayPalPayment extends PaymentMethod {\n  process(amount) { /* логіка PayPal */ }\n}\n\nclass CryptoPayment extends PaymentMethod {\n  process(amount) { /* нова функціональність без зміни існуючих класів */ }\n}</code></pre>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-4",
+      "question": "Liskov Substitution Principle (LSP) - Принцип підстановки Барбари Лісков",
+      "answer": "\n    <p><strong>Визначення:</strong> Об'єкти підкласів повинні замінювати об'єкти базових класів без порушення роботи програми.</p>\n    <p><strong>❌ Погано:</strong> Підклас порушує контракт батьківського класу</p>\n    <pre><code>class Bird {\n  fly() { return 'Flying'; }\n}\n\nclass Penguin extends Bird {\n  fly() {\n    throw new Error('Penguins cannot fly!'); // порушення LSP\n  }\n}</code></pre>\n    <p><strong>✅ Добре:</strong> Правильна ієрархія класів</p>\n    <pre><code>class Bird {\n  layEggs() { return 'Laying eggs'; }\n}\n\nclass FlyingBird extends Bird {\n  fly() { return 'Flying'; }\n}\n\nclass Penguin extends Bird {\n  swim() { return 'Swimming'; }\n}\n\nclass Eagle extends FlyingBird {\n  // може літати і нести яйця\n}</code></pre>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-5",
+      "question": "Interface Segregation Principle (ISP) - Принцип розділення інтерфейсів",
+      "answer": "\n    <p><strong>Визначення:</strong> Клієнти не повинні залежати від інтерфейсів, які вони не використовують.</p>\n    <p><strong>❌ Погано:</strong> Великий інтерфейс з непотрібними методами</p>\n    <pre><code>class Machine {\n  print() { }\n  scan() { }\n  fax() { }\n  staple() { }\n}\n\nclass SimplePrinter extends Machine {\n  print() { /* працює */ }\n  scan() { throw new Error('Not supported'); }\n  fax() { throw new Error('Not supported'); }\n  staple() { throw new Error('Not supported'); }\n}</code></pre>\n    <p><strong>✅ Добре:</strong> Маленькі специфічні інтерфейси</p>\n    <pre><code>class Printer {\n  print() { }\n}\n\nclass Scanner {\n  scan() { }\n}\n\nclass FaxMachine {\n  fax() { }\n}\n\n// SimplePrinter implements only Printer\nclass SimplePrinter extends Printer {\n  print() { /* працює */ }\n}\n\n// Multifunctional implements all needed interfaces\nclass MultifunctionalMachine extends Printer {\n  constructor() {\n    super();\n    this.scanner = new Scanner();\n    this.fax = new FaxMachine();\n  }\n}</code></pre>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-6",
+      "question": "Dependency Inversion Principle (DIP) - Принцип інверсії залежностей",
+      "answer": "\n    <p><strong>Визначення:</strong> Модулі верхнього рівня не повинні залежати від модулів нижнього рівня. Обидва повинні залежати від абстракцій.</p>\n    <p><strong>❌ Погано:</strong> Жорстка залежність від конкретної реалізації</p>\n    <pre><code>class MySQLDatabase {\n  save(data) { /* збереження в MySQL */ }\n}\n\nclass UserRepository {\n  constructor() {\n    this.db = new MySQLDatabase(); // жорстка залежність\n  }\n  \n  saveUser(user) {\n    this.db.save(user);\n  }\n}</code></pre>\n    <p><strong>✅ Добре:</strong> Залежність від абстракції (інтерфейсу)</p>\n    <pre><code>// Абстракція\nclass Database {\n  save(data) {\n    throw new Error('Must be implemented');\n  }\n}\n\n// Конкретні реалізації\nclass MySQLDatabase extends Database {\n  save(data) { /* збереження в MySQL */ }\n}\n\nclass MongoDatabase extends Database {\n  save(data) { /* збереження в MongoDB */ }\n}\n\n// Залежність від абстракції через Dependency Injection\nclass UserRepository {\n  constructor(database) {\n    this.db = database; // приймає будь-яку Database\n  }\n  \n  saveUser(user) {\n    this.db.save(user);\n  }\n}\n\n// Використання\nconst mysqlRepo = new UserRepository(new MySQLDatabase());\nconst mongoRepo = new UserRepository(new MongoDatabase());</code></pre>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-7",
+      "question": "Переваги використання SOLID принципів",
+      "answer": "\n    <ul>\n      <li><strong>Підтримуваність</strong> - легше розуміти та змінювати код</li>\n      <li><strong>Тестованість</strong> - простіше писати unit тести</li>\n      <li><strong>Масштабованість</strong> - легко додавати нову функціональність</li>\n      <li><strong>Гнучкість</strong> - можна легко змінювати реалізації</li>\n      <li><strong>Повторне використання</strong> - компоненти більш незалежні</li>\n      <li><strong>Менше помилок</strong> - зміни в одному місці не ламають інше</li>\n    </ul>\n  ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-8",
+      "question": "Як застосовувати SOLID в JavaScript/TypeScript?",
+      "answer": "\n    <p><strong>SRP:</strong> Розділяйте компоненти на менші з одною відповідальністю</p>\n    <p><strong>OCP:</strong> Використовуйте composition, hooks, HOC для розширення</p>\n    <p><strong>LSP:</strong> Дотримуйтесь очікуваної поведінки при наслідуванні</p>\n    <p><strong>ISP:</strong> Створюйте маленькі специфічні props інтерфейси</p>\n    <p><strong>DIP:</strong> Використовуйте Dependency Injection (React Context, DI frameworks)</p>\n    <pre><code>// React приклад з DIP через Context\nconst DatabaseContext = createContext();\n\nfunction UserList() {\n  const db = useContext(DatabaseContext);\n  const [users, setUsers] = useState([]);\n  \n  useEffect(() =&gt; {\n    db.getUsers().then(setUsers);\n  }, []);\n  \n  return <div>{users.map(u =&gt; <user key=\"{u.id}\" {...u}=\"\">)}</user></div>;\n}\n\n// Можна легко змінити реалізацію БД через Provider\n<databasecontext.provider value=\"{new\" mysqldatabase()}=\"\">\n  <userlist>\n</userlist></databasecontext.provider></code></pre>\n  ",
+      "isFollowUp": false
+    }
+  ],
+  "totalQuestions": 8
+}

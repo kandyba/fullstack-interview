@@ -1,0 +1,186 @@
+{
+  "title": "Технічна співбесіда з TypeScript",
+  "questions": [
+    {
+      "id": "q-1",
+      "question": "Що таке TypeScript?",
+      "answer": "\n      <p>TypeScript — це надмножина JavaScript, яка додає статичну типізацію та інші корисні можливості для розробки.</p>\n      <div class=\"example\">\n        <pre>let message: string = \"Hello, TypeScript!\";\nconsole.log(message);\n        </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-2",
+      "question": "Яка різниця між TypeScript і JavaScript?",
+      "answer": "\n      <p>Основна різниця в тому, що TypeScript підтримує статичну типізацію, тоді як JavaScript — динамічно типізована мова.</p>\n      <div class=\"example\">\n        <pre>TypeScript: let count: number = 5;\nJavaScript: let count = 5;\n        </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-3",
+      "question": "Як встановити TypeScript?",
+      "answer": "\n      <p>TypeScript можна встановити через npm:</p>\n      <div class=\"example\">\n        <pre>npm install -g typescript\n        </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-4",
+      "question": "Що таке файл конфігурації tsconfig.json?",
+      "answer": "\n      <p>Це файл конфігурації TypeScript, який дозволяє налаштовувати компіляцію проєкту.</p>\n      <div class=\"example\">\n        <pre>{\n  \"compilerOptions\": {\n    \"target\": \"ES6\",\n    \"module\": \"commonjs\",\n    \"strict\": true\n  }\n}\n        </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-5",
+      "question": "Що таке типи даних у TypeScript?",
+      "answer": "\n      <p>TypeScript підтримує базові типи даних, такі як number, string, boolean, а також складні типи, наприклад, масиви, кортежі та інші.</p>\n      <div class=\"example\">\n        <pre>let age: number = 25;\nlet name: string = \"John\";\nlet isAdmin: boolean = true;\n        </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-6",
+      "question": "Що таке Union типи?",
+      "answer": "\n      <p>Union типи дозволяють змінній мати кілька типів.</p>\n      <div class=\"example\">\n        <pre>let value: string | number;\nvalue = \"Hello\";\nvalue = 42;\n        </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-7",
+      "question": "Що таке інтерфейси в TypeScript?",
+      "answer": "\n      <p>Інтерфейси визначають структуру об'єктів та можуть використовуватися для перевірки типів.</p>\n      <div class=\"example\">\n        <pre>interface User {\n  name: string;\n  age: number;\n}\nlet user: User = { name: \"Alice\", age: 30 };\n        </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-8",
+      "question": "Як оголосити кортежі в TypeScript?",
+      "answer": "\n      <p>Кортежі дозволяють зберігати масив із фіксованою кількістю елементів різних типів.</p>\n      <div class=\"example\">\n        <pre>let tuple: [string, number];\ntuple = [\"Hello\", 42];\n        </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-9",
+      "question": "Що таке Enums у TypeScript?",
+      "answer": "\n      <p>Enums дозволяють створювати набір іменованих констант.</p>\n      <div class=\"example\">\n        <pre>enum Direction {\n  Up = 1,\n  Down,\n  Left,\n  Right\n}\nlet dir: Direction = Direction.Up;\n        </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-10",
+      "question": "Що таке Generics у TypeScript?",
+      "answer": "\n      Generics дозволяють створювати функції, класи чи інтерфейси, які працюють з будь-яким типом, забезпечуючи типобезпеку. Це зручно для створення повторно використовуваних компонентів.\n      <div class=\"example\">\n      <pre>function identity<t>(value: T): T {\n  return value;\n}\nconst result = identity<string>(\"Привіт\"); // Привіт\n      </string></t></pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-11",
+      "question": "Що таке Type Guards?",
+      "answer": "\n      Type Guards (перевірки типів) — це функції чи вирази, які допомагають TypeScript визначити тип змінної під час виконання.\n      <div class=\"example\">\n      <pre>function isString(value: unknown): value is string {\n  return typeof value === \"string\";\n}\nif (isString(someValue)) {\n  console.log(someValue.toUpperCase());\n}\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-12",
+      "question": "Як працює оператор keyof?",
+      "answer": "\n      Оператор <code>keyof</code> повертає набір ключів переданого об'єкта або інтерфейсу.\n      <div class=\"example\">\n      <pre>interface User {\n  id: number;\n  name: string;\n}\ntype UserKeys = keyof User; // \"id\" | \"name\"\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-13",
+      "question": "Що таке Conditional Types у TypeScript?",
+      "answer": "\n      Conditional Types дозволяють створювати типи на основі умов. Вони використовуються для більш складної типізації.\n      <div class=\"example\">\n      <pre>type IsString<t> = T extends string ? true : false;\ntype Check = IsString&lt;\"текст\"&gt;; // true\n      </t></pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-14",
+      "question": "Що таке Utility Types?",
+      "answer": "\n      Utility Types — це вбудовані типи TypeScript, які спрощують маніпуляцію іншими типами, наприклад: <code>Partial</code>, <code>Pick</code>, <code>Omit</code>.\n      <div class=\"example\">\n      <pre>interface User {\n  id: number;\n  name: string;\n  age: number;\n}\ntype PartialUser = Partial<user>; // Всі властивості необов'язкові\n      </user></pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-15",
+      "question": "Як TypeScript працює з модулем Node.js?",
+      "answer": "\n      TypeScript використовує систему модулів CommonJS для Node.js. Ви можете експортувати та імпортувати модулі за допомогою синтаксису <code>import</code> і <code>export</code>.\n      <div class=\"example\">\n      <pre>// math.ts\nexport function add(a: number, b: number): number {\n  return a + b;\n}\n\n// main.ts\nimport { add } from \"./math\";\nconsole.log(add(2, 3)); // 5\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-16",
+      "question": "Що таке Decorators у TypeScript?",
+      "answer": "\n      Decorators — це спеціальні функції, які дозволяють додавати метадані до класів, методів чи властивостей.\n      <div class=\"example\">\n      <pre>function Log(target: any, propertyKey: string) {\n  console.log(`${propertyKey} was accessed`);\n}\nclass User {\n  @Log\n  name: string = \"Іван\";\n}\nconst user = new User();\nconsole.log(user.name);\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-17",
+      "question": "Чим відрізняється тип від інтерфейсу?",
+      "answer": "\n      Основна відмінність: <code>type</code> може бути використаний для створення об'єднань та примітивів, тоді як <code>interface</code> — для опису об'єктів. Інтерфейси можна розширювати, а типи об'єднувати.\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-18",
+      "question": "Як працює readonly у TypeScript?",
+      "answer": "\n      Модифікатор <code>readonly</code> робить властивість доступною лише для читання.\n      <div class=\"example\">\n      <pre>interface User {\n  readonly id: number;\n  name: string;\n}\nconst user: User = { id: 1, name: \"Іван\" };\nuser.name = \"Петро\"; // Можливо\n// user.id = 2; // Помилка\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-19",
+      "question": "Як працює модифікатор private?",
+      "answer": "\n      Модифікатор <code>private</code> робить властивість чи метод доступними лише всередині класу.\n      <div class=\"example\">\n      <pre>class User {\n  private id: number;\n  constructor(id: number) {\n    this.id = id;\n  }\n}\nconst user = new User(1);\n// console.log(user.id); // Помилка\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-20",
+      "question": "Як працює модифікатор protected?",
+      "answer": "\n      <code>protected</code> робить властивість чи метод доступними всередині класу і його нащадків.\n      <div class=\"example\">\n      <pre>class User {\n  protected name: string;\n  constructor(name: string) {\n    this.name = name;\n  }\n}\nclass Admin extends User {\n  getAdminName() {\n    return this.name;\n  }\n}\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-21",
+      "question": "Що таке Mapped Types?",
+      "answer": "\n      Mapped Types дозволяють створювати нові типи шляхом перетворення наявних.\n      <div class=\"example\">\n      <pre>type ReadonlyUser = {\n  readonly [Key in keyof User]: User[Key];\n};\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-22",
+      "question": "Що таке Union та Intersection Types?",
+      "answer": "\n      Union — це тип, який може бути одним з декількох типів. Intersection об'єднує декілька типів в один.\n      <div class=\"example\">\n      <pre>// Union\ntype Result = string | number;\nlet value: Result = \"текст\"; // або число\n\n// Intersection\ntype Admin = User &amp; { role: string };\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-23",
+      "question": "Як працює Non-Null Assertion Operator (!)?",
+      "answer": "\n      Non-Null Assertion Operator <code>!</code> дозволяє TypeScript ігнорувати перевірки на null або undefined.\n      <div class=\"example\">\n      <pre>const element = document.querySelector(\".item\")!;\nelement.textContent = \"Привіт!\";\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-24",
+      "question": "Що таке Index Signatures?",
+      "answer": "\n      Index Signatures дозволяють визначати тип властивостей, ключі яких невідомі заздалегідь.\n      <div class=\"example\">\n      <pre>interface Dictionary {\n  [key: string]: string;\n}\nconst dict: Dictionary = { hello: \"Привіт\", world: \"Світ\" };\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-25",
+      "question": "Як працює модифікатор static?",
+      "answer": "\n      <code>static</code> дозволяє визначати властивості або методи класу, які не належать екземпляру, а доступні на рівні класу.\n      <div class=\"example\">\n      <pre>class MathUtils {\n  static add(a: number, b: number): number {\n    return a + b;\n  }\n}\nconsole.log(MathUtils.add(2, 3)); // 5\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-26",
+      "question": "Що таке Type Assertion?",
+      "answer": "\n      Type Assertion дозволяє явно вказати TypeScript, який тип ви очікуєте.\n      <div class=\"example\">\n      <pre>const someValue: unknown = \"Привіт\";\nconst valueLength: number = (someValue as string).length;\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-27",
+      "question": "Як працюють Never та Unknown типи?",
+      "answer": "\n      <code>never</code> вказує, що значення ніколи не буде, наприклад у функціях, що завжди кидають помилки. <code>unknown</code> — це тип для значень невідомого типу.\n      <div class=\"example\">\n      <pre>// never\nfunction error(message: string): never {\n  throw new Error(message);\n}\n\n// unknown\nlet value: unknown = \"Привіт\";\nif (typeof value === \"string\") {\n  console.log(value.toUpperCase());\n}\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-28",
+      "question": "Як використовувати тип Record?",
+      "answer": "\n      Тип <code>Record</code> створює об'єкт з ключами одного типу та значеннями іншого типу.\n      <div class=\"example\">\n      <pre>type UserRoles = Record<string, string=\"\">;\nconst roles: UserRoles = {\n  admin: \"Адміністратор\",\n  user: \"Користувач\",\n};\n      </string,></pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-29",
+      "question": "Як працює Pick у TypeScript?",
+      "answer": "\n      <code>Pick</code> створює новий тип, вибираючи лише вказані ключі з існуючого типу.\n      <div class=\"example\">\n      <pre>interface User {\n  id: number;\n  name: string;\n  age: number;\n}\ntype UserNameOnly = Pick<user, \"name\"=\"\">;\nconst user: UserNameOnly = { name: \"Іван\" };\n      </user,></pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-30",
+      "question": "Як використовувати Overloading функції в TypeScript?",
+      "answer": "\n      Overload дозволяє визначити кілька сигнатур для однієї функції.\n      <div class=\"example\">\n      <pre>function combine(a: string, b: string): string;\nfunction combine(a: number, b: number): number;\nfunction combine(a: any, b: any): any {\n  return a + b;\n}\nconsole.log(combine(1, 2)); // 3\nconsole.log(combine(\"Привіт, \", \"світе\")); // \"Привіт, світе\"\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    }
+  ],
+  "totalQuestions": 30
+}

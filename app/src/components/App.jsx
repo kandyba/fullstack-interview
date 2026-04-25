@@ -8,7 +8,7 @@ import WelcomeView from './WelcomeView';
 import { useHTMLContent, useSearch } from '../hooks/useContent';
 import { useAppNavigation } from '../hooks/useAppNavigation';
 import { useTheme } from '../hooks/useTheme';
-import { searchInContent } from '../utils/htmlParser';
+import { searchInContent } from '../services/contentService';
 import { getAllLeafTopics, findTopicById } from '../data/topics';
 import { useLanguage } from '../contexts/LanguageContext';
 

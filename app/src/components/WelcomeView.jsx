@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FileQuestion, Code, FolderTree } from 'lucide-react';
 import { getAllLeafTopics } from '../data/topics';
-import { parseHTMLContent } from '../utils/htmlParser';
+import { loadTopicContent } from '../services/contentService';
 import { useLanguage } from '../contexts/LanguageContext';
 import RoadMapProgress from './RoadMapProgress';
 
@@ -24,7 +24,7 @@ const WelcomeView = ({ onSelectTopic }) => {
         if (!topic.file) continue;
 
         try {
-          const parsed = await parseHTMLContent(topic.file);
+          const parsed = await loadTopicContent(topic);
           
           if (topic.questionRange) {
             const [start, end] = topic.questionRange;

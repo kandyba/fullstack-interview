@@ -1,0 +1,306 @@
+{
+  "title": "Технічна співбесіда з TypeScript",
+  "questions": [
+    {
+      "id": "q-1",
+      "question": "Що таке Node.js?",
+      "answer": "\n      Node.js — це середовище виконання JavaScript, яке працює поза браузером. Воно побудоване на рушії V8 і дозволяє створювати серверні програми.\n      <div class=\"example\">\n      <pre>Основні особливості Node.js:\n- Асинхронна подієва модель.\n- Однопотокова архітектура.\n- Підтримка модулів CommonJS.\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-2",
+      "question": "У чому різниця між require та import у Node.js?",
+      "answer": "\n      <ul>\n        <li><code>require</code> — це частина стандарту CommonJS, використовується у старіших версіях Node.js.</li>\n        <li><code>import</code> — це частина стандарту ES6, потребує використання ECMAScript модулів (ESM).</li>\n      </ul>\n      <div class=\"example\">\n      <pre>// Використання require\nconst fs = require('fs');\n\n// Використання import\nimport fs from 'fs';\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-3",
+      "question": "Що таке пакетний менеджер npm?",
+      "answer": "\n      npm (Node Package Manager) — це менеджер пакетів для Node.js, який дозволяє встановлювати, оновлювати та управляти залежностями проєкту.\n      <div class=\"example\">\n      <pre>Основні команди npm:\n- <code>npm init</code>: ініціалізація нового проєкту.\n- <code>npm install package_name</code>: встановлення пакету.\n- <code>npm update</code>: оновлення залежностей.\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-4",
+      "question": "Що таке модулі в Node.js?",
+      "answer": "\n      Модулі — це незалежні блоки коду, які можна імпортувати та використовувати в інших файлах. У Node.js існують вбудовані модулі, як-от <code>fs</code>, <code>http</code>, та створені користувачем модулі.\n      <div class=\"example\">\n      <pre>// Вбудований модуль\nconst fs = require('fs');\n\n// Користувацький модуль\nconst myModule = require('./myModule');\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-5",
+      "question": "Як працює подієва модель Node.js?",
+      "answer": "\n      Node.js використовує асинхронну подієву модель, що дозволяє обробляти багато запитів без блокування головного потоку.\n      <div class=\"example\">\n      <pre>const http = require('http');\n\nconst server = http.createServer((req, res) =&gt; {\n  res.end('Привіт, Node.js!');\n});\n\nserver.listen(3000, () =&gt; {\n  console.log('Сервер запущено на порту 3000');\n});\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-6",
+      "question": "Що таке буфери в Node.js?",
+      "answer": "\n      Буфери — це тимчасове сховище для двійкових даних. Вони корисні при роботі з потоками, такими як файли або мережеві запити.\n      <div class=\"example\">\n      <pre>const buf = Buffer.from('Привіт');\nconsole.log(buf.toString()); // \"Привіт\"\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-7",
+      "question": "Що таке потоки в Node.js?",
+      "answer": "\n      Потоки — це інтерфейси для роботи з даними, які передаються частинами. Вони можуть бути <code>Readable</code>, <code>Writable</code>, <code>Duplex</code> або <code>Transform</code>.\n      <div class=\"example\">\n      <pre>const fs = require('fs');\n\nconst readStream = fs.createReadStream('./input.txt');\nconst writeStream = fs.createWriteStream('./output.txt');\n\nreadStream.pipe(writeStream);\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-8",
+      "question": "Як обробляти помилки в Node.js?",
+      "answer": "\n      Для обробки помилок використовують <code>try...catch</code>, події <code>error</code> або обробники для асинхронних функцій.\n      <div class=\"example\">\n      <pre>try {\n  const data = fs.readFileSync('./file.txt');\n  console.log(data);\n} catch (error) {\n  console.error('Помилка:', error.message);\n}\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-9",
+      "question": "Як працює пакет express?",
+      "answer": "\n      <code>Express</code> — це веб-фреймворк для Node.js, який спрощує створення серверних додатків.\n      <div class=\"example\">\n      <pre>const express = require('express');\nconst app = express();\n\napp.get('/', (req, res) =&gt; {\n  res.send('Привіт, Express!');\n});\n\napp.listen(3000, () =&gt; {\n  console.log('Сервер працює на порту 3000');\n});\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-10",
+      "question": "Як виконати HTTP-запити у Node.js?",
+      "answer": "\n      HTTP-запити у Node.js можна виконувати за допомогою вбудованого модуля <code>http</code>, бібліотеки <code>axios</code> або <code>node-fetch</code>.\n      <div class=\"example\">\n      <pre>const https = require('https');\n\nhttps.get('https://jsonplaceholder.typicode.com/todos/1', (res) =&gt; {\n  let data = '';\n\n  res.on('data', (chunk) =&gt; {\n    data += chunk;\n  });\n\n  res.on('end', () =&gt; {\n    console.log(JSON.parse(data));\n  });\n});\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-11",
+      "question": "Що таке Middleware у Node.js?",
+      "answer": "\n      Middleware — це функції, які виконуються між отриманням запиту і відправкою відповіді. У <code>Express</code> middleware використовується для обробки запитів, виконання логіки або зміни відповіді.\n      <div class=\"example\">\n      <pre>const express = require('express');\nconst app = express();\n\nconst logger = (req, res, next) =&gt; {\n  console.log(`${req.method} ${req.url}`);\n  next();\n};\n\napp.use(logger);\n\napp.get('/', (req, res) =&gt; {\n  res.send('Привіт, Middleware!');\n});\n\napp.listen(3000, () =&gt; {\n  console.log('Сервер працює на порту 3000');\n});\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-12",
+      "question": "Що таке подієвий цикл у Node.js?",
+      "answer": "\n      Подієвий цикл — це механізм, який Node.js використовує для обробки асинхронних операцій. Він дозволяє неблокуючий ввід/вивід і обробляє події через чергу колбеків.\n      <div class=\"example\">\n      <pre>console.log('Початок');\n\nsetTimeout(() =&gt; {\n  console.log('Таймаут');\n}, 0);\n\nconsole.log('Кінець');\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-13",
+      "question": "Як працювати з файлами у Node.js?",
+      "answer": "\n      Для роботи з файлами використовується вбудований модуль <code>fs</code>. Він підтримує як синхронні, так і асинхронні методи.\n      <div class=\"example\">\n      <pre>const fs = require('fs');\n\n// Читання файлу\nfs.readFile('./file.txt', 'utf8', (err, data) =&gt; {\n  if (err) throw err;\n  console.log(data);\n});\n\n// Запис у файл\nfs.writeFile('./output.txt', 'Привіт, файл!', (err) =&gt; {\n  if (err) throw err;\n  console.log('Файл записано');\n});\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-14",
+      "question": "Як створити HTTP-сервер у Node.js?",
+      "answer": "\n      HTTP-сервер створюється за допомогою модуля <code>http</code>. Він обробляє запити та відповіді.\n      <div class=\"example\">\n      <pre>const http = require('http');\n\nconst server = http.createServer((req, res) =&gt; {\n  res.writeHead(200, { 'Content-Type': 'text/plain' });\n  res.end('Привіт, сервер!');\n});\n\nserver.listen(3000, () =&gt; {\n  console.log('Сервер працює на порту 3000');\n});\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-15",
+      "question": "Що таке кластеризація у Node.js?",
+      "answer": "\n      Кластеризація дозволяє використовувати всі ядра процесора для запуску кількох екземплярів Node.js, що підвищує продуктивність.\n      <div class=\"example\">\n      <pre>const cluster = require('cluster');\nconst http = require('http');\nconst os = require('os');\n\nif (cluster.isMaster) {\n  const cpus = os.cpus().length;\n  console.log(`Запускаємо ${cpus} воркерів`);\n\n  for (let i = 0; i &lt; cpus; i++) {\n    cluster.fork();\n  }\n\n  cluster.on('exit', (worker) =&gt; {\n    console.log(`Воркер ${worker.process.pid} завершив роботу`);\n  });\n} else {\n  http.createServer((req, res) =&gt; {\n    res.end('Привіт, кластер!');\n  }).listen(3000);\n}\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-16",
+      "question": "Як працювати з модулями у Node.js?",
+      "answer": "\n      Node.js підтримує створення модулів через <code>require</code> та <code>module.exports</code>.\n      <div class=\"example\">\n      <pre>// myModule.js\nmodule.exports = {\n  sayHello: () =&gt; console.log('Привіт, модулі!')\n};\n\n// main.js\nconst myModule = require('./myModule');\nmyModule.sayHello();\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-17",
+      "question": "Що таке глобальні змінні у Node.js?",
+      "answer": "\n      Node.js має кілька глобальних змінних, наприклад <code>__dirname</code>, <code>__filename</code>, <code>process</code>, які доступні у всіх модулях.\n      <div class=\"example\">\n      <pre>console.log('Каталог:', __dirname);\nconsole.log('Файл:', __filename);\nconsole.log('Процес:', process.version);\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-18",
+      "question": "Що таке події у Node.js?",
+      "answer": "\n      Події у Node.js дозволяють обробляти асинхронні операції через <code>EventEmitter</code>.\n      <div class=\"example\">\n      <pre>const EventEmitter = require('events');\nconst emitter = new EventEmitter();\n\nemitter.on('greet', () =&gt; {\n  console.log('Привіт, події!');\n});\n\nemitter.emit('greet');\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-19",
+      "question": "Як працювати з базами даних у Node.js?",
+      "answer": "\n      Node.js підтримує підключення до різних баз даних, наприклад MongoDB, PostgreSQL, MySQL. Для цього використовуються бібліотеки, як-от <code>mongoose</code> для MongoDB або <code>pg</code> для PostgreSQL.\n      <div class=\"example\">\n      <pre>// Підключення до MongoDB\nconst mongoose = require('mongoose');\nmongoose.connect('mongodb://localhost/test', { useNewUrlParser: true, useUnifiedTopology: true })\n  .then(() =&gt; console.log('Підключено до MongoDB'))\n  .catch(err =&gt; console.error('Помилка підключення:', err));\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-20",
+      "question": "Що таке streams у Node.js?",
+      "answer": "\n      Streams — це інтерфейси для роботи з потоком даних, які передаються частинами. Потоки можуть бути Readable, Writable, Duplex або Transform.\n      <div class=\"example\">\n      <pre>const fs = require('fs');\nconst readStream = fs.createReadStream('./input.txt');\nreadStream.on('data', (chunk) =&gt; {\n  console.log('Отриманий шматок:', chunk.toString());\n});\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-21",
+      "question": "Що таке буфери у Node.js?",
+      "answer": "\n      Буфери — це об'єкти, що дозволяють працювати з двійковими даними у Node.js. Вони використовуються для обробки потоків або файлів.\n      <div class=\"example\">\n      <pre>const buffer = Buffer.from('Привіт, буфер!');\nconsole.log(buffer.toString()); // Виведе: Привіт, буфер!\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-22",
+      "question": "Як працювати з модулями ES у Node.js?",
+      "answer": "\n      Node.js підтримує модулі ES через директиву <code>type: \"module\"</code> у файлі <code>package.json</code>.\n      <div class=\"example\">\n      <pre>// myModule.js\nexport const greet = () =&gt; console.log('Привіт, ES модуля!');\n\n// main.js\nimport { greet } from './myModule.js';\ngreet();\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-23",
+      "question": "Що таке REPL у Node.js?",
+      "answer": "\n      REPL (Read-Eval-Print Loop) — це інтерактивне середовище Node.js для виконання JavaScript-коду в реальному часі.\n      <div class=\"example\">\n      <pre>$ node\n&gt; console.log('Привіт, REPL!');\nПривіт, REPL!\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-24",
+      "question": "Що таке Worker Threads у Node.js?",
+      "answer": "\n      Worker Threads дозволяють виконувати JavaScript у фонових потоках для підвищення продуктивності.\n      <div class=\"example\">\n      <pre>const { Worker } = require('worker_threads');\n\nconst worker = new Worker('./worker.js');\nworker.on('message', (msg) =&gt; {\n  console.log('Отримано повідомлення:', msg);\n});\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-25",
+      "question": "Як працювати з екосистемою npm?",
+      "answer": "\n      npm (Node Package Manager) дозволяє встановлювати, оновлювати та видаляти пакети, а також створювати власні.\n      <div class=\"example\">\n      <pre>// Встановлення пакета\nnpm install express\n\n// Видалення пакета\nnpm uninstall express\n\n// Ініціалізація проекту\nnpm init\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-26",
+      "question": "Що таке process.env?",
+      "answer": "\n      <code>process.env</code> — це об'єкт, який містить змінні середовища для налаштування конфігурації програми.\n      <div class=\"example\">\n      <pre>// Встановлення змінної середовища\nprocess.env.PORT = 3000;\n\n// Використання змінної\nconsole.log(`Сервер працює на порту ${process.env.PORT}`);\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-27",
+      "question": "Як обробляти помилки у Node.js?",
+      "answer": "\n      Помилки у Node.js обробляються через <code>try-catch</code>, події <code>'error'</code> або глобальний обробник <code>process.on('uncaughtException')</code>.\n      <div class=\"example\">\n      <pre>process.on('uncaughtException', (err) =&gt; {\n  console.error('Невловима помилка:', err);\n});\n\n// Генерація помилки\nthrow new Error('Це помилка');\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-28",
+      "question": "Як підключити HTTPS у Node.js?",
+      "answer": "\n      Для HTTPS потрібен модуль <code>https</code> і SSL-сертифікати.\n      <div class=\"example\">\n      <pre>const https = require('https');\nconst fs = require('fs');\n\nconst options = {\n  key: fs.readFileSync('key.pem'),\n  cert: fs.readFileSync('cert.pem')\n};\n\nhttps.createServer(options, (req, res) =&gt; {\n  res.writeHead(200);\n  res.end('Привіт, HTTPS!');\n}).listen(3000);\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-29",
+      "question": "Що таке garbage collection у Node.js?",
+      "answer": "\n      Garbage collection (збір сміття) — це механізм автоматичного звільнення пам'яті, який видаляє об'єкти, що більше не використовуються.\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-30",
+      "question": "Що таке streams.pipe() у Node.js?",
+      "answer": "\n      Метод <code>pipe()</code> дозволяє передавати дані з одного потоку до іншого, наприклад, для запису у файл.\n      <div class=\"example\">\n      <pre>const fs = require('fs');\n\nconst readStream = fs.createReadStream('input.txt');\nconst writeStream = fs.createWriteStream('output.txt');\n\nreadStream.pipe(writeStream);\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-31",
+      "question": "Що таке event loop у Node.js?",
+      "answer": "\n      Event loop — це механізм у Node.js, який відповідає за обробку асинхронних операцій, таких як таймери, I/O, проміси та інше.\n      <div class=\"example\">\n      <pre>console.log('Перший');\nsetTimeout(() =&gt; console.log('Другий'), 0);\nconsole.log('Третій');\n// Результат: Перший, Третій, Другий\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-32",
+      "question": "Як працювати з файловою системою у Node.js?",
+      "answer": "\n      Node.js надає модуль <code>fs</code> для роботи з файлами: читання, запис, видалення тощо.\n      <div class=\"example\">\n      <pre>const fs = require('fs');\n\n// Читання файлу\nfs.readFile('file.txt', 'utf8', (err, data) =&gt; {\n  if (err) throw err;\n  console.log(data);\n});\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-33",
+      "question": "Що таке middleware у Node.js?",
+      "answer": "\n      Middleware — це функції, які виконуються між отриманням запиту та його обробкою. Вони використовуються для логування, автентифікації та інших завдань.\n      <div class=\"example\">\n      <pre>const express = require('express');\nconst app = express();\n\napp.use((req, res, next) =&gt; {\n  console.log('Middleware виконується');\n  next();\n});\n\napp.get('/', (req, res) =&gt; {\n  res.send('Привіт, Middleware!');\n});\n\napp.listen(3000);\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-34",
+      "question": "Що таке кластеризація у Node.js?",
+      "answer": "\n      Кластеризація дозволяє запускати кілька процесів Node.js для використання всіх ядер процесора.\n      <div class=\"example\">\n      <pre>const cluster = require('cluster');\nconst http = require('http');\nconst numCPUs = require('os').cpus().length;\n\nif (cluster.isPrimary) {\n  for (let i = 0; i &lt; numCPUs; i++) {\n    cluster.fork();\n  }\n} else {\n  http.createServer((req, res) =&gt; {\n    res.writeHead(200);\n    res.end('Привіт, кластер!');\n  }).listen(3000);\n}\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-35",
+      "question": "Як виконати HTTP-запит у Node.js?",
+      "answer": "\n      Для виконання HTTP-запитів можна використовувати модуль <code>https</code> або сторонні бібліотеки, як-от Axios.\n      <div class=\"example\">\n      <pre>const https = require('https');\n\nhttps.get('https://jsonplaceholder.typicode.com/posts', (res) =&gt; {\n  let data = '';\n\n  res.on('data', (chunk) =&gt; {\n    data += chunk;\n  });\n\n  res.on('end', () =&gt; {\n    console.log(JSON.parse(data));\n  });\n});\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-36",
+      "question": "Як створити веб-сервер у Node.js?",
+      "answer": "\n      Для створення веб-сервера використовується модуль <code>http</code>.\n      <div class=\"example\">\n      <pre>const http = require('http');\n\nconst server = http.createServer((req, res) =&gt; {\n  res.writeHead(200, { 'Content-Type': 'text/plain' });\n  res.end('Привіт, сервер!');\n});\n\nserver.listen(3000, () =&gt; {\n  console.log('Сервер запущено на порту 3000');\n});\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-37",
+      "question": "Що таке глобальні об'єкти у Node.js?",
+      "answer": "\n      Глобальні об'єкти — це змінні та функції, доступні в будь-якій частині програми Node.js. Наприклад: <code>__dirname</code>, <code>__filename</code>, <code>process</code>.\n      <div class=\"example\">\n      <pre>console.log(__dirname); // Шлях до поточної директорії\nconsole.log(__filename); // Шлях до поточного файлу\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-38",
+      "question": "Як використовувати проміси в Node.js?",
+      "answer": "\n      Проміси дозволяють працювати з асинхронним кодом, надаючи методи <code>then</code> і <code>catch</code>.\n      <div class=\"example\">\n      <pre>const fs = require('fs').promises;\n\nfs.readFile('file.txt', 'utf8')\n  .then(data =&gt; console.log(data))\n  .catch(err =&gt; console.error(err));\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-39",
+      "question": "Як працювати з async/await у Node.js?",
+      "answer": "\n      <code>async/await</code> дозволяє писати асинхронний код у синхронному стилі.\n      <div class=\"example\">\n      <pre>const fs = require('fs').promises;\n\nasync function readFile() {\n  try {\n    const data = await fs.readFile('file.txt', 'utf8');\n    console.log(data);\n  } catch (err) {\n    console.error(err);\n  }\n}\n\nreadFile();\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-40",
+      "question": "Що таке package-lock.json?",
+      "answer": "\n      <code>package-lock.json</code> — це файл, який фіксує точні версії залежностей, встановлених у проекті, для забезпечення однакових збірок.\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-41",
+      "question": "Що таке модулі у Node.js?",
+      "answer": "\n      Модулі — це окремі файли або частини коду, які можна імпортувати та експортувати. Node.js використовує систему модулів CommonJS (<code>require</code> і <code>module.exports</code>).\n      <div class=\"example\">\n      <pre>// export.js\nmodule.exports = function() {\n  console.log('Це модуль!');\n};\n\n// import.js\nconst myModule = require('./export');\nmyModule();\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-42",
+      "question": "Що таке Streams у Node.js?",
+      "answer": "\n      Потоки (Streams) — це об'єкти, які дозволяють зчитувати або записувати дані по частинах, а не завантажувати їх повністю в пам'ять.\n      <div class=\"example\">\n      <pre>const fs = require('fs');\nconst stream = fs.createReadStream('largefile.txt');\n\nstream.on('data', chunk =&gt; {\n  console.log('Частина даних:', chunk);\n});\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-43",
+      "question": "Як працювати з буферами у Node.js?",
+      "answer": "\n      Буфери (Buffer) — це об'єкти, які дозволяють працювати з двійковими даними у Node.js.\n      <div class=\"example\">\n      <pre>const buffer = Buffer.from('Привіт, буфер!');\nconsole.log(buffer.toString()); // Привіт, буфер!\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-44",
+      "question": "Як підключити сторонні модулі у Node.js?",
+      "answer": "\n      Сторонні модулі встановлюються через npm (Node Package Manager) і підключаються за допомогою <code>require</code>.\n      <div class=\"example\">\n      <pre>// Встановлення пакету axios\n// $ npm install axios\n\nconst axios = require('axios');\n\naxios.get('https://jsonplaceholder.typicode.com/posts')\n  .then(response =&gt; console.log(response.data))\n  .catch(error =&gt; console.error(error));\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-45",
+      "question": "Що таке REPL у Node.js?",
+      "answer": "\n      REPL (Read-Eval-Print Loop) — це інтерактивне середовище для виконання JavaScript-коду в Node.js. Його можна запустити командою <code>node</code>.\n      <div class=\"example\">\n      <pre>// Запуск REPL\n// $ node\n&gt; console.log('Привіт, REPL!');\nПривіт, REPL!\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-46",
+      "question": "Як використовувати модуль process у Node.js?",
+      "answer": "\n      Модуль <code>process</code> надає інформацію та методи для взаємодії з поточним процесом Node.js.\n      <div class=\"example\">\n      <pre>console.log(process.cwd()); // Поточна директорія\nconsole.log(process.argv); // Аргументи командного рядка\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-47",
+      "question": "Що таке події у Node.js?",
+      "answer": "\n      Node.js використовує модель подій для асинхронного програмування. Модуль <code>events</code> дозволяє працювати з подіями.\n      <div class=\"example\">\n      <pre>const EventEmitter = require('events');\nconst emitter = new EventEmitter();\n\nemitter.on('event', () =&gt; {\n  console.log('Подія була викликана!');\n});\n\nemitter.emit('event');\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-48",
+      "question": "Як використовувати таймери у Node.js?",
+      "answer": "\n      Таймери у Node.js дозволяють виконувати функції через певний проміжок часу.\n      <div class=\"example\">\n      <pre>setTimeout(() =&gt; console.log('Через 2 секунди'), 2000);\nsetInterval(() =&gt; console.log('Щосекунди'), 1000);\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-49",
+      "question": "Що таке npm і як його використовувати?",
+      "answer": "\n      npm (Node Package Manager) — це менеджер пакетів для Node.js, який дозволяє встановлювати, оновлювати та видаляти залежності.\n      <div class=\"example\">\n      <pre>// Встановлення пакету\n// $ npm install express\n\n// Запуск скрипту з package.json\n// $ npm run script-name\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-50",
+      "question": "Як обробляти помилки у Node.js?",
+      "answer": "\n      Помилки можна обробляти за допомогою конструкцій <code>try/catch</code>, методів об'єкта <code>process</code>, а також подій.\n      <div class=\"example\">\n      <pre>try {\n  throw new Error('Це помилка');\n} catch (err) {\n  console.error('Обробка помилки:', err.message);\n}\n      </pre>\n      </div>\n    ",
+      "isFollowUp": false
+    }
+  ],
+  "totalQuestions": 50
+}
