@@ -60,7 +60,13 @@
       "question": "Що таке workflow / job / step / runner?",
       "answer": "\n      <div class=\"example\">\n        <pre>  Workflow — весь сценарій\n  Job — група кроків\n  Step — один крок\n  Runner — віртуальна машина\n        </pre>\n      </div>\n    ",
       "isFollowUp": false
+    },
+    {
+      "id": "q-11",
+      "question": "Що таке CI/CD? Для чого це потрібно?",
+      "answer": "<p><strong>CI/CD</strong> — це підхід до автоматизації процесів інтеграції та розгортання коду.</p>\n<ul>\n  <li><strong>CI (Continuous Integration)</strong> — автоматичне тестування та перевірка коду після кожного коміту.</li>\n  <li><strong>CD (Continuous Deployment/Delivery)</strong> — автоматичне або напівавтоматичне розгортання на сервері після проходження CI.</li>\n</ul>\n<p>Мета: мінімізувати людські помилки, прискорити доставку продукту, гарантувати стабільність.</p>\n<pre>Push -> GitHub Actions -> Tests -> Build -> Deploy -> Production</pre>",
+      "isFollowUp": false
     }
   ],
-  "totalQuestions": 10
+  "totalQuestions": 11
 }

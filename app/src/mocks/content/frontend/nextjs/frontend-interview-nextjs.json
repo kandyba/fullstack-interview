@@ -258,7 +258,13 @@
       "question": "Як організувати монорепозиторій з Next.js?",
       "answer": "\n      <p>Next.js добре працює з <strong>Turborepo</strong> — інструментом для монорепозиторіїв від Vercel.</p>\n      <ul>\n        <li>Кожен пакет (frontend, shared, api) має власний <code>package.json</code>.</li>\n        <li>Загальні компоненти зберігаються у <code>/packages/ui</code>.</li>\n        <li>Кешування збірок та lint’у через Turborepo pipeline.</li>\n      </ul>\n      <pre>{\n  \"pipeline\": {\n    \"build\": { \"outputs\": [\".next/**\"] },\n    \"lint\": {}\n  }\n}\n    </pre>\n    ",
       "isFollowUp": false
+    },
+    {
+      "id": "q-44",
+      "question": "Різниця між SSR, ISR та CSR в NextJS",
+      "answer": "<p>Це три різні способи, коли і де формується HTML сторінки. Або простіше: коли саме користувачу готують UI.</p>\n\n<p><strong>CSR (Client-Side Rendering)</strong></p>\n<p>Сервер віддає базовий HTML і JS-бандл, а рендер і отримання даних виконуються на клієнті після завантаження JavaScript.</p>\n<ul>\n  <li><strong>Плюси:</strong> менше навантаження на сервер.</li>\n  <li><strong>Мінуси:</strong> слабший SEO, повільніший перший змістовний рендер.</li>\n  <li><strong>Типово:</strong> класичні SPA.</li>\n</ul>\n\n<p><strong>SSR (Server-Side Rendering)</strong></p>\n<p>Сервер рендерить HTML на кожен запит, а потім на клієнті відбувається гідратація.</p>\n<ul>\n  <li><strong>Плюси:</strong> кращий SEO, швидкий перший піксель, актуальні дані.</li>\n  <li><strong>Мінуси:</strong> вище навантаження на сервер, гідратація може бути важкою.</li>\n  <li><strong>У Next.js:</strong> getServerSideProps (pages router), server components і Route Handlers (app router).</li>\n</ul>\n\n<p><strong>ISR (Incremental Static Regeneration)</strong></p>\n<p>Сторінка генерується статично, кешується в CDN і перевипускається у фоні за інтервалом revalidate.</p>\n<ul>\n  <li><strong>Плюси:</strong> швидкість статичного сайту + періодична актуалізація, хороший SEO.</li>\n  <li><strong>Мінуси:</strong> не найкращий варіант для контенту, який змінюється щосекунди.</li>\n  <li><strong>У Next.js:</strong> <code>fetch(..., { next: { revalidate: 60 } })</code>, <code>generateStaticParams</code>.</li>\n</ul>\n\n<p><strong>Коротко:</strong> CSR = рендер у браузері, SSR = рендер на сервері кожного разу, ISR = статичний рендер з фоновою регенерацією.</p>",
+      "isFollowUp": false
     }
   ],
-  "totalQuestions": 43
+  "totalQuestions": 44
 }

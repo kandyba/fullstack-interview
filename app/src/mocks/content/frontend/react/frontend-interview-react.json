@@ -300,7 +300,204 @@
       "question": "У чому різниця між SSR та CSR?",
       "answer": "\n      <ul>\n        <li><strong>CSR (Client-Side Rendering)</strong> — HTML генерується у браузері після завантаження JS.</li>\n        <li><strong>SSR (Server-Side Rendering)</strong> — HTML створюється на сервері перед відправкою клієнту.</li>\n      </ul>\n      <p>SSR покращує SEO та швидкість початкового відображення.</p>\n    ",
       "isFollowUp": false
+    },
+    {
+      "id": "q-51",
+      "question": "Що зробити, щоб компонент ререндерився в React?",
+      "answer": "<p>Компонент у React ререндериться, коли змінюються його вхідні дані або контекст.</p>\n\n<p><strong>Основні причини ререндеру:</strong></p>\n<p>• при зміні <strong>props</strong></p>\n<p>• при оновленні <strong>state</strong> через <code>useState</code> (<code>setState</code>)</p>\n<p>• при зміні значення <strong>Context</strong></p>\n<p>• при ререндері батьківського компонента</p>\n<p>• при зміні значення <strong>key</strong> між рендерами — React перемонтовує компонент</p>\n<p><strong>Follow-up:</strong> чи ререндер завжди означає оновлення DOM?</p>\n<p><strong>Відповідь:</strong> ні, React може вирішити, що DOM не потребує змін.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-52",
+      "question": "Як React знає, що саме потрібно ререндерити?",
+      "answer": "<p>React порівнює попередній і новий результат рендеру за допомогою Virtual DOM.</p>\n<p>Він визначає мінімальний набір змін, які потрібно застосувати до реального DOM.</p>\n<p><strong>Ключова ідея:</strong> не оновлювати весь DOM, а лише те, що змінилось.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-53",
+      "question": "Як Virtual DOM працює під капотом? Як відбувається порівняння?",
+      "answer": "<p>Після кожного ререндеру React:</p>\n<p>1. Створює нове дерево Virtual DOM</p>\n<p>2. Порівнює його з попереднім (diffing)</p>\n<p>3. Обчислює різницю</p>\n<p>4. Застосовує мінімальні зміни до реального DOM</p>\n\n<p><strong>Основні евристики diffing алгоритму:</strong></p>\n<p>• елементи різного типу → повна заміна піддерева</p>\n<p>• однакові типи → оновлюються лише props</p>\n<p>• списки порівнюються за <code>key</code></p>\n\n<p><strong>Приклад:</strong></p>\n<pre>// було\n&lt;li key=\"1\"&gt;A&lt;/li&gt;\n&lt;li key=\"2\"&gt;B&lt;/li&gt;\n\n// стало\n&lt;li key=\"2\"&gt;B&lt;/li&gt;\n&lt;li key=\"1\"&gt;A&lt;/li&gt;</pre>\n\n<p>Завдяки <code>key</code> React не перевмонтуює елементи, а лише міняє їх місцями.</p>\n<p><strong>Важливо:</strong> без key React може зробити зайві DOM-операції.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-54",
+      "question": "Що таке reconciliation в React?",
+      "answer": "<p><strong>Reconciliation</strong> — це процес узгодження старого і нового Virtual DOM.</p>\n<p>Саме під час reconciliation React вирішує, що потрібно оновити, змінити або видалити.</p>\n<p><strong>Простими словами:</strong> reconciliation = diffing + update.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-55",
+      "question": "Різниця між контрольованим та неконтрольованим компонентом?",
+      "answer": "<p><strong>Контрольований компонент</strong> — стан інпуту зберігається в React.</p>\n<pre>&lt;input value={value} onChange={e =&gt; setValue(e.target.value)} /&gt;</pre>\n\n<p><strong>Неконтрольований компонент</strong> — стан зберігається в DOM.</p>\n<pre>&lt;input defaultValue=\"test\" ref={inputRef} /&gt;</pre>\n\n<p><strong>Головна різниця:</strong> хто керує станом — React чи браузер.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-56",
+      "question": "В чому краще використовувати контрольовані компоненти?",
+      "answer": "<p>Контрольовані компоненти краще використовувати, коли потрібно:</p>\n<p>• валідація в реальному часі</p>\n<p>• синхронізація значень</p>\n<p>• умовна логіка UI</p>\n<p>• повний контроль над формою</p>\n\n<p><strong>Типові кейси:</strong> auth, фільтри, step-форми.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-57",
+      "question": "Коли доцільно використовувати неконтрольовані компоненти?",
+      "answer": "<p>У неконтрольованих компонентах React створює DOM-елементи, а браузер сам керує їх станом.</p>\n\n<p><strong>Корисно для:</strong></p>\n<p>• великих форм з багатьма інпутами, де не потрібно контролювати кожен символ</p>\n<p>• інтеграції зі сторонніми бібліотеками (date picker, rich text editor)</p>\n<p>• простих одноразових форм</p>\n\n<p><strong>Плюс:</strong> менше ререндерів.</p>\n<p><strong>Мінус:</strong> менше контролю та складніша логіка.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-58",
+      "question": "Якими хуками ти користуєшся найчастіше?",
+      "answer": "<p>Найчастіше використовую базові хуки: <code>useState</code>, <code>useEffect</code>, <code>useRef</code>, <code>useMemo</code>, <code>useCallback</code>, <code>useContext</code>.</p>\n\n<p><strong>Коротко по призначенню:</strong></p>\n<p>• <code>useState</code> — локальний стан</p>\n<p>• <code>useEffect</code> — побічні ефекти</p>\n<p>• <code>useRef</code> — DOM або мутабельне значення без ререндеру</p>\n<p>• <code>useMemo</code> — мемоізація значень</p>\n<p>• <code>useCallback</code> — мемоізація функцій</p>\n<p>• <code>useContext</code> — доступ до глобальних даних</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-59",
+      "question": "Для яких цілей використовується useMemo?",
+      "answer": "<p><code>useMemo</code> використовується для мемоізації результату обчислень між рендерами.</p>\n\n<p><strong>Навіщо:</strong></p>\n<p>• уникнути повторних важких обчислень</p>\n<p>• зменшити навантаження при частих ререндерах</p>\n<p>• оптимізувати продуктивність</p>\n\n<pre>const total = useMemo(() => {\n  return items.reduce((sum, i) => sum + i.price, 0);\n}, [items]);</pre>\n\n<p><strong>Важливо:</strong></p>\n<p><code>useMemo</code> працює зі <strong>значеннями</strong>, а не з функціями (для цього є <code>useCallback</code>).</p>\n\n<p><strong>Follow-up:</strong> чи варто обгортати все в useMemo?</p>\n<p><strong>Відповідь:</strong> ні, useMemo має оверхед і потрібен лише там, де є реальна проблема з продуктивністю.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-60",
+      "question": "Для чого використовується useContext?",
+      "answer": "<p><code>useContext</code> дозволяє отримувати дані з React Context без прокидування props через багато рівнів.</p>\n\n<p><strong>Типові кейси:</strong></p>\n<p>• тема (theme)</p>\n<p>• локалізація</p>\n<p>• auth / user</p>\n<p>• feature flags</p>\n\n<pre>const ThemeContext = createContext();\n\nconst theme = useContext(ThemeContext);</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-61",
+      "question": "Де зберігаються дані useContext в React?",
+      "answer": "<p>Дані зберігаються у <code>value</code> провайдера (<code>&lt;Context.Provider&gt;</code>).</p>\n\n<pre>&lt;AuthContext.Provider value={user}&gt;\n  &lt;App /&gt;\n&lt;/AuthContext.Provider&gt;</pre>\n\n<p>Усі дочірні компоненти отримують доступ до цього значення через <code>useContext</code>.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-62",
+      "question": "Context — це global state?",
+      "answer": "<p>Так, Context можна вважати глобальним станом, але він <strong>не є повноцінним state-managerом</strong>.</p>\n\n<p><strong>Відмінності:</strong></p>\n<p>• немає middleware</p>\n<p>• немає інструментів дебагу</p>\n<p>• при зміні value ререндеряться всі споживачі</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-63",
+      "question": "Плюси та мінуси useContext",
+      "answer": "<p><strong>Плюси:</strong></p>\n<p>• простий API</p>\n<p>• немає prop drilling</p>\n<p>• вбудований у React</p>\n\n<p><strong>Мінуси:</strong></p>\n<p>• всі споживачі ререндеряться при зміні value</p>\n<p>• не підходить для часто змінюваного стану</p>\n\n<p><strong>Висновок:</strong> useContext варто використовувати для даних, які змінюються рідко.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-64",
+      "question": "Які є способи оптимізації React-додатку?",
+      "answer": "<p>• <code>React.memo</code></p>\n<p>• <code>useMemo</code>, <code>useCallback</code></p>\n<p>• правильні <code>key</code> у списках</p>\n<p>• code splitting / lazy loading</p>\n<p>• уникання зайвого state</p>\n<p>• розділення логіки і UI</p>\n\n<p><strong>Follow-up:</strong> з чого починати?</p>\n<p><strong>Відповідь:</strong> з аналізу ререндерів (React DevTools).</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-65",
+      "question": "Що таке кастомні хуки в React?",
+      "answer": "<p>Кастомний хук — це функція, яка використовує інші хуки і інкапсулює логіку.</p>\n\n<p><strong>Правила:</strong></p>\n<p>• імя починається з <code>use</code></p>\n<p>• можна викликати інші хуки</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-66",
+      "question": "Чи писав ти кастомні хуки? Наведи приклад.",
+      "answer": "<pre>function useToggle(initial = false) {\n  const [value, setValue] = useState(initial);\n  const toggle = () => setValue(v => !v);\n  return [value, toggle];\n}</pre>\n\n<p>Такий хук дозволяє перевикористовувати логіку без дублювання коду.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-67",
+      "question": "Чим кастомний хук відрізняється від звичайної функції?",
+      "answer": "<p><strong>Кастомний хук:</strong></p>\n<p>• може використовувати React hooks</p>\n<p>• підпорядковується правилам хуків</p>\n\n<p><strong>Звичайна функція:</strong></p>\n<p>• не має доступу до хуків</p>\n<p>• не зберігає React-стан</p>\n\n<p><strong>Ключова різниця:</strong> хуки інтегровані в lifecycle React.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-68",
+      "question": "Розкажи більше про useEffect",
+      "answer": "<p><code>useEffect</code> використовується для побічних ефектів після рендеру компонента.</p>\n\n<p><strong>Типові кейси:</strong></p>\n<p>• запити до API</p>\n<p>• підписки</p>\n<p>• таймери</p>\n<p>• синхронізація з DOM</p>\n\n<p><strong>Залежності:</strong></p>\n<p>• <code>[]</code> — лише при монтуванні</p>\n<p>• <code>[dep]</code> — при зміні залежності</p>\n<p>• без масиву — після кожного рендеру</p>\n\n<pre>useEffect(() => {\n  fetchData();\n  return () => cleanup();\n}, [id]);</pre>\n\n<p><strong>Важливо:</strong> неправильні залежності → infinite loop.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-69",
+      "question": "Чи працювали ви з класовими компонентами? У чому їх особливість?",
+      "answer": "<p>Так, класові компоненти — це старіший спосіб створення компонентів у React до появи хуків.</p>\n<ul>\n  <li>Вони використовують класовий синтаксис ES6: <code>class MyComponent extends React.Component</code>.</li>\n  <li>Мають власний <strong>стан (state)</strong> і методи життєвого циклу.</li>\n  <li>Для доступу до контексту чи рефів застосовується <code>this</code>.</li>\n</ul>\n<pre>class Counter extends React.Component {\n  state = { count: 0 };\n  increment = () => this.setState({ count: this.state.count + 1 });\n\n  render() {\n    return &lt;button onClick={this.increment}&gt;{this.state.count}&lt;/button&gt;;\n  }\n}</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-70",
+      "question": "Які дані краще зберігати в стані компонента, а які передавати через пропси? Наведіть приклад.",
+      "answer": "<ul>\n  <li>У <strong>state</strong> зберігаються дані, які можуть змінюватися всередині компонента (наприклад, введення користувача, стан завантаження).</li>\n  <li>Через <strong>props</strong> передаються незмінні дані або callback-функції від батьківського компонента.</li>\n</ul>\n<pre>function Child({ value, onClick }) {\n  return &lt;button onClick={onClick}&gt;{value}&lt;/button&gt;;\n}\n\nfunction Parent() {\n  const [count, setCount] = useState(0);\n  return &lt;Child value={count} onClick={() => setCount(count + 1)} /&gt;;\n}</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-71",
+      "question": "Чи знайомі ви з хуками? У чому їх переваги? Чи доводилося створювати власні?",
+      "answer": "<p>Так, хуки (<strong>Hooks</strong>) дозволяють використовувати стан і життєвий цикл без класів.</p>\n<p>Переваги:</p>\n<ul>\n  <li>Менше коду, краща читабельність.</li>\n  <li>Немає необхідності в <code>this</code>.</li>\n  <li>Можна легко ділитися логікою між компонентами через власні хуки.</li>\n</ul>\n<p>Приклад користувацького хука:</p>\n<pre>function useWindowWidth() {\n  const [width, setWidth] = useState(window.innerWidth);\n  useEffect(() => {\n    const handleResize = () => setWidth(window.innerWidth);\n    window.addEventListener('resize', handleResize);\n    return () => window.removeEventListener('resize', handleResize);\n  }, []);\n  return width;\n}</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-72",
+      "question": "Чи знайомі ви з фрагментами та порталами? Для чого вони потрібні?",
+      "answer": "<p><strong>Фрагменти (Fragments)</strong> дозволяють групувати кілька елементів без створення додаткового DOM-вузла.</p>\n<pre>&lt;&gt;\n  &lt;h1&gt;Заголовок&lt;/h1&gt;\n  &lt;p&gt;Опис&lt;/p&gt;\n&lt;/&gt;</pre>\n<p><strong>Портали (Portals)</strong> — це спосіб рендерити компонент у DOM-позиції, відмінній від його батьківського вузла. Використовуються, наприклад, для модальних вікон.</p>\n<pre>ReactDOM.createPortal(\n  &lt;Modal /&gt;,\n  document.getElementById('modal-root')\n);</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-73",
+      "question": "Коли і для чого використовуються рефи (refs)?",
+      "answer": "<p><strong>Refs</strong> використовуються для прямого доступу до DOM-елементів або збереження змінних, які не повинні викликати повторний рендер.</p>\n<pre>function InputFocus() {\n  const inputRef = useRef();\n  return (\n    &lt;&gt;\n      &lt;input ref={inputRef} /&gt;\n      &lt;button onClick={() => inputRef.current.focus()}&gt;Фокус&lt;/button&gt;\n    &lt;/&gt;\n  );\n}</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-74",
+      "question": "Які ви знаєте методи життєвого циклу компонента?",
+      "answer": "<p>Основні методи класових компонентів:</p>\n<ul>\n  <li><code>componentDidMount()</code> — викликається після монтування.</li>\n  <li><code>componentDidUpdate()</code> — після оновлення.</li>\n  <li><code>componentWillUnmount()</code> — перед розмонтуванням.</li>\n  <li><code>shouldComponentUpdate()</code> — контролює, чи потрібно перерендерювати компонент.</li>\n</ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-75",
+      "question": "В якому методі життєвого циклу краще робити запити на сервер і чому?",
+      "answer": "<p>У <strong>componentDidMount()</strong>, тому що на момент виклику компонент уже створений і готовий до оновлення стану після отримання даних.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-76",
+      "question": "В якому методі краще робити підписку та відписку від подій?",
+      "answer": "<p>Підписку — у <strong>componentDidMount()</strong>, відписку — у <strong>componentWillUnmount()</strong>. Це запобігає витокам памяті та зайвим викликам подій.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-77",
+      "question": "Чи є досвід роботи з контекстом? Коли його варто використовувати?",
+      "answer": "<p><strong>Context API</strong> використовується для передачі даних між компонентами без пропс-дрилінгу.</p>\n<p>Добре підходить для тем, мови інтерфейсу або авторизаційних даних.</p>\n<pre>const ThemeContext = React.createContext('light');\nfunction App() {\n  return (\n    &lt;ThemeContext.Provider value=\"dark\"&gt;\n      &lt;Toolbar /&gt;\n    &lt;/ThemeContext.Provider&gt;\n  );\n}</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-78",
+      "question": "В чому особливість PureComponent?",
+      "answer": "<p><strong>PureComponent</strong> — це класовий компонент, який автоматично реалізує поверхневе порівняння пропсів і стану у <code>shouldComponentUpdate()</code>.</p>\n<p>Якщо дані не змінилися — компонент не перерендерюється.</p>\n<p>Аналог для функціональних компонентів — <code>React.memo()</code>.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-79",
+      "question": "Чи працювали ви з мемоізованими селекторами (memoized selectors)? Для чого вони використовуються?",
+      "answer": "<p>Так, у Redux часто використовують бібліотеку <code>reselect</code> для створення мемоізованих селекторів.</p>\n<p>Вони зберігають результати обчислень, щоб не виконувати повторні обчислення, якщо дані не змінилися — це оптимізує продуктивність.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-80",
+      "question": "Чому бібліотека React швидка? Що таке Virtual DOM і Shadow DOM?",
+      "answer": "<ul>\n  <li><strong>Virtual DOM</strong> — це копія реального DOM у памяті. React оновлює лише змінені елементи, а не весь DOM, що підвищує продуктивність.</li>\n  <li><strong>Shadow DOM</strong> — це окрема частина DOM, ізольована від решти документа (використовується у Web Components, не у React).</li>\n</ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-81",
+      "question": "Навіщо в списках ключі (keys)?",
+      "answer": "<p>Ключі потрібні, щоб React міг відслідковувати елементи при оновленні списку. Без унікальних ключів можуть виникати помилки або неправильний рендер.</p>\n<p>Можна використовувати індекси як ключі <strong>лише якщо список не змінюється</strong> (тобто порядок елементів стабільний).</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-82",
+      "question": "В чому основна ідея Redux?",
+      "answer": "<p><strong>Redux</strong> — це централізоване сховище стану, яке дотримується трьох принципів:</p>\n<ul>\n  <li>Єдине джерело істини — один глобальний state.</li>\n  <li>Стан є лише для читання (змінюється через дії — actions).</li>\n  <li>Зміни описуються чистими функціями (reducers).</li>\n</ul>\n<pre>const initialState = { count: 0 };\nfunction reducer(state = initialState, action) {\n  switch (action.type) {\n    case 'INC':\n      return { count: state.count + 1 };\n    default:\n      return state;\n  }\n}</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-83",
+      "question": "Як відстежити зміну поля об'єкта у функціональному компоненті?",
+      "answer": "<p>Для цього використовують <code>useEffect()</code> з масивом залежностей, у якому вказують конкретне поле.</p><pre>useEffect(() => {\n  console.log(user.name);\n}, [user.name]);</pre>"
     }
   ],
-  "totalQuestions": 50
+  "totalQuestions": 82
 }

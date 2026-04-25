@@ -411,8 +411,8 @@
     },
     {
       "id": "q-69",
-      "question": "Навіщо потрібні замикання?",
-      "answer": "\n        <ul>\n          <li>Для збереження стану між викликами функцій.</li>\n          <li>Для створення приватних змінних (емуляція інкапсуляції).</li>\n          <li>Для реалізації callback або таймерів.</li>\n        </ul>\n      ",
+      "question": "Що таке замикання (closure) в JS?",
+      "answer": "<p><strong>Closure</strong> — це доступ функції до змінних із зовнішньої області після завершення її виконання.</p>\n<pre>function counter() {\n  let count = 0;\n  return function () {\n    count++;\n    return count;\n  };\n}\nconst inc = counter();\ninc(); // 1\ninc(); // 2</pre>\n<p><strong>Де використовується:</strong> приватні змінні, callbacks, React hooks (useState, useEffect).</p>",
       "isFollowUp": false
     },
     {
@@ -429,8 +429,8 @@
     },
     {
       "id": "q-72",
-      "question": "Що таке стрілочні функції та чим вони відрізняються?",
-      "answer": "\n        <ul>\n          <li>Мають коротший синтаксис.</li>\n          <li>Не мають власного <code>this</code>, <code>arguments</code>, <code>super</code>.</li>\n          <li>Не можуть бути використані як конструктори.</li>\n        </ul>\n        <pre>const obj = {\n  count: 0,\n  inc: () =&gt; this.count++, // this не прив’язаний\n  log: function() { this.count++; }\n};\nobj.inc(); // не працює\nobj.log(); // працює\n      </pre>\n      ",
+      "question": "Чим відрізняється function declaration від function expression? Яка з них hoisted?",
+      "answer": "<ul>\n  <li><strong>Function declaration</strong> — оголошення функції за допомогою ключового слова <code>function</code> у тілі скрипту. <em>Hoisted повністю</em>: і її ім'я, і тіло доступні до рядка оголошення.</li>\n  <li><strong>Function expression</strong> — функція як частина виразу (наприклад, присвоєна змінній). Якщо змінна оголошена через <code>var</code> — hoisted тільки декларація (значення <code>undefined</code> до виконання рядка). З <code>let</code>/<code>const</code> — <em>не доступна до оголошення</em> (TDZ).</li>\n</ul>\n<pre>// Declaration — можна викликати до оголошення\ngreet(); // ✅ працює\nfunction greet() { console.log(\"Hi\"); }\n\n// Expression — не можна\nsayHi(); // ❌ TypeError: sayHi is not a function\nvar sayHi = function() { console.log(\"Hi\"); };\n\n// З const — ReferenceError (TDZ)\nsayBye(); // ❌ ReferenceError\nconst sayBye = function() { console.log(\"Bye\"); };\n</pre>",
       "isFollowUp": false
     },
     {
@@ -744,7 +744,1035 @@
       "question": "Що таке \"Memoization\" в JavaScript?",
       "answer": "\n      <p>Memoization — це оптимізація, яка запам'ятовує вже обчислені значення функції для того, щоб уникнути їх повторного обчислення при однакових аргументах.</p>\n      <div class=\"example\">\n            <pre>const memoize = (fn) =&gt; {\n    const cache = {};\n    return (n) =&gt; {\n        if (cache[n]) {\n            return cache[n];\n        }\n        const result = fn(n);\n        cache[n] = result;\n        return result;\n    };\n};\n\nconst factorial = memoize((n) =&gt; n &lt;= 1 ? 1 : n * factorial(n - 1));\nconsole.log(factorial(5)); // 120\n            </pre>\n      </div>\n    ",
       "isFollowUp": false
+    },
+    {
+      "id": "q-125",
+      "question": "Як можна оголосити функцію в JS?",
+      "answer": "<p><strong>Function Declaration</strong></p>\n<pre>function sum(a, b) {\n  return a + b;\n}</pre>\n<p><strong>Function Expression</strong></p>\n<pre>const sum = function(a, b) {\n  return a + b;\n};</pre>\n<p><strong>Arrow Function</strong></p>\n<pre>const sum = (a, b) => a + b;</pre>\n<p>Найчастіше використовують arrow function та function expression.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-126",
+      "question": "Що таке this в JS? Як визначається його значення?",
+      "answer": "<p><strong>this</strong> — контекст виклику функції. Залежить від способу виклику, а не оголошення.</p>\n<ul>\n  <li><strong>Метод об'єкта:</strong> <code>this</code> → об'єкт.</li>\n  <li><strong>Звичайна функція:</strong> <code>undefined</code> у strict mode, <code>window</code> без нього.</li>\n  <li><strong>Arrow function:</strong> бере <code>this</code> із зовнішнього лексичного контексту.</li>\n  <li><strong>call/apply/bind:</strong> задається вручну.</li>\n</ul>\n<pre>const obj = {\n  name: 'JS',\n  greet() { console.log(this.name); },      // 'JS'\n  arrow: () => console.log(this)             // undefined (або window)\n};\nobj.greet();\nobj.arrow();</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-127",
+      "question": "Що таке контекст виконання (execution context) в JS?",
+      "answer": "<p><strong>Execution context</strong> — середовище, в якому виконується код. Містить змінні, значення <code>this</code> та scope chain.</p>\n<p><strong>Типи:</strong></p>\n<ul>\n  <li><strong>Global</strong> — створюється одразу, один на програму.</li>\n  <li><strong>Function</strong> — створюється при кожному виклику функції.</li>\n  <li><strong>Eval</strong> — рідко використовується.</li>\n</ul>\n<p>Контексти зберігаються у <strong>Call Stack</strong>.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-128",
+      "question": "Що таке глобальний об'єкт в JS? Який він у браузері та Node.js?",
+      "answer": "<p>Глобальний об'єкт містить глобальні змінні та вбудовані функції.</p>\n<ul>\n  <li><strong>Browser:</strong> <code>window</code></li>\n  <li><strong>Node.js:</strong> <code>global</code></li>\n  <li><strong>Універсальний:</strong> <code>globalThis</code> — для кросплатформенного коду.</li>\n</ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-129",
+      "question": "Що потрапляє в глобальну область видимості (window) у браузері?",
+      "answer": "<ul>\n  <li>Змінні, оголошені через <code>var</code>.</li>\n  <li>Глобальні функції.</li>\n  <li>Вбудовані API: <code>document</code>, <code>location</code>, <code>history</code>, <code>setTimeout</code>, <code>fetch</code>.</li>\n</ul>\n<p><strong>let</strong> і <strong>const</strong> у <code>window</code> не потрапляють — вони в block scope.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-130",
+      "question": "В чому різниця між bind, call та apply?",
+      "answer": "<ul>\n  <li><strong>call</strong> — викликає функцію одразу, аргументи окремо: <code>fn.call(obj, a, b)</code>.</li>\n  <li><strong>apply</strong> — викликає одразу, аргументи масивом: <code>fn.apply(obj, [a, b])</code>.</li>\n  <li><strong>bind</strong> — повертає нову функцію з прив'язаним <code>this</code>, не викликає: <code>const bound = fn.bind(obj)</code>.</li>\n</ul>\n<pre>function greet(greeting) {\n  console.log(greeting + ', ' + this.name);\n}\nconst user = { name: 'Alice' };\ngreet.call(user, 'Hello');       // Hello, Alice\ngreet.apply(user, ['Hi']);       // Hi, Alice\nconst sayHi = greet.bind(user);\nsayHi('Hey');                    // Hey, Alice</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-131",
+      "question": "Чи працював з MobX або Redux-Saga?",
+      "answer": "<p><strong>MobX</strong> — state management на базі реактивності: <code>observable</code> + <code>observer</code>. Асинхронність роблять в actions (async/await), UI автоматично реагує на зміни.</p>\n<p><strong>Redux-Saga</strong> — middleware для Redux, керує async потоками через generator-функції (<code>takeLatest</code>, <code>call</code>, <code>put</code>). Відділяє async-логіку від компонентів і reducer'ів.</p>\n<p><strong>Плюси Saga:</strong> структурований async, контроль над race conditions.</p>\n<p><strong>Мінуси:</strong> складність, більше абстракцій.</p>\n<p><strong>Для простого проєкту:</strong> RTK Query / async thunks / React Query. Saga — коли потрібні складні потоки.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-132",
+      "question": "Які патерни проєктування ти знаєш? Які найчастіше зустрічаються у фронтенді?",
+      "answer": "<ul>\n  <li><strong>Creational:</strong> Factory, Singleton.</li>\n  <li><strong>Structural:</strong> Decorator, Adapter.</li>\n  <li><strong>Behavioral:</strong> Observer, Strategy.</li>\n</ul>\n<p><strong>Найчастіше у фронтенді:</strong></p>\n<ul>\n  <li><strong>Observer</strong> — події, стан (EventEmitter, Redux).</li>\n  <li><strong>Strategy</strong> — різні алгоритми під один інтерфейс.</li>\n  <li><strong>Decorator</strong> — HOC у React, middleware у Redux.</li>\n  <li><strong>Singleton</strong> — глобальний store, конфіг, logger.</li>\n</ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-133",
+      "question": "Як працює Observer pattern?",
+      "answer": "<p><strong>Observer</strong> — шаблон \"один-до-багатьох\": один об'єкт (Subject) повідомляє підписників (Observers) про зміни або події.</p>\n<p><strong>Ролі:</strong></p>\n<ul>\n  <li><strong>Subject</strong> — зберігає список підписників, має методи <code>subscribe</code>, <code>unsubscribe</code>, <code>notify</code>.</li>\n  <li><strong>Observer</strong> — callback або об'єкт з методом <code>update</code>.</li>\n</ul>\n<p><strong>Класичний приклад у браузері:</strong></p>\n<pre>const onClick = () => console.log('clicked');\nbutton.addEventListener('click', onClick);   // subscribe\nbutton.removeEventListener('click', onClick); // unsubscribe</pre>\n<p><strong>Де ще використовується:</strong> React state → rerender, MobX (observable → observer), RxJS (subscribe/next), event bus.</p>\n<p><strong>Типова помилка:</strong> не відписуватись → витоки пам'яті в SPA.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-134",
+      "question": "Як відписатися від події в DOM?",
+      "answer": "<p>Через <code>removeEventListener</code> з тим самим типом події та тим самим callback-reference.</p>\n<pre>const onClick = () => console.log('click');\n\nbtn.addEventListener('click', onClick);\nbtn.removeEventListener('click', onClick); // ✅\n\nbtn.removeEventListener('click', () => {}); // ❌ інший reference — не спрацює</pre>\n<p><strong>Важливо:</strong> передавати іменовану функцію, а не анонімну — інакше відписка не спрацює.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-135",
+      "question": "Що відбувається після підписки на подію через addEventListener?",
+      "answer": "<p>Браузер додає callback у список слухачів для конкретного елемента і типу події.</p>\n<p>Коли подія трапляється, вона проходить три фази:</p>\n<ul>\n  <li><strong>Capturing</strong> — зверху вниз від <code>window</code> до target.</li>\n  <li><strong>Target</strong> — на цільовому елементі.</li>\n  <li><strong>Bubbling</strong> — знизу вверх (за замовчуванням).</li>\n</ul>\n<p>Браузер викликає listeners у порядку реєстрації на кожній фазі.</p>\n<p><strong>Event delegation:</strong> ставимо один listener на батька і ловимо події від дочірніх елементів через bubbling.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-136",
+      "question": "Як працює addEventListener? Які є опції?",
+      "answer": "<p><code>addEventListener(type, callback, options)</code> реєструє callback як слухача події.</p>\n<pre>btn.addEventListener('click', (e) => {\n  console.log(e.type);    // 'click'\n  console.log(e.target);  // елемент, по якому клікнули\n});</pre>\n<p><strong>Корисні options:</strong></p>\n<ul>\n  <li><code>{ once: true }</code> — виконається лише 1 раз і автоматично відпишеться.</li>\n  <li><code>{ passive: true }</code> — не буде викликатись <code>preventDefault</code> (краще для scroll-перформансу).</li>\n  <li><code>{ capture: true }</code> — слухати на фазі capturing.</li>\n</ul>\n<pre>window.addEventListener('scroll', onScroll, { passive: true });\nbtn.addEventListener('click', onClick, { once: true });</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-137",
+      "question": "Коли викличеться callback, переданий в addEventListener?",
+      "answer": "<p>Коли відбудеться відповідна подія і вона дійде до елемента на потрібній фазі (capturing/target/bubbling).</p>\n<p>Callback отримує об'єкт <code>event</code>. У звичайній функції <code>this</code> вказує на елемент, у стрілковій — бере <code>this</code> ззовні.</p>\n<pre>btn.addEventListener('click', function (e) {\n  console.log(this === btn); // true\n});\n\nbtn.addEventListener('click', (e) => {\n  // this — з зовнішнього scope\n});</pre>\n<p><strong>Зупинити спливання:</strong> <code>e.stopPropagation()</code>. Скасувати дефолтну дію браузера: <code>e.preventDefault()</code>.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-138",
+      "question": "Де практично використовується Observer pattern у фронтенді?",
+      "answer": "<ul>\n  <li><strong>DOM events:</strong> click/input/scroll — класичний Observer.</li>\n  <li><strong>React state:</strong> зміна стану → rerender компонента.</li>\n  <li><strong>MobX:</strong> <code>observable</code> → <code>observer</code>.</li>\n  <li><strong>RxJS:</strong> <code>subscribe → next/error/complete</code>.</li>\n  <li><strong>Event bus:</strong> pub/sub для внутрішньої комунікації модулів.</li>\n</ul>\n<pre>// Спрощена реалізація pub/sub\nconst observers = [];\nconst subscribe = (fn) => observers.push(fn);\nconst notify = (v) => observers.forEach(fn => fn(v));</pre>\n<p><strong>Перевага:</strong> слабке зв'язування модулів — вони реагують на зміни, не знаючи один про одного.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-139",
+      "question": "Які стореджі є в браузері? Детальна різниця між ними",
+      "answer": "<p>Основні browser storage:</p>\n\n<p><strong>localStorage</strong></p>\n<p>• Розмір: ~5-10 MB на домен</p>\n<p>• Час життя: безстроково (поки не видалять вручну)</p>\n<p>• Доступ: всі вкладки одного домену</p>\n<p>• Тип даних: лише рядки</p>\n<p>• Не надсилається на сервер</p>\n\n<p><strong>sessionStorage</strong></p>\n<p>• Розмір: ~5 MB</p>\n<p>• Час життя: поки відкрита вкладка</p>\n<p>• Доступ: тільки в межах однієї вкладки</p>\n<p>• Тип даних: лише рядки</p>\n<p>• Не надсилається на сервер</p>\n\n<p><strong>Cookies</strong></p>\n<p>• Розмір: ~4 KB на cookie</p>\n<p>• Кількість: ~20-50 cookies на домен</p>\n<p>• Час життя: задається (session або persistent)</p>\n<p>• Автоматично надсилаються на сервер</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-140",
+      "question": "Детально: localStorage",
+      "answer": "<p><strong>localStorage</strong> — синхронне key-value сховище, доступне через JavaScript.</p>\n\n<pre>localStorage.setItem('theme', 'dark');\nlocalStorage.getItem('theme');</pre>\n\n<p><strong>Особливості:</strong></p>\n<p>• блокує main thread (синхронний API)</p>\n<p>• не підходить для великих або чутливих даних</p>\n<p>• дані переживають перезавантаження сторінки</p>\n\n<p><strong>Типові кейси:</strong></p>\n<p>• theme</p>\n<p>• language</p>\n<p>• UI preferences</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-141",
+      "question": "Детально: sessionStorage",
+      "answer": "<p><strong>sessionStorage</strong> працює так само, як localStorage, але обмежений життєвим циклом вкладки.</p>\n\n<p><strong>Особливість:</strong></p>\n<p>навіть якщо відкрити ту саму сторінку в новій вкладці — дані не будуть спільними.</p>\n\n<p><strong>Типові кейси:</strong></p>\n<p>• кроки multi-step форми</p>\n<p>• тимчасові фільтри</p>\n<p>• draft-стан</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-142",
+      "question": "Детально: cookies",
+      "answer": "<p><strong>Cookies</strong> — дані, які браузер зберігає і може надсилати на сервер разом з HTTP-запитами.</p>\n\n<p><strong>Час життя:</strong></p>\n<p>• session cookies — до закриття браузера</p>\n<p>• persistent cookies — за <code>expires</code> або <code>max-age</code></p>\n\n<p><strong>Обмеження:</strong></p>\n<p>• маленький розмір (~4KB)</p>\n<p>• кожен HTTP-запит стає важчим</p>\n\n<p><strong>Безпека:</strong></p>\n<p>• <code>HttpOnly</code> — недоступна з JS (захист від XSS)</p>\n<p>• <code>Secure</code> — лише HTTPS</p>\n<p>• <code>SameSite</code> — захист від CSRF</p>\n\n<pre>Set-Cookie: sessionId=abc;\n  HttpOnly;\n  Secure;\n  SameSite=Strict;\n  Max-Age=3600;</pre>\n\n<p><strong>Follow-up:</strong> де безпечніше зберігати auth-токен?</p>\n<p><strong>Відповідь:</strong> HttpOnly cookie — безпечніше, ніж localStorage.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-143",
+      "question": "Коротке порівняння (як на співбесіді)",
+      "answer": "<p><strong>localStorage</strong> — великий, довгоживучий, тільки клієнт</p>\n<p><strong>sessionStorage</strong> — тимчасовий, на вкладку</p>\n<p><strong>cookies</strong> — маленькі, але доступні серверу</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-144",
+      "question": "Типи даних у JavaScript",
+      "answer": "<p><strong>Примітиви:</strong> string, number, boolean, null, undefined, symbol, bigint.</p>\n<p><strong>Непримітивні:</strong> object (включаючи array, function, date тощо).</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-145",
+      "question": "AJAX",
+      "answer": "<p>AJAX (Asynchronous JavaScript and XML) — це технологія для обміну даними з сервером без перезавантаження сторінки.</p>\n<pre>fetch('/api/data')\n  .then(res => res.json())\n  .then(data => console.log(data));</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-146",
+      "question": "Що означає «this» в JavaScript?",
+      "answer": "<p><code>this</code> — це контекст виконання функції. Значення this обчислюється під час виконання і залежить від контексту.</p>\n<ul>\n  <li>У методі обєкта <code>this</code> — посилається на обєкт;</li>\n  <li>У звичайній функції без контексту виклику <code>this === undefined</code> у <code>\"use strict\"</code>.</li>\n  <li>У несуворому режимі, якщо звичайну функцію викликати без обєкта, <code>this</code> буде глобальним обєктом (<code>window</code> у браузері).</li>\n  <li>У стрілковій функції — бере <code>this</code> із зовнішнього контексту.</li>\n</ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-147",
+      "question": "Різниця між .call(), .apply() та .bind()",
+      "answer": "<ul>\n  <li><strong>call()</strong> — викликає функцію з указаним контекстом і передає аргументи через кому;</li>\n  <li><strong>apply()</strong> — те саме, але аргументи передаються масивом;</li>\n  <li><strong>bind()</strong> — не викликає, а повертає нову функцію з фіксованим контекстом.</li>\n</ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-148",
+      "question": "Різниця між синхронними та асинхронними функціями",
+      "answer": "<p>Синхронні виконуються послідовно, блокуючи потік; асинхронні — не блокують виконання (через callback, promise, async/await).</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-149",
+      "question": "Що таке Проміси (Promises)?",
+      "answer": "<p>Promise — це обєкт, що представляє результат асинхронної операції. Має стани: pending → fulfilled → rejected.</p>\n<pre>const promise = new Promise((res, rej) => res('done'));\npromise.then(console.log);</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-150",
+      "question": "Повернути суму всіх значень у масиві (reduce)",
+      "answer": "<pre>const arr = [1,2,3];\nconst sum = arr.reduce((a,b) => a + b, 0); // 6</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-151",
+      "question": "Написати функцію, яка сортує масив парних чисел",
+      "answer": "<pre>const data = [1,4,2,5,6];\ndata.sort((a,b) => b % 2 - a % 2);</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-152",
+      "question": "Методи forEach, map, filter, reduce",
+      "answer": "<ul>\n  <li><strong>forEach</strong> — виконує функцію для кожного елемента (нічого не повертає);</li>\n  <li><strong>map</strong> — повертає новий масив з результатів виклику функції;</li>\n  <li><strong>filter</strong> — повертає новий масив елементів, що задовольняють умову;</li>\n  <li><strong>reduce</strong> — акумулює значення масиву в одне (число, обєкт, масив тощо).</li>\n</ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-153",
+      "question": "У чому різниця між rebase та merge?",
+      "answer": "<p><strong>rebase</strong> — перезаписує історію комітів, роблячи її лінійною. <em>Головна перевага:</em> чиста та зрозуміла історія без додаткових \"злиттів\".</p>\n<p><strong>merge</strong> — обєднує гілки, зберігаючи всю історію змін. <em>Головна перевага:</em> безпечніше, не змінює існуючі коміти.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-154",
+      "question": "Різниця між Function та Class",
+      "answer": "<ul>\n  <li>Конструктор класу не може бути викликаний без <code>new</code>.</li>\n  <li>Класи завжди працюють у режимі <code>use strict</code>.</li>\n  <li>У функціях може бути <code>super</code>, але тільки в контексті класів воно викликає батьківський конструктор або метод.</li>\n</ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-155",
+      "question": "Чим відрізняється функціональний компонент від класового?",
+      "answer": "<p>Функціональні компоненти — це прості функції, які приймають <code>props</code> і повертають JSX. Вони <strong>не мають власного стану (state)</strong> та <strong>методів життєвого циклу</strong> (до появи React Hooks).</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-156",
+      "question": "Що таке super у JavaScript?",
+      "answer": "<p><strong>super</strong> — ключове слово, яке використовується для виклику методів або конструктора батьківського класу.</p>\n<pre>class Parent {\n  constructor(name) {\n    this.name = name;\n  }\n}\nclass Child extends Parent {\n  constructor(name, age) {\n    super(name); // виклик батьківського конструктора\n    this.age = age;\n  }\n}</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-157",
+      "question": "Які коди статусів HTTP ви знаєте?",
+      "answer": "<ul>\n  <li><strong>1xx</strong> — інформаційні;</li>\n  <li><strong>2xx</strong> — успішні (наприклад, 200 OK, 201 Created);</li>\n  <li><strong>3xx</strong> — перенаправлення (301, 302);</li>\n  <li><strong>4xx</strong> — помилки клієнта (400 Bad Request, 404 Not Found);</li>\n  <li><strong>5xx</strong> — помилки сервера (500 Internal Server Error).</li>\n</ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-158",
+      "question": "Що таке cookie?",
+      "answer": "<p><strong>Cookie</strong> — це невеликі файли даних (до 4 КБ), які зберігаються у браузері користувача для збереження стану між запитами.</p>\n<p>Доступ до них можна отримати через <code>document.cookie</code>.</p>\n<pre>// Створення cookie з терміном дії 1 день\nlet date = new Date(Date.now() + 86400e3);\ndate = date.toUTCString();\ndocument.cookie = \"user=John; expires=\" + date;\n\n// Cookie буде видалено через 1 годину\ndocument.cookie = \"user=John; max-age=3600\";</pre>\n<ul>\n  <li><strong>path=/</strong> — робить cookie доступним на всьому сайті.</li>\n  <li><strong>domain=site.com</strong> — вказує домен, для якого доступне cookie.</li>\n  <li><strong>expires / max-age</strong> — визначає тривалість зберігання.</li>\n</ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-159",
+      "question": "Що означає директива use strict?",
+      "answer": "<p><strong>use strict</strong> — це спеціальна директива, яка вмикає строгий режим виконання коду.</p>\n<ul>\n  <li>Забороняє використання змінних без оголошення.</li>\n  <li>Не дозволяє дублювати імена параметрів.</li>\n  <li>Робить код більш безпечним і передбачуваним.</li>\n</ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-160",
+      "question": "Що таке статична та динамічна типізації?",
+      "answer": "<p><strong>Статична типізація</strong> — типи перевіряються на етапі компіляції (наприклад, у TypeScript, Java, C#).</p>\n<p><strong>Динамічна типізація</strong> — типи визначаються під час виконання програми (JavaScript, Python).</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-161",
+      "question": "Як клієнт взаємодіє з сервером?",
+      "answer": "<p>Клієнт взаємодіє з сервером за допомогою <strong>HTTP</strong> — протоколу передачі гіпертексту. Через нього відправляються запити (<code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code> тощо) і отримуються відповіді у форматі <code>HTML</code>, <code>JSON</code> або <code>XML</code>.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-162",
+      "question": "Що таке REST?",
+      "answer": "<p><strong>REST (Representational State Transfer)</strong> — це архітектурний стиль взаємодії клієнта та сервера через HTTP.</p>\n<ul>\n  <li>Використовує стандартні методи HTTP: <code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code>.</li>\n  <li>Кожен ресурс має унікальний URL.</li>\n  <li>Не зберігає стан (stateless).</li>\n</ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-163",
+      "question": "Що таке мутабельність і імутабельність?",
+      "answer": "<p><strong>Mutable</strong> — обєкт можна змінювати після створення. <strong>Immutable</strong> — після створення обєкт змінити не можна (як <code>const</code> примітиви: string, number, boolean).</p>\n<pre>let arr = [1,2];\narr.push(3); // мутабельна операція\n\nconst str = 'hi';\nstr[0] = 'H'; // не змінюється (immutable)</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-164",
+      "question": "Як шукати помилки в коді? Чи використовуєте ви дебаггер?",
+      "answer": "<p>Для пошуку помилок можна використовувати:</p>\n<ul>\n  <li><code>console.log()</code> — для простого логування.</li>\n  <li><strong>Debugger</strong> — інструмент DevTools у браузері.</li>\n  <li>Вкладку <strong>Network</strong> — для перевірки запитів і відповідей.</li>\n</ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-165",
+      "question": "Яких відомих людей зі світу JavaScript ви знаєте?",
+      "answer": "<p><strong>Ден Абрамов</strong> — автор Redux і учасник команди React. Відомий своєю роботою над управлінням станом і великою кількістю освітнього контенту для розробників.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-166",
+      "question": "Як перевірити, що змінна дорівнює NaN?",
+      "answer": "<p>Для перевірки значення <code>NaN</code> використовуються функції:</p>\n<ul>\n  <li><code>isNaN(value)</code></li>\n  <li><code>Number.isNaN(value)</code></li>\n</ul>\n<pre>isNaN('text')        // true, бо 'text' → NaN\nNumber.isNaN('text') // false, бо 'text' не тип Number\nNumber.isNaN(NaN)    // true</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-167",
+      "question": "Чим відрізняється поведінка isNaN() і Number.isNaN()?",
+      "answer": "<ul>\n  <li><strong>isNaN()</strong> — перетворює перевірюване значення на число перед перевіркою.</li>\n  <li><strong>Number.isNaN()</strong> — перевіряє без приведення типів, працює лише з числами.</li>\n</ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-168",
+      "question": "Порівняйте ключові слова var, let, const.",
+      "answer": "<ul>\n  <li><code>const</code> — обовязково ініціалізується під час оголошення, не може бути перевизначена чи оновлена.</li>\n  <li><code>let</code> — має блочну область видимості, можна оновити, але не перевизначити.</li>\n  <li><code>var</code> — функціональна область видимості, може бути перевизначена, піддається hoisting із ініціалізацією в <code>undefined</code>.</li>\n</ul>\n<pre>var a = 1;   // глобальна\nlet b = 2;   // блочна\nconst c = 3; // блочна і незмінна</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-169",
+      "question": "Що таке область видимості (scope)?",
+      "answer": "<p><strong>Область видимості</strong> — це частина коду, де можна звертатися до певної змінної чи функції.</p>\n<ul>\n  <li><strong>Глобальна</strong> — доступна звідусіль.</li>\n  <li><strong>Функціональна</strong> — діє всередині функцій.</li>\n  <li><strong>Блочна</strong> — для змінних <code>let</code> і <code>const</code> у фігурних дужках <code>{ }</code>.</li>\n  <li><strong>Модульна</strong> — ізольована в межах окремого JS-модуля.</li>\n</ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-170",
+      "question": "Для чого призначені методи setTimeout та setInterval?",
+      "answer": "<p>Це асинхронні методи для виконання функцій із затримкою:</p>\n<ul>\n  <li><code>setTimeout(func, delay)</code> — виконує функцію один раз через заданий час (мс).</li>\n  <li><code>setInterval(func, delay)</code> — виконує функцію багаторазово через інтервал часу.</li>\n</ul>\n<pre>setTimeout(() => console.log('Через 1 сек'), 1000);\nlet timer = setInterval(() => console.log('Кожну сек'), 1000);\nclearInterval(timer); // зупинити</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-171",
+      "question": "Порівняйте підходи до роботи з асинхронним кодом: callbacks vs promises vs async/await.",
+      "answer": "<p><strong>Callbacks (функції зворотного виклику)</strong> — це функції, які передаються в інші функції для виконання після завершення операції.</p>\n<p>Приклад:</p>\n<pre>setTimeout(() => {\n  console.log('Це callback');\n}, 1000);</pre>\n<p>Недолік: складно читати вкладений код — виникає callback hell.</p>\n\n<p><strong>Promises</strong> — це обєкти, що представляють результат асинхронної операції.</p>\n<p>Мають 4 стани: <em>pending</em>, <em>fulfilled</em>, <em>rejected</em>, <em>settled</em>.</p>\n<pre>const promise = new Promise((resolve, reject) => {\n  setTimeout(() => resolve('OK'), 1000);\n});\npromise.then(result => console.log(result));</pre>\n\n<p><strong>async / await</strong> — синтаксичний цукор над промісами, який робить код асинхронних викликів лінійним і зрозумілим.</p>\n<pre>async function fetchData() {\n  const data = await fetch('/api');\n  return data.json();\n}</pre>\n<p><em>Перевага:</em> код читається як синхронний, не блокує виконання програми.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-172",
+      "question": "Чи можна записувати нові властивості / функції в прототипи стандартних класів (Array, Object тощо)?",
+      "answer": "<p><strong>Краще цього не робити</strong>, бо це може призвести до конфліктів і непередбачуваної поведінки у бібліотеках або вашому коді.</p>\n<p>Якщо потрібно розширити функціонал — краще створити власний клас або утиліту:</p>\n<pre>// Погано\nArray.prototype.myMethod = () => {};\n\n// Добре\nclass MyArray extends Array {\n  customMethod() {}\n}</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-173",
+      "question": "Назвіть методи масивів, які пам'ятаєте, і скажіть, для чого вони потрібні.",
+      "answer": "<h3>Для додавання / видалення елементів:</h3>\n<ul>\n  <li><code>push(...items)</code> — додає елементи в кінець.</li>\n  <li><code>pop()</code> — видаляє останній елемент.</li>\n  <li><code>shift()</code> — видаляє перший елемент.</li>\n  <li><code>unshift(...items)</code> — додає елементи на початок.</li>\n  <li><code>splice(pos, deleteCount, ...items)</code> — видаляє або вставляє елементи.</li>\n  <li><code>slice(start, end)</code> — створює копію частини масиву.</li>\n  <li><code>concat(...items)</code> — створює новий масив із доданими елементами.</li>\n</ul>\n\n<h3>Для пошуку серед елементів:</h3>\n<ul>\n  <li><code>indexOf()</code>, <code>lastIndexOf()</code> — повертають індекс елемента.</li>\n  <li><code>includes(value)</code> — перевіряє наявність значення.</li>\n  <li><code>find()</code> / <code>filter()</code> — повертають елементи, що відповідають умові.</li>\n  <li><code>findIndex()</code> — повертає індекс знайденого елемента.</li>\n</ul>\n\n<h3>Для перебору елементів:</h3>\n<ul>\n  <li><code>forEach(func)</code> — викликає функцію для кожного елемента.</li>\n</ul>\n\n<h3>Для перетворення масиву:</h3>\n<ul>\n  <li><code>map(func)</code> — створює новий масив із результатів виклику функції.</li>\n  <li><code>sort(func)</code> — сортує масив на місці.</li>\n  <li><code>reverse()</code> — змінює порядок елементів на протилежний.</li>\n  <li><code>split()</code> / <code>join()</code> — перетворюють рядок у масив і навпаки.</li>\n  <li><code>reduce(func, initial)</code> — зводить масив до одного значення.</li>\n</ul>\n\n<h3>Додатково:</h3>\n<ul>\n  <li><code>Array.isArray(arr)</code> — перевіряє, чи є значення масивом.</li>\n</ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-174",
+      "question": "Опишіть призначення та принципи роботи з колекціями Map та Set.",
+      "answer": "<h3><strong>Map</strong></h3>\n<p>Зберігає пари ключ → значення, де ключ може бути будь-яким типом (навіть обєктом).</p>\n<pre>const map = new Map();\nmap.set('name', 'John');\nmap.get('name'); // 'John'\nmap.has('name'); // true\nmap.delete('name');</pre>\n\n<h3><strong>Set</strong></h3>\n<p>Зберігає унікальні значення без дублікатів.</p>\n<pre>const set = new Set([1, 2, 2, 3]);\nset.add(4);\nset.has(2); // true\nset.size; // 3</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-175",
+      "question": "Чим відрізняються instanceof та typeof?",
+      "answer": "<ul>\n  <li><strong>typeof</strong> — використовується для перевірки типу примітивних значень (<code>string</code>, <code>number</code>, <code>boolean</code>, <code>undefined</code>, <code>symbol</code>, <code>bigint</code>).</li>\n  <li><strong>instanceof</strong> — перевіряє, чи є обєкт екземпляром певного класу або чи присутній цей клас у його ланцюжку прототипів.</li>\n</ul>\n<pre>typeof 'text'        // \"string\"\ntypeof []            // \"object\"\n[1,2,3] instanceof Array // true\nnew Date() instanceof Object // true</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-176",
+      "question": "Що означає глибока (deep) і поверхнева (shallow) копія об'єкта? Як зробити кожну з них?",
+      "answer": "<p><strong>Поверхнева (shallow) копія</strong> — копіює лише верхній рівень властивостей, вкладені обєкти залишаються посиланнями.</p>\n<pre>const obj = { a: 1, b: { c: 2 } };\nconst shallow = Object.assign({}, obj);\nshallow.b.c = 10; // змінить і obj.b.c</pre>\n<p><strong>Глибока (deep) копія</strong> — копіює всі рівні вкладеності.</p>\n<pre>const deep = JSON.parse(JSON.stringify(obj));\n// або з бібліотекою lodash\n// const deep = _.cloneDeep(obj);</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-177",
+      "question": "Методи та властивості колекції Map",
+      "answer": "<ul>\n  <li><code>new Map()</code> — створює колекцію.</li>\n  <li><code>map.set(key, value)</code> — додає пару ключ-значення.</li>\n  <li><code>map.get(key)</code> — повертає значення або <code>undefined</code>.</li>\n  <li><code>map.has(key)</code> — перевіряє наявність ключа.</li>\n  <li><code>map.delete(key)</code> — видаляє елемент.</li>\n  <li><code>map.clear()</code> — очищає колекцію.</li>\n  <li><code>map.size</code> — кількість елементів.</li>\n</ul>\n<pre>let map = new Map();\nmap.set('1', 'str1');\nmap.set(1, 'num1');\nmap.set(true, 'bool1');</pre>\n<p><strong>Перебір Map:</strong></p>\n<ul>\n  <li><code>map.keys()</code> — ітератор по ключах.</li>\n  <li><code>map.values()</code> — ітератор по значеннях.</li>\n  <li><code>map.entries()</code> — ітератор по парах [ключ, значення].</li>\n</ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-178",
+      "question": "Методи та властивості колекції Set",
+      "answer": "<ul>\n  <li><code>new Set([iterable])</code> — створює множину.</li>\n  <li><code>set.add(value)</code> — додає елемент.</li>\n  <li><code>set.delete(value)</code> — видаляє елемент.</li>\n  <li><code>set.has(value)</code> — перевіряє наявність значення.</li>\n  <li><code>set.clear()</code> — очищає множину.</li>\n  <li><code>set.size</code> — кількість елементів.</li>\n</ul>\n<pre>const set = new Set([1, 2, 2, 3]);\nset.add(4);\nset.has(2); // true\nset.size;   // 3</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-179",
+      "question": "Методи Object.keys, Object.values, Object.entries",
+      "answer": "<ul>\n  <li><code>Object.keys(obj)</code> — повертає масив ключів.</li>\n  <li><code>Object.values(obj)</code> — повертає масив значень.</li>\n  <li><code>Object.entries(obj)</code> — повертає масив пар [ключ, значення].</li>\n</ul>\n<pre>const user = {name: 'John', age: 30};\nObject.keys(user);   // ['name', 'age']\nObject.values(user); // ['John', 30]\nObject.entries(user);// [['name','John'], ['age',30]]</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-180",
+      "question": "Різниця між null і undefined",
+      "answer": "<ul>\n  <li><strong>undefined</strong> — змінна оголошена, але не має значення.</li>\n  <li><strong>null</strong> — явно присвоєне порожнє значення.</li>\n</ul>\n<pre>let a;\nconsole.log(a);           // undefined\nlet b = null;\nconsole.log(b);           // null\ntypeof null;              // \"object\"\ntypeof undefined;         // \"undefined\"</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-181",
+      "question": "Для чого використовується оператор !!?",
+      "answer": "<p>Подвійне заперечення <code>!!</code> перетворює будь-яке значення у логічне (<code>true</code> або <code>false</code>).</p>\n<pre>!!'text'   // true\n!!0        // false\n!!undefined // false\n!![]       // true</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-182",
+      "question": "Розкажіть про стрілочні функції (arrow functions). У чому їх відмінність від звичайних?",
+      "answer": "<ul>\n  <li>Не мають власного <code>this</code> — використовують контекст батьківської області.</li>\n  <li>Не мають <code>arguments</code>.</li>\n  <li>Не можуть бути викликані через <code>new</code>.</li>\n  <li>Не мають <code>super</code>.</li>\n</ul>\n<pre>// звичайна функція\nfunction sum(a, b) { return a + b; }\n\n// стрілочна\nconst sum = (a, b) => a + b;</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-183",
+      "question": "Як ви розумієте замикання (closure)?",
+      "answer": "<p><strong>Замикання</strong> — це функція, що запамятовує змінні із зовнішньої області видимості, навіть після того, як ця область уже завершила виконання.</p>\n<pre>function counter() {\n  let count = 0;\n  return function() {\n    count++;\n    return count;\n  };\n}\nconst add = counter();\nadd(); // 1\nadd(); // 2</pre>\n<div>Функції автоматично запамятовують, де вони були створені, використовуючи приховану властивість [[Environment]], а потім їхній код може отримати доступ до зовнішніх змінних.</div>\n<div>Коли під час співбесіди запитують що таке замикання, правильною відповіддю буде визначення замикання та пояснення, що всі функції в JavaScript є замиканнями, і, можливо, ще кілька слів про технічні деталі: властивість [[Environment]], і як взагалі працюють лексичні середовища.</div>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-184",
+      "question": "Що таке втрата контексту, коли вона відбувається і як її запобігти?",
+      "answer": "<p><strong>Втрата контексту</strong> — це ситуація, коли значення <code>this</code> змінюється, і метод не може звернутися до своїх властивостей.</p>\n<p>Відбувається при:</p>\n<ul>\n  <li>Передачі методу як колбеку.</li>\n  <li>Виклику методу без обєкта (<code>const fn = obj.method</code>).</li>\n</ul>\n<p>Запобігається:</p>\n<ul>\n  <li>Використанням <code>bind()</code>, <code>call()</code>, <code>apply()</code>.</li>\n  <li>Використанням стрілочних функцій.</li>\n</ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-185",
+      "question": "Порівняйте атрибути підключення скрипта async і defer в HTML-документі.",
+      "answer": "<ul>\n  <li><code>async</code> — завантажує скрипт паралельно з HTML, виконує одразу після завантаження (не чекає DOM).</li>\n  <li><code>defer</code> — завантажує паралельно, але виконує лише після повного розбору HTML.</li>\n</ul>\n<pre>&lt;script src=\"file.js\" async&gt;&lt;/script&gt;\n&lt;script src=\"file.js\" defer&gt;&lt;/script&gt;</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-186",
+      "question": "Опишіть процес спливання (bubbling) подій у DOM.",
+      "answer": "<p>Подія спочатку спрацьовує на елементі-цілі (<code>event.target</code>), а потім піднімається до його батьківських елементів аж до <code>window</code>.</p>\n<pre>child → parent → grandparent → document → window</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-187",
+      "question": "Як зупинити спливання (bubbling) події?",
+      "answer": "<p>Метод <code>event.stopPropagation()</code> відключає спливання або занурення події.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-188",
+      "question": "Як зупинити дефолтну обробку події?",
+      "answer": "<p>Метод <code>event.preventDefault()</code> забороняє стандартну дію браузера (наприклад, перехід за посиланням).</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-189",
+      "question": "Чому дорівнює this в обробнику подій (event handler)?",
+      "answer": "<p>У звичайній функції <code>this</code> вказує на елемент, на якому викликана подія.</p>\n<pre>btn.onclick = function() {\n  console.log(this === btn); // true\n};</pre>\n<p>У стрілочній функції <code>this</code> береться із зовнішнього контексту.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-190",
+      "question": "Що таке LocalStorage і SessionStorage? Який максимальний розмір LocalStorage?",
+      "answer": "<ul>\n  <li><strong>LocalStorage</strong> — зберігає дані безстроково (до очищення вручну).</li>\n  <li><strong>SessionStorage</strong> — зберігає дані лише в межах однієї вкладки браузера.</li>\n  <li>Максимальний розмір LocalStorage ≈ 5 МБ.</li>\n</ul>\n<pre>localStorage.setItem('user', 'John');\nlocalStorage.getItem('user'); // \"John\"\nsessionStorage.setItem('theme', 'dark');</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-191",
+      "question": "Як отримати висоту блоку? Його положення відносно меж документа?",
+      "answer": "<pre>element.offsetHeight;           // висота з padding та border\nelement.clientHeight;           // висота без border\nelement.getBoundingClientRect(); // координати елемента</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-192",
+      "question": "Що таке Webpack?",
+      "answer": "<p><strong>Webpack</strong> — це збирач модулів (module bundler), який обєднує всі файли (JS, CSS, зображення) в оптимізований пакет для продакшну.</p>\n<p>Має конфігураційний файл <code>webpack.config.js</code>, підтримує лоадери, плагіни, девсервер і мінімізацію коду.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-193",
+      "question": "Як об'єднати масиви?",
+      "answer": "<p>Можна використати <code>concat()</code> або оператор <code>spread</code>:</p><pre>\nconst a = [1, 2];\nconst b = [3, 4];\nconst merged = [...a, ...b]; // [1, 2, 3, 4]\n</pre>"
+    },
+    {
+      "id": "q-194",
+      "question": "Навіщо потрібні замикання?",
+      "answer": "<ul><li>Для збереження стану між викликами функцій.</li><li>Для створення приватних змінних (емуляція інкапсуляції).</li><li>Для реалізації callback або таймерів.</li></ul>"
+    },
+    {
+      "id": "q-195",
+      "question": "Що таке стрілочні функції та чим вони відрізняються?",
+      "answer": "<ul><li>Мають коротший синтаксис.</li><li>Не мають власного <code>this</code>, <code>arguments</code>, <code>super</code>.</li><li>Не можуть бути використані як конструктори.</li></ul><pre>\nconst obj = {\n  count: 0,\n  inc: () => this.count++,\n  log: function() { this.count++; }\n};\n</pre>"
+    },
+    {
+      "id": "q-196",
+      "question": "Що таке \"callback hell\" і як його уникнути?",
+      "answer": "<p>\"Callback hell\" — вкладені виклики функцій, що роблять код нечитабельним. Вирішується через <strong>Promises</strong> або <strong>async/await</strong>.</p><pre>\n// Погано\ndoA(() => { doB(() => { doC(() => {}); }); });\n\n// Добре\nasync function run() { await doA(); await doB(); await doC(); }\n</pre>"
+    },
+    {
+      "id": "q-197",
+      "question": "Які існують способи створення об'єкта в JavaScript?",
+      "answer": "<ol><li><strong>Літеральна нотація:</strong> <code>const obj = { key: 'value' };</code></li><li><strong>Функція-конструктор:</strong> <code>function User(name) { this.name = name; }</code></li><li><strong>Клас (ES6):</strong> <code>class User { constructor(name) { this.name = name; } }</code></li><li><strong>Object.create():</strong> <code>const obj = Object.create(proto);</code></li></ol>"
+    },
+    {
+      "id": "q-198",
+      "question": "Як уникнути посилальної залежності при копіюванні об'єкта?",
+      "answer": "<p><strong>Поверхневе копіювання</strong> (якщо об'єкт без вкладених об'єктів):</p>\n<pre>\nconst copy = { ...obj };\nconst copy2 = Object.assign({}, obj);\n</pre>\n<p><strong>Глибоке копіювання</strong> (для вкладених структур):</p>\n<ol>\n  <li>Простий спосіб: <code>const copy = JSON.parse(JSON.stringify(obj));</code> ⚠️ не працює для функцій.</li>\n  <li>Власна рекурсивна функція <code>deepClone</code>.</li>\n  <li>Бібліотека lodash: <code>_.cloneDeep(obj)</code>.</li>\n</ol>"
+    },
+    {
+      "id": "q-199",
+      "question": "Як отримати властивість об'єкта в JavaScript?",
+      "answer": "<p>Є два способи доступу до властивостей:</p>\n<h3>1. Через крапку (dot notation) — статичний</h3>\n<pre>\nconst obj = { a: 5 };\nconsole.log(obj.a); // 5\n</pre>\n<h3>2. Через квадратні дужки (bracket notation) — динамічний</h3>\n<pre>\nconst key = \"a\";\nconsole.log(obj[key]); // 5\n</pre>\n<p>Другий спосіб зручний, коли ім'я властивості зберігається у змінній або містить пробіли.</p>"
+    },
+    {
+      "id": "q-200",
+      "question": "Чому два об'єкти з однаковими властивостями при порівнянні дають false?",
+      "answer": "<p>В JavaScript об'єкти порівнюються не за вмістом, а за посиланням у пам'яті.</p>\n<pre>\nconst a = { key: 5 };\nconst b = { key: 5 };\nconsole.log(a === b); // false\n</pre>\n<p>Навіть якщо об'єкти виглядають однаково, вони зберігаються у різних місцях пам'яті.</p>\n<p>✅ Для порівняння вмісту: <code>JSON.stringify(a) === JSON.stringify(b)</code>.</p>"
+    },
+    {
+      "id": "q-201",
+      "question": "Чому примітиви (Number, String тощо) мають методи, наприклад toUpperCase()?",
+      "answer": "<p>JavaScript тимчасово <strong>обгортає примітиви у об'єкт-обгортку</strong> відповідного типу: <code>String</code>, <code>Number</code>, <code>Boolean</code>, <code>Symbol</code>.</p>\n<p>Коли викликається метод, наприклад <code>'abc'.toUpperCase()</code>, двигун JS створює тимчасовий об'єкт <code>new String('abc')</code>, викликає метод і одразу знищує цей об'єкт.</p>\n<pre>\nlet str = \"hello\";\nconsole.log(str.toUpperCase()); // \"HELLO\"\n</pre>\n<p>✅ Саме завдяки цьому можна використовувати методи навіть на примітивах.</p>"
+    },
+    {
+      "id": "q-202",
+      "question": "Як перевірити, з якого класу створено об'єкт?",
+      "answer": "<p>Оператор <code>instanceof</code> дозволяє перевірити, чи належить об'єкт певному класу (з урахуванням наслідування).</p>\n<pre>\nclass Rabbit {}\nlet rabbit = new Rabbit();\nconsole.log(rabbit instanceof Rabbit); // true\n</pre>\n<p>✅ Використовується для типізації та перевірки екземплярів у складних структурах.</p>"
+    },
+    {
+      "id": "q-203",
+      "question": "Як перевірити, чи є об'єкт масивом?",
+      "answer": "<p>Для цього використовується метод <code>Array.isArray()</code>, який повертає <code>true</code> або <code>false</code>.</p>\n<pre>\nconsole.log(Array.isArray([1, 2, 3]));   // true\nconsole.log(Array.isArray({ a: 1 }));    // false\nconsole.log(Array.isArray(\"hello\"));     // false\n</pre>\n<p>✅ Цей метод надійніший за <code>instanceof Array</code>, оскільки коректно працює навіть між різними контекстами (iframe, window тощо).</p>"
+    },
+    {
+      "id": "q-204",
+      "question": "Які є типи даних в JS, основна різниця між ними?",
+      "answer": "<p><strong>Примітивні типи:</strong> string, number, boolean, undefined, null, symbol, bigint</p>\n<p><strong>Посилальний тип:</strong> object (включає array, function)</p>\n<p><strong>Різниця:</strong> Примітиви зберігають значення безпосередньо, об'єкти зберігають посилання на місце в пам'яті.</p>\n<pre>\nlet a = 5;        // примітив\nlet b = {x: 5};   // об'єкт (посилання)\n</pre>"
+    },
+    {
+      "id": "q-205",
+      "question": "Різниця між undefined та null?",
+      "answer": "<p><strong>undefined:</strong> Присвоюється автоматично, якщо змінна оголошена але не ініціалізована. Також повертається функцією без <code>return</code>.</p>\n<p><strong>null:</strong> Програміст присвоює вручну для позначення \"порожнього\" / \"відсутнього об'єкта\".</p>\n<ul>\n  <li><code>typeof undefined === 'undefined'</code></li>\n  <li><code>typeof null === 'object'</code> (історичний баг)</li>\n  <li><code>undefined == null</code> → <code>true</code> (нестроге)</li>\n  <li><code>undefined === null</code> → <code>false</code> (різні типи)</li>\n</ul>\n<pre>\nlet x;               // undefined\nlet y = null;        // null (явно)\nundefined == null    // true\nundefined === null   // false\n</pre>"
+    },
+    {
+      "id": "q-206",
+      "question": "Різниця між var, let та const?",
+      "answer": "<ul>\n  <li><strong>var:</strong> функціональна область видимості, hoisting, можна перевизначати.</li>\n  <li><strong>let:</strong> блокова область видимості, temporal dead zone, можна перевизначати.</li>\n  <li><strong>const:</strong> блокова область видимості, незмінне присвоєння (для об'єктів — незмінне посилання).</li>\n</ul>\n<pre>\nvar a = 1;   // function scope\nlet b = 2;   // block scope\nconst c = 3; // block scope, незмінне\n</pre>"
+    },
+    {
+      "id": "q-207",
+      "question": "Які є обмеження для коду написаного на JS, який запускається в браузері?",
+      "answer": "<ul>\n  <li>Немає доступу до файлової системи (окрім File API з дозволом)</li>\n  <li>Same Origin Policy (обмеження міжсайтових запитів)</li>\n  <li>Обмежений доступ до камери/мікрофону (потрібен дозвіл)</li>\n  <li>Немає прямого доступу до системних ресурсів</li>\n  <li>Обмеження на роботу з cookies інших доменів</li>\n</ul>"
+    },
+    {
+      "id": "q-208",
+      "question": "Яка різниця між компільованою та інтерпритованою мовою програмування? До якої відноситься JS?",
+      "answer": "<p><strong>Компільована:</strong> Код перетворюється в машинний код ДО виконання (C++, Go).</p>\n<p><strong>Інтерпретована:</strong> Код виконується рядок за рядком під час виконання (Python, PHP).</p>\n<p><strong>JavaScript:</strong> Використовує <strong>JIT-компіляцію</strong> (Just-In-Time) — гібридний підхід, компіляція під час виконання.</p>"
+    },
+    {
+      "id": "q-209",
+      "question": "Які є види операторів в JS?",
+      "answer": "<ul>\n  <li>Арифметичні (+, -, *, /, %, **)</li>\n  <li>Порівняння (==, ===, !=, !==, &lt;, &gt;, &lt;=, &gt;=)</li>\n  <li>Логічні (&amp;&amp;, ||, !)</li>\n  <li>Присвоєння (=, +=, -=, *=, /=)</li>\n  <li>Бітові (&amp;, |, ^, ~, &lt;&lt;, &gt;&gt;)</li>\n  <li>Тернарний (? :)</li>\n  <li>Інші (typeof, delete, in, instanceof, void)</li>\n</ul>"
+    },
+    {
+      "id": "q-210",
+      "question": "Різниця між оператором == та ===, який краще використовувати?",
+      "answer": "<p><strong>==</strong> (нестроге): порівнює значення після автоматичного приведення типів (type coercion).</p>\n<p><strong>===</strong> (строге): порівнює і тип, і значення без приведення.</p>\n<p><strong>Рекомендовано:</strong> завжди використовувати <code>===</code>.</p>\n<pre>\n5 == \"5\"              // true  (рядок → число)\n5 === \"5\"             // false (різні типи)\nnull == undefined     // true\nnull === undefined    // false\n[] == false           // true\nNaN === NaN           // false\n</pre>\n<p><strong>Правильна перевірка на NaN:</strong></p>\n<pre>\nNumber.isNaN(NaN);   // true\nObject.is(NaN, NaN); // true\n</pre>"
+    },
+    {
+      "id": "q-211",
+      "question": "Яка різниця між isNaN() та Number.isNaN()?",
+      "answer": "<p><strong>isNaN():</strong> Спочатку приводить аргумент до числа, потім перевіряє.</p>\n<p><strong>Number.isNaN():</strong> Перевіряє чи значення строго є NaN без приведення типів.</p>\n<pre>\nisNaN(\"hello\")        // true (приведено до NaN)\nNumber.isNaN(\"hello\") // false (рядок, не NaN)\nNumber.isNaN(NaN)     // true\n</pre>"
+    },
+    {
+      "id": "q-212",
+      "question": "Які існують вбудовані способи перетворення рядка до типу number?",
+      "answer": "<ul>\n  <li><strong>Number()</strong> — повне перетворення</li>\n  <li><strong>parseInt()</strong> — парсинг до цілого числа</li>\n  <li><strong>parseFloat()</strong> — парсинг до числа з плаваючою точкою</li>\n  <li><strong>Унарний +</strong> — швидке перетворення</li>\n</ul>\n<pre>\nNumber(\"123\")      // 123\nparseInt(\"123px\")  // 123\nparseFloat(\"12.5\") // 12.5\n+\"123\"             // 123\n</pre>"
+    },
+    {
+      "id": "q-213",
+      "question": "Що таке явне (explicit) та неявне (implicit) перетворення типів?",
+      "answer": "<p><strong>Явне:</strong> Програміст сам викликає функцію перетворення (Number(), String()).</p>\n<p><strong>Неявне:</strong> JS автоматично приводить типи під час операцій.</p>\n<pre>\n// Явне\nNumber(\"5\")   // 5\n\n// Неявне\n\"5\" * 2       // 10 (рядок → число)\n5 + \"2\"       // \"52\" (число → рядок)\n</pre>"
+    },
+    {
+      "id": "q-214",
+      "question": "Чому результат даного виразу буде \"null\"?",
+      "answer": "<p>Вираз: <code>\"\" || \"null\" || false || undefined || 0 || \"hello\"</code></p>\n<p>Оператор <code>||</code> повертає перше truthy значення. Порожній рядок <code>\"\"</code> — falsy, а <code>\"null\"</code> (непорожній рядок) — truthy, тому результат <code>\"null\"</code>.</p>\n<pre>\n\"\" || \"null\" || false  // \"null\" (перше truthy)\n</pre>"
+    },
+    {
+      "id": "q-215",
+      "question": "Чому результат даного виразу буде 0?",
+      "answer": "<p>Вираз: <code>\"false\" && \" \" && 0 && undefined</code></p>\n<p>Оператор <code>&&</code> повертає перше falsy значення або останнє значення. <code>\"false\"</code> та <code>\" \"</code> — truthy, а <code>0</code> — перше falsy, тому результат <code>0</code>.</p>\n<pre>\n\"false\" && \" \" && 0  // 0 (перше falsy)\n</pre>"
+    },
+    {
+      "id": "q-216",
+      "question": "Яким чином можна визначити кількість негативних елементів в масиві?",
+      "answer": "<p>Використати <code>filter()</code> з перевіркою на від'ємне значення і взяти <code>.length</code>.</p>\n<pre>\nlet arr = [-1, 5, -3, 10, -2];\nlet count = arr.filter(x => x < 0).length;  // 3\n\n// Альтернатива з reduce:\narr.reduce((count, x) => x < 0 ? count + 1 : count, 0);\n</pre>"
+    },
+    {
+      "id": "q-217",
+      "question": "В чому відмінність між циклами while та do-while?",
+      "answer": "<p><strong>while:</strong> Перевіряє умову ДО виконання тіла (може не виконатись жодного разу).</p>\n<p><strong>do-while:</strong> Перевіряє умову ПІСЛЯ виконання тіла (виконається мінімум 1 раз).</p>\n<pre>\nlet i = 5;\nwhile (i < 5) { }      // не виконається\ndo { } while (i < 5);  // виконається 1 раз\n</pre>"
+    },
+    {
+      "id": "q-218",
+      "question": "Який оператор використовується для пропущення ітерації в циклі?",
+      "answer": "<p><strong>continue</strong> — пропускає поточну ітерацію і переходить до наступної.</p>\n<pre>\nfor (let i = 0; i < 5; i++) {\n  if (i === 2) continue;  // пропустити i=2\n  console.log(i);         // 0, 1, 3, 4\n}\n</pre>"
+    },
+    {
+      "id": "q-219",
+      "question": "В чому різниця між for-in та for-of?",
+      "answer": "<p><strong>for-in:</strong> Ітерується по ключах (властивостях) об'єкта або індексах масиву.</p>\n<p><strong>for-of:</strong> Ітерується по значеннях ітерабельних об'єктів (масив, рядок, Map, Set).</p>\n<pre>\nlet arr = ['a', 'b', 'c'];\nfor (let key in arr) { }    // 0, 1, 2 (індекси)\nfor (let val of arr) { }    // 'a', 'b', 'c' (значення)\n</pre>\n<p><strong>Для масивів краще for-of</strong>, для об'єктів — for-in.</p>"
+    },
+    {
+      "id": "q-220",
+      "question": "Що таке функції в JS?",
+      "answer": "<p>Блок коду, який виконує певну задачу, може приймати параметри та повертати значення. Функції — це об'єкти першого класу (можна передавати, повертати, зберігати).</p>"
+    },
+    {
+      "id": "q-221",
+      "question": "Які типи функцій існують в JS?",
+      "answer": "<ul>\n  <li><strong>Function Declaration:</strong> <code>function name() {}</code></li>\n  <li><strong>Function Expression:</strong> <code>const name = function() {}</code></li>\n  <li><strong>Arrow Function:</strong> <code>const name = () => {}</code></li>\n  <li><strong>Anonymous Function:</strong> функція без імені</li>\n  <li><strong>IIFE:</strong> <code>(function() {})()</code> — негайно викликана</li>\n  <li><strong>Constructor Function:</strong> <code>function User() {}</code> з <code>new</code></li>\n  <li><strong>Generator Function:</strong> <code>function* gen() {}</code></li>\n</ul>"
+    },
+    {
+      "id": "q-222",
+      "question": "Що таке hoisting? Чи всі функції його мають?",
+      "answer": "<p><strong>Hoisting (підняття):</strong> оголошення змінних і функцій \"піднімаються\" на початок області видимості до виконання коду.</p>\n<ul>\n  <li><strong>Function Declaration</strong> — піднімається повністю (ім'я + тіло).</li>\n  <li><strong>Function Expression / Arrow</strong> — тільки оголошення змінної (undefined або ReferenceError).</li>\n  <li><strong>var</strong> — піднімається, значення undefined.</li>\n  <li><strong>let / const</strong> — піднімаються, але попадають у <strong>TDZ (temporal dead zone)</strong>.</li>\n</ul>\n<pre>\nsayHi();   // Hello — Function Declaration працює\nfunction sayHi() { console.log(\"Hello\"); }\n\nsayBye();  // ❌ ReferenceError\nconst sayBye = function() { console.log(\"Bye\"); };\n\nconsole.log(a); // undefined\nvar a = 5;\n\nconsole.log(b); // ❌ ReferenceError\nlet b = 10;\n</pre>"
+    },
+    {
+      "id": "q-223",
+      "question": "Що таке аргументи функції? Які типи аргументів існують?",
+      "answer": "<p><strong>Аргументи:</strong> значення, які передаються функції при виклику.</p>\n<ul>\n  <li><strong>Позиційні</strong> — передаються по порядку</li>\n  <li><strong>За замовчуванням</strong> — <code>function(a = 5) {}</code></li>\n  <li><strong>Rest parameters</strong> — <code>function(...args) {}</code></li>\n  <li><strong>Named (через об'єкт)</strong> — <code>function({name, age}) {}</code></li>\n</ul>\n<pre>\nfunction greet(name, age = 18, ...hobbies) {\n  console.log(name, age, hobbies);\n}\ngreet('John', 25, 'coding', 'gaming');\n</pre>"
+    },
+    {
+      "id": "q-224",
+      "question": "Що таке arguments в функціях?",
+      "answer": "<p>Псевдомасив (array-like object) з усіма переданими аргументами. Доступний тільки в звичайних функціях (не в arrow).</p>\n<pre>\nfunction sum() {\n  return Array.from(arguments).reduce((a, b) => a + b, 0);\n}\nsum(1, 2, 3);  // 6\n</pre>\n<p><strong>Краще використовувати rest parameters <code>...args</code></strong></p>"
+    },
+    {
+      "id": "q-225",
+      "question": "Яким чином виконати function overriding?",
+      "answer": "<p>JS не підтримує перевантаження функцій (overloading). При повторному оголошенні — остання версія перезаписує попередню.</p>\n<p><strong>Альтернативи:</strong></p>\n<ul>\n  <li>Перевірка кількості/типу аргументів всередині функції</li>\n  <li>Використання rest parameters</li>\n  <li>Різні імена функцій</li>\n</ul>\n<pre>\nfunction process(data) {\n  if (typeof data === 'number') { /* ... */ }\n  if (Array.isArray(data)) { /* ... */ }\n}\n</pre>"
+    },
+    {
+      "id": "q-226",
+      "question": "Що таке callback функція?",
+      "answer": "<p>Функція, яка передається як аргумент в іншу функцію і викликається всередині неї.</p>\n<pre>\nfunction fetchData(callback) {\n  setTimeout(() => {\n    callback('data');\n  }, 1000);\n}\n\nfetchData((result) => {\n  console.log(result);  // 'data' через 1 сек\n});\n</pre>"
+    },
+    {
+      "id": "q-227",
+      "question": "Що таке scope?",
+      "answer": "<p>Область видимості — контекст, в якому визначені змінні і до яких з них є доступ.</p>\n<ul>\n  <li><strong>Global scope</strong> — доступно скрізь</li>\n  <li><strong>Function scope</strong> — всередині функції</li>\n  <li><strong>Block scope</strong> — всередині блоку {} (let, const)</li>\n</ul>"
+    },
+    {
+      "id": "q-228",
+      "question": "З яким scope працюють функції в JS?",
+      "answer": "<p><strong>Lexical scope</strong> (статичний) — функція має доступ до змінних з місця свого оголошення, а не виклику.</p>\n<pre>\nlet x = 10;\nfunction outer() {\n  let y = 20;\n  function inner() {\n    console.log(x, y);  // 10, 20\n  }\n  return inner;\n}\n</pre>"
+    },
+    {
+      "id": "q-229",
+      "question": "Що таке closure?",
+      "answer": "<p>Механізм, коли функція \"запам'ятовує\" змінні зі свого зовнішнього scope, навіть після завершення зовнішньої функції.</p>\n<pre>\nfunction counter() {\n  let count = 0;\n  return function() {\n    return ++count;\n  };\n}\n\nconst increment = counter();\nincrement();  // 1\nincrement();  // 2 (count \"запам'ятався\")\n</pre>"
+    },
+    {
+      "id": "q-230",
+      "question": "Для чого потрібний оператор return?",
+      "answer": "<p>Повертає значення з функції і завершує її виконання.</p>\n<p><strong>Без return:</strong> функція поверне <code>undefined</code>.</p>\n<pre>\nfunction add(a, b) {\n  return a + b;   // повертає результат\n}\n\nfunction log(msg) {\n  console.log(msg);  // undefined\n}\n</pre>"
+    },
+    {
+      "id": "q-231",
+      "question": "Які є види помилок та які з них найскладніше виявити?",
+      "answer": "<ul>\n  <li><strong>Синтаксичні (Syntax Errors):</strong> виявляються при парсингу. Найлегше знайти.</li>\n  <li><strong>Runtime Errors:</strong> під час виконання (TypeError, ReferenceError, RangeError).</li>\n  <li><strong>Логічні (Logic Errors):</strong> код працює, але дає неправильний результат. <strong>Найскладніше виявити</strong>.</li>\n</ul>\n<pre>\nlet x = ;           // SyntaxError\nnull.toString();    // TypeError\nfunction sum(a, b) { return a - b; }  // Logic Error (має бути +)\n</pre>"
+    },
+    {
+      "id": "q-232",
+      "question": "Що таке debugging та як його використовувати в JS?",
+      "answer": "<p>Процес пошуку та виправлення помилок у коді.</p>\n<ul>\n  <li><code>console.log()</code> — вивід значень</li>\n  <li><code>debugger;</code> — зупинка виконання коду</li>\n  <li>DevTools браузера — breakpoints, step-by-step виконання</li>\n  <li><code>console.trace()</code> — виведення stack trace</li>\n  <li><code>console.table()</code> — відображення об'єктів у вигляді таблиці</li>\n</ul>\n<pre>\nfunction calculate(x) {\n  debugger;  // зупинка для перевірки\n  return x * 2;\n}\n</pre>"
+    },
+    {
+      "id": "q-233",
+      "question": "Що таке exceptions та для чого вони потрібні?",
+      "answer": "<p><strong>Exception (виняток):</strong> об'єкт помилки, який генерується при виникненні проблеми під час виконання коду.</p>\n<ul>\n  <li>Обробка помилок без зупинки програми</li>\n  <li>Контроль над поведінкою програми при помилках</li>\n  <li>Розділення нормальної логіки та обробки помилок</li>\n</ul>\n<pre>\ntry {\n  JSON.parse('invalid json');\n} catch (error) {\n  console.log('Помилка парсингу:', error.message);\n}\n</pre>"
+    },
+    {
+      "id": "q-234",
+      "question": "В якій послідовності викликаються блоки try catch finally?",
+      "answer": "<ol>\n  <li><strong>try:</strong> виконується завжди спочатку</li>\n  <li><strong>catch:</strong> виконується ТІЛЬКИ якщо виникла помилка в try</li>\n  <li><strong>finally:</strong> виконується ЗАВЖДИ, незалежно від помилки</li>\n</ol>\n<pre>\ntry {\n  throw new Error('Помилка!');\n} catch (error) {\n  console.log('catch');\n} finally {\n  console.log('finally (завжди)');\n}\n// try → catch → finally\n</pre>"
+    },
+    {
+      "id": "q-235",
+      "question": "Які є види exceptions?",
+      "answer": "<ul>\n  <li><strong>Error</strong> — базовий тип</li>\n  <li><strong>SyntaxError</strong> — синтаксична помилка</li>\n  <li><strong>ReferenceError</strong> — звернення до неіснуючої змінної</li>\n  <li><strong>TypeError</strong> — неправильний тип даних</li>\n  <li><strong>RangeError</strong> — значення поза допустимим діапазоном</li>\n  <li><strong>URIError</strong> — помилка в encodeURI/decodeURI</li>\n  <li><strong>EvalError</strong> — рідко використовується</li>\n</ul>\n<pre>\nconsole.log(x);  // ReferenceError\nnull.toString(); // TypeError\nnew Array(-1);   // RangeError\n</pre>"
+    },
+    {
+      "id": "q-236",
+      "question": "Як згенерувати exception в коді?",
+      "answer": "<p>Використовувати оператор <strong>throw</strong> з об'єктом помилки.</p>\n<pre>\nthrow new Error('Щось пішло не так');\nthrow new TypeError('Неправильний тип');\n\nfunction divide(a, b) {\n  if (b === 0) throw new Error('Ділення на нуль!');\n  return a / b;\n}\n</pre>"
+    },
+    {
+      "id": "q-237",
+      "question": "Чи може бути, що блок finally не спрацює?",
+      "answer": "<p>В нормальних умовах <strong>finally завжди виконується</strong>, навіть якщо є return в try/catch.</p>\n<p>Виключення: аварійне завершення процесу, нескінченний цикл, <code>process.exit()</code> в Node.js.</p>\n<pre>\nfunction test() {\n  try {\n    return 'try';\n  } finally {\n    console.log('finally виконається перед return');\n  }\n}\n</pre>"
+    },
+    {
+      "id": "q-238",
+      "question": "Що спільне та відмінне між операторами throw та return?",
+      "answer": "<p><strong>Спільне:</strong> обидва переривають виконання функції і можуть передавати значення.</p>\n<p><strong>Відмінне:</strong></p>\n<ul>\n  <li><code>throw</code> — генерує помилку, призводить до catch блоку, пробрасується по call stack.</li>\n  <li><code>return</code> — нормальне завершення函數, повертає значення в місце виклику.</li>\n</ul>\n<pre>\nfunction withReturn() { return 'OK'; }\nfunction withThrow() { throw new Error('Помилка'); }\n</pre>"
+    },
+    {
+      "id": "q-239",
+      "question": "Що таке об'єкти в JS та що вони можуть містити в собі",
+      "answer": "<p>Об'єкти — це колекції пар ключ-значення. Ключі — рядки або Symbols. Значення можуть бути будь-чим.</p>\n<p>Об'єкт може містити:</p>\n<ul>\n  <li>Примітивні значення</li>\n  <li>Інші об'єкти</li>\n  <li>Методи (функції як властивості)</li>\n  <li>Гетери/сетери</li>\n  <li>Symbol-властивості</li>\n</ul>"
+    },
+    {
+      "id": "q-240",
+      "question": "Що таке ООП, які є принципи ООП та коротко опишіть кожний",
+      "answer": "<p><strong>ООП</strong> — парадигма програмування, де система описується як набір об'єктів зі станом (властивостями) та поведінкою (методами).</p>\n<ul>\n  <li><strong>Інкапсуляція:</strong> приховування внутрішньої реалізації, доступ лише через публічні методи.</li>\n  <li><strong>Наслідування:</strong> клас може наслідувати властивості/методи іншого класу.</li>\n  <li><strong>Поліморфізм:</strong> один метод поводиться по-різному залежно від контексту (перевизначення в дочірньому класі).</li>\n  <li><strong>Абстракція:</strong> використання лише суттєвих характеристик без деталей реалізації.</li>\n</ul>"
+    },
+    {
+      "id": "q-241",
+      "question": "Яким чином можна отримати всі властивості об'єкта в JS",
+      "answer": "<ul>\n  <li><code>Object.keys(obj)</code> — власні enumerable ключі</li>\n  <li><code>Object.values(obj)</code> — власні enumerable значення</li>\n  <li><code>Object.entries(obj)</code> — пари [key, value]</li>\n  <li><code>for...in</code> — всі enumerable, включно з прототипом</li>\n  <li><code>Reflect.ownKeys(obj)</code> — всі ключі (включно з символами)</li>\n</ul>"
+    },
+    {
+      "id": "q-242",
+      "question": "Що таке методи та яка відмінність між функціями",
+      "answer": "<p><strong>Метод:</strong> функція, яка є властивістю об'єкта.</p>\n<p><strong>Різниця:</strong> метод викликається в контексті об'єкта та має доступ до <code>this</code>. Звичайна функція — ні.</p>"
+    },
+    {
+      "id": "q-243",
+      "question": "Що таке this та на що він може вказувати",
+      "answer": "<p><code>this</code> — контекст виконання функції. Залежить від способу виклику:</p>\n<ul>\n  <li>У методі — посилається на об'єкт</li>\n  <li>У звичайній функції — <code>undefined</code> (strict) або <code>window</code> (non-strict)</li>\n  <li>У стрілочній функції — бере <code>this</code> з зовнішнього контексту</li>\n  <li>В event listener — DOM-елемент</li>\n  <li>В класі — екземпляр класу</li>\n</ul>"
+    },
+    {
+      "id": "q-244",
+      "question": "Як можна створити копію об'єкта в JS",
+      "answer": "<p><strong>Поверхнева копія:</strong></p>\n<ul>\n  <li><code>{...obj}</code> — spread</li>\n  <li><code>Object.assign({}, obj)</code></li>\n</ul>\n<p><strong>Глибока копія:</strong></p>\n<ul>\n  <li><code>structuredClone(obj)</code> — сучасний спосіб</li>\n  <li><code>JSON.parse(JSON.stringify(obj))</code> — з обмеженнями (не копіює функції)</li>\n</ul>"
+    },
+    {
+      "id": "q-245",
+      "question": "Що таке клас та яка відмінність між об'єктом",
+      "answer": "<p><strong>Клас:</strong> шаблон (синтаксичний цукор над функцією-конструктором) для створення об'єктів.</p>\n<p><strong>Об'єкт:</strong> конкретний екземпляр, створений з класу або вручну.</p>\n<p>Клас не зберігає дані, лише описує структуру. Об'єкт — має дані і поведінку.</p>"
+    },
+    {
+      "id": "q-246",
+      "question": "Що таке конструктор та яке його призначення",
+      "answer": "<p><strong>Конструктор:</strong> спеціальний метод <code>constructor()</code> всередині класу, який викликається при створенні нового екземпляра через <code>new</code>.</p>\n<p>Використовується для ініціалізації початкового стану об'єкта.</p>"
+    },
+    {
+      "id": "q-247",
+      "question": "Що таке get/set та яке їх призначення",
+      "answer": "<p><strong>get:</strong> метод для читання значення як властивості.</p>\n<p><strong>set:</strong> метод для встановлення значення з додатковою логікою (наприклад, валідація).</p>\n<p>Викликаються як звичайні властивості, без <code>()</code>.</p>"
+    },
+    {
+      "id": "q-248",
+      "question": "Що таке валідація даних, де її краще виконувати",
+      "answer": "<p><strong>Валідація:</strong> перевірка коректності даних перед обробкою/збереженням.</p>\n<p><strong>Краще виконувати:</strong> у <code>set</code>, конструкторі або окремому методі.</p>"
+    },
+    {
+      "id": "q-249",
+      "question": "Що таке статичні властивості класу, яка їх особливість",
+      "answer": "<p>Властивості, які належать <strong>самому класу</strong>, а не екземпляру. Оголошуються через <code>static</code>.</p>\n<pre>\nclass User {\n  static role = \"admin\";\n}\nconsole.log(User.role); // 'admin'\n</pre>"
+    },
+    {
+      "id": "q-250",
+      "question": "Як реалізовується приховування властивостей в класі, для чого це потрібно",
+      "answer": "<p><strong>Приховування (інкапсуляція):</strong> захист внутрішніх даних від прямого доступу/зміни.</p>\n<ul>\n  <li>Приватні поля: <code>#name</code></li>\n  <li>Локальні змінні через замикання</li>\n  <li>Конвенція підкреслення: <code>_name</code> (неформально)</li>\n</ul>"
+    },
+    {
+      "id": "q-251",
+      "question": "Що таке super, для чого він використовується",
+      "answer": "<p><code>super</code> — виклик конструктора або методів батьківського класу з дочірнього.</p>\n<ul>\n  <li>В конструкторі: <code>super(...args)</code></li>\n  <li>В методі: <code>super.methodName()</code></li>\n</ul>"
+    },
+    {
+      "id": "q-252",
+      "question": "Як реалізувати наслідування в JS, яке його призначення",
+      "answer": "<p>За допомогою <code>class Child extends Parent</code>.</p>\n<p>Призначення — повторне використання логіки та структуризація коду.</p>"
+    },
+    {
+      "id": "q-253",
+      "question": "Як реалізувати поліморфізм в JS, яке його призначення",
+      "answer": "<p>Одинаковий інтерфейс — різна реалізація. Реалізується через перевизначення методів у дочірніх класах.</p>\n<pre>\nclass Animal {\n  speak() { console.log(\"...\"); }\n}\nclass Dog extends Animal {\n  speak() { console.log(\"Woof\"); }\n}\n</pre>"
+    },
+    {
+      "id": "q-254",
+      "question": "Чи застосовується операція hoisting до класів в JS",
+      "answer": "<p><strong>Ні.</strong> Класові оголошення не піднімаються як функції. Вони потрапляють у <code>TDZ</code>.</p>\n<pre>\nnew MyClass(); // ❌ ReferenceError\nclass MyClass {}\n</pre>"
+    },
+    {
+      "id": "q-255",
+      "question": "Що таке DOM",
+      "answer": "<p><strong>DOM (Document Object Model):</strong> об'єктне представлення HTML-документа у вигляді дерева вузлів. Дає змогу взаємодіяти з елементами сторінки через JS.</p>"
+    },
+    {
+      "id": "q-256",
+      "question": "Для чого потрібно взаємодіяти з DOM через JS",
+      "answer": "<p>Щоб динамічно змінювати вміст, стилі, структуру або поведінку сторінки на основі дій користувача чи логіки програми.</p>"
+    },
+    {
+      "id": "q-257",
+      "question": "Які є способи пошуку елемента на сторінці",
+      "answer": "<ul>\n  <li><code>document.getElementById()</code></li>\n  <li><code>document.getElementsByClassName()</code></li>\n  <li><code>document.getElementsByTagName()</code></li>\n  <li><code>document.querySelector()</code> — перший, що підходить</li>\n  <li><code>document.querySelectorAll()</code> — всі, як NodeList</li>\n</ul>"
+    },
+    {
+      "id": "q-258",
+      "question": "В чому різниця між childNodes та children",
+      "answer": "<ul>\n  <li><code>childNodes</code> — всі дочірні вузли (включно з текстовими, пробілами, коментарями)</li>\n  <li><code>children</code> — тільки елементи (nodeType === 1)</li>\n</ul>"
+    },
+    {
+      "id": "q-259",
+      "question": "Яка різниця між innerHTML та textContent",
+      "answer": "<ul>\n  <li><code>innerHTML</code> — встановлює/отримує HTML-код всередині елемента</li>\n  <li><code>textContent</code> — працює лише з текстом, без HTML-розмітки</li>\n</ul>\n<p>⚠️ <code>innerHTML</code> небезпечний — схильний до XSS-атак при вставці неперевіреного контенту.</p>"
+    },
+    {
+      "id": "q-260",
+      "question": "В чому різниця між prepend та before",
+      "answer": "<ul>\n  <li><code>element.prepend()</code> — додає вміст на початок <strong>всередину</strong> елемента</li>\n  <li><code>element.before()</code> — додає <strong>зовні</strong>, перед самим елементом у DOM</li>\n</ul>"
+    },
+    {
+      "id": "q-261",
+      "question": "Яким чином можна додати новий елемент на сторінку",
+      "answer": "<p>Потрібно створити елемент і вставити його в DOM:</p>\n<pre>\nconst el = document.createElement('div');\nel.textContent = \"Привіт\";\ndocument.body.appendChild(el);\n</pre>\n<p>Також можна використовувати <code>prepend()</code>, <code>append()</code>, <code>before()</code>, <code>after()</code>.</p>"
+    },
+    {
+      "id": "q-262",
+      "question": "Яким чином можна змінити атрибути елемента через JS",
+      "answer": "<ul>\n  <li><code>element.setAttribute('name', 'value')</code></li>\n  <li><code>element.getAttribute('name')</code></li>\n  <li><code>element.removeAttribute('name')</code></li>\n  <li>Напряму: <code>element.id = \"main\"</code></li>\n</ul>"
+    },
+    {
+      "id": "q-263",
+      "question": "Яким чином можна змінити CSS класи елемента через JS",
+      "answer": "<ul>\n  <li><code>element.classList.add('className')</code></li>\n  <li><code>element.classList.remove('className')</code></li>\n  <li><code>element.classList.toggle('className')</code></li>\n  <li><code>element.classList.contains('className')</code></li>\n</ul>"
+    },
+    {
+      "id": "q-264",
+      "question": "Яким чином можна видалити елемент зі сторінки",
+      "answer": "<ul><li><code>element.remove()</code> — напряму</li><li><code>parent.removeChild(child)</code> — старіший спосіб</li></ul>"
+    },
+    {
+      "id": "q-265",
+      "question": "Що таке BOM",
+      "answer": "<p><strong>BOM (Browser Object Model):</strong> набір об'єктів, через які JS взаємодіє з браузером (не з DOM).</p>"
+    },
+    {
+      "id": "q-266",
+      "question": "Яка різниця між BOM та DOM",
+      "answer": "<ul><li><strong>DOM:</strong> доступ до структури HTML-документа</li><li><strong>BOM:</strong> доступ до функціоналу браузера (вікна, навігація, геолокація тощо)</li></ul>"
+    },
+    {
+      "id": "q-267",
+      "question": "Які основні обʼєкти доступні від BOM, коротко опишіть їх призначення",
+      "answer": "<ul><li><code>window</code> — глобальний об'єкт</li><li><code>navigator</code> — інформація про браузер, платформу</li><li><code>screen</code> — дані про розмір екрану</li><li><code>location</code> — URL сторінки, навігація</li><li><code>history</code> — історія відвідувань</li><li><code>alert, prompt, confirm</code> — взаємодія з користувачем</li></ul>"
+    },
+    {
+      "id": "q-268",
+      "question": "Яким чином можна отримати геолокацію девайсу",
+      "answer": "<p>Через <code>navigator.geolocation.getCurrentPosition()</code></p><pre>\nnavigator.geolocation.getCurrentPosition((pos) => {\n  console.log(pos.coords.latitude, pos.coords.longitude);\n});\n</pre>"
+    },
+    {
+      "id": "q-269",
+      "question": "Що таке подія, які бувають типи подій",
+      "answer": "<p><strong>Подія:</strong> сигнал, що щось відбулось (клік, навідення, введення тощо).</p><ul><li>Миші: click, dblclick, mouseover, mouseenter</li><li>Клавіатура: keydown, keyup, keypress</li><li>Форми: submit, change, input</li><li>Вікно: resize, scroll, load, unload</li></ul>"
+    },
+    {
+      "id": "q-270",
+      "question": "Яка різниця між mouseenter та mousehover подіями",
+      "answer": "<ul><li><code>mouseenter</code> — спрацьовує один раз при входженні миші в елемент (не спливає).</li><li><code>mouseover</code> — спрацьовує при кожному входженні миші в елемент або його дочірні.</li></ul>"
+    },
+    {
+      "id": "q-271",
+      "question": "Які є варіанти створення обробника на певну подію",
+      "answer": "<ul><li>Через HTML: <code>&lt;button onclick=\"fn()\"&gt;</code> ❌ поганий стиль</li><li>Через властивість: <code>element.onclick = fn</code> — перезаписує</li><li>Через <code>addEventListener</code>: підтримує кілька обробників, зняття, опції ✅</li></ul>"
+    },
+    {
+      "id": "q-272",
+      "question": "Яка різниця між onclick та addEventListener(\"click\", callback)",
+      "answer": "<ul><li><code>onclick</code> — можна лише один обробник, перезаписує попередній</li><li><code>addEventListener</code> — можна кілька обробників на одну подію</li><li><code>addEventListener</code> має опції: <code>once</code>, <code>capture</code>, <code>passive</code></li></ul>"
+    },
+    {
+      "id": "q-273",
+      "question": "Що таке спливання подій та як його зупинити",
+      "answer": "<p><strong>Спливання (bubbling):</strong> подія передається від дочірнього елемента вгору по DOM.</p><p>Зупинити: <code>event.stopPropagation()</code></p><pre>\nelement.addEventListener(\"click\", function(e) {\n  e.stopPropagation();\n});\n</pre>"
+    },
+    {
+      "id": "q-274",
+      "question": "Що таке event.target та яка відмінність між event.currentTarget",
+      "answer": "<ul><li><code>event.target</code> — елемент, на якому фактично сталася подія (найглибший вузол)</li><li><code>event.currentTarget</code> — елемент, на якому зараз виконується обробник</li></ul><p>Відрізняються при делегуванні подій (обробник на батьківському елементі).</p>"
+    },
+    {
+      "id": "q-275",
+      "question": "Для яких завдань використовуються регулярні вирази",
+      "answer": "<p>Для пошуку, валідації, заміни тексту за шаблоном (email, телефон, формат дати тощо).</p>"
+    },
+    {
+      "id": "q-276",
+      "question": "Яка різниця між RegExp.test() та RegExp.exec()",
+      "answer": "<ul><li><code>test(str)</code> — повертає <code>true/false</code>, чи є збіг</li><li><code>exec(str)</code> — повертає масив з результатом або <code>null</code>, зберігає позицію останнього пошуку (з прапором <code>g</code>)</li></ul>"
+    },
+    {
+      "id": "q-277",
+      "question": "Які є квантифікатори в регулярних виразах",
+      "answer": "<ul><li><code>*</code> — 0 або більше</li><li><code>+</code> — 1 або більше</li><li><code>?</code> — 0 або 1</li><li><code>{n}</code> — рівно n</li><li><code>{n,}</code> — n або більше</li><li><code>{n,m}</code> — від n до m</li></ul>"
+    },
+    {
+      "id": "q-278",
+      "question": "Що означають символи ^ та $ в регулярному виразі",
+      "answer": "<ul><li><code>^</code> — початок рядка</li><li><code>$</code> — кінець рядка</li><li>Використовуються для точного співпадіння в межах рядка</li></ul>"
+    },
+    {
+      "id": "q-279",
+      "question": "Які є прапори в регулярних виразах",
+      "answer": "<ul><li><code>g</code> — global, всі входження</li><li><code>i</code> — ignore case</li><li><code>m</code> — multi-line</li><li><code>u</code> — підтримка юнікоду</li><li><code>s</code> — дозволяє <code>.</code> матчити новий рядок</li><li><code>y</code> — sticky</li></ul>"
+    },
+    {
+      "id": "q-280",
+      "question": "Що виконує прапор m",
+      "answer": "<p>Робить <code>^</code> та <code>$</code> чутливими до рядків у багаторядковому тексті, а не до всього рядка цілком.</p>"
+    },
+    {
+      "id": "q-281",
+      "question": "Які є метасимволи в регулярних виразах",
+      "answer": "<ul><li><code>\\d</code> — цифра</li><li><code>\\w</code> — літера, цифра або підкреслення</li><li><code>\\s</code> — пробіл</li><li><code>.</code> — будь-який символ (крім переводу рядка)</li><li><code>\\b</code> — границя слова</li></ul>"
+    },
+    {
+      "id": "q-282",
+      "question": "Що таке групування, для чого воно може бути використане",
+      "answer": "<p>Групування <code>(...)</code> дозволяє:</p><ul><li>Застосовувати квантифікатори до групи</li><li>Отримувати підрядки (capturing groups)</li><li>Повторно використовувати частини збігу</li></ul>"
+    },
+    {
+      "id": "q-283",
+      "question": "Яким чином можна отримати всі входження в тексті певного регулярного виразу",
+      "answer": "<ul><li><code>str.match(/.../g)</code></li><li>Цикл з <code>RegExp.exec()</code> + прапор <code>g</code></li></ul>"
+    },
+    {
+      "id": "q-284",
+      "question": "Яким чином можна замінити в тексті частину, яка відповідає регулярному виразу",
+      "answer": "<p>Метод <code>str.replace(regex, replacement)</code></p><pre>\"abc123\".replace(/\\d+/g, \"#\") // \"abc#\"</pre>"
+    },
+    {
+      "id": "q-285",
+      "question": "Які завдання виконує бібліотека jQuery",
+      "answer": "<p>Спрощує роботу з DOM, подіями, анімаціями, AJAX та кросбраузерною сумісністю.</p>"
+    },
+    {
+      "id": "q-286",
+      "question": "Що спрощує дана бібліотека",
+      "answer": "<ul><li>Пошук і маніпуляція DOM-елементами</li><li>Обробка подій</li><li>AJAX-запити</li><li>Анімації та ефекти</li><li>Кросбраузерна підтримка</li></ul>"
+    },
+    {
+      "id": "q-287",
+      "question": "Які методи фільтрації є в jQuery, коротко опишіть їх роботу",
+      "answer": "<ul><li><code>.filter()</code> — залишає елементи, що відповідають умові</li><li><code>.not()</code> — прибирає елементи, що відповідають умові</li><li><code>.eq(index)</code> — вибір за індексом</li><li><code>.first(), .last()</code> — перший або останній</li><li><code>.has(selector)</code> — елементи, які містять інший селектор</li></ul>"
+    },
+    {
+      "id": "q-288",
+      "question": "Які методи роботи з подіями є в jQuery, коротко опишіть їх роботу",
+      "answer": "<ul><li><code>.on()</code> — додати обробник</li><li><code>.off()</code> — зняти обробник</li><li><code>.one()</code> — виконається 1 раз</li><li><code>.trigger()</code> — вручну запустити подію</li></ul>"
+    },
+    {
+      "id": "q-289",
+      "question": "Які методи маніпуляції зі сторінкою є в jQuery, коротко опишіть їх роботу",
+      "answer": "<ul><li><code>.html(), .text()</code> — змінити/отримати вміст</li><li><code>.append(), .prepend(), .after(), .before()</code> — додати елементи</li><li><code>.attr(), .removeAttr()</code> — атрибути</li><li><code>.addClass(), .removeClass(), .toggleClass()</code> — класи</li><li><code>.css()</code> — стилі</li><li><code>.hide(), .show(), .fadeIn(), .slideUp()</code> — ефекти</li></ul>"
+    },
+    {
+      "id": "q-290",
+      "question": "Яка різниця між var та let",
+      "answer": "<ul><li><code>var</code> — функціональний scope; <code>let</code> — блоковий scope</li><li><code>var</code> піднімається з undefined; <code>let</code> потрапляє в TDZ</li><li><code>var</code> можна повторно оголошувати; <code>let</code> — ні</li><li><code>var</code> додається в <code>window</code>; <code>let</code> — ні</li><li><code>var</code> — одна змінна на всі ітерації циклу; <code>let</code> — нова для кожної</li></ul>"
+    },
+    {
+      "id": "q-291",
+      "question": "Які особливості є в arrow functions (=>) порівняно із звичайними функціями",
+      "answer": "<ul><li>Не мають власного <code>this</code>, беруть з зовнішнього контексту</li><li>Не мають <code>arguments</code></li><li>Не можна викликати з <code>new</code> — не конструктори</li><li>Коротший синтаксис</li></ul>"
+    },
+    {
+      "id": "q-292",
+      "question": "Що таке лексичне середовище (Lexical Environment)",
+      "answer": "<ul><li>Об'єкт Lexical Environment складається з двох частин</li><li>1 - Запис середовища (Environment Record) – об'єкт, який зберігає всі локальні змінні в якості своїх властивостей (та деяку іншу інформацію, наприклад значення this).</li><li>2 - Посилання на зовнішнє лексичне середовище, яке пов'язане із зовнішнім кодом.</li><li>\"Змінна\" це лише властивість спеціального внутрішнього об'єкта, Запис середовища (Environment Record). \"Отримати або змінити змінну\" означає \"отримати або змінити властивість цього об'єкта\"</li><li>Різниця в тому, що функція створена за допомогою Function Declaration, ініціалізується миттєво і повністю. Ось чому ми можемо використовувати функцію, оголошену з Function Declaration, ще до рядка з оголошенням.</li><li>Коли код хоче отримати доступ до змінної – спочатку шукає її у внутрішньому лексичному середовищі, потім у зовнішньому, потім у зовнішньому до попереднього і так далі поки не дійде до глобального.</li></ul>"
+    },
+    {
+      "id": "q-293",
+      "question": "Які завдання може виконувати spread оператор",
+      "answer": "<ul><li>Копіювання масивів або обʼєктів</li><li>Обʼєднання масивів або обʼєктів</li><li>Передача аргументів у функцію</li><li>Конвертація ітерабельних об'єктів в масив</li></ul><pre>const arr = [1, 2];\nconst copy = [...arr];</pre>"
+    },
+    {
+      "id": "q-294",
+      "question": "Які є обмеження у використанні оператора ...rest",
+      "answer": "<ul><li>Має бути останнім у списку параметрів</li><li>Працює тільки при оголошенні функцій або в деструктуризації</li><li>Не працює для не-ітерабельних значень</li></ul>"
+    },
+    {
+      "id": "q-295",
+      "question": "Що таке тип даних Symbol, яка його особливість",
+      "answer": "<p><code>Symbol</code> — примітивний унікальний тип, створюється через <code>Symbol()</code>.</p><p>Особливість — гарантує унікальність значення навіть із однаковим описом.</p>"
+    },
+    {
+      "id": "q-296",
+      "question": "Які є варіанти використання типу Symbol",
+      "answer": "<ul><li>Створення унікальних ключів в обʼєктах</li><li>Приховані властивості (недоступні через <code>for...in</code> або <code>Object.keys()</code>)</li><li>Вбудовані символи (наприклад, <code>Symbol.iterator</code>, <code>Symbol.toPrimitive</code>)</li></ul>"
+    },
+    {
+      "id": "q-297",
+      "question": "Які є колекції в ES6, яка особливість кожної",
+      "answer": "<ul><li><strong>Set</strong> — зберігає унікальні значення, без дублювання</li><li><strong>Map</strong> — зберігає пари ключ-значення, де ключі можуть бути будь-якими</li><li><strong>WeakSet</strong> — як Set, але лише для обʼєктів, і без перебору</li><li><strong>WeakMap</strong> — як Map, але ключі — тільки обʼєкти, не ітерується, використовується для приватності</li></ul>"
+    },
+    {
+      "id": "q-298",
+      "question": "Що таке асинхронність та багатопоточність, що спільного та відмінного",
+      "answer": "<ul><li><strong>Асинхронність</strong> — не блокує виконання, дозволяє відкладені операції (наприклад, таймери, запити)</li><li><strong>Багатопоточність</strong> — одночасне виконання кількох потоків (у JS тільки через Web Workers)</li><li><strong>JS — однопоточний, асинхронний</strong>. Використовує event loop для відкладених дій</li></ul>"
+    },
+    {
+      "id": "q-299",
+      "question": "Як реалізувати асинхронність в JS",
+      "answer": "<ul><li>Через <code>setTimeout</code>, <code>setInterval</code></li><li><code>Promise</code> + <code>.then/.catch</code></li><li><code>async/await</code></li><li>Event listeners / callbacks</li><li>fetch, AJAX, Web APIs</li></ul>"
+    },
+    {
+      "id": "q-300",
+      "question": "Що таке Promise, як її можна запустити та завершити",
+      "answer": "<p><strong>Promise</strong> — об'єкт для відстеження завершення асинхронної операції.</p><p>Створюється через <code>new Promise((resolve, reject) => {...})</code></p><p>Завершується викликом:</p><ul><li><code>resolve(value)</code> — успіх</li><li><code>reject(error)</code> — помилка</li></ul>"
+    },
+    {
+      "id": "q-301",
+      "question": "В яких станах може бути Promise",
+      "answer": "<ul><li><code>pending</code> — очікує</li><li><code>fulfilled</code> — успішно завершено</li><li><code>rejected</code> — завершено з помилкою</li></ul>"
+    },
+    {
+      "id": "q-302",
+      "question": "Як обробити успішне завершення Promise",
+      "answer": "<p>За допомогою <code>.then()</code></p><pre>fetch(url)\n  .then(response => response.json())\n  .then(data => console.log(data));</pre>"
+    },
+    {
+      "id": "q-303",
+      "question": "Як обробити не успішне завершення Promise",
+      "answer": "<ul><li><code>.catch()</code> — обробляє помилки</li><li><code>.then(null, errorHandler)</code> — теж працює, але менш зручно</li><li><code>.finally()</code> — виконується завжди (успіх або помилка)</li></ul>"
+    },
+    {
+      "id": "q-304",
+      "question": "Що таке async та await, яке їх призначення",
+      "answer": "<ul><li><code>async</code> — функція завжди повертає Promise</li><li><code>await</code> — ставить «на паузу» виконання до завершення Promise</li><li>Дозволяє писати асинхронний код в синхронному стилі</li></ul>"
+    },
+    {
+      "id": "q-305",
+      "question": "Які основні відмінності обробки Promise з використанням async/await",
+      "answer": "<ul><li><code>then/catch</code> — працює з ланцюжками, але менш читабельно при складній логіці</li><li><code>async/await</code> — чистіший код, простіше читати</li><li>Обробку помилок потрібно робити через <code>try/catch</code></li><li><code>await</code> можна використовувати лише всередині <code>async</code>-функції</li></ul>"
+    },
+    {
+      "id": "q-306",
+      "question": "Що таке Node.js та для чого використовується",
+      "answer": "<p><strong>Node.js</strong> — це середовище виконання JavaScript поза браузером, побудоване на V8 engine.</p><p>Використовується для створення серверів, API, CLI-інструментів, скриптів та бекенду.</p>"
+    },
+    {
+      "id": "q-307",
+      "question": "Яка відмінність JavaScript в Node.js та в браузері",
+      "answer": "<ul><li>У Node.js немає <code>window</code>, <code>document</code>, DOM API</li><li>Є доступ до файлової системи, мережі, процесу, тощо</li><li>Використовує CommonJS (require/module.exports), хоча підтримує ESM</li></ul>"
+    },
+    {
+      "id": "q-308",
+      "question": "Що таке модуль в Node.js та як його створити",
+      "answer": "<p>Модуль — це окремий файл з кодом, який експортує функції/змінні для повторного використання.</p><pre>// math.js\nfunction add(a, b) { return a + b; }\nmodule.exports = { add };\n\n// app.js\nconst math = require('./math');\nconsole.log(math.add(2, 3));</pre>"
+    },
+    {
+      "id": "q-309",
+      "question": "Назвіть деякі вбудовані модулі та їх призначення",
+      "answer": "<ul><li><code>fs</code> — робота з файлами</li><li><code>http</code> — створення HTTP-сервера</li><li><code>path</code> — робота з файловими шляхами</li><li><code>os</code> — інформація про систему</li><li><code>events</code> — робота з подіями</li><li><code>crypto</code> — хешування, шифрування</li></ul>"
+    },
+    {
+      "id": "q-310",
+      "question": "Яка концептуальна відмінність між серверним та клієнтським застосунком",
+      "answer": "<ul><li><strong>Серверний:</strong> виконується на сервері, працює з базами даних, авторизацією, API</li><li><strong>Клієнтський:</strong> виконується у браузері, відповідає за UI/UX</li><li>Клієнт надсилає запити, сервер повертає відповіді</li></ul>"
+    },
+    {
+      "id": "q-311",
+      "question": "Що передається в запиті протоколу HTTP",
+      "answer": "<ul><li>Метод (GET, POST, PUT, DELETE, ...)</li><li>URL</li><li>Заголовки (headers)</li><li>Тіло запиту (тільки в методах, як POST)</li><li>Cookies, параметри, токени тощо</li></ul>"
+    },
+    {
+      "id": "q-312",
+      "question": "Що передається у відповіді протоколу HTTP",
+      "answer": "<ul><li>Статус-код (200, 404, 500, ...)</li><li>Заголовки відповіді</li><li>Тіло відповіді (HTML, JSON, текст, файл, ...)</li></ul>"
+    },
+    {
+      "id": "q-313",
+      "question": "Які модулі можна використати для створення серверного застосунку",
+      "answer": "<ul><li><code>http</code> — базовий сервер</li><li><code>express</code> — популярний фреймворк для REST API</li><li><code>koa</code>, <code>fastify</code> — легші альтернативи</li><li><code>socket.io</code> — для WebSocket</li></ul>"
+    },
+    {
+      "id": "q-314",
+      "question": "Яким чином можна повернути JSON обʼєкт із сервера",
+      "answer": "<p>Встановлюємо заголовок <code>Content-Type: application/json</code> і надсилаємо <code>JSON.stringify()</code></p><pre>res.writeHead(200, {'Content-Type': 'application/json'});\nres.end(JSON.stringify({ success: true }));</pre>"
+    },
+    {
+      "id": "q-315",
+      "question": "Методи для рядків в JavaScript",
+      "answer": "<ul><li><code>length</code> — Повертає довжину рядка.</li><li><code>charAt(index)</code> — Повертає символ за індексом.</li><li><code>charCodeAt(index)</code> — Повертає код Unicode символу.</li><li><code>slice(start, end)</code> — Витягує частину рядка (може мати негативні індекси).</li><li><code>substring(start, end)</code> — Схоже на slice, але не підтримує негативні індекси.</li><li><code>substr(start, length)</code> — Застарілий. Витягує підрядок з вказаної позиції довжиною.</li><li><code>indexOf(substring)</code> — Повертає індекс першого входження підрядка.</li><li><code>lastIndexOf(substring)</code> — Повертає індекс останнього входження.</li><li><code>includes(substring)</code> — Перевіряє, чи містить рядок підрядок.</li><li><code>startsWith(substring)</code> — Чи починається рядок з підрядка.</li><li><code>endsWith(substring)</code> — Чи закінчується рядок підрядком.</li><li><code>toLowerCase()</code> — Перетворює в нижній регістр.</li><li><code>toUpperCase()</code> — Перетворює в верхній регістр.</li><li><code>trim()</code> — Обрізає пробіли на початку і в кінці.</li><li><code>repeat(n)</code> — Повторює рядок n разів.</li><li><code>replace(search, replacement)</code> — Заміна підрядка (тільки перше входження або з regex).</li><li><code>replaceAll(search, replacement)</code> — Заміна всіх входжень.</li><li><code>split(separator)</code> — Розділяє рядок у масив за роздільником.</li></ul>"
+    },
+    {
+      "id": "q-316",
+      "question": "Методи та функції для чисел в JavaScript",
+      "answer": "<ul><li><code>parseInt(value)</code> — Перетворює рядок на ціле число.</li><li><code>parseFloat(value)</code> — Перетворює рядок на число з плаваючою точкою.</li><li><code>Number(value)</code> — Явно перетворює в число.</li><li><code>isNaN(value)</code> — Перевіряє, чи значення NaN (з приведенням типів).</li><li><code>Number.isNaN(value)</code> — Перевіряє строго, чи значення NaN.</li><li><code>isFinite(value)</code> — Перевіряє, чи скінченне число.</li><li><code>Number.isInteger(value)</code> — Чи є значення цілим числом.</li><li><code>Math.round(n)</code> — Округлює до найближчого цілого.</li><li><code>Math.floor(n)</code> — Округлює вниз.</li><li><code>Math.ceil(n)</code> — Округлює вгору.</li><li><code>Math.trunc(n)</code> — Відкидає дробову частину.</li><li><code>Math.max(...args)</code> — Максимальне число з аргументів.</li><li><code>Math.min(...args)</code> — Мінімальне число з аргументів.</li><li><code>Math.random()</code> — Псевдовипадкове число від 0 до 1.</li><li><code>Math.pow(base, exp)</code> — Піднесення до степеня.</li><li><code>Math.sqrt(n)</code> — Квадратний корінь.</li></ul>"
     }
   ],
-  "totalQuestions": 124
+  "totalQuestions": 192
 }

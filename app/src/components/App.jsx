@@ -30,6 +30,12 @@ const App = () => {
   const { content, loading, error } = useHTMLContent(selectedTopic);
   const { searchTerm, setSearchTerm, debouncedTerm } = useSearch();
 
+  // Wrap handleSelectTopic to clear search when switching topics
+  const handleSelectTopicWithClear = (topic) => {
+    setSearchTerm('');
+    handleSelectTopic(topic);
+  };
+
   const filteredContent = useMemo(() => {
     if (!content || !debouncedTerm) return content;
     
@@ -71,7 +77,7 @@ const App = () => {
     if (question.topicId) {
       // Ensure we're on the topic
       if (selectedTopic?.id !== question.topicId) {
-        handleSelectTopic(findTopicById(question.topicId));
+        handleSelectTopicWithClear(findTopicById(question.topicId));
       }
       
       // Scroll to question after a brief delay to ensure DOM is updated
@@ -99,7 +105,7 @@ const App = () => {
       <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/90 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-950/90">
         <div className="mx-auto grid w-full max-w-450 grid-cols-1 gap-2 px-4 py-2 md:grid-cols-[1fr_2fr_1fr] md:items-center md:gap-6 md:px-6 md:py-3">
           <div className="flex items-center justify-between gap-4 md:justify-start md:gap-6">
-            <h1 className="group flex cursor-pointer items-center gap-2 text-xl font-bold md:text-2xl" onClick={() => handleSelectTopic(null)}>
+            <h1 className="group flex cursor-pointer items-center gap-2 text-xl font-bold md:text-2xl" onClick={() => handleSelectTopicWithClear(null)}>
               <svg className="h-7 w-7 text-emerald-500 md:h-8 md:w-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor" fillOpacity="0.3" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
                 <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -143,7 +149,7 @@ const App = () => {
                 resultsCount={filteredContent?.questions?.length || 0}
                 topicSuggestions={topicSuggestions}
                 questionSuggestions={questionSuggestions}
-                onSelectTopicSuggestion={handleSelectTopic}
+                onSelectTopicSuggestion={handleSelectTopicWithClear}
                 onSelectQuestionSuggestion={handleSelectQuestionSuggestion}
               />
             )}
@@ -207,7 +213,7 @@ const App = () => {
       {currentPage === 'questions' && (
         <TopNavBar 
           selectedTopic={selectedTopic}
-          onSelectTopic={handleSelectTopic}
+          onSelectTopic={handleSelectTopicWithClear}
           onShowFavorites={handleShowFavorites}
           showingFavorites={showingFavorites}
         />
@@ -216,7 +222,7 @@ const App = () => {
       <main className="mx-auto flex w-full max-w-450 flex-1 flex-col pb-16 md:pb-0">
         {showingFavorites ? (
           <FavoritesView 
-            onSelectTopic={handleSelectTopic} 
+            onSelectTopic={handleSelectTopicWithClear} 
             refreshTrigger={favoritesRefresh}
           />
         ) : selectedTopic ? (
@@ -226,11 +232,11 @@ const App = () => {
             error={error}
             searchTerm={debouncedTerm}
             currentTopicId={selectedTopic?.id}
-            onTopicChange={handleSelectTopic}
+            onTopicChange={handleSelectTopicWithClear}
             onShowFavorites={handleShowFavorites}
           />
         ) : (
-          <WelcomeView onSelectTopic={handleSelectTopic} />
+          <WelcomeView onSelectTopic={handleSelectTopicWithClear} />
         )}
       </main>
 
@@ -243,7 +249,7 @@ const App = () => {
                 ? 'text-emerald-500'
                 : 'text-slate-500 dark:text-slate-400'
             }`}
-            onClick={() => { handleSelectTopic(null); handlePageChange('questions'); }}
+            onClick={() => { handleSelectTopicWithClear(null); handlePageChange('questions'); }}
           >
             <Home size={20} />
             <span>{t('home') || 'Home'}</span>

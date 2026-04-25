@@ -618,7 +618,103 @@
       "question": "Як CSS впливає на FCP та CLS?",
       "answer": "\n      <ul>\n        <li><strong>FCP (First Contentful Paint):</strong> великі CSS-файли затримують перше відображення контенту → оптимізуй критичні стилі.</li>\n        <li><strong>CLS (Cumulative Layout Shift):</strong> неправильні розміри елементів (зображень, шрифтів) викликають стрибки контенту.</li>\n      </ul>\n      <p>💡 Завжди задавай <code>width</code> і <code>height</code> для медіа, щоб уникнути CLS.</p>\n    ",
       "isFollowUp": false
+    },
+    {
+      "id": "q-104",
+      "question": "Як знайти посилання в тексті на конкретний ресурс за допомогою CSS?",
+      "answer": "<p>Використовуються селектори атрибутів <code>href</code>.</p>\n<pre>a[href=\"https://example.com\"] {}\na[href^=\"https\"] {}   /* починається з */\na[href$=\".pdf\"] {}   /* закінчується на */\na[href*=\"google\"] {}  /* містить підрядок */</pre>\n<p><strong>^</strong> — починається з, <strong>$</strong> — закінчується на, <strong>*</strong> — містить підрядок.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-105",
+      "question": "Як вирівняти елемент по горизонталі та вертикалі?",
+      "answer": "<p><strong>Flexbox</strong> — найпопулярніший спосіб.</p>\n<pre>.container {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}</pre>\n<p><strong>Grid</strong> — зручно для двовимірних layout.</p>\n<pre>.container {\n  display: grid;\n  place-items: center;\n}</pre>\n<p><strong>Position + transform</strong> — класичний спосіб.</p>\n<pre>.box {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n}</pre>\n<p><strong>Margin auto</strong> — горизонтальне вирівнювання блоку.</p>\n<pre>.box {\n  width: 200px;\n  margin: 0 auto;\n}</pre>\n<p><strong>Flex або Grid</strong> — сучасні та універсальні рішення.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-106",
+      "question": "Як відбувається завантаження сторінки в браузері?",
+      "answer": "<ol>\n  <li>Браузер робить HTTP-запит за HTML.</li>\n  <li>HTML парситься → створюється <strong>DOM</strong>.</li>\n  <li>CSS парситься → створюється <strong>CSSOM</strong>.</li>\n  <li>DOM + CSSOM → <strong>Render Tree</strong>.</li>\n  <li><strong>Layout</strong> → <strong>Paint</strong> → <strong>Composite</strong>.</li>\n</ol>\n<p><strong>Що блокує рендер?</strong> CSS та синхронний JavaScript.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-107",
+      "question": "Як пришвидшити завантаження сторінки? Основні методи оптимізації.",
+      "answer": "<ul>\n  <li><strong>Мінімізація CSS/JS</strong> — видалення пробілів, коментарів, зайвого коду.</li>\n  <li><strong>Code splitting</strong> — розбиття JS на чанки, щоб не завантажувати весь код одразу.</li>\n  <li><strong>Lazy loading</strong> — відкладене завантаження зображень, компонентів та сторінок.</li>\n  <li><strong>Кешування</strong> — повторне використання ресурсів через browser cache та HTTP-заголовки.</li>\n  <li><strong>Оптимізація зображень</strong> — стиснення, WebP/AVIF, адаптивні розміри.</li>\n  <li><strong>CDN</strong> — віддача файлів з найближчого до користувача сервера.</li>\n</ul>\n<p><strong>В першу чергу оптимізують:</strong> critical CSS, зображення, початковий JS-бандл.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-108",
+      "question": "Що таке Critical CSS?",
+      "answer": "<p><strong>Critical CSS</strong> — стилі, необхідні для відображення першого екрану (above-the-fold).</p>\n<p>Інлайниться в <code>&lt;head&gt;</code>, щоб браузер міг швидко відмалювати сторінку, а решта CSS підвантажується пізніше.</p>\n<p><strong>Навіщо?</strong> Покращує FCP (First Contentful Paint) та пришвидшує рендер.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-109",
+      "question": "Як працює lazy loading?",
+      "answer": "<p><strong>Lazy loading</strong> — відкладене завантаження ресурсів, які не потрібні одразу.</p>\n<p>Зображення, компоненти або JS-код підвантажуються лише тоді, коли потрапляють у viewport або потрібні користувачу.</p>\n<pre>&lt;img src=\"photo.jpg\" loading=\"lazy\" /&gt;</pre>\n<p><strong>Де не варто використовувати?</strong> Для критичного контенту першого екрану — він повинен завантажуватись одразу.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-110",
+      "question": "Які типи зображень ти знаєш? Переваги та недоліки кожного.",
+      "answer": "<ul>\n  <li><strong>JPEG/JPG</strong> — растровий з втратами. ➕ Малий розмір, добре для фото. ➖ Немає прозорості.</li>\n  <li><strong>PNG</strong> — растровий без втрат. ➕ Підтримує прозорість, висока якість. ➖ Більший розмір.</li>\n  <li><strong>SVG</strong> — векторний. ➕ Масштабується без втрат, малий розмір для іконок. ➖ Погано для фото.</li>\n  <li><strong>WebP</strong> — сучасний растровий. ➕ Менший за JPG/PNG, підтримує прозорість. ➖ Потрібна перевірка підтримки старих браузерів.</li>\n  <li><strong>AVIF</strong> — новітній растровий. ➕ Найкраще стиснення і якість. ➖ Підтримка ще не всюди, повільніше кодується.</li>\n</ul>\n<p><strong>Для фото на сайті</strong> — WebP або AVIF з fallback на JPG.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-111",
+      "question": "Різниця між растровим та векторним зображенням?",
+      "answer": "<p><strong>Растрові зображення</strong> складаються з пікселів. При збільшенні втрачають якість.</p>\n<p>Приклади: JPG, PNG, WebP, AVIF.</p>\n<p><strong>Векторні зображення</strong> описуються формулами та кривими. Масштабуються без втрати якості.</p>\n<p>Приклади: SVG.</p>\n<p><strong>Для іконок</strong> — SVG: легкий і масштабований.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-112",
+      "question": "Як підвантажувати картинки під різні роздільні здатності екранів?",
+      "answer": "<p>Основний спосіб — атрибути <code>srcset</code> та <code>sizes</code>: браузер сам обирає оптимальне зображення.</p>\n<pre>&lt;img\n  src=\"image-400.jpg\"\n  srcset=\"\n    image-400.jpg 400w,\n    image-800.jpg 800w,\n    image-1600.jpg 1600w\n  \"\n  sizes=\"(max-width: 600px) 100vw, 50vw\"\n  alt=\"\"\n/&gt;</pre>\n<p>Браузер враховує ширину екрана, щільність пікселів і значення <code>sizes</code>.</p>\n<p><strong>Хто вирішує, яку картинку завантажити?</strong> Браузер, а не розробник.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-113",
+      "question": "Як підвантажувати різні картинки окрім srcset?",
+      "answer": "<p>Через тег <code>&lt;picture&gt;</code> — дозволяє комбінувати формати та media-запити.</p>\n<pre>&lt;picture&gt;\n  &lt;source srcset=\"image.webp\" type=\"image/webp\"&gt;\n  &lt;source srcset=\"image.jpg\" type=\"image/jpeg\"&gt;\n  &lt;img src=\"image.jpg\" alt=\"\"&gt;\n&lt;/picture&gt;</pre>\n<p>Або з media queries для різного контенту на різних breakpoint'ах:</p>\n<pre>&lt;picture&gt;\n  &lt;source media=\"(max-width: 600px)\" srcset=\"mobile.jpg\"&gt;\n  &lt;source media=\"(min-width: 601px)\" srcset=\"desktop.jpg\"&gt;\n  &lt;img src=\"desktop.jpg\" alt=\"\"&gt;\n&lt;/picture&gt;</pre>\n<p><strong>Коли picture краще за srcset?</strong> Коли потрібні різні формати або різний контент для breakpoint'ів.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-114",
+      "question": "Яку роль відіграють формати зображень WebP, JPG, PNG?",
+      "answer": "<ul>\n  <li><strong>WebP</strong> — сучасний формат з кращим стисненням: менший розмір, підтримка прозорості, підходить для фото і UI. Використовують з fallback через <code>&lt;picture&gt;</code>.</li>\n  <li><strong>JPG</strong> — растровий з втратами, ідеальний для фотографій. Немає прозорості.</li>\n  <li><strong>PNG</strong> — растровий без втрат, підтримує прозорість. Більший розмір за JPG.</li>\n</ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-115",
+      "question": "Що таке Retina і як працювати з екранами з високою щільністю пікселів?",
+      "answer": "<p><strong>Retina</strong> — екрани з високою щільністю пікселів, де на один CSS-піксель припадає кілька фізичних.</p>\n<p>Щоб зображення виглядали чітко, потрібно завантажувати картинки більшої роздільної здатності:</p>\n<pre>&lt;img\n  src=\"icon.png\"\n  srcset=\"icon.png 1x, icon@2x.png 2x\"\n  alt=\"\"\n/&gt;</pre>\n<p><strong>DPI</strong> (<em>dots per inch</em>) — кількість пікселів на дюйм. На Retina-екранах стандартні растрові картинки виглядають розмитими без 2x/3x версій.</p>\n<p><strong>Що краще для Retina — PNG чи SVG?</strong> SVG — масштабується без втрати якості.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-116",
+      "question": "PNG — це який тип зображення?",
+      "answer": "<p><strong>PNG</strong> — растровий формат із безвтратним стисненням.</p>\n<p>Підтримує прозорість (<code>alpha channel</code>). Використовується для іконок, UI-елементів, скріншотів.</p>\n<p><strong>Чому PNG важчий за JPG?</strong> Тому що не використовує стиснення з втратами.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-117",
+      "question": "Центрування в CSS",
+      "answer": "<p>Найпростіший спосіб центрування елемента:</p>\n<pre>/* Flexbox */\n.parent {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n/* Для тексту */\n.text { text-align: center; }\n\n/* Абсолютне позиціонування */\n.child {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n}</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-118",
+      "question": "Селектори типу div p, div > p",
+      "answer": "<p><code>div p</code> — вибирає всі елементи &lt;p&gt;, які знаходяться всередині &lt;div&gt; (на будь-якому рівні вкладеності).</p>\n<p><code>div &gt; p</code> — вибирає лише ті &lt;p&gt;, які є <strong>прямими нащадками</strong> &lt;div&gt;.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-119",
+      "question": "Типи позиціонування в CSS",
+      "answer": "<ul>\n  <li><strong>static</strong> — стандартне положення елемента;</li>\n  <li><strong>relative</strong> — позиціонується відносно власного місця;</li>\n  <li><strong>absolute</strong> — відносно найближчого позиціонованого предка;</li>\n  <li><strong>fixed</strong> — відносно вікна браузера;</li>\n  <li><strong>sticky</strong> — комбінує relative і fixed (прилипання під час скролу).</li>\n</ul>",
+      "isFollowUp": false
     }
   ],
-  "totalQuestions": 103
+  "totalQuestions": 119
 }

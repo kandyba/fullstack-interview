@@ -180,7 +180,25 @@
       "question": "Як відновити видалений файл у Git?",
       "answer": "\n        <p class=\"example\">Для відновлення видаленого файлу використовуйте команду <code>git checkout <commit-id> -- <file></file></commit-id></code>. Це дозволить повернути файл з конкретного коміту, навіть якщо він був видалений в поточній гілці.</p>\n      ",
       "isFollowUp": false
+    },
+    {
+      "id": "q-31",
+      "question": "Кожного разу, коли ви робите pull, чомусь виникає конфлікт в останньому рядку у всіх файлах, які ви редагували. Що відбувається?",
+      "answer": "<p>Швидше за все, у файлах відрізняється <strong>кінець рядка (EOL)</strong> — <code>CRLF</code> (Windows) проти <code>LF</code> (Unix).</p>\n<p>Щоб уникнути цього:</p>\n<ul>\n  <li>Налаштувати <code>.gitattributes</code>:</li>\n</ul>\n<pre>* text=auto\n*.js text eol=lf</pre>\n<ul>\n  <li>У редакторі VS Code встановити <code>End of Line -> LF</code>.</li>\n</ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-32",
+      "question": "Що робить команда git fetch?",
+      "answer": "<p><strong>git fetch</strong> завантажує останні зміни з віддаленого репозиторію, але не зливає їх з вашою поточною гілкою.</p>\n<p>Після цього можна порівняти зміни та виконати <code>git merge</code> або <code>git rebase</code> вручну.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-33",
+      "question": "Які підходи до git hygiene ви знаєте?",
+      "answer": "<ul>\n  <li>Один коміт — одна логічна зміна.</li>\n  <li>Регулярне оновлення гілки від <code>main</code>.</li>\n  <li>Очищення історії комітів через <code>rebase -i</code>.</li>\n  <li>Використання зрозумілих назв гілок і комітів.</li>\n  <li>Не пушити у <code>main</code> напряму.</li>\n</ul>",
+      "isFollowUp": false
     }
   ],
-  "totalQuestions": 30
+  "totalQuestions": 33
 }

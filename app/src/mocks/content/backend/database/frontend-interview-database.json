@@ -150,7 +150,49 @@
       "question": "У чому різниця між ACID і BASE?",
       "answer": "\n      <ul>\n        <li><strong>ACID</strong> — для реляційних БД, гарантує стабільність і узгодженість.</li>\n        <li><strong>BASE</strong> — для NoSQL, забезпечує масштабованість і швидкість, але без повної консистентності.</li>\n      </ul>\n      <pre>ACID: PostgreSQL, MySQL\nBASE: MongoDB, Cassandra\n      </pre>\n    ",
       "isFollowUp": false
+    },
+    {
+      "id": "q-26",
+      "question": "Напишіть простий запит для виведення трьох авторів, у яких найбільше книг.",
+      "answer": "<pre>SELECT author, COUNT(*) AS book_count\nFROM books\nGROUP BY author\nORDER BY book_count DESC\nLIMIT 3;</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-27",
+      "question": "Напишіть запит, який вибирає останні три коментарі для конкретного користувача з двох таблиць: коментарі та користувачі.",
+      "answer": "<pre>SELECT c.*\nFROM comments c\nJOIN users u ON c.user_id = u.id\nWHERE u.id = 5\nORDER BY c.created_at DESC\nLIMIT 3;</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-28",
+      "question": "Спроектуйте просту схему бази даних для бібліотеки.",
+      "answer": "<p>Приклад базової структури:</p>\n<pre>books (id, title, author_id, published_year, genre_id)\nauthors (id, name, birth_date)\nusers (id, name, email)\nborrows (id, user_id, book_id, borrow_date, return_date)\ngenres (id, name)</pre>\n<p>Звязки:</p>\n<ul>\n  <li>Один <strong>author</strong> має багато <strong>books</strong> (one-to-many).</li>\n  <li>Один <strong>user</strong> може взяти кілька <strong>books</strong> через таблицю <strong>borrows</strong>.</li>\n</ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-29",
+      "question": "Для чого використовують SQL-оператор HAVING?",
+      "answer": "<p><strong>HAVING</strong> використовується для фільтрації результатів після операції <code>GROUP BY</code>. На відміну від <code>WHERE</code>, він працює з агрегованими значеннями.</p>\n<pre>SELECT author, COUNT(*) AS books\nFROM books\nGROUP BY author\nHAVING COUNT(*) > 5;</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-30",
+      "question": "Навіщо використовують SQL-оператор LEFT JOIN?",
+      "answer": "<p><strong>LEFT JOIN</strong> повертає всі записи з лівої таблиці, навіть якщо у правій немає відповідних даних.</p>\n<pre>SELECT users.name, orders.id\nFROM users\nLEFT JOIN orders ON users.id = orders.user_id;</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-31",
+      "question": "Чим відрізняються embed- та reference-звязки в MongoDB?",
+      "answer": "<ul>\n  <li><strong>Embed (вбудовані)</strong> — дані зберігаються всередині документа. Зручно, коли дані завжди використовуються разом.</li>\n  <li><strong>Reference (посилальні)</strong> — документи зберігаються окремо, але повязані через ID. Підходить для великих або спільних колекцій.</li>\n</ul>\n<pre>// Embed\n{\n  title: \"Book A\",\n  author: { name: \"John Smith\", country: \"UK\" }\n}\n\n// Reference\n{\n  title: \"Book B\",\n  author_id: ObjectId(\"653f...\")\n}</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-32",
+      "question": "У проекті потрібно внести зміни в структуру таблиць, додати кілька полів та індексів. Як програмісти роблять це на продакшн-середовищі?",
+      "answer": "<p>Використовують <strong>міграції бази даних</strong> (database migrations), щоб синхронізувати зміни структури між середовищами.</p>\n<ul>\n  <li>Підготовка скриптів SQL (ALTER TABLE, CREATE INDEX тощо).</li>\n  <li>Тестування на staging середовищі.</li>\n  <li>Застосування на продакшні через CI/CD або вручну з резервним копіюванням.</li>\n</ul>\n<p>Інструменти: Sequelize Migrations, Knex.js, Flyway, Liquibase.</p>",
+      "isFollowUp": false
     }
   ],
-  "totalQuestions": 25
+  "totalQuestions": 32
 }
