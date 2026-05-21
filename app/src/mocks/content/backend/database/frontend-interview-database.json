@@ -58,7 +58,7 @@
     {
       "id": "q-10",
       "question": "Що таке ORM?",
-      "answer": "\n      <p><strong>ORM (Object-Relational Mapping)</strong> — це технологія, що дозволяє працювати з базами даних через об’єкти, а не через SQL-запити вручну.</p>\n      <p>Приклади: <strong>Sequelize (Node.js), TypeORM, Prisma, Mongoose</strong>.</p>\n      <pre>// Приклад із Sequelize\nUser.findAll({ where: { active: true } });\n      </pre>\n    ",
+      "answer": "\n      <p><strong>ORM (Object-Relational Mapping)</strong> — підхід, який мапить таблиці БД на моделі/класи в коді. Тобто замість ручного SQL ти працюєш через об'єкти та методи.</p>\n\n      <p><strong>Як це працює:</strong></p>\n      <ul>\n        <li>Таблиця <code>users</code> → модель <code>User</code></li>\n        <li>Рядок у таблиці → екземпляр об'єкта</li>\n        <li>CRUD-операції виконуються через API ORM, який генерує SQL під капотом</li>\n      </ul>\n\n      <p><strong>Приклади ORM:</strong> <code>Prisma</code>, <code>TypeORM</code>, <code>Sequelize</code>, <code>MikroORM</code> (а <code>Mongoose</code> — це ODM для MongoDB, не класичний ORM).</p>\n\n      <pre>// Приклад (Sequelize / Prisma-подібний стиль)\nconst users = await User.findAll({ where: { active: true } });</pre>\n\n      <p><strong>Плюси:</strong></p>\n      <ul>\n        <li>Швидше стартувати і писати CRUD</li>\n        <li>Типізація/автокомпліт і менше ручного SQL</li>\n        <li>Зручні міграції та зв'язки між сутностями</li>\n      </ul>\n\n      <p><strong>Мінуси:</strong></p>\n      <ul>\n        <li>Складні запити інколи важко або незручно виражати через ORM-API</li>\n        <li>Ризик втрати продуктивності через неочевидні запити</li>\n        <li>Потрібно розуміти SQL все одно, щоб дебажити та оптимізувати</li>\n      </ul>\n\n      <p><strong>Підводний камінь на співбесіді:</strong> ORM не замінює знання SQL. Сильна відповідь: &quot;Для стандартного CRUD — ORM, для складних агрегатів/репортів/оптимізації — raw SQL або комбінований підхід&quot;.</p>\n    ",
       "isFollowUp": false
     },
     {
@@ -88,7 +88,7 @@
     {
       "id": "q-15",
       "question": "Як працюють індекси у MongoDB?",
-      "answer": "\n      <p>Індекси створюються по ключах документів і дозволяють швидко знаходити записи без сканування всієї колекції.</p>\n      <p>За замовчуванням створюється індекс по <code>_id</code>.</p>\n      <pre>db.users.createIndex({ email: 1 }); // 1 - зростання, -1 - спадання\n      </pre>\n    ",
+      "answer": "\n      <p>Індекс у MongoDB — це окрема структура даних (B-tree), яка зберігає значення поля у відсортованому вигляді та посилання на документи. Це дозволяє уникати повного сканування колекції (<code>COLLSCAN</code>).</p>\n      <p>За замовчуванням MongoDB завжди має індекс по <code>_id</code>.</p>\n\n      <p><strong>Як працює на практиці:</strong></p>\n      <ul>\n        <li>Без індексу: сервер читає майже всі документи, щоб знайти збіг.</li>\n        <li>З індексом: сервер знаходить діапазон ключів і читає значно менше документів.</li>\n      </ul>\n\n      <p><strong>Типові індекси:</strong></p>\n      <ul>\n        <li>Одиночний: <code>{ email: 1 }</code></li>\n        <li>Складений: <code>{ status: 1, createdAt: -1 }</code> (важливий порядок полів)</li>\n        <li>Унікальний: забороняє дублікати значень</li>\n        <li>Текстовий / TTL / гео — для спеціальних кейсів</li>\n      </ul>\n\n      <pre>// Базовий індекс\ndb.users.createIndex({ email: 1 });\n\n// Складений індекс під фільтр + сортування\ndb.orders.createIndex({ userId: 1, createdAt: -1 });\n\n// Перевірка плану виконання\ndb.orders.find({ userId: 42 }).sort({ createdAt: -1 }).explain(\"executionStats\");</pre>\n\n      <p><strong>Важливий компроміс:</strong> індекси прискорюють читання, але уповільнюють <code>insert/update/delete</code> і займають пам'ять/диск, бо MongoDB має оновлювати індекс при кожній зміні документа.</p>\n      <p><strong>Підводний камінь на співбесіді:</strong> занадто багато індексів — так само погано, як і їх відсутність. Індекс має відповідати реальним запитам (фільтр, сортування, селективність).</p>\n    ",
       "isFollowUp": false
     },
     {
@@ -170,12 +170,6 @@
       "isFollowUp": false
     },
     {
-      "id": "q-29",
-      "question": "Для чого використовують SQL-оператор HAVING?",
-      "answer": "<p><strong>HAVING</strong> використовується для фільтрації результатів після операції <code>GROUP BY</code>. На відміну від <code>WHERE</code>, він працює з агрегованими значеннями.</p>\n<pre>SELECT author, COUNT(*) AS books\nFROM books\nGROUP BY author\nHAVING COUNT(*) > 5;</pre>",
-      "isFollowUp": false
-    },
-    {
       "id": "q-30",
       "question": "Навіщо використовують SQL-оператор LEFT JOIN?",
       "answer": "<p><strong>LEFT JOIN</strong> повертає всі записи з лівої таблиці, навіть якщо у правій немає відповідних даних.</p>\n<pre>SELECT users.name, orders.id\nFROM users\nLEFT JOIN orders ON users.id = orders.user_id;</pre>",
@@ -192,7 +186,103 @@
       "question": "У проекті потрібно внести зміни в структуру таблиць, додати кілька полів та індексів. Як програмісти роблять це на продакшн-середовищі?",
       "answer": "<p>Використовують <strong>міграції бази даних</strong> (database migrations), щоб синхронізувати зміни структури між середовищами.</p>\n<ul>\n  <li>Підготовка скриптів SQL (ALTER TABLE, CREATE INDEX тощо).</li>\n  <li>Тестування на staging середовищі.</li>\n  <li>Застосування на продакшні через CI/CD або вручну з резервним копіюванням.</li>\n</ul>\n<p>Інструменти: Sequelize Migrations, Knex.js, Flyway, Liquibase.</p>",
       "isFollowUp": false
+    },
+    {
+      "id": "q-33",
+      "question": "[Schema / Mongoose] Навіщо тобі Mongoose, якщо можна писати напряму в MongoDB?",
+      "answer": "<p>Напряму через MongoDB driver можна, але <strong>Mongoose</strong> додає структуру і контроль:</p>\n<ul>\n  <li>Schema + валідація на рівні моделі</li>\n  <li>middleware/hooks (наприклад, хешування пароля перед save)</li>\n  <li>зручні методи роботи з документами</li>\n  <li>єдина модель даних у команді</li>\n</ul>\n<p>Коротко: driver = більше контролю і більше ручної роботи; Mongoose = швидше і безпечніше для типового CRUD.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-34",
+      "question": "[Schema / Mongoose] Що саме вирішує Schema? Яку проблему вона закриває в реальному проєкті?",
+      "answer": "<p><strong>Schema</strong> задає контракт даних: які поля дозволені, які обов'язкові, які мають обмеження.</p>\n<p>У реальному проєкті це вирішує проблеми:</p>\n<ul>\n  <li>хаотична форма документів у колекції</li>\n  <li>невалідні типи (наприклад, <code>age: \"twenty\"</code>)</li>\n  <li>дублювання бізнес-правил у різних місцях</li>\n</ul>\n<p>Schema робить дані передбачуваними і знижує кількість багів у читанні/оновленні.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-35",
+      "question": "[Schema / Mongoose] Що станеться, якщо не використовувати Schema і просто писати будь-які об'єкти в MongoDB?",
+      "answer": "<p>MongoDB прийме документи з різною структурою, і з часом отримаєш &quot;сміттєву&quot; колекцію.</p>\n<ul>\n  <li>одні й ті самі поля матимуть різні типи</li>\n  <li>частина документів не матиме обов'язкових полів</li>\n  <li>складніше писати агрегації, фільтри, індекси і міграції</li>\n</ul>\n<p>Результат: більше runtime-помилок і дорожча підтримка.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-36",
+      "question": "[Schema / Mongoose] Де ти описуєш Schema в проєкті і чому саме там?",
+      "answer": "<p>Зазвичай Schema лежить у шарі <strong>model</strong>, наприклад <code>models/user.model.js</code> або <code>schemas/user.schema.ts</code>.</p>\n<p>Причина: це інфраструктурний рівень доступу до БД, а не route/controller. Так легше перевикористовувати модель і тримати єдине джерело правди для структури даних.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-37",
+      "question": "[Schema / Mongoose] Що ти кладеш в Schema: тільки типи чи ще щось?",
+      "answer": "<p>У Schema кладуть не тільки типи, а й правила:</p>\n<ul>\n  <li><code>required</code>, <code>default</code>, <code>enum</code>, <code>min/max</code>, <code>match</code></li>\n  <li><code>unique</code> (разом з індексом)</li>\n  <li>посилання <code>ref</code> на інші колекції</li>\n  <li>timestamps, virtuals, instance/static methods</li>\n</ul>\n<p>Тобто Schema = структура + базова валідація + частина бізнес-обмежень даних.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-38",
+      "question": "[Schema / Mongoose] Чим Schema відрізняється від Model у твоєму коді?",
+      "answer": "<ul>\n  <li><strong>Schema</strong> описує форму документа і правила.</li>\n  <li><strong>Model</strong> — це клас/інтерфейс для роботи з конкретною колекцією (create/find/update/delete).</li>\n</ul>\n<p>Просте правило: Schema = що можна зберегти; Model = як з цим працювати.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-39",
+      "question": "[Schema / Mongoose] Як виглядає створення Model з Schema?",
+      "answer": "<pre>const { Schema, model } = require('mongoose');\n\nconst userSchema = new Schema({\n  email: { type: String, required: true, unique: true },\n  name: { type: String, required: true },\n  role: { type: String, enum: ['user', 'admin'], default: 'user' }\n}, { timestamps: true });\n\nconst User = model('User', userSchema);</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-40",
+      "question": "[CRUD] Треба створити користувача. Який типовий порядок дій від request до запису в БД?",
+      "answer": "<ol>\n  <li>Route приймає запит і передає в controller.</li>\n  <li>Controller читає <code>req.body</code> і викликає service.</li>\n  <li>Service перевіряє бізнес-умови (наприклад, чи немає юзера з таким email).</li>\n  <li>Service готує дані (нормалізація email, хешування пароля).</li>\n  <li>Model створює документ у БД.</li>\n  <li>Controller повертає HTTP-відповідь (201 + безпечний payload).</li>\n</ol>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-41",
+      "question": "[CRUD] Де робити валідацію: в Schema чи перед викликом Model?",
+      "answer": "<p>Правильний підхід — <strong>в обох місцях</strong>:</p>\n<ul>\n  <li>вхідна валідація в controller (формат запиту, обов'язкові поля) — щоб швидко повернути 400;</li>\n  <li>валідація в Schema — як останній захист перед записом у БД.</li>\n</ul>\n<p>Так ти захищаєшся і на API-рівні, і на рівні моделі даних.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-42",
+      "question": "[CRUD] Як виглядає ланцюжок route -> controller -> service -> model і що робить кожен шар?",
+      "answer": "<ul>\n  <li><strong>Route</strong> — мапить URL/метод на handler.</li>\n  <li><strong>Controller</strong> — працює з HTTP-контекстом (req/res, статус-коди).</li>\n  <li><strong>Service</strong> — бізнес-логіка і orchestration.</li>\n  <li><strong>Model</strong> — доступ до БД через Mongoose.</li>\n</ul>\n<p>Перевага: розділення відповідальності, краща тестованість і простіший рефакторинг.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-43",
+      "question": "[Дані] Як створювати документ через Model: new Model + save чи create?",
+      "answer": "<ul>\n  <li><code>Model.create(data)</code> — короткий шлях для прямого створення.</li>\n  <li><code>const doc = new Model(data); await doc.save();</code> — зручно, коли треба щось зробити з документом до збереження.</li>\n</ul>\n<p>Практично: для простого CRUD частіше <code>create</code>, для кроків перед збереженням — <code>new + save</code>.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-44",
+      "question": "[Дані] Як оновлювати дані: через save чи findByIdAndUpdate, і коли що використовувати?",
+      "answer": "<ul>\n  <li><code>findById + mutate + save()</code> — коли потрібна складна логіка/перевірки перед записом.</li>\n  <li><code>findByIdAndUpdate()</code> — для швидкого точкового оновлення одним запитом.</li>\n</ul>\n<p>Якщо обираєш <code>findByIdAndUpdate</code>, часто додають опції <code>{ new: true, runValidators: true }</code>, щоб отримати оновлений документ і не пропустити валідацію.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-45",
+      "question": "[Дані] Як ти видаляєш документ і що повертаєш у відповідь?",
+      "answer": "<p>Зазвичай використовують <code>findByIdAndDelete(id)</code> або <code>deleteOne()</code>.</p>\n<ul>\n  <li>якщо документ не знайдено: <code>404 Not Found</code></li>\n  <li>якщо видалено успішно: <code>204 No Content</code> або <code>200</code> з коротким повідомленням</li>\n</ul>\n<p>На співбесіді добре озвучити, що &quot;not found&quot; — це окремий сценарій, а не загальна 500-помилка.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-46",
+      "question": "[Архітектура] Чому погано писати всю логіку прямо в роуті?",
+      "answer": "<p>Route має бути тонким. Якщо скласти туди все, отримаєш:</p>\n<ul>\n  <li>важке читання і підтримку</li>\n  <li>неможливість нормально тестувати бізнес-логіку окремо</li>\n  <li>дублювання коду між ендпоінтами</li>\n</ul>\n<p>Кращий підхід: route -> controller -> service, де кожен шар відповідає лише за своє.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-47",
+      "question": "[Архітектура] Де має бути логіка &quot;перевірити чи юзер вже існує&quot; і чому?",
+      "answer": "<p>Це бізнес-логіка, тому її місце в <strong>service</strong>, а не в route/controller.</p>\n<p>Controller лише викликає сервіс і повертає відповідь. Такий підхід робить перевірку перевикористовуваною і легко тестованою юніт-тестами.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-48",
+      "question": "[Архітектура] Де готувати дані перед записом (нормалізація, хешування) і чому?",
+      "answer": "<p>Базову підготовку (trim/lowercase/перевірка формату) зазвичай роблять у service або DTO-валідації, а критичні технічні правила можна дублювати в model hooks (наприклад, <code>pre('save')</code>).</p>\n<p>Причина: бізнес-процес має бути явним у service, а модель — останнім захисним шаром перед БД.</p>",
+      "isFollowUp": false
     }
   ],
-  "totalQuestions": 32
+  "totalQuestions": 48
 }

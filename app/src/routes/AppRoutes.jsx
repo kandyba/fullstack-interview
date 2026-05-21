@@ -10,7 +10,7 @@ const appRoutes = (
     <Route path={ROUTES.home} element={<App />} />
     <Route path={ROUTES.questions} element={<App />} />
     <Route path={ROUTES.legacyQuestionJsPractice} element={<Navigate to={ROUTES.jsPractice} replace />} />
-    <Route path={ROUTES.legacyQuestionJsSeniorBasics} element={<Navigate to={ROUTES.questionsTopic(TOPIC_IDS.jsPatternsSenior)} replace />} />
+    <Route path={ROUTES.legacyQuestionJsSeniorBasics} element={<Navigate to={ROUTES.questionsTopic(TOPIC_IDS.jsMain)} replace />} />
     <Route path={`${ROUTES.questions}/:topicId`} element={<App />} />
     <Route path={ROUTES.tasks} element={<Navigate to={ROUTES.jsPractice} replace />} />
     <Route path={ROUTES.jsPractice} element={<App />} />

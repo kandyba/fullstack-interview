@@ -1,8 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { getAllLeafTopics } from '../data/topics';
 import { useLanguage } from '../contexts/LanguageContext';
+import { ROUTES } from '../constants/routes';
+import { TOPIC_IDS } from '../constants/topicIds';
 
-const TopNavBar = ({ selectedTopic, onSelectTopic, onShowFavorites, showingFavorites }) => {
+const TopNavBar = ({ selectedTopic, showingFavorites }) => {
   const allTopics = getAllLeafTopics();
   const { t } = useLanguage();
 
@@ -22,28 +25,28 @@ const TopNavBar = ({ selectedTopic, onSelectTopic, onShowFavorites, showingFavor
           'flex flex-nowrap items-center gap-2 overflow-x-auto',
           'pb-1 md:flex-wrap md:overflow-visible',
         ].join(' ')}>
-          <button
+          <Link
             className={`inline-flex shrink-0 cursor-pointer items-center rounded-full border px-4 py-2 text-sm font-semibold transition ${
               showingFavorites
                 ? 'border-emerald-500 bg-emerald-500 text-white'
                 : 'border-slate-200 bg-slate-100 text-slate-700 hover:border-emerald-500 hover:text-emerald-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:text-emerald-300'
             }`}
-            onClick={onShowFavorites}
+            to={ROUTES.favorites}
           >
             {t('saved')}
-          </button>
+          </Link>
 
           <div className="mx-1 h-6 w-px shrink-0 bg-slate-300 dark:bg-slate-700"></div>
 
           {allTopics.map((topic) => (
-            <button
+            <Link
               key={topic.id}
               className={`inline-flex shrink-0 cursor-pointer items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition ${
                 selectedTopic?.id === topic.id
                   ? 'border-emerald-500 bg-emerald-500 text-white'
                   : 'border-slate-200 bg-slate-100 text-slate-700 hover:border-emerald-500 hover:text-emerald-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:text-emerald-300'
               }`}
-              onClick={() => onSelectTopic(topic)}
+              to={topic.id === TOPIC_IDS.jsPractice ? ROUTES.jsPractice : ROUTES.questionsTopic(topic.id)}
               title={`${topic.title}${topic.level ? ` (${topic.level})` : ''}`}
             >
               {topic.icon && <span>{topic.icon}</span>}
@@ -67,7 +70,7 @@ const TopNavBar = ({ selectedTopic, onSelectTopic, onShowFavorites, showingFavor
                   {topic.level}
                 </span>
               )}
-            </button>
+            </Link>
           ))}
         </div>
       </div>

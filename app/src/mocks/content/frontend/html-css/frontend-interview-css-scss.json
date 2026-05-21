@@ -52,13 +52,13 @@
     {
       "id": "q-9",
       "question": "2. Що таке псевдокласи в CSS?",
-      "answer": "\n      <p>Псевдокласи застосовуються для вибору елементів у специфічному стані.</p>\n      <div class=\"example\">\n        <pre>a:hover { color: red; } /* Змінює колір тексту посилання при наведенні */\ninput:focus { border: 2px solid blue; } /* Виділяє активне поле вводу */\n        </pre>\n      </div>\n    ",
+      "answer": "\n      <p><strong>Псевдоклас</strong> — це ключове слово, яке додається до селектора і дозволяє вибрати елемент у певному <strong>стані</strong>, позиції або за певної умови.</p>\n      <p>Тобто псевдоклас не створює новий елемент, а уточнює, <strong>коли саме</strong> треба застосувати стиль до вже існуючого елемента.</p>\n      <p><strong>Типові приклади:</strong> <code>:hover</code>, <code>:focus</code>, <code>:active</code>, <code>:visited</code>, <code>:first-child</code>, <code>:nth-child()</code>, <code>:disabled</code>.</p>\n      <div class=\"example\">\n        <pre>a:hover { color: red; }      /* при наведенні */\ninput:focus { border: 2px solid blue; } /* коли поле у фокусі */\nli:first-child { font-weight: bold; }   /* перший елемент списку */\nbutton:disabled { opacity: 0.5; }       /* вимкнена кнопка */\n        </pre>\n      </div>\n      <p><strong>Важлива різниця:</strong> псевдоклас описує <strong>стан або умову</strong> елемента, а псевдоелемент — <strong>частину елемента</strong> або віртуально створений фрагмент, наприклад <code>::before</code> чи <code>::first-line</code>.</p>\n    ",
       "isFollowUp": false
     },
     {
       "id": "q-10",
       "question": "3. Що таке псевдоелементи в CSS?",
-      "answer": "\n      <p>Псевдоелементи дозволяють стилізувати певну частину елемента.</p>\n      <div class=\"example\">\n        <pre>p::first-line { font-weight: bold; } /* Перший рядок тексту */\ndiv::before { content: 'Note: '; color: gray; } /* Додає текст перед елементом */\n        </pre>\n      </div>\n    ",
+      "answer": "\n      <p><strong>Псевдоелементи</strong> дозволяють стилізувати частину елемента або створити віртуальний елемент без додаткового HTML.</p>\n      <p>Найуживаніші псевдоелементи:</p>\n      <ul>\n        <li><code>::before</code> — вставляє вміст перед елементом</li>\n        <li><code>::after</code> — вставляє вміст після елемента</li>\n        <li><code>::first-letter</code> — стилізує першу літеру</li>\n        <li><code>::first-line</code> — стилізує перший рядок тексту</li>\n      </ul>\n      <div class=\"example\">\n        <pre>p::before {\n  content: '🔹 ';\n}\n\np::after {\n  content: ' 🔸';\n}\n\np::first-letter {\n  font-size: 2em;\n  color: red;\n}</pre>\n      </div>\n      <p><strong>Навіщо використовуються:</strong> для декоративних елементів, іконок, маркерів, оверлеїв і дрібних візуальних деталей без змін у HTML-розмітці.</p>\n    ",
       "isFollowUp": false
     },
     {
@@ -100,7 +100,7 @@
     {
       "id": "q-17",
       "question": "Що таке Box Model у CSS?",
-      "answer": "\n        <p>Box Model описує, як браузер обчислює розміри та простір навколо елемента. Кожен елемент складається з чотирьох частин:</p>\n        <ul>\n          <li><strong>Content</strong> — вміст елемента (текст, зображення тощо).</li>\n          <li><strong>Padding</strong> — внутрішні відступи між контентом і рамкою.</li>\n          <li><strong>Border</strong> — рамка навколо елемента.</li>\n          <li><strong>Margin</strong> — зовнішній відступ між елементами.</li>\n        </ul>\n        <pre>div {\n  width: 200px;\n  padding: 10px;\n  border: 5px solid black;\n  margin: 20px;\n}\n      </pre>\n        <p>Повна ширина елемента: <code>width + padding + border + margin</code>.</p>\n        <p>Щоб розмір включав padding і border, використовують <code>box-sizing: border-box;</code>.</p>\n      ",
+      "answer": "\n        <p><strong>Box Model</strong> описує, як браузер рахує розміри елемента і простір навколо нього. Кожен блок складається з чотирьох частин:</p>\n        <ul>\n          <li><strong>Content</strong> — сам вміст: текст, картинка, вкладені елементи.</li>\n          <li><strong>Padding</strong> — внутрішній відступ між контентом і рамкою.</li>\n          <li><strong>Border</strong> — рамка навколо padding.</li>\n          <li><strong>Margin</strong> — зовнішній відступ між елементом і сусідами.</li>\n        </ul>\n        <p><strong>За замовчуванням</strong> браузер використовує <code>box-sizing: content-box</code>, тобто <code>width</code> і <code>height</code> задають лише розмір контенту, а <code>padding</code> і <code>border</code> додаються зверху.</p>\n        <pre>.box {\n  width: 200px;\n  padding: 20px;\n  border: 5px solid black;\n  margin: 16px;\n}</pre>\n        <p>У цьому прикладі фактична ширина блоку без урахування margin буде <code>200 + 20 + 20 + 5 + 5 = 250px</code>.</p>\n        <p><strong>Найчастіше в проєктах ставлять:</strong></p>\n        <pre>* {\n  box-sizing: border-box;\n}</pre>\n        <p>Тоді <code>width</code> і <code>height</code> вже <strong>включають content + padding + border</strong>, що значно зручніше для верстки.</p>\n      ",
       "isFollowUp": false
     },
     {
@@ -117,8 +117,8 @@
     },
     {
       "id": "q-20",
-      "question": "У чому різниця між inline, block і inline-block?",
-      "answer": "\n        <ul>\n          <li><strong>inline</strong> — займає ширину контенту, не переноситься на новий рядок. Не можна задавати width/height.</li>\n          <li><strong>block</strong> — займає всю ширину батьківського елемента, переноситься на новий рядок.</li>\n          <li><strong>inline-block</strong> — поєднує властивості обох: можна задавати width/height, але не переноситься автоматично.</li>\n        </ul>\n        <pre>span { display: inline; }\ndiv { display: block; }\nbutton { display: inline-block; }\n    </pre>\n      ",
+      "question": "Які основні значення display і в чому особливість inline-block?",
+      "answer": "\n        <p><code>display</code> визначає, <strong>як елемент відображається на сторінці і як взаємодіє з іншими елементами в layout</strong>.</p>\n        <p>Найуживаніші значення:</p>\n        <ul>\n          <li><strong>block</strong> — елемент починається з нового рядка і зазвичай займає всю доступну ширину.</li>\n          <li><strong>inline</strong> — елемент стоїть у текстовому потоці, ширина залежить від контенту, <code>width</code>/<code>height</code> не працюють як у block.</li>\n          <li><strong>inline-block</strong> — стоїть у рядку, але дозволяє задавати <code>width</code>, <code>height</code>, <code>padding</code>, <code>margin</code>.</li>\n          <li><strong>flex</strong> — робить елемент flex-контейнером для одновимірного layout.</li>\n          <li><strong>grid</strong> — робить елемент grid-контейнером для двовимірного layout.</li>\n          <li><strong>inline-flex</strong> / <strong>inline-grid</strong> — як flex/grid, але сам контейнер поводиться як inline-елемент.</li>\n          <li><strong>table</strong>, <strong>table-row</strong>, <strong>table-cell</strong> — імітація табличної поведінки через CSS.</li>\n          <li><strong>list-item</strong> — елемент поводиться як пункт списку і може мати маркер.</li>\n          <li><strong>none</strong> — прибирає елемент із layout повністю.</li>\n        </ul>\n        <pre>span { display: inline; }\ndiv { display: block; }\n.button { display: inline-block; }\n.nav { display: flex; }\n.layout { display: grid; }</pre>\n        <p><strong>Особливість inline-block:</strong> це компроміс між <code>inline</code> і <code>block</code> — елемент стоїть у рядку, але має власні розміри. Часто використовувався для кнопок, бейджів, тегів, елементів меню.</p>\n        <p><strong>Нюанс:</strong> між <code>inline-block</code> елементами часто з'являється проміжок через пробіли або переноси в HTML. Через це в сучасному layout частіше використовують <code>flex</code>.</p>\n        <p><strong>Важливе порівняння:</strong> <code>display: none</code> повністю прибирає елемент із layout, тоді як <code>visibility: hidden</code> лише ховає його, але залишає місце.</p>\n      ",
       "isFollowUp": false
     },
     {
@@ -130,19 +130,19 @@
     {
       "id": "q-22",
       "question": "Як працює наслідування (inheritance) у CSS?",
-      "answer": "\n        <p>Деякі властивості автоматично передаються дочірнім елементам (наприклад, шрифти, колір тексту).</p>\n        <ul>\n          <li>Успадковуються: <code>color</code>, <code>font-family</code>, <code>line-height</code>.</li>\n          <li>Не успадковуються: <code>margin</code>, <code>padding</code>, <code>border</code>.</li>\n        </ul>\n        <p>Щоб примусово наслідувати, використовують <code>inherit</code>.</p>\n        <pre>div { color: blue; }\np { color: inherit; }\n    </pre>\n      ",
+      "answer": "\n        <p>Наслідування означає, що частина CSS-властивостей автоматично переходить від батьківського елемента до дочірніх.</p>\n        <ul>\n          <li><strong>Зазвичай успадковуються:</strong> <code>color</code>, <code>font-family</code>, <code>font-size</code>, <code>line-height</code>, <code>visibility</code>.</li>\n          <li><strong>Зазвичай не успадковуються:</strong> <code>margin</code>, <code>padding</code>, <code>border</code>, <code>width</code>, <code>height</code>, <code>background</code>.</li>\n        </ul>\n        <p>Якщо треба <strong>примусово наслідувати</strong> значення, використовують <code>inherit</code>:</p>\n        <pre>.parent {\n  color: blue;\n  border: 1px solid black;\n}\n\n.child {\n  color: inherit;\n  border: inherit;\n}</pre>\n        <p>Якщо треба <strong>скинути</strong> властивість до стандартного значення браузера, використовують <code>initial</code>. Також часто згадують <code>unset</code> — він поводиться як <code>inherit</code> для успадковуваних властивостей і як <code>initial</code> для неуспадковуваних.</p>\n      ",
       "isFollowUp": false
     },
     {
       "id": "q-23",
       "question": "Як працює z-index і що таке stacking context?",
-      "answer": "\n        <p><code>z-index</code> визначає порядок накладання елементів по осі Z (поверх/під іншими).</p>\n        <ul>\n          <li>Працює лише для елементів із <code>position</code> відмінним від <code>static</code>.</li>\n          <li>Новий <strong>stacking context</strong> створюється елементами з <code>position</code> + <code>z-index</code>, <code>opacity &lt; 1</code>, <code>transform</code>, <code>filter</code> тощо.</li>\n        </ul>\n        <pre>.box1 {\n  position: relative;\n  z-index: 2;\n}\n.box2 {\n  position: relative;\n  z-index: 1;\n}\n    </pre>\n      ",
+      "answer": "\n        <p><code>z-index</code> визначає порядок накладання елементів по осі Z: що буде вище, а що нижче.</p>\n        <ul>\n          <li>Найчастіше працює для елементів із <code>position: relative | absolute | fixed | sticky</code>.</li>\n          <li>Якщо <code>z-index</code> не задано, значення фактично <code>auto</code>, і порядок часто визначається DOM-послідовністю.</li>\n          <li>Може бути від'ємним, але це легко створює неочікувану поведінку.</li>\n        </ul>\n        <p><strong>Stacking context</strong> — це окремий контекст накладання. Усередині нього елементи порівнюються між собою, але не напряму з елементами з іншого stacking context.</p>\n        <p>Новий stacking context можуть створити:</p>\n        <ul>\n          <li>елемент із <code>position</code> і власним <code>z-index</code></li>\n          <li><code>opacity &lt; 1</code></li>\n          <li><code>transform</code>, <code>filter</code>, <code>perspective</code></li>\n          <li><code>isolation: isolate</code></li>\n        </ul>\n        <pre>.modal {\n  position: fixed;\n  z-index: 1000;\n}\n\n.backdrop {\n  position: fixed;\n  z-index: 999;\n}</pre>\n        <p><strong>Типова співбесідна пастка:</strong> навіть великий <code>z-index: 9999</code> не допоможе, якщо елемент опинився всередині іншого stacking context, який нижчий за сусідній контекст.</p>\n      ",
       "isFollowUp": false
     },
     {
       "id": "q-24",
-      "question": "Яка різниця між display: none і visibility: hidden?",
-      "answer": "\n        <ul>\n          <li><code>display: none</code> — елемент повністю зникає з DOM-потоку.</li>\n          <li><code>visibility: hidden</code> — елемент залишається на місці, але стає невидимим.</li>\n        </ul>\n        <pre>.hidden1 { display: none; }   /* не займає місце */\n.hidden2 { visibility: hidden; } /* займає місце */\n    </pre>\n      ",
+      "question": "Як приховати елемент у CSS і чим відрізняються display: none, visibility: hidden і opacity: 0?",
+      "answer": "\n        <p>Є кілька популярних способів приховати елемент, і вони поводяться по-різному:</p>\n        <ul>\n          <li><code>display: none</code> — елемент прибирається з layout, не займає місця на сторінці.</li>\n          <li><code>visibility: hidden</code> — елемент невидимий, але місце під нього залишається.</li>\n          <li><code>opacity: 0</code> — елемент повністю прозорий, але все ще існує в layout і зазвичай лишається інтерактивним.</li>\n        </ul>\n        <pre>.hidden-display { display: none; }\n.hidden-visibility { visibility: hidden; }\n.hidden-opacity { opacity: 0; }</pre>\n        <p><strong>Практична різниця:</strong></p>\n        <ul>\n          <li><code>display: none</code> — використовують, коли елемент треба повністю прибрати з потоку.</li>\n          <li><code>visibility: hidden</code> — коли треба приховати елемент, але зберегти його місце.</li>\n          <li><code>opacity: 0</code> — коли потрібні анімації fade-in/fade-out, але часто разом додають <code>pointer-events: none</code>, щоб елемент не перехоплював кліки.</li>\n        </ul>\n      ",
       "isFollowUp": false
     },
     {
@@ -232,7 +232,7 @@
     {
       "id": "q-39",
       "question": "Як працюють media queries — різниця між min-width і max-width?",
-      "answer": "\n        <ul>\n          <li><code>min-width</code> — стилі застосовуються, коли екран <strong>ширший</strong> за вказане значення (mobile-first).</li>\n          <li><code>max-width</code> — стилі застосовуються, коли екран <strong>вужчий</strong> за вказане значення (desktop-first).</li>\n        </ul>\n        <pre>@media (min-width: 768px) {\n  body { background: lightblue; }\n}\n@media (max-width: 767px) {\n  body { background: pink; }\n}\n    </pre>\n      ",
+      "answer": "\n        <p><strong>Media queries</strong> — це умови через <code>@media</code>, які дозволяють змінювати стилі залежно від ширини екрана, орієнтації, типу пристрою та інших характеристик.</p>\n        <ul>\n          <li><code>min-width</code> — стилі застосовуються, коли viewport <strong>не менший</strong> за значення. Це типовий <strong>mobile-first</strong> підхід.</li>\n          <li><code>max-width</code> — стилі застосовуються, коли viewport <strong>не більший</strong> за значення. Це ближче до <strong>desktop-first</strong>.</li>\n        </ul>\n        <pre>/* База: мобільна версія */\n.card {\n  padding: 12px;\n}\n\n/* Від tablet і вище */\n@media (min-width: 768px) {\n  .card {\n    padding: 20px;\n  }\n}\n\n/* Для вузьких екранів */\n@media (max-width: 767px) {\n  .sidebar {\n    display: none;\n  }\n}</pre>\n        <p><strong>На практиці</strong> найчастіше використовують mobile-first: базові стилі без media query, а потім розширюють layout через <code>min-width</code>.</p>\n      ",
       "isFollowUp": false
     },
     {
@@ -257,18 +257,6 @@
       "id": "q-43",
       "question": "Що таке mobile-first підхід?",
       "answer": "\n        <p><strong>Mobile-first</strong> — це принцип розробки, де стилі спочатку створюються для мобільних екранів, а потім масштабуються вгору через <code>min-width</code> media queries.</p>\n        <pre>/* базові стилі для мобільних */\nbody { font-size: 16px; }\n\n/* більші екрани */\n@media (min-width: 768px) {\n  body { font-size: 18px; }\n}\n    </pre>\n      ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-44",
-      "question": "Як протестувати адаптивність у DevTools?",
-      "answer": "\n        <p>У Chrome DevTools є інструмент <strong>Device Toolbar</strong> (Ctrl+Shift+M), який дозволяє:</p>\n        <ul>\n          <li>Переглядати сторінку на різних розмірах екранів.</li>\n          <li>Імітувати мобільні пристрої (iPhone, Galaxy тощо).</li>\n          <li>Перевіряти поведінку touch-ів, viewport, zoom тощо.</li>\n        </ul>\n      ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-45",
-      "question": "Як зробити fluid-типографіку через clamp()?",
-      "answer": "\n        <p>Використай <code>clamp()</code> для плавного масштабування шрифтів:</p>\n        <pre>h1 {\n  font-size: clamp(1.5rem, 5vw, 3rem);\n}\n    </pre>\n        <p>Шрифт змінюється між 1.5rem і 3rem залежно від ширини viewport.</p>\n      ",
       "isFollowUp": false
     },
     {
@@ -338,24 +326,6 @@
       "isFollowUp": false
     },
     {
-      "id": "q-57",
-      "question": "Як використовуються partials (_variables.scss, _mixins.scss)?",
-      "answer": "\n        <p>Partials — це окремі SCSS-файли, які не компілюються самостійно (починаються з “_”) і підключаються через <code>@use</code> або <code>@import</code>.</p>\n        <pre>/* _variables.scss */\n$primary: #007BFF;\n\n/* main.scss */\n@use 'variables';\n\n.button {\n  background: variables.$primary;\n}\n    </pre>\n      ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-58",
-      "question": "Як створити функцію у SCSS (@function)?",
-      "answer": "\n        <p>Функції у SCSS дозволяють повертати обчислені значення.</p>\n        <pre>@function rem($px) {\n  @return $px / 16 * 1rem;\n}\n\nh1 {\n  font-size: rem(24);\n}\n    </pre>\n      ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-59",
-      "question": "Що таке maps у SCSS?",
-      "answer": "\n        <p><strong>Map</strong> — це структура даних у форматі ключ–значення.</p>\n        <pre>$colors: (\n  primary: #007BFF,\n  success: #28a745,\n  danger: #dc3545\n);\n\n.button {\n  background: map-get($colors, primary);\n}\n    </pre>\n      ",
-      "isFollowUp": false
-    },
-    {
       "id": "q-60",
       "question": "Як SCSS компілюється у звичайний CSS?",
       "answer": "\n        <p>Компіляція — це процес перетворення SCSS у чистий CSS через препроцесор (наприклад, Gulp, Webpack або CLI-команду):</p>\n        <pre>sass styles.scss styles.css --style compressed\n    </pre>\n      ",
@@ -377,6 +347,12 @@
       "id": "q-63",
       "question": "Як реалізувати BEM у SCSS?",
       "answer": "\n        <p>SCSS полегшує написання BEM через вкладеність і амперсанд <code>&amp;</code>:</p>\n        <pre>.block {\n  &amp;__element {\n    color: black;\n  }\n  &amp;--modifier {\n    color: red;\n  }\n}\n    </pre>\n      ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-63-css-methodologies-overview",
+      "question": "Які основні CSS методології та підходи існують і чим вони коротко відрізняються?",
+      "answer": "\n        <ul>\n          <li><strong>BEM</strong> — іменування через <code>block__element--modifier</code>, щоб стилі були передбачуваними й ізольованими.</li>\n          <li><strong>SMACSS</strong> — ділить CSS на категорії: base, layout, module, state, theme.</li>\n          <li><strong>OOCSS</strong> — розділяє структуру та візуальну оболонку, щоб перевикористовувати стилі.</li>\n          <li><strong>Atomic CSS / Functional CSS</strong> — один клас = одна властивість; швидко, просто, мінімум конфліктів.</li>\n          <li><strong>ITCSS</strong> — організовує стилі шар за шаром: від глобальних налаштувань до компонентів і utility-класів.</li>\n          <li><strong>CSS Modules</strong> — ізоляція стилів на рівні компонентів через унікальні класи.</li>\n          <li><strong>Styled Components</strong> — CSS у JS з динамічними props і тематизацією.</li>\n          <li><strong>Utility-first CSS</strong> — готові утилітарні класи для швидкої верстки, наприклад Tailwind.</li>\n        </ul>\n        <p><strong>Практичне правило:</strong> для великих проєктів часто комбінують підходи: ITCSS або BEM для структури, CSS Modules / Styled Components для ізоляції, Utility-first — для швидкого UI.</p>\n      ",
       "isFollowUp": false
     },
     {
@@ -464,33 +440,9 @@
       "isFollowUp": false
     },
     {
-      "id": "q-78",
-      "question": "Як реалізується theme customization у Tailwind?",
-      "answer": "\n        <p>Теми або свої кольори додаються через розділ <code>theme.extend</code> у конфігурації:</p>\n        <pre>/* tailwind.config.js */\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: {\n        brand: \"#1E40AF\",\n      },\n      fontFamily: {\n        sans: [\"Inter\", \"sans-serif\"],\n      },\n    },\n  },\n};\n    </pre>\n      ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-79",
-      "question": "Як поєднувати Tailwind із BEM або React components?",
-      "answer": "\n        <p>Tailwind можна поєднувати з BEM для складних компонентів або з React через props.</p>\n        <pre>function Button({ type }) {\n  const base = \"px-4 py-2 rounded text-white\";\n  const styles = type === \"primary\" ? \"bg-blue-600\" : \"bg-gray-500\";\n  return &lt;button class={`${base} ${styles}`}&gt;Click&lt;/button&gt;;\n}\n    </pre>\n        <p>Tailwind добре працює з компонентним підходом.</p>\n      ",
-      "isFollowUp": false
-    },
-    {
       "id": "q-80",
       "question": "Як писати кастомні класи у Tailwind через @apply?",
       "answer": "\n        <p>Використовуй <code>@apply</code> у власному CSS, щоб поєднати кілька утиліт у новий клас:</p>\n        <pre>/* styles.css */\n.btn {\n  @apply bg-blue-600 text-white font-semibold px-4 py-2 rounded hover:bg-blue-700;\n}\n    </pre>\n        <p>Це допомагає уникнути дублювання однакових класів у HTML.</p>\n      ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-81",
-      "question": "Як зробити dark-mode у Tailwind?",
-      "answer": "\n        <p>Tailwind має вбудовану підтримку темної теми. Активується через <code>darkMode</code> у конфігурації:</p>\n        <pre>/* tailwind.config.js */\nmodule.exports = {\n  darkMode: \"class\", // або \"media\"\n};\n    </pre>\n        <p>Потім використовуєш префікс <code>dark:</code>:</p>\n        <pre>&lt;div class=\"bg-white dark:bg-gray-900 text-gray-900 dark:text-white\"&gt;...\n    </pre>",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-82",
-      "question": "Як додавати плагіни у Tailwind?",
-      "answer": "\n      <p>Tailwind дозволяє підключати офіційні та кастомні плагіни через <code>plugins</code>:</p>\n      <pre>/* tailwind.config.js */\nconst forms = require(\"@tailwindcss/forms\");\nmodule.exports = {\n  plugins: [forms],\n};\n    </pre>\n      <p>Популярні плагіни: <code>@tailwindcss/forms</code>, <code>@tailwindcss/typography</code>, <code>@tailwindcss/aspect-ratio</code>.</p>\n    ",
       "isFollowUp": false
     },
     {
@@ -515,12 +467,6 @@
       "id": "q-86",
       "question": "Що таке repaint і reflow?",
       "answer": "\n      <p><strong>Reflow</strong> — це перерахунок розміщення елементів (layout).\n        <strong>Repaint</strong> — це оновлення зовнішнього вигляду (color, background тощо).</p>\n      <p>Reflow → Repaint = важка операція ⚠️</p>\n      <p><strong>Що викликає reflow:</strong></p>\n      <ul>\n        <li>Зміна розміру вікна.</li>\n        <li>Маніпуляції з DOM (appendChild, offsetWidth).</li>\n        <li>Зміна шрифтів або CSS layout.</li>\n      </ul>\n      <p>Оптимізація: мінімізуй зміни в DOM, використовуй <code>transform</code> замість <code>top/left</code>.</p>\n    ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-87",
-      "question": "Що таке layout thrashing?",
-      "answer": "\n      <p>Це ситуація, коли JavaScript постійно чергує операції «читання» і «запис» DOM, змушуючи браузер щоразу робити reflow.</p>\n      <pre>// ❌ Погано\ndiv.style.width = div.offsetWidth + 10 + 'px';\n\n// ✅ Добре\nconst width = div.offsetWidth;\ndiv.style.width = width + 10 + 'px';\n    </pre>\n      <p>💡 Рішення — кешуй значення перед зміною стилів.</p>\n    ",
       "isFollowUp": false
     },
     {
@@ -554,21 +500,9 @@
       "isFollowUp": false
     },
     {
-      "id": "q-93",
-      "question": "Що таке CSS Houdini і як він розширює можливості CSS?",
-      "answer": "\n      <p><strong>CSS Houdini</strong> — це набір API, який дозволяє розробникам писати власні CSS-властивості та парсери.</p>\n      <ul>\n        <li>Можна створювати кастомні властивості з поведінкою.</li>\n        <li>Підвищує гнучкість браузерного рендерингу.</li>\n      </ul>\n      <pre>// Реєстрація нової властивості\nCSS.registerProperty({\n  name: \"--rotation\",\n  syntax: \"&lt;angle&gt;\",\n  inherits: false,\n  initialValue: \"0deg\",\n});\n    </pre>\n      <p>Наприклад, тепер можна анімувати <code>--rotation</code> як звичайну властивість.</p>\n    ",
-      "isFollowUp": false
-    },
-    {
       "id": "q-94",
       "question": "Як працює stacking context (і які властивості його створюють)?",
       "answer": "\n      <p><strong>Stacking context</strong> — це середовище, у якому елементи накладаються один на одного (<code>z-index</code> працює лише всередині нього).</p>\n      <p><strong>Створюється коли:</strong></p>\n      <ul>\n        <li>position: relative / absolute / fixed + z-index;</li>\n        <li>opacity &lt; 1;</li>\n        <li>transform, filter, perspective;</li>\n        <li>isolation: isolate або mix-blend-mode.</li>\n      </ul>\n      <pre>.parent {\n  position: relative;\n  z-index: 10;\n}\n.child {\n  position: absolute;\n  z-index: 5; /* тільки в межах parent */\n}\n    </pre>\n    ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-95",
-      "question": "Що таке clip-path і mask-image?",
-      "answer": "\n      <ul>\n        <li><code>clip-path</code> — обрізає елемент за заданою формою (полігон, коло).</li>\n        <li><code>mask-image</code> — приховує частини елемента за допомогою прозорості.</li>\n      </ul>\n      <pre>.circle {\n  clip-path: circle(50% at 50% 50%);\n}\n\n.mask {\n  mask-image: url(mask.svg);\n  -webkit-mask-image: url(mask.svg);\n}\n    </pre>\n    ",
       "isFollowUp": false
     },
     {
@@ -590,33 +524,15 @@
       "isFollowUp": false
     },
     {
-      "id": "q-99",
-      "question": "Що таке accent-color, color-scheme, scroll-timeline?",
-      "answer": "\n      <ul>\n        <li><strong>accent-color</strong> — дозволяє задати колір елементів форм (checkbox, range).</li>\n        <li><strong>color-scheme</strong> — повідомляє браузеру про підтримку темної/світлої теми.</li>\n        <li><strong>scroll-timeline</strong> — дає змогу створювати анімації, що залежать від скролу.</li>\n      </ul>\n      <pre>input[type=\"checkbox\"] {\n  accent-color: #007bff;\n}\n\n:root {\n  color-scheme: light dark;\n}\n\n@scroll-timeline scroll {\n  scroll-source: body;\n  orientation: block;\n}\n    </pre>\n    ",
-      "isFollowUp": false
-    },
-    {
       "id": "q-100",
       "question": "Як створити власну spacing-систему через CSS Variables?",
       "answer": "\n      <p>Можна оголосити змінні для відступів, щоб зберегти консистентність дизайну.</p>\n      <pre>:root {\n  --space-xs: 4px;\n  --space-sm: 8px;\n  --space-md: 16px;\n  --space-lg: 32px;\n}\n.card {\n  padding: var(--space-md);\n  margin-bottom: var(--space-lg);\n}\n    </pre>\n      <p>Такі змінні легко масштабувати під теми чи breakpoints.</p>\n    ",
       "isFollowUp": false
     },
     {
-      "id": "q-101",
-      "question": "Як працює backdrop-filter і які його обмеження?",
-      "answer": "\n      <p><strong>backdrop-filter</strong> застосовує ефекти (blur, brightness, contrast) до області позаду елемента.</p>\n      <pre>.overlay {\n  backdrop-filter: blur(8px) brightness(0.8);\n  background: rgba(0, 0, 0, 0.3);\n}\n    </pre>\n      <p>Працює лише на елементах із напівпрозорим фоном і не підтримується в IE.</p>\n    ",
-      "isFollowUp": false
-    },
-    {
       "id": "q-102",
       "question": "Як створити кастомний scrollbar?",
       "answer": "\n      <p>Можна стилізувати скролбар через псевдоелементи <code>::-webkit-scrollbar</code>.</p>\n      <pre>::-webkit-scrollbar {\n  width: 10px;\n}\n::-webkit-scrollbar-thumb {\n  background: linear-gradient(#007bff, #00bcd4);\n  border-radius: 5px;\n}\n::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n    </pre>\n    ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-103",
-      "question": "Як CSS впливає на FCP та CLS?",
-      "answer": "\n      <ul>\n        <li><strong>FCP (First Contentful Paint):</strong> великі CSS-файли затримують перше відображення контенту → оптимізуй критичні стилі.</li>\n        <li><strong>CLS (Cumulative Layout Shift):</strong> неправильні розміри елементів (зображень, шрифтів) викликають стрибки контенту.</li>\n      </ul>\n      <p>💡 Завжди задавай <code>width</code> і <code>height</code> для медіа, щоб уникнути CLS.</p>\n    ",
       "isFollowUp": false
     },
     {
@@ -680,27 +596,9 @@
       "isFollowUp": false
     },
     {
-      "id": "q-114",
-      "question": "Яку роль відіграють формати зображень WebP, JPG, PNG?",
-      "answer": "<ul>\n  <li><strong>WebP</strong> — сучасний формат з кращим стисненням: менший розмір, підтримка прозорості, підходить для фото і UI. Використовують з fallback через <code>&lt;picture&gt;</code>.</li>\n  <li><strong>JPG</strong> — растровий з втратами, ідеальний для фотографій. Немає прозорості.</li>\n  <li><strong>PNG</strong> — растровий без втрат, підтримує прозорість. Більший розмір за JPG.</li>\n</ul>",
-      "isFollowUp": false
-    },
-    {
       "id": "q-115",
       "question": "Що таке Retina і як працювати з екранами з високою щільністю пікселів?",
       "answer": "<p><strong>Retina</strong> — екрани з високою щільністю пікселів, де на один CSS-піксель припадає кілька фізичних.</p>\n<p>Щоб зображення виглядали чітко, потрібно завантажувати картинки більшої роздільної здатності:</p>\n<pre>&lt;img\n  src=\"icon.png\"\n  srcset=\"icon.png 1x, icon@2x.png 2x\"\n  alt=\"\"\n/&gt;</pre>\n<p><strong>DPI</strong> (<em>dots per inch</em>) — кількість пікселів на дюйм. На Retina-екранах стандартні растрові картинки виглядають розмитими без 2x/3x версій.</p>\n<p><strong>Що краще для Retina — PNG чи SVG?</strong> SVG — масштабується без втрати якості.</p>",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-116",
-      "question": "PNG — це який тип зображення?",
-      "answer": "<p><strong>PNG</strong> — растровий формат із безвтратним стисненням.</p>\n<p>Підтримує прозорість (<code>alpha channel</code>). Використовується для іконок, UI-елементів, скріншотів.</p>\n<p><strong>Чому PNG важчий за JPG?</strong> Тому що не використовує стиснення з втратами.</p>",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-117",
-      "question": "Центрування в CSS",
-      "answer": "<p>Найпростіший спосіб центрування елемента:</p>\n<pre>/* Flexbox */\n.parent {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n/* Для тексту */\n.text { text-align: center; }\n\n/* Абсолютне позиціонування */\n.child {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n}</pre>",
       "isFollowUp": false
     },
     {
@@ -714,7 +612,91 @@
       "question": "Типи позиціонування в CSS",
       "answer": "<ul>\n  <li><strong>static</strong> — стандартне положення елемента;</li>\n  <li><strong>relative</strong> — позиціонується відносно власного місця;</li>\n  <li><strong>absolute</strong> — відносно найближчого позиціонованого предка;</li>\n  <li><strong>fixed</strong> — відносно вікна браузера;</li>\n  <li><strong>sticky</strong> — комбінує relative і fixed (прилипання під час скролу).</li>\n</ul>",
       "isFollowUp": false
+    },
+    {
+      "id": "q-120",
+      "question": "Що таке CSS Variables (Custom Properties), де і як їх використовують? Що таке :root?",
+      "answer": "<p><strong>CSS Variables</strong> або <strong>Custom Properties</strong> — це власні CSS-властивості, які оголошуються через <code>--name</code> і читаються через <code>var(--name)</code>.</p>\n<p>Вони працюють <strong>у runtime</strong>, тобто браузер може застосовувати їх динамічно без перекомпіляції стилів. Це головна відмінність від SCSS-змінних, які існують лише під час збірки.</p>\n<pre>:root {\n  --color-primary: #2563eb;\n  --space-md: 16px;\n  --radius-md: 12px;\n}\n\n.button {\n  background: var(--color-primary);\n  padding: var(--space-md);\n  border-radius: var(--radius-md);\n}</pre>\n<p><strong>:root</strong> — це псевдоклас, який вибирає кореневий елемент документа. В HTML це елемент <code>&lt;html&gt;</code>. Зазвичай у <code>:root</code> зберігають <strong>глобальні токени дизайну</strong>: кольори, відступи, шрифти, радіуси, тіні.</p>\n<p><strong>Важливо:</strong> CSS variables підкоряються звичайним правилам cascade і inheritance. Їх можна <strong>перевизначити нижче по коду</strong> або в більш конкретному селекторі, і тоді для цього scope почне діяти нове значення.</p>\n<pre>:root {\n  --text-color: black;\n}\n\n.card {\n  color: var(--text-color);\n}\n\n.dark-theme {\n  --text-color: white;\n}</pre>\n<p>У прикладі вище всередині <code>.dark-theme</code> змінна <code>--text-color</code> уже буде мати значення <code>white</code>, хоча глобально в <code>:root</code> вона була <code>black</code>.</p>\n<p><strong>Де використовувати CSS variables:</strong></p>\n<ul>\n  <li><strong>Глобальна тема:</strong> кольори, typography, spacing, z-index, shadows</li>\n  <li><strong>Темізація:</strong> light / dark theme, брендинг, user preferences</li>\n  <li><strong>Компонентний scope:</strong> локальні змінні всередині конкретного блоку</li>\n  <li><strong>Responsive overrides:</strong> зміна значень у media queries</li>\n  <li><strong>JS integration:</strong> читати або змінювати значення через <code>getComputedStyle</code> чи <code>element.style.setProperty()</code></li>\n</ul>\n<pre>:root {\n  --card-padding: 16px;\n}\n\n.card {\n  --card-bg: white;\n  padding: var(--card-padding);\n  background: var(--card-bg);\n}\n\n.dark-theme {\n  --card-bg: #111827;\n  --color-primary: #60a5fa;\n}</pre>\n<p><strong>Чому це зручно:</strong> одне значення можна перевикористовувати в багатьох місцях, легко міняти тему, уникати дублювання і централізовано керувати стилями.</p>\n<p><strong>Корисно знати:</strong> CSS variables успадковуються, тому дочірні елементи можуть використовувати значення батьків. Також можна задавати fallback:</p>\n<pre>color: var(--text-color, #111);</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-122",
+      "question": "Що таке каскадність у CSS?",
+      "answer": "<p><strong>Каскадність</strong> — це механізм, за яким браузер вирішує, яке саме CSS-правило застосувати, якщо до одного елемента підходить кілька правил одночасно.</p>\n<p>На результат впливають:</p>\n<ul>\n  <li><strong>походження стилю</strong> — user-agent, user styles, author styles</li>\n  <li><strong>специфічність</strong> селектора</li>\n  <li><strong>порядок оголошення</strong> — за інших рівних перемагає правило, написане нижче</li>\n  <li><strong>!important</strong> — примусово піднімає пріоритет</li>\n</ul>\n<pre>p { color: blue; }\n.text { color: red; }\np.text { color: green; } /* переможе */</pre>\n<p>Саме через каскад CSS і називається <em>Cascading</em> Style Sheets.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-123",
+      "question": "Які є способи підключення CSS до HTML-документа?",
+      "answer": "<p>Основні способи підключення CSS:</p>\n<ul>\n  <li><strong>Inline styles</strong> — через атрибут <code>style</code> прямо в елементі</li>\n  <li><strong>Internal styles</strong> — через тег <code>&lt;style&gt;</code> усередині HTML-документа</li>\n  <li><strong>External styles</strong> — окремий <code>.css</code> файл через <code>&lt;link rel=\"stylesheet\" href=\"styles.css\"&gt;</code></li>\n  <li><strong>@import</strong> — імпорт іншого CSS-файлу всередині CSS або <code>&lt;style&gt;</code>, але зараз використовується рідше</li>\n</ul>\n<pre>&lt;link rel=\"stylesheet\" href=\"styles.css\" /&gt;</pre>\n<p><strong>На практиці</strong> у проєктах найчастіше використовують зовнішні CSS-файли, бо це найзручніше для підтримки і кешування.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-124",
+      "question": "У чому різниця між margin і padding?",
+      "answer": "<p><code>margin</code> і <code>padding</code> обидва створюють відступи, але в різних місцях box model:</p>\n<ul>\n  <li><strong>margin</strong> — зовнішній відступ між елементом і сусідніми елементами</li>\n  <li><strong>padding</strong> — внутрішній відступ між контентом і рамкою елемента</li>\n</ul>\n<p><strong>Важливі відмінності:</strong></p>\n<ul>\n  <li>фон елемента поширюється на <code>padding</code>, але не на <code>margin</code></li>\n  <li>вертикальні <code>margin</code> у block-елементів можуть схлопуватись (<em>margin collapsing</em>)</li>\n  <li><code>padding</code> ніколи не схлопується</li>\n</ul>\n<pre>.card {\n  margin: 20px;\n  padding: 20px;\n  background: lightblue;\n}</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-126",
+      "question": "Як зробити останній елемент списку червоним без JavaScript?",
+      "answer": "<p>Для цього використовують псевдоклас <code>:last-child</code>.</p>\n<pre>ul li:last-child {\n  color: red;\n}</pre>\n<p>Правило спрацює незалежно від довжини списку: браузер сам вибере останній дочірній елемент.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-128",
+      "question": "Які переваги і недоліки CSS-препроцесорів?",
+      "answer": "<p><strong>CSS-препроцесори</strong> на кшталт SCSS або LESS додають до CSS додаткові можливості, а потім компілюються у звичайний CSS.</p>\n<p><strong>Переваги:</strong></p>\n<ul>\n  <li>змінні для кольорів, відступів, шрифтів</li>\n  <li>вкладеність селекторів</li>\n  <li>міксіни і перевикористання коду</li>\n  <li>частини файлів і краща організація стилів</li>\n</ul>\n<p><strong>Недоліки:</strong></p>\n<ul>\n  <li>потрібен етап збірки або компіляції</li>\n  <li>надмірна вкладеність легко ускладнює CSS</li>\n  <li>згенерований CSS іноді складніше дебажити без source maps</li>\n  <li>частину задач сьогодні вже закриває нативний CSS: variables, nesting, math functions</li>\n</ul>\n<p><strong>Висновок:</strong> препроцесори корисні, але ними не варто зловживати. У сучасних проєктах часто поєднують SCSS із нативними можливостями CSS.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-129",
+      "question": "Навіщо існують різні рівні заголовків, якщо розмір можна задати стилями?",
+      "answer": "<p>Теги <code>&lt;h1&gt;</code> - <code>&lt;h6&gt;</code> потрібні не для розміру, а для <strong>семантики і структури документа</strong>.</p>\n<ul>\n  <li><strong>Семантика:</strong> заголовки формують ієрархію контенту</li>\n  <li><strong>Доступність:</strong> screen readers використовують їх для навігації</li>\n  <li><strong>SEO:</strong> пошуковики краще розуміють структуру сторінки</li>\n  <li><strong>Підтримка:</strong> іншим розробникам легше читати розмітку</li>\n</ul>\n<p>Розмір, товщину і відступи заголовка задає CSS, але сам вибір <code>h1</code>, <code>h2</code>, <code>h3</code> має залежати від ролі заголовка в структурі сторінки.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-131",
+      "question": "У чому різниця між Reset.css і Normalize.css?",
+      "answer": "<p>Обидва підходи працюють із browser default styles, але мають різну ідею:</p>\n<ul>\n  <li><strong>Reset.css</strong> — майже повністю скидає стилі браузера до нейтрального стану. Це дає «чистий лист», але багато базових стилів доведеться писати заново.</li>\n  <li><strong>Normalize.css</strong> — не скидає все повністю, а робить стандартні стилі браузерів більш узгодженими між собою.</li>\n</ul>\n<pre>/* Reset */\n* {\n  margin: 0;\n  padding: 0;\n  box-sizing: border-box;\n}</pre>\n<p><strong>Практично:</strong> reset — жорсткіший підхід, normalize — м'якший. У сучасних проєктах часто замість окремого reset використовують власний базовий глобальний набір стилів.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-132",
+      "question": "У чому різниця між class і id у CSS?",
+      "answer": "<p><strong>class</strong> і <strong>id</strong> — це різні способи ідентифікувати елементи.</p>\n<ul>\n  <li><strong>class</strong> починається з <code>.</code> і може повторюватися на багатьох елементах</li>\n  <li><strong>id</strong> починається з <code>#</code> і має бути унікальним у межах документа</li>\n  <li><code>#id</code> має вищу специфічність, ніж <code>.class</code></li>\n</ul>\n<pre>.button { color: white; }\n#submit-btn { color: red; }</pre>\n<p><strong>На практиці</strong> для стилізації майже завжди краще використовувати <code>class</code>, бо це гнучкіше і простіше перевизначати. <code>id</code> частіше використовують для якорів, зв'язків із label або JS-логіки.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-134",
+      "question": "Що таке вендорні префікси і навіщо вони використовуються?",
+      "answer": "<p><strong>Вендорні префікси</strong> — це браузерні префікси для експериментальних або ще нестабільних CSS-властивостей.</p>\n<p>Найвідоміші префікси:</p>\n<ul>\n  <li><code>-webkit-</code> — Chrome, Safari, старі мобільні браузери</li>\n  <li><code>-moz-</code> — Firefox</li>\n  <li><code>-ms-</code> — Internet Explorer / старий Edge</li>\n  <li><code>-o-</code> — старий Opera</li>\n</ul>\n<pre>.element {\n  -webkit-transform: rotate(45deg);\n  -moz-transform: rotate(45deg);\n  -ms-transform: rotate(45deg);\n  transform: rotate(45deg);\n}</pre>\n<p><strong>Навіщо були потрібні:</strong> щоб тестувати нові можливості CSS до того, як вони стали стандартом.</p>\n<p><strong>Сьогодні</strong> більшість префіксів розробник вручну не пише — це зазвичай робить <code>Autoprefixer</code> на етапі збірки.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-135",
+      "question": "Що таке margin collapsing?",
+      "answer": "<p><strong>Margin collapsing</strong> — це схлопування вертикальних <code>margin</code> у block-елементів.</p>\n<p>Якщо два вертикальні margin стикаються, браузер зазвичай не додає їх, а залишає лише більший.</p>\n<pre>.block-1 {\n  margin-bottom: 20px;\n}\n\n.block-2 {\n  margin-top: 10px;\n}</pre>\n<p>Відстань між блоками в прикладі буде <code>20px</code>, а не <code>30px</code>.</p>\n<p><strong>Часто трапляється:</strong></p>\n<ul>\n  <li>між сусідніми block-елементами</li>\n  <li>між батьком і першим/останнім дочірнім block-елементом</li>\n</ul>\n<p><strong>Як уникнути:</strong> використати <code>padding</code>, <code>border</code>, створити новий formatting context через <code>overflow: hidden/auto</code>, <code>display: flow-root</code> або перейти на flex/grid layout.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-141",
+      "question": "Коли краще використовувати translate() замість top/left або абсолютного позиціонування?",
+      "answer": "<p><code>transform: translate()</code> краще використовувати, коли потрібно <strong>зсунути елемент без перерахунку layout</strong> або зробити плавну анімацію.</p>\n<ul>\n  <li><strong>Краща продуктивність:</strong> зміна <code>transform</code> зазвичай не викликає reflow, на відміну від зміни <code>top</code>/<code>left</code>.</li>\n  <li><strong>Плавніші анімації:</strong> <code>transform</code> краще підходить для transition/animation.</li>\n  <li><strong>Зручне центрування:</strong> класичний прийом <code>translate(-50%, -50%)</code> не залежить від власних розмірів елемента.</li>\n  <li><strong>Не змінює потік документа:</strong> елемент візуально рухається, але браузер не перебудовує весь layout так, як при маніпуляції позиційними координатами.</li>\n</ul>\n<pre>.modal {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n}</pre>\n<p><strong>Коротко:</strong> для анімації і дрібних зсувів — <code>translate()</code>, для фактичного позиціонування елемента в layout — <code>position</code> + координати.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-142",
+      "question": "Які проблеми має CSS-in-JS і як їх вирішують?",
+      "answer": "<p><strong>CSS-in-JS</strong> зручний для компонентного підходу, але має кілька типових проблем.</p>\n<p><strong>Основні мінуси:</strong></p>\n<ul>\n  <li><strong>Перформанс:</strong> стилі можуть генеруватись під час рендеру, що збільшує runtime-витрати.</li>\n  <li><strong>Розмір бандлу:</strong> бібліотеки на кшталт styled-components або emotion додають JS-код у bundle.</li>\n  <li><strong>Складність дебагу:</strong> інколи важче читати згенеровані класи і шукати джерело стилю.</li>\n  <li><strong>SSR / hydration нюанси:</strong> без правильної конфігурації можна отримати миготіння стилів або проблеми з гідрацією.</li>\n  <li><strong>Специфічність і перевизначення:</strong> стилі можуть ставати менш передбачуваними у великих кодових базах.</li>\n</ul>\n<p><strong>Як це вирішують:</strong></p>\n<ul>\n  <li>використовують <strong>SSR</strong> або extraction на build-етапі</li>\n  <li>для статичних стилів обирають <strong>CSS Modules</strong>, Tailwind або звичайний CSS</li>\n  <li>мінімізують динамічні стилі й переносять токени в theme / CSS variables</li>\n  <li>для runtime-less підходу використовують рішення на кшталт <strong>Linaria</strong> або compiled-style підходи</li>\n</ul>\n<p><strong>Висновок:</strong> CSS-in-JS корисний для ізольованих компонентів і темізації, але у великих проєктах його часто комбінують із нативним CSS або CSS Modules.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-143",
+      "question": "У чому різниця між одиницями em та rem у CSS?",
+      "answer": "<p><code>em</code> і <code>rem</code> — це відносні одиниці вимірювання, які найчастіше використовують для шрифтів, відступів і розмірів у адаптивній верстці.</p>\n<ul>\n  <li><strong>em</strong> — залежить від розміру шрифту поточного або батьківського елемента</li>\n  <li><strong>rem</strong> — завжди залежить від розміру шрифту кореневого елемента <code>html</code></li>\n</ul>\n<p><strong>Приклад для em:</strong></p>\n<pre>.container {\n  font-size: 20px;\n}\n\n.container .title {\n  font-size: 2em; /* 40px */\n}</pre>\n<p>Тут <code>2em = 2 × 20px</code>, бо одиниця рахується від шрифту контейнера.</p>\n<p><strong>Приклад для rem:</strong></p>\n<pre>html {\n  font-size: 16px;\n}\n\n.title {\n  font-size: 2rem; /* 32px */\n}</pre>\n<p>Тут <code>2rem = 2 × 16px</code>, незалежно від вкладеності елемента.</p>\n<p><strong>Коли що краще використовувати:</strong></p>\n<ul>\n  <li><strong>rem</strong> — коли потрібна передбачувана, стабільна система розмірів по всьому сайту</li>\n  <li><strong>em</strong> — коли компонент має масштабуватися від свого локального контексту</li>\n</ul>\n<p><strong>Практика:</strong> у сучасній верстці частіше використовують <code>rem</code> для глобальної консистентності, а <code>em</code> — точково для компонентних сценаріїв.</p>",
+      "isFollowUp": false
     }
   ],
-  "totalQuestions": 119
+  "totalQuestions": 115
 }

@@ -24,53 +24,11 @@ export const topics = [
             level: 'Junior'
           },
           {
-            id: 'js-core-concepts',
-            title: 'Core Concepts',
+            id: 'js-main',
+            title: 'JS Core & Advanced',
             icon: '📘',
-            children: [
-              { 
-                id: 'js-core-concepts-main', 
-                title: 'Core Concepts', 
-                file: 'frontend/javascript/frontend-interview-js.json',
-                level: 'Junior-Middle',
-                questionRange: [0, 80]
-              }
-            ]
-          },
-          {
-            id: 'js-advanced-topics',
-            title: 'Advanced Topics',
-            icon: '📗',
-            children: [
-              { 
-                id: 'js-advanced-middle', 
-                title: 'Advanced Topics', 
-                file: 'frontend/javascript/frontend-interview-js-advanced.json',
-                level: 'Middle',
-                questionRange: [0, 24]
-              },
-              { 
-                id: 'js-advanced-senior', 
-                title: 'Advanced Topics', 
-                file: 'frontend/javascript/frontend-interview-js-advanced.json',
-                level: 'Senior',
-                questionRange: [24, 48]
-              }
-            ]
-          },
-          {
-            id: 'js-patterns-architecture',
-            title: 'Patterns & Architecture',
-            icon: '🏗️',
-            children: [
-              { 
-                id: 'js-patterns-senior', 
-                title: 'Patterns & Architecture', 
-                file: 'frontend/javascript/frontend-interview-js.json',
-                level: 'Senior',
-                questionRange: [80, 124]
-              }
-            ]
+            file: 'frontend/javascript/frontend-interview-js-main.json',
+            level: 'Junior-Senior'
           },
           { 
             id: 'js-practice', 
@@ -92,26 +50,11 @@ export const topics = [
         title: 'React',
         icon: '⚛️',
         children: [
-          { 
-            id: 'react-junior', 
-            title: 'React', 
+          {
+            id: 'react-main',
+            title: 'React',
             file: 'frontend/react/frontend-interview-react.json',
-            level: 'Junior',
-            questionRange: [0, 20]
-          },
-          { 
-            id: 'react-middle', 
-            title: 'React', 
-            file: 'frontend/react/frontend-interview-react.json',
-            level: 'Middle',
-            questionRange: [20, 35]
-          },
-          { 
-            id: 'react-senior', 
-            title: 'React', 
-            file: 'frontend/react/frontend-interview-react.json',
-            level: 'Senior',
-            questionRange: [35, 50]
+            level: 'Junior-Senior'
           }
         ]
       },
@@ -261,14 +204,12 @@ export const learningRoadMap = [
   // Junior Level - Основи
   { id: 'css-main', title: 'HTML & CSS', level: 'Junior', order: 1 },
   { id: 'js-general', title: 'Web Basics', level: 'Junior', order: 2 },
-  { id: 'js-core-concepts-main', title: 'JS Core Concepts', level: 'Junior', order: 3 },
+  { id: 'js-main', title: 'JS Core & Advanced', level: 'Junior-Senior', order: 3 },
   { id: 'git-main', title: 'Git', level: 'Junior', order: 4 },
-  { id: 'react-junior', title: 'React', level: 'Junior', order: 5 },
+  { id: 'react-main', title: 'React', level: 'Junior-Middle-Senior', order: 5 },
   
   // Middle Level - Поглиблене вивчення
-  { id: 'js-advanced-middle', title: 'JS Advanced Topics', level: 'Middle', order: 7 },
   { id: 'ts-main', title: 'TypeScript', level: 'Middle', order: 8 },
-  { id: 'react-middle', title: 'React', level: 'Middle', order: 9 },
   { id: 'redux-basics', title: 'Redux Основи', level: 'Middle', order: 10 },
   { id: 'redux-toolkit', title: 'Redux Toolkit', level: 'Middle', order: 11 },
   { id: 'nodejs-main', title: 'Node.js', level: 'Middle', order: 12 },
@@ -276,9 +217,6 @@ export const learningRoadMap = [
   { id: 'solid-main', title: 'Принципи SOLID', level: 'Middle', order: 14 },
   
   // Senior Level - Експертні знання
-  { id: 'js-patterns-senior', title: 'JS Patterns & Architecture', level: 'Senior', order: 15 },
-  { id: 'js-advanced-senior', title: 'JS Advanced Topics', level: 'Senior', order: 16 },
-  { id: 'react-senior', title: 'React', level: 'Senior', order: 17 },
   { id: 'nextjs-main', title: 'Next.js', level: 'Senior', order: 18 },
   { id: 'angular-main', title: 'Angular', level: 'Senior', order: 19 },
   { id: 'rxjs-main', title: 'RxJS', level: 'Senior', order: 20 },

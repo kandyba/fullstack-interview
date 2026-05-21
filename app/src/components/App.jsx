@@ -213,8 +213,6 @@ const App = () => {
       {currentPage === 'questions' && (
         <TopNavBar 
           selectedTopic={selectedTopic}
-          onSelectTopic={handleSelectTopicWithClear}
-          onShowFavorites={handleShowFavorites}
           showingFavorites={showingFavorites}
         />
       )}

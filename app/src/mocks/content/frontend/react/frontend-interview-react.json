@@ -3,501 +3,1049 @@
   "questions": [
     {
       "id": "q-1",
-      "question": "Що робить метод setState()?",
-      "answer": "\n      <p>У React <strong>state</strong> — це об’єкт, який зберігає дані, що можуть змінюватися під час життєвого циклу компонента.\n        Щоб оновити ці дані, необхідно викликати функцію <code>setState()</code>.</p>\n      <p>Метод <code>setState()</code> повідомляє React про зміну стану. Після цього компонент рендериться повторно, і ми бачимо в браузері оновлені дані.</p>\n      <pre>this.setState({ count: this.state.count + 1 });\n      </pre>\n      <p>✅ <strong>Важливо:</strong> оновлення стану відбувається асинхронно, тому не можна розраховувати на миттєву зміну <code>this.state</code> після виклику <code>setState()</code>.</p>\n    ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-2",
       "question": "Що таке Virtual DOM?",
       "answer": "\n      <p><strong>Virtual DOM</strong> — це легка копія реального DOM-дерева. React працює не безпосередньо з DOM, а з його віртуальним відображенням у пам’яті.</p>\n      <p>Коли стан або пропси компонента змінюються, React спочатку оновлює Virtual DOM, порівнює його з попереднім станом (алгоритм <em>diffing</em>), і лише потім застосовує мінімальні зміни до реального DOM.</p>\n      <pre>React.createElement('div', null, 'Привіт, світ!');\n      </pre>\n      <p>✅ Це підхід, який робить React швидким — зміни застосовуються лише там, де потрібно, без повного перерендерингу сторінки.</p>\n    ",
       "isFollowUp": false
     },
     {
+      "id": "q-2",
+      "question": "Як рендерити список через map у React і навіщо потрібен key?",
+      "answer": "<p>У React списки зазвичай рендерять через <code>map()</code>. Для кожного елемента потрібно передати <code>key</code> — стабільний унікальний ідентифікатор серед сусідів.</p>\n<p><strong>Навіщо key:</strong></p>\n<ul>\n  <li>допомагає React правильно зіставляти елементи між рендерами</li>\n  <li>дозволяє коректно обробляти додавання, видалення та перестановку елементів</li>\n  <li>зберігає локальний стан правильного елемента</li>\n</ul>\n<pre>const users = [\n  { id: 'u1', name: 'Anna' },\n  { id: 'u2', name: 'Mark' },\n  { id: 'u3', name: 'Olga' }\n];\n\nreturn (\n  &lt;ul&gt;\n    {users.map((user) =&gt; (\n      &lt;li key={user.id}&gt;{user.name}&lt;/li&gt;\n    ))}\n  &lt;/ul&gt;\n);</pre>\n<p><strong>Важливо:</strong> індекс масиву як <code>key</code> безпечно використовувати лише для статичного списку, який не змінює порядок і не має вставок/видалень у середині.</p>",
+      "isFollowUp": false
+    },
+    {
       "id": "q-3",
-      "question": "Як відмалювати масив елементів у React?",
-      "answer": "\n      <p>Для відображення списку елементів у React зазвичай використовують метод масиву <code>map()</code>.\n        React вимагає, щоб кожен елемент у списку мав унікальний ключ <code>key</code>, який допомагає відслідковувати зміни.</p>\n      <pre>const users = ['Anna', 'Mark', 'Olga'];\n\nreturn (\n  &lt;ul&gt;\n    {users.map((user, index) =&gt; (\n      &lt;li key={index}&gt;{user}&lt;/li&gt;\n    ))}\n  &lt;/ul&gt;\n);\n      </pre>\n      <p>✅ Ключі допомагають React оптимізувати оновлення — він розуміє, які елементи змінилися, додалися або видалилися.</p>\n    ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-4",
-      "question": "У чому різниця між контрольованими та неконтрольованими компонентами?",
-      "answer": "\n      <p>У HTML елементи форм, такі як <code>&lt;input&gt;</code>, <code>&lt;textarea&gt;</code> чи <code>&lt;select&gt;</code>, мають власний стан.\n        У React змінюване значення зазвичай зберігається у <code>state</code> компонента й оновлюється через <code>setState()</code>.</p>\n\n      <h4>🔹 Контрольований компонент:</h4>\n      <p>React повністю контролює значення поля. Дані зберігаються в <code>state</code>, а зміни обробляються через подію <code>onChange</code>.</p>\n      <pre>class Form extends React.Component {\n  state = { name: '' };\n\n  handleChange = (e) =&gt; this.setState({ name: e.target.value });\n\n  render() {\n    return (\n      &lt;input type=\"text\" value={this.state.name} onChange={this.handleChange} /&gt;\n    );\n  }\n}\n      </pre>\n\n      <h4>🔹 Неконтрольований компонент:</h4>\n      <p>Значення зчитується напряму з DOM за допомогою <code>ref</code>, без збереження у <code>state</code>.</p>\n      <pre>class Form extends React.Component {\n  inputRef = React.createRef();\n\n  handleSubmit = () =&gt; {\n    alert(this.inputRef.current.value);\n  }\n\n  render() {\n    return (\n      &lt;input type=\"text\" ref={this.inputRef} /&gt;\n    );\n  }\n}\n      </pre>\n\n      <p>✅ Контрольовані компоненти краще для складних форм, а неконтрольовані — простіші, коли потрібно мінімум логіки.</p>\n    ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-5",
       "question": "Які існують методи життєвого циклу компонента в React?",
       "answer": "\n      <p>У React є кілька етапів життєвого циклу компонента. Для класових компонентів вони визначаються спеціальними методами, а у функціональних реалізуються через <code>useEffect()</code>.</p>\n\n      <h4>🔹 Основні етапи:</h4>\n      <ul>\n        <li><strong>Ініціалізація (Initialization):</strong> створення початкового стану <code>state</code> і встановлення початкових пропсів.</li>\n        <li><strong>Монтування (Mounting):</strong> додавання компонента в DOM.\n          Основні методи:\n          <code>constructor()</code>, <code>componentDidMount()</code>.</li>\n        <li><strong>Оновлення (Updating):</strong> повторний рендер після зміни стану або пропсів.\n          Методи: <code>shouldComponentUpdate()</code>, <code>componentDidUpdate()</code>.</li>\n        <li><strong>Розмонтування (Unmounting):</strong> видалення компонента з DOM.\n          Метод: <code>componentWillUnmount()</code>.</li>\n      </ul>\n\n      <p>✅ У сучасних функціональних компонентах усі ці стадії можна реалізувати за допомогою хука <code>useEffect()</code>.</p>\n\n      <pre>import React, { useEffect } from \"react\";\n\nfunction Example() {\n  useEffect(() =&gt; {\n    console.log(\"Компонент змонтовано\");\n    return () =&gt; console.log(\"Компонент розмонтовується\");\n  }, []);\n\n  return &lt;div&gt;Привіт, React!&lt;/div&gt;;\n}\n    </pre>\n    ",
       "isFollowUp": false
     },
     {
-      "id": "q-6",
+      "id": "q-4",
       "question": "Які React-хуки ви знаєте і використовуєте?",
       "answer": "\n      <p><strong>Хук (hook)</strong> — це спеціальна функція, яка дозволяє використовувати можливості React (стан, життєвий цикл, контекст тощо) у функціональних компонентах.</p>\n\n      <h4>🔹 Основні хуки React:</h4>\n      <ul>\n        <li>\n          <code>useState</code> — зберігає локальний стан компонента.\n          <br>Використовується для простих значень і керування UI (input, toggle, modal).\n        </li>\n\n        <li>\n          <code>useEffect</code> — виконує побічні ефекти після рендеру.\n          <br>Підходить для запитів до API, таймерів, підписок.\n          <br>Масив залежностей визначає, коли ефект запускається:\n          <ul>\n            <li><code>[]</code> — лише при монтуванні;</li>\n            <li><code>[dep]</code> — при зміні залежності;</li>\n            <li>без масиву — після кожного рендеру.</li>\n          </ul>\n          На відміну від <code>useLayoutEffect</code>, не блокує відмалювання.\n        </li>\n\n        <li>\n          <code>useContext</code> — дозволяє отримувати дані з Context без прокидування props.\n          <br>Зручний для теми, локалі, auth.\n          <br>Не є state-manager’ом і може спричиняти зайві ререндери.\n        </li>\n\n        <li>\n          <code>useRef</code> — зберігає мутабельне значення або DOM-елемент між рендерами.\n          <br>Зміна <code>ref.current</code> не викликає повторний рендер.\n        </li>\n\n        <li>\n          <code>useMemo</code> — мемоізує результат обчислень.\n          <br>Застосовується для важких операцій, щоб не перераховувати їх на кожен рендер.\n        </li>\n\n        <li>\n          <code>useCallback</code> — мемоізує функції.\n          <br>Корисний при передачі колбеків у дочірні компоненти, особливо з <code>React.memo</code>.\n        </li>\n\n        <li>\n          <code>useReducer</code> — керує складним станом через reducer.\n          <br>Підходить для чіткої логіки переходів і великої кількості дій.\n        </li>\n\n        <li>\n          <code>useLayoutEffect</code> — синхронний ефект, який виконується до paint.\n          <br>Використовується для вимірювання або синхронної зміни DOM.\n        </li>\n\n        <li>\n          <code>useTransition</code> — дозволяє позначити оновлення як некритичні.\n          <br>Допомагає уникати блокування UI при важких оновленнях.\n        </li>\n\n        <li>\n          <code>useImperativeHandle</code> — контролює публічний API компонента через <code>ref</code>.\n          <br>Використовується разом з <code>forwardRef</code>.\n        </li>\n\n        <li>\n          <code>useDeferredValue</code> — відтерміновує оновлення значення.\n          <br>Схоже на debounce, але реалізовано на рівні React.\n        </li>\n      </ul>\n\n\n      <pre>import { useState, useEffect } from \"react\";\n\nfunction Timer() {\n  const [seconds, setSeconds] = useState(0);\n\n  useEffect(() =&gt; {\n    const interval = setInterval(() =&gt; setSeconds(s =&gt; s + 1), 1000);\n    return () =&gt; clearInterval(interval);\n  }, []);\n\n  return &lt;p&gt;Минуло: {seconds} секунд&lt;/p&gt;;\n}\n    </pre>\n\n      <p>✅ Хуки завжди викликаються лише всередині функціональних компонентів або інших хуків (не в умовах, не в циклах).</p>\n    ",
       "isFollowUp": false
     },
     {
-      "id": "q-7",
+      "id": "q-5",
       "question": "Які особливості хука useState()?",
       "answer": "\n      <p><code>useState()</code> — це хук, який повертає пару значень:\n        <strong>поточний стан</strong> і <strong>функцію для його оновлення</strong>.</p>\n\n      <pre>const [count, setCount] = useState(0);\n\n&lt;button onClick={() =&gt; setCount(count + 1)}&gt;Додати&lt;/button&gt;\n    </pre>\n\n      <p>✅ Особливості:</p>\n      <ul>\n        <li>Під час першого рендера <code>useState</code> встановлює початкове значення.</li>\n        <li>Оновлення стану асинхронне — значення не змінюється миттєво.</li>\n        <li>Функцію <code>setState</code> можна викликати з callback’ом, щоб оновити значення на основі попереднього стану:</li>\n      </ul>\n\n      <pre>setCount(prev =&gt; prev + 1);\n    </pre>\n\n      <p>🔹 Після виклику <code>setState</code> React перерендерює компонент з оновленим станом.</p>\n    ",
       "isFollowUp": false
     },
     {
-      "id": "q-8",
-      "question": "Які особливості використання хука useEffect()?",
-      "answer": "\n      <p><code>useEffect()</code> дозволяє виконувати побічні ефекти у функціональних компонентах.\n        Побічними ефектами вважаються дії, що впливають на зовнішній світ — запити на сервер, робота з DOM, підписки, таймери, логування тощо.</p>\n\n      <p>React не дозволяє виконувати такі дії безпосередньо у тілі компонента, тому всі ефекти слід виконувати всередині <code>useEffect()</code>.</p>\n\n      <p>Функція, передана в <code>useEffect()</code>, виконується після того, як React оновить DOM.\n        Якщо вказати масив залежностей другим аргументом, ефект буде викликатись лише тоді, коли змінюється одна з цих залежностей.</p>\n\n      <pre>import { useEffect, useState } from \"react\";\n\nfunction Timer() {\n  const [count, setCount] = useState(0);\n\n  useEffect(() =&gt; {\n    const interval = setInterval(() =&gt; setCount(c =&gt; c + 1), 1000);\n    return () =&gt; clearInterval(interval); // очищення\n  }, []);\n\n  return &lt;p&gt;Минуло {count} секунд&lt;/p&gt;;\n}\n    </pre>\n\n      <p>✅ <strong>Порада:</strong> уникай запуску асинхронних ефектів без очищення — це може викликати витоки пам’яті.</p>\n    ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-9",
+      "id": "q-6",
       "question": "Як відстежити розмонтування функціонального компонента?",
       "answer": "\n      <p>Щоб виконати дію під час видалення компонента з DOM (тобто при “розмонтуванні”),\n        потрібно повернути функцію очищення з <code>useEffect()</code>.</p>\n\n      <p>Ця функція викликається перед тим, як компонент буде знищено або перед наступним виконанням ефекту.</p>\n\n      <pre>useEffect(() =&gt; {\n  const id = setInterval(() =&gt; console.log(\"Працює...\"), 1000);\n\n  return () =&gt; {\n    clearInterval(id);\n    console.log(\"Компонент розмонтовується\");\n  };\n}, []);\n    </pre>\n\n      <p>✅ Це корисно для відписки від подій, очищення таймерів, скасування запитів — усе, що не повинно існувати після видалення компонента.</p>\n    ",
       "isFollowUp": false
     },
     {
-      "id": "q-10",
-      "question": "Що таке state-менеджер і який ви використовуєте?",
-      "answer": "\n      <p><strong>State-менеджер</strong> — це інструмент для централізованого управління станом додатка.\n        Він допомагає відокремити бізнес-логіку від компонентів і полегшує передачу даних між ними.</p>\n\n      <p>Без state-менеджера, коли багато компонентів обмінюються станом через пропси, код стає важким для підтримки.\n        Тому часто використовують глобальні сховища, до яких можна звертатися з будь-якого місця.</p>\n\n      <h4>🔹 Найпоширеніші state-менеджери:</h4>\n      <ul>\n        <li><strong>Redux</strong> — класичний варіант із предбачуваним потоком даних.</li>\n        <li><strong>MobX</strong> — реактивний підхід, зручний для великих UI з частими змінами стану.</li>\n        <li><strong>Zustand</strong> — легкий і сучасний менеджер стану без надлишкової бюрократії Redux.</li>\n        <li><strong>Recoil</strong> — гнучкий менеджер від Meta, добре інтегрується з React 18.</li>\n      </ul>\n\n      <p>✅ У невеликих проектах достатньо локального стану з <code>useState</code> або <code>useReducer</code>.</p>\n    ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-11",
+      "id": "q-7",
       "question": "У яких випадках краще використовувати локальний стан, а у яких — глобальний?",
       "answer": "\n      <p><strong>Локальний стан</strong> (через <code>useState</code>) зручно використовувати, коли дані стосуються лише одного компонента\n        і не потрібно передавати їх іншим.</p>\n\n      <p>Приклади локального стану:</p>\n      <ul>\n        <li>Видимість модалки (<code>isOpen</code>).</li>\n        <li>Введене значення інпуту.</li>\n        <li>Активна вкладка або стан кнопки.</li>\n      </ul>\n\n      <p><strong>Глобальний стан</strong> потрібен тоді, коли одні й ті самі дані мають використовуватись у багатьох місцях застосунку.\n        Наприклад — інформація про користувача, тема (light/dark), або товари в кошику.</p>\n\n      <p>✅ Рекомендація: якщо стан починає передаватися через кілька рівнів компонентів, варто підняти його вище або винести у глобальний state (через Context API або Redux).</p>\n\n      <pre>/* локальний state */\nconst [isOpen, setIsOpen] = useState(false);\n\n/* глобальний state через Context */\nconst { theme } = useContext(ThemeContext);\n    </pre>\n    ",
       "isFollowUp": false
     },
     {
-      "id": "q-12",
+      "id": "q-8",
       "question": "Що таке reducer у Redux і які параметри він приймає?",
       "answer": "\n      <p><strong>Reducer</strong> — це чиста функція, яка приймає два параметри: <code>state</code> і <code>action</code>,\n        та повертає новий стан на основі отриманої дії.</p>\n\n      <pre>const initialState = { page: 1 };\n\nfunction reducer(state = initialState, action) {\n  switch (action.type) {\n    case \"SET_PAGE\":\n      return { ...state, page: action.payload };\n    default:\n      return state;\n  }\n}\n    </pre>\n\n      <p>✅ Reducer не змінює існуючий об’єкт стану напряму, а створює новий.</p>\n    ",
       "isFollowUp": false
     },
     {
-      "id": "q-13",
+      "id": "q-9",
       "question": "Що таке action у Redux і як він змінює стан?",
       "answer": "\n      <p><strong>Action</strong> — це звичайний JavaScript-об’єкт, який описує, що має відбутись.\n        Обов’язково містить поле <code>type</code>, яке визначає тип дії.</p>\n\n      <pre>const setPage = {\n  type: \"SET_PAGE\",\n  payload: 3\n};\n    </pre>\n\n      <p>Щоб змінити стан, викликається функція <code>dispatch(action)</code>, яка передає action у reducer.</p>\n    ",
       "isFollowUp": false
     },
     {
-      "id": "q-14",
+      "id": "q-10",
       "question": "Що таке JSX?",
-      "answer": "\n      <p><strong>JSX</strong> — це синтаксичне розширення JavaScript, яке дозволяє писати HTML-подібний код усередині JS.\n        Під капотом JSX компілюється у виклики <code>React.createElement()</code>.</p>\n\n      <pre>const element = &lt;h1 className=\"greeting\"&gt;Привіт, React!&lt;/h1&gt;;\n    </pre>\n\n      <p>✅ JSX робить код більш наочним і спрощує роботу з компонентами.</p>\n    ",
+      "answer": "<p><strong>JSX (JavaScript XML)</strong> — синтаксичне розширення JavaScript, яке дозволяє писати UI у HTML-подібному вигляді всередині JS-коду.</p>\n<p>JSX не є обов'язковим, але значно покращує читабельність компонентів.</p>\n<p><strong>Як це працює:</strong> JSX компілюється (наприклад, Babel) у виклики <code>React.createElement()</code>.</p>\n<pre>// JSX\nconst element = &lt;h1&gt;Hello&lt;/h1&gt;;\n\n// Після компіляції\nconst element = React.createElement('h1', null, 'Hello');</pre>\n<p><strong>Важливі правила JSX:</strong></p>\n<ul>\n  <li>JS-вирази вставляються у <code>{}</code></li>\n  <li>атрибути відрізняються від HTML: <code>className</code> замість <code>class</code>, <code>htmlFor</code> замість <code>for</code></li>\n  <li>компонент має повертати один кореневий вузол (або <code>&lt;&gt;...&lt;/&gt;</code> / <code>React.Fragment</code>)</li>\n</ul>\n<pre>const name = 'Alice';\n\nreturn (\n  &lt;&gt;\n    &lt;label htmlFor=\"user-name\"&gt;Name&lt;/label&gt;\n    &lt;input id=\"user-name\" className=\"input\" /&gt;\n    &lt;p&gt;Hello, {name}!&lt;/p&gt;\n  &lt;/&gt;\n);</pre>",
       "isFollowUp": false
     },
     {
-      "id": "q-15",
+      "id": "q-11",
       "question": "Що таке props?",
       "answer": "\n      <p><strong>Props</strong> — це властивості, які передаються з батьківського компонента в дочірній.\n        Вони доступні лише для читання та не можуть бути змінені в середині дочірнього компонента.</p>\n\n      <pre>function Welcome(props) {\n  return &lt;h2&gt;Привіт, {props.name}!&lt;/h2&gt;;\n}\n    </pre>\n\n      <p>✅ Для передачі даних «зверху вниз» props — основний механізм у React.</p>\n    ",
       "isFollowUp": false
     },
     {
-      "id": "q-16",
-      "question": "У чому різниця між прямим оновленням стану та колбеком у setState/useState?",
-      "answer": "\n      <p>React може об’єднувати кілька викликів <code>setState</code>, тому при використанні колбека гарантується робота з актуальним станом.</p>\n\n      <pre>// ❌ Потенційно неправильне оновлення\nsetCount(count + 1);\n\n// ✅ Безпечно з колбеком\nsetCount(prev =&gt; prev + 1);\n    </pre>\n\n      <p>✅ Використовуй колбек, коли нове значення залежить від попереднього.</p>\n    ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-17",
-      "question": "Для чого потрібен useMemo і коли його використовують?",
-      "answer": "\n      <p><strong>useMemo()</strong> використовується для мемоізації результатів складних обчислень.\n        Це оптимізація, яка запобігає повторним обчисленням при кожному рендері.</p>\n\n      <pre>const expensiveValue = useMemo(() =&gt; compute(a, b), [a, b]);\n    </pre>\n\n      <p>✅ Використовуй <code>useMemo</code> для оптимізації продуктивності при великих обчисленнях або при передачі мемоізованих значень у дочірні компоненти.</p>\n    ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-18",
-      "question": "Для чого потрібен useCallback і коли його використовують?",
-      "answer": "\n      <p><strong>useCallback()</strong> повертає мемоізовану версію функції, яка змінюється лише при зміні залежностей.\n        Це запобігає створенню нової функції при кожному рендері.</p>\n\n      <pre>const handleClick = useCallback(() =&gt; {\n  console.log('Клік!');\n}, []);\n    </pre>\n\n      <p>✅ Корисно при передачі колбеків у дочірні компоненти, обгорнуті у <code>React.memo()</code>.</p>\n    ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-19",
-      "question": "Для чого потрібен useContext?",
-      "answer": "\n      <p><strong>useContext()</strong> дозволяє отримувати значення з контексту без необхідності передавати props через усі рівні компонентів.</p>\n\n      <pre>const ThemeContext = createContext();\n\nfunction Button() {\n  const theme = useContext(ThemeContext);\n  return &lt;button style={{ color: theme.color }}&gt;Натисни&lt;/button&gt;;\n}\n    </pre>\n\n      <p>✅ Контекст зручний для тем, локалізації, авторизації тощо.</p>\n    ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-20",
-      "question": "Для чого потрібен useRef?",
-      "answer": "\n      <p><strong>useRef()</strong> створює змінний об’єкт, який зберігає значення між рендерами, не викликаючи повторного рендеру.</p>\n\n      <pre>const inputRef = useRef(null);\n\n&lt;input ref={inputRef} /&gt;\n&lt;button onClick={() =&gt; inputRef.current.focus()}&gt;Фокус&lt;/button&gt;\n    </pre>\n\n      <p>✅ Найчастіше використовується для доступу до DOM-елементів або збереження будь-якого мутованого значення.</p>\n    ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-21",
+      "id": "q-12",
       "question": "Для чого потрібен React.memo?",
       "answer": "\n      <p><strong>React.memo()</strong> — це компонент вищого порядку, який запам’ятовує результат рендера.\n        Якщо props не змінились, React не буде повторно рендерити компонент.</p>\n\n      <pre>const User = React.memo(({ name }) =&gt; &lt;p&gt;{name}&lt;/p&gt;);\n    </pre>\n\n      <p>✅ Використовується для оптимізації продуктивності при незмінних props.</p>\n    ",
       "isFollowUp": false
     },
     {
-      "id": "q-22",
-      "question": "Що таке React Fiber?",
-      "answer": "\n      <p><strong>React Fiber</strong> — це новий механізм рендерингу (з версії React 16), який робить процес оновлення DOM інкрементальним.</p>\n\n      <p>Його мета — підвищити продуктивність React при виконанні анімацій, складних переходів та великої кількості оновлень.\n        Fiber дозволяє розділяти роботу на дрібні частини і виконувати її поступово, не блокуючи інтерфейс.</p>\n    ",
+      "id": "q-13",
+      "question": "Що таке узгодження (Reconciliation) у React?",
+      "answer": "<p><strong>Reconciliation</strong> — це процес, під час якого React порівнює попереднє і нове дерево React-елементів (diffing) та застосовує до реального DOM лише мінімально необхідні зміни.</p>\n<p><strong>Як це працює:</strong></p>\n<ol>\n  <li>Після зміни state/props React будує нове дерево елементів</li>\n  <li>Порівнює його з попереднім</li>\n  <li>Визначає, що додати, видалити або оновити</li>\n  <li>Оновлює тільки змінені частини DOM</li>\n</ol>\n<p><strong>Важливі правила:</strong></p>\n<ul>\n  <li>елементи різного типу (<code>&lt;div&gt;</code> → <code>&lt;p&gt;</code>) замінюються повністю</li>\n  <li>для списків критично важливий <code>key</code>, щоб React правильно зіставляв елементи між рендерами</li>\n</ul>\n<p>Це і є причина, чому React оновлює UI ефективно навіть у великих інтерфейсах.</p>",
       "isFollowUp": false
     },
     {
-      "id": "q-23",
-      "question": "Що таке React Fragment?",
-      "answer": "\n      <p><strong>Fragment</strong> дозволяє групувати кілька елементів без створення додаткового DOM-вузла.</p>\n\n      <pre>return (\n  &lt;&gt;\n    &lt;Header /&gt;\n    &lt;Content /&gt;\n  &lt;/&gt;\n);\n    </pre>\n\n      <p>✅ Зручно використовувати, щоб уникнути зайвих контейнерів &lt;div&gt; у верстці.</p>\n    ",
+      "id": "q-14",
+      "question": "Що таке Redux Thunk?",
+      "answer": "<p><strong>Redux Thunk</strong> — middleware для Redux, яке дозволяє диспатчити функції (thunks), а не лише plain object actions.</p>\n<p>Це дає змогу виконувати асинхронну логіку (API-запити, retry, кілька dispatch підряд) перед оновленням store.</p>\n<pre>export const fetchTodos = () => async (dispatch, getState) => {\n  dispatch({ type: 'TODOS_START' });\n  try {\n    const res = await fetch('/api/todos');\n    const data = await res.json();\n    dispatch({ type: 'TODOS_SUCCESS', payload: data });\n  } catch (e) {\n    dispatch({ type: 'TODOS_ERROR', error: String(e) });\n  }\n};</pre>\n<p>Виклик: <code>dispatch(fetchTodos())</code>.</p>\n<p>У сучасних проєктах на Redux Toolkit часто використовують <code>createAsyncThunk</code> або RTK Query для простіших async-сценаріїв.</p>",
       "isFollowUp": false
     },
     {
-      "id": "q-24",
-      "question": "Що таке React Reconciliation?",
-      "answer": "\n      <p><strong>Reconciliation</strong> — це алгоритм React, який порівнює старе й нове DOM-дерево,\n        щоб визначити мінімальні зміни для оновлення інтерфейсу.</p>\n\n      <p>React ефективно оновлює лише ті частини DOM, які дійсно змінились.</p>\n    ",
+      "id": "q-15",
+      "question": "Що таке умовний рендеринг у React?",
+      "answer": "<p><strong>Умовний рендеринг</strong> — це рендер різного UI залежно від умов (стану, props, ролі користувача тощо).</p>\n<p>Найпоширеніші способи:</p>\n<ul>\n  <li><strong>if/return</strong> — для складнішої логіки</li>\n  <li><strong>тернарний оператор</strong> — коли є два варіанти відображення</li>\n  <li><strong>&amp;&amp;</strong> — коли потрібно показати блок лише за істинної умови</li>\n</ul>\n<pre>function Greeting({ isLoggedIn, unreadCount }) {\n  if (!isLoggedIn) {\n    return &lt;p&gt;Please sign in&lt;/p&gt;;\n  }\n\n  return (\n    &lt;div&gt;\n      {isLoggedIn ? &lt;button&gt;Log out&lt;/button&gt; : &lt;button&gt;Log in&lt;/button&gt;}\n      {unreadCount &gt; 0 &amp;&amp; &lt;p&gt;Unread: {unreadCount}&lt;/p&gt;}\n    &lt;/div&gt;\n  );\n}</pre>\n<p>Умовний рендеринг робить інтерфейс динамічним і дозволяє показувати правильний контент для конкретного стану застосунку.</p>",
       "isFollowUp": false
     },
     {
-      "id": "q-25",
-      "question": "Навіщо потрібні ключі (key) у списках?",
-      "answer": "\n      <p>Ключі допомагають React ідентифікувати елементи, що змінились, додались або були видалені.</p>\n\n      <pre>{items.map(item =&gt; &lt;li key={item.id}&gt;{item.text}&lt;/li&gt;)}\n    </pre>\n\n      <p>✅ Використовуй унікальні <code>id</code> — це допомагає React уникати зайвих ререндерів.</p>\n    ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-26",
-      "question": "Як виконувати асинхронні дії (actions) у Redux?",
-      "answer": "\n      <p>Для асинхронних дій у Redux використовують middleware <strong>redux-thunk</strong>.\n        Він дозволяє action creator’ам повертати функцію замість об’єкта.</p>\n\n      <pre>export const fetchTodos = () =&gt; async dispatch =&gt; {\n  dispatch({ type: \"TODOS_START\" });\n  try {\n    const res = await fetch(\"/api/todos\");\n    const data = await res.json();\n    dispatch({ type: \"TODOS_SUCCESS\", payload: data });\n  } catch (e) {\n    dispatch({ type: \"TODOS_ERROR\", error: e });\n  }\n};\n    </pre>\n    ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-27",
-      "question": "Як відмалювати елемент за умовою?",
-      "answer": "\n      <p>Можна використовувати логічні оператори (<code>&amp;&amp;</code>), тернарні вирази або return усередині умов.</p>\n\n      <pre>{isLoggedIn ? &lt;LogoutButton /&gt; : &lt;LoginButton /&gt;}\n{count &gt; 0 &amp;&amp; &lt;p&gt;Повідомлень: {count}&lt;/p&gt;}\n    </pre>\n    ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-28",
+      "id": "q-16",
       "question": "Як відстежити зміну поля об’єкта у функціональному компоненті?",
       "answer": "\n      <p>Для цього використовують <code>useEffect()</code> з масивом залежностей, у якому вказують конкретне поле.</p>\n\n      <pre>useEffect(() =&gt; {\n  console.log(user.name);\n}, [user.name]);\n    </pre>\n    ",
       "isFollowUp": false
     },
     {
-      "id": "q-29",
+      "id": "q-17",
       "question": "Як отримати доступ до DOM-елемента в React?",
       "answer": "\n      <p>Можна використати <code>useRef()</code> або <code>React.createRef()</code>.</p>\n\n      <pre>const inputRef = useRef(null);\n\n&lt;input ref={inputRef} /&gt;\n&lt;button onClick={() =&gt; inputRef.current.focus()}&gt;Фокус&lt;/button&gt;\n    </pre>\n    ",
       "isFollowUp": false
     },
     {
-      "id": "q-30",
+      "id": "q-18",
       "question": "Що таке чиста функція і чому React вимагає чистоти компонентів?",
       "answer": "\n      <p><strong>Чиста функція</strong> — це така, яка при однакових аргументах завжди повертає однаковий результат і не має побічних ефектів.</p>\n      <ul>\n        <li>Не змінює зовнішні змінні або об’єкти.</li>\n        <li>Не взаємодіє з DOM чи API безпосередньо.</li>\n        <li>Повертає значення лише через return.</li>\n      </ul>\n      <pre>function add(a, b) { return a + b } // ✅ чиста\nlet total = 0;\nfunction addToTotal(a) { total += a } // ❌ не чиста\n    </pre>\n      <p>React-компоненти мають бути чистими, щоб React міг передбачити результат рендеру.</p>\n    ",
       "isFollowUp": false
     },
     {
-      "id": "q-31",
-      "question": "У чому різниця між контрольованими та неконтрольованими компонентами?",
-      "answer": "\n      <p><strong>Контрольовані компоненти</strong> — це ті, де значення елементів форми зберігаються у <code>state</code>, і зміни керуються React.</p>\n      <p><strong>Неконтрольовані компоненти</strong> зберігають значення напряму у DOM (через <code>ref</code>).</p>\n      <pre>// Контрольований\n&lt;input value={name} onChange={e =&gt; setName(e.target.value)} /&gt;\n\n// Неконтрольований\nconst inputRef = useRef(null);\n&lt;input ref={inputRef} /&gt;\n    </pre>\n    ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-32",
+      "id": "q-19",
       "question": "У чому різниця між mounting і rendering у React?",
       "answer": "\n      <ul>\n        <li><strong>Mounting</strong> — створення компонента і вставлення його у DOM вперше.</li>\n        <li><strong>Rendering</strong> — виклик функції компонента для створення його віртуального представлення (JSX).</li>\n      </ul>\n      <p>Кожен mounting включає rendering, але не кожен rendering означає нове монтування.</p>\n    ",
       "isFollowUp": false
     },
     {
-      "id": "q-33",
+      "id": "q-20",
       "question": "Чому не можна викликати хуки в умовах чи циклах?",
       "answer": "\n      <p>React покладається на <strong>порядок виклику хуків</strong>, щоб правильно співставляти стани між рендерами.\n        Якщо викликати хук умовно — порядок зламається, і React втратить зв’язок між станами.</p>\n      <p>✅ Викликай хуки тільки:</p>\n      <ul>\n        <li>на верхньому рівні компонента</li>\n        <li>або в custom hook’ах, теж без умов</li>\n      </ul>\n    ",
       "isFollowUp": false
     },
     {
-      "id": "q-34",
-      "question": "Що таке dependency array у useEffect / useMemo / useCallback?",
-      "answer": "\n      <p>Це список залежностей, при зміні яких React повторно виконує ефект або обчислення.</p>\n      <pre>useEffect(() =&gt; {\n  console.log(\"Змінено name або age\");\n}, [name, age]);\n    </pre>\n      <p>Якщо передати порожній масив — ефект виконається лише один раз (аналог <code>componentDidMount</code>).</p>\n    ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-35",
+      "id": "q-21",
       "question": "Як можна оптимізувати продуктивність React-додатка?",
       "answer": "\n      <ul>\n        <li>Мемоізація компонентів (<code>React.memo</code>).</li>\n        <li>Мемоізація значень і колбеків (<code>useMemo</code>, <code>useCallback</code>).</li>\n        <li>Розділення коду (<code>React.lazy</code> + <code>Suspense</code>).</li>\n        <li>Уникання зайвих перерендерів через правильні <code>key</code>.</li>\n        <li>Профілювання за допомогою React Developer Tools.</li>\n      </ul>\n    ",
       "isFollowUp": false
     },
     {
-      "id": "q-36",
-      "question": "Що таке HOC (Higher-Order Component)?",
-      "answer": "\n      <p>Це функція, яка приймає компонент і повертає новий компонент із додатковою логікою або пропсами.</p>\n      <pre>function withLogger(Wrapped) {\n  return (props) =&gt; {\n    console.log('Рендер', Wrapped.name);\n    return &lt;Wrapped {...props} /&gt;;\n  }\n}\n    </pre>\n    ",
+      "id": "q-22",
+      "question": "Як обробляти помилки в React за допомогою Error Boundary?",
+      "answer": "<p><strong>Error Boundary</strong> — це компонент, який перехоплює помилки рендерингу в дочірньому дереві й показує fallback UI замість падіння всього інтерфейсу.</p>\n<p>Реалізується класовим компонентом з:</p>\n<ul>\n  <li><code>static getDerivedStateFromError(error)</code> — перемикає на fallback UI</li>\n  <li><code>componentDidCatch(error, info)</code> — логування/репортинг</li>\n</ul>\n<pre>class ErrorBoundary extends React.Component {\n  state = { hasError: false };\n\n  static getDerivedStateFromError() {\n    return { hasError: true };\n  }\n\n  componentDidCatch(error, info) {\n    console.error(error, info);\n  }\n\n  render() {\n    if (this.state.hasError) return &lt;h1&gt;Щось пішло не так&lt;/h1&gt;;\n    return this.props.children;\n  }\n}</pre>\n<p><strong>Не ловить:</strong> помилки в event handlers, async-коді, таймерах, SSR.</p>",
       "isFollowUp": false
     },
     {
-      "id": "q-37",
-      "question": "Що таке Render Props?",
-      "answer": "\n      <p>Це патерн, коли компонент приймає функцію як <code>prop</code>, і ця функція визначає, що потрібно відрендерити.</p>\n      <pre>&lt;Mouse render={pos =&gt; &lt;p&gt;X: {pos.x}, Y: {pos.y}&lt;/p&gt;} /&gt;\n    </pre>\n    ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-38",
-      "question": "Що таке React.lazy та Suspense?",
-      "answer": "\n      <p><strong>React.lazy()</strong> дозволяє завантажувати компонент лише тоді, коли він потрібен.\n        <strong>Suspense</strong> показує запасний контент під час завантаження.</p>\n      <pre>const About = React.lazy(() =&gt; import('./About'));\n\n&lt;Suspense fallback={&lt;p&gt;Завантаження...&lt;/p&gt;}&gt;\n  &lt;About /&gt;\n&lt;/Suspense&gt;\n    </pre>\n    ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-39",
-      "question": "Що таке Error Boundary?",
-      "answer": "\n      <p>Це компонент, який перехоплює помилки у дочірніх компонентах і показує fallback UI.</p>\n      <p>Може бути лише класовим компонентом із методом <code>componentDidCatch</code>.</p>\n    ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-40",
-      "question": "Що таке StrictMode і навіщо він потрібен?",
-      "answer": "\n      <p><strong>StrictMode</strong> — це інструмент для виявлення потенційних проблем у коді під час розробки.\n        Він активує додаткові перевірки, наприклад, подвійний рендер компонентів для виявлення побічних ефектів.</p>\n    ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-41",
+      "id": "q-23",
       "question": "Як можна поєднати Context і Reducer без Redux?",
       "answer": "\n      <p>Комбінація <code>useReducer</code> + <code>useContext</code> дозволяє створити легку альтернативу Redux.</p>\n      <pre>const AppContext = createContext();\n\nfunction AppProvider({ children }) {\n  const [state, dispatch] = useReducer(reducer, initialState);\n  return &lt;AppContext.Provider value={{ state, dispatch }}&gt;\n    {children}\n  &lt;/AppContext.Provider&gt;\n}\n    </pre>\n    ",
       "isFollowUp": false
     },
     {
-      "id": "q-42",
+      "id": "q-24",
       "question": "Що таке автоматичний batching у React 18?",
       "answer": "\n      <p>React 18 об’єднує кілька оновлень стану в один рендер, щоб зменшити кількість перерендерів і підвищити ефективність.</p>\n    ",
       "isFollowUp": false
     },
     {
-      "id": "q-43",
-      "question": "Що таке hydration у SSR?",
-      "answer": "\n      <p><strong>Hydration</strong> — це процес, коли React «прив’язує» свій JavaScript до вже згенерованої HTML-сторінки після SSR.\n        Це дозволяє сторінці стати інтерактивною без повторного рендерингу з нуля.</p>\n    ",
+      "id": "q-25",
+      "question": "Що таке синтетичні події (SyntheticEvent) у React?",
+      "answer": "<p><strong>SyntheticEvent</strong> — це уніфікована обгортка React над нативними браузерними подіями.</p>\n<ul>\n  <li>дає однаковий API у різних браузерах</li>\n  <li>підтримує знайомі методи: <code>preventDefault()</code>, <code>stopPropagation()</code></li>\n  <li>працює через систему делегування подій React</li>\n</ul>\n<pre>function handleSubmit(e) {\n  e.preventDefault();\n  console.log(e.type); // submit\n}</pre>\n<p>У сучасному React об'єкти подій більше не «пулінгуються» як раніше, тому їх безпечно використовувати і в асинхронному коді.</p>",
       "isFollowUp": false
     },
     {
-      "id": "q-44",
-      "question": "Що таке forwardRef і навіщо він потрібен?",
-      "answer": "\n      <p><strong>forwardRef</strong> дозволяє передавати ref із батьківського компонента у дочірній.</p>\n      <pre>const Input = forwardRef((props, ref) =&gt; &lt;input ref={ref} {...props} /&gt;);\n    </pre>\n    ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-45",
-      "question": "Що таке SyntheticEvent у React?",
-      "answer": "\n      <p><strong>SyntheticEvent</strong> — це обгортка над нативними подіями браузера,\n        яка забезпечує кросбраузерну сумісність і оптимізацію React.</p>\n    ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-46",
-      "question": "Що таке React Portal і навіщо його використовують?",
-      "answer": "\n      <p>Portals дозволяють рендерити дочірні елементи у DOM-вузол поза межами батьківського компонента.</p>\n      <pre>ReactDOM.createPortal(children, document.getElementById('modal-root'))\n    </pre>\n      <p>✅ Використовується для модалок, тултипів і контекстних меню.</p>\n    ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-47",
+      "id": "q-26",
       "question": "Що таке Concurrent Rendering?",
       "answer": "\n      <p>Це механізм React 18, який дозволяє виконувати оновлення з різними пріоритетами,\n        щоб інтерфейс залишався плавним навіть під час важких обчислень.</p>\n    ",
       "isFollowUp": false
     },
     {
-      "id": "q-48",
-      "question": "Що таке props.children?",
-      "answer": "\n      <p><code>props.children</code> — це все, що передано між відкривальним і закривальним тегом компонента.</p>\n      <pre>&lt;Card&gt;\n  &lt;p&gt;Контент усередині&lt;/p&gt;\n&lt;/Card&gt;\n    </pre>\n    ",
+      "id": "q-27",
+      "question": "Що таке children prop?",
+      "answer": "<p><code>props.children</code> — це спеціальний prop, який містить усе, що передано між відкривальним і закривальним тегом компонента.</p>\n<pre>function Card({ children }) {\n  return &lt;div className=\"card\"&gt;{children}&lt;/div&gt;;\n}\n\n&lt;Card&gt;\n  &lt;h3&gt;Title&lt;/h3&gt;\n  &lt;p&gt;Content&lt;/p&gt;\n&lt;/Card&gt;</pre>\n<p>Через <code>children</code> зручно будувати компоненти-обгортки, layout-компоненти та шаблони композиції.</p>",
       "isFollowUp": false
     },
     {
-      "id": "q-49",
-      "question": "Що таке Code Splitting і як його реалізувати?",
-      "answer": "\n      <p>Це розбиття JavaScript на частини, щоб завантажувати код поступово.\n        Реалізується за допомогою <code>React.lazy</code> і <code>Suspense</code>.</p>\n    ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-50",
-      "question": "У чому різниця між SSR та CSR?",
-      "answer": "\n      <ul>\n        <li><strong>CSR (Client-Side Rendering)</strong> — HTML генерується у браузері після завантаження JS.</li>\n        <li><strong>SSR (Server-Side Rendering)</strong> — HTML створюється на сервері перед відправкою клієнту.</li>\n      </ul>\n      <p>SSR покращує SEO та швидкість початкового відображення.</p>\n    ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-51",
+      "id": "q-28",
       "question": "Що зробити, щоб компонент ререндерився в React?",
       "answer": "<p>Компонент у React ререндериться, коли змінюються його вхідні дані або контекст.</p>\n\n<p><strong>Основні причини ререндеру:</strong></p>\n<p>• при зміні <strong>props</strong></p>\n<p>• при оновленні <strong>state</strong> через <code>useState</code> (<code>setState</code>)</p>\n<p>• при зміні значення <strong>Context</strong></p>\n<p>• при ререндері батьківського компонента</p>\n<p>• при зміні значення <strong>key</strong> між рендерами — React перемонтовує компонент</p>\n<p><strong>Follow-up:</strong> чи ререндер завжди означає оновлення DOM?</p>\n<p><strong>Відповідь:</strong> ні, React може вирішити, що DOM не потребує змін.</p>",
       "isFollowUp": false
     },
     {
-      "id": "q-52",
+      "id": "q-29",
       "question": "Як React знає, що саме потрібно ререндерити?",
       "answer": "<p>React порівнює попередній і новий результат рендеру за допомогою Virtual DOM.</p>\n<p>Він визначає мінімальний набір змін, які потрібно застосувати до реального DOM.</p>\n<p><strong>Ключова ідея:</strong> не оновлювати весь DOM, а лише те, що змінилось.</p>",
       "isFollowUp": false
     },
     {
-      "id": "q-53",
+      "id": "q-30",
       "question": "Як Virtual DOM працює під капотом? Як відбувається порівняння?",
       "answer": "<p>Після кожного ререндеру React:</p>\n<p>1. Створює нове дерево Virtual DOM</p>\n<p>2. Порівнює його з попереднім (diffing)</p>\n<p>3. Обчислює різницю</p>\n<p>4. Застосовує мінімальні зміни до реального DOM</p>\n\n<p><strong>Основні евристики diffing алгоритму:</strong></p>\n<p>• елементи різного типу → повна заміна піддерева</p>\n<p>• однакові типи → оновлюються лише props</p>\n<p>• списки порівнюються за <code>key</code></p>\n\n<p><strong>Приклад:</strong></p>\n<pre>// було\n&lt;li key=\"1\"&gt;A&lt;/li&gt;\n&lt;li key=\"2\"&gt;B&lt;/li&gt;\n\n// стало\n&lt;li key=\"2\"&gt;B&lt;/li&gt;\n&lt;li key=\"1\"&gt;A&lt;/li&gt;</pre>\n\n<p>Завдяки <code>key</code> React не перевмонтуює елементи, а лише міняє їх місцями.</p>\n<p><strong>Важливо:</strong> без key React може зробити зайві DOM-операції.</p>",
       "isFollowUp": false
     },
     {
-      "id": "q-54",
-      "question": "Що таке reconciliation в React?",
-      "answer": "<p><strong>Reconciliation</strong> — це процес узгодження старого і нового Virtual DOM.</p>\n<p>Саме під час reconciliation React вирішує, що потрібно оновити, змінити або видалити.</p>\n<p><strong>Простими словами:</strong> reconciliation = diffing + update.</p>",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-55",
+      "id": "q-31",
       "question": "Різниця між контрольованим та неконтрольованим компонентом?",
       "answer": "<p><strong>Контрольований компонент</strong> — стан інпуту зберігається в React.</p>\n<pre>&lt;input value={value} onChange={e =&gt; setValue(e.target.value)} /&gt;</pre>\n\n<p><strong>Неконтрольований компонент</strong> — стан зберігається в DOM.</p>\n<pre>&lt;input defaultValue=\"test\" ref={inputRef} /&gt;</pre>\n\n<p><strong>Головна різниця:</strong> хто керує станом — React чи браузер.</p>",
       "isFollowUp": false
     },
     {
-      "id": "q-56",
-      "question": "В чому краще використовувати контрольовані компоненти?",
-      "answer": "<p>Контрольовані компоненти краще використовувати, коли потрібно:</p>\n<p>• валідація в реальному часі</p>\n<p>• синхронізація значень</p>\n<p>• умовна логіка UI</p>\n<p>• повний контроль над формою</p>\n\n<p><strong>Типові кейси:</strong> auth, фільтри, step-форми.</p>",
+      "id": "q-32",
+      "question": "Розкажіть про useCallback(), useMemo(), useImperativeHandle(), useLayoutEffect()",
+      "answer": "<p><strong>useCallback</strong> мемоізує функцію, щоб її посилання не змінювалося між рендерами без потреби.</p>\n<pre>const onClick = useCallback(() => {\n  console.log('click');\n}, []);</pre>\n<p>Корисно, коли колбек передається в <code>React.memo</code>-компонент або входить у залежності інших hooks.</p>\n\n<p><strong>useMemo</strong> мемоізує результат обчислення.</p>\n<pre>const result = useMemo(() => heavyCalc(a, b), [a, b]);</pre>\n<p>Застосовують для дорогих обчислень або стабілізації похідних значень.</p>\n\n<p><strong>useImperativeHandle</strong> дозволяє керувати публічним API ref дочірнього компонента (зазвичай з <code>forwardRef</code>).</p>\n<pre>useImperativeHandle(ref, () => ({\n  focus: () => inputRef.current.focus(),\n  clear: () => (inputRef.current.value = '')\n}));</pre>\n\n<p><strong>useLayoutEffect</strong> схожий на <code>useEffect</code>, але виконується синхронно після змін DOM і <em>до</em> paint.</p>\n<pre>useLayoutEffect(() => {\n  console.log(ref.current?.offsetWidth);\n}, []);</pre>\n<p>Підходить для вимірювання/синхронних DOM-операцій, коли важливо уникнути візуального мерехтіння.</p>",
       "isFollowUp": false
     },
     {
-      "id": "q-57",
-      "question": "Коли доцільно використовувати неконтрольовані компоненти?",
-      "answer": "<p>У неконтрольованих компонентах React створює DOM-елементи, а браузер сам керує їх станом.</p>\n\n<p><strong>Корисно для:</strong></p>\n<p>• великих форм з багатьма інпутами, де не потрібно контролювати кожен символ</p>\n<p>• інтеграції зі сторонніми бібліотеками (date picker, rich text editor)</p>\n<p>• простих одноразових форм</p>\n\n<p><strong>Плюс:</strong> менше ререндерів.</p>\n<p><strong>Мінус:</strong> менше контролю та складніша логіка.</p>",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-58",
-      "question": "Якими хуками ти користуєшся найчастіше?",
-      "answer": "<p>Найчастіше використовую базові хуки: <code>useState</code>, <code>useEffect</code>, <code>useRef</code>, <code>useMemo</code>, <code>useCallback</code>, <code>useContext</code>.</p>\n\n<p><strong>Коротко по призначенню:</strong></p>\n<p>• <code>useState</code> — локальний стан</p>\n<p>• <code>useEffect</code> — побічні ефекти</p>\n<p>• <code>useRef</code> — DOM або мутабельне значення без ререндеру</p>\n<p>• <code>useMemo</code> — мемоізація значень</p>\n<p>• <code>useCallback</code> — мемоізація функцій</p>\n<p>• <code>useContext</code> — доступ до глобальних даних</p>",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-59",
-      "question": "Для яких цілей використовується useMemo?",
-      "answer": "<p><code>useMemo</code> використовується для мемоізації результату обчислень між рендерами.</p>\n\n<p><strong>Навіщо:</strong></p>\n<p>• уникнути повторних важких обчислень</p>\n<p>• зменшити навантаження при частих ререндерах</p>\n<p>• оптимізувати продуктивність</p>\n\n<pre>const total = useMemo(() => {\n  return items.reduce((sum, i) => sum + i.price, 0);\n}, [items]);</pre>\n\n<p><strong>Важливо:</strong></p>\n<p><code>useMemo</code> працює зі <strong>значеннями</strong>, а не з функціями (для цього є <code>useCallback</code>).</p>\n\n<p><strong>Follow-up:</strong> чи варто обгортати все в useMemo?</p>\n<p><strong>Відповідь:</strong> ні, useMemo має оверхед і потрібен лише там, де є реальна проблема з продуктивністю.</p>",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-60",
-      "question": "Для чого використовується useContext?",
-      "answer": "<p><code>useContext</code> дозволяє отримувати дані з React Context без прокидування props через багато рівнів.</p>\n\n<p><strong>Типові кейси:</strong></p>\n<p>• тема (theme)</p>\n<p>• локалізація</p>\n<p>• auth / user</p>\n<p>• feature flags</p>\n\n<pre>const ThemeContext = createContext();\n\nconst theme = useContext(ThemeContext);</pre>",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-61",
-      "question": "Де зберігаються дані useContext в React?",
-      "answer": "<p>Дані зберігаються у <code>value</code> провайдера (<code>&lt;Context.Provider&gt;</code>).</p>\n\n<pre>&lt;AuthContext.Provider value={user}&gt;\n  &lt;App /&gt;\n&lt;/AuthContext.Provider&gt;</pre>\n\n<p>Усі дочірні компоненти отримують доступ до цього значення через <code>useContext</code>.</p>",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-62",
+      "id": "q-33",
       "question": "Context — це global state?",
       "answer": "<p>Так, Context можна вважати глобальним станом, але він <strong>не є повноцінним state-managerом</strong>.</p>\n\n<p><strong>Відмінності:</strong></p>\n<p>• немає middleware</p>\n<p>• немає інструментів дебагу</p>\n<p>• при зміні value ререндеряться всі споживачі</p>",
       "isFollowUp": false
     },
     {
-      "id": "q-63",
-      "question": "Плюси та мінуси useContext",
-      "answer": "<p><strong>Плюси:</strong></p>\n<p>• простий API</p>\n<p>• немає prop drilling</p>\n<p>• вбудований у React</p>\n\n<p><strong>Мінуси:</strong></p>\n<p>• всі споживачі ререндеряться при зміні value</p>\n<p>• не підходить для часто змінюваного стану</p>\n\n<p><strong>Висновок:</strong> useContext варто використовувати для даних, які змінюються рідко.</p>",
+      "id": "q-34",
+      "question": "Які підходи ви знаєте для оптимізації продуктивності React-додатків?",
+      "answer": "<p>Поширені підходи до оптимізації React:</p>\n<ul>\n  <li><strong>Уникати зайвих ререндерів:</strong> <code>React.memo</code>, правильні <code>key</code>, локалізація state</li>\n  <li><strong>Мемоізація за потреби:</strong> <code>useMemo</code> для дорогих обчислень, <code>useCallback</code> для стабільних колбеків</li>\n  <li><strong>Code splitting:</strong> <code>React.lazy</code> + <code>Suspense</code></li>\n  <li><strong>Віртуалізація списків:</strong> react-window / react-virtualized</li>\n  <li><strong>Оптимізація даних:</strong> кешування через TanStack Query / SWR / RTK Query</li>\n  <li><strong>Оптимізація ресурсів:</strong> lazy-loading зображень, стиснення assets, production build</li>\n  <li><strong>Профілювання:</strong> React DevTools Profiler для пошуку вузьких місць</li>\n</ul>\n<p>Важливо оптимізувати на основі вимірювань, а не «про всяк випадок».</p>",
       "isFollowUp": false
     },
     {
-      "id": "q-64",
-      "question": "Які є способи оптимізації React-додатку?",
-      "answer": "<p>• <code>React.memo</code></p>\n<p>• <code>useMemo</code>, <code>useCallback</code></p>\n<p>• правильні <code>key</code> у списках</p>\n<p>• code splitting / lazy loading</p>\n<p>• уникання зайвого state</p>\n<p>• розділення логіки і UI</p>\n\n<p><strong>Follow-up:</strong> з чого починати?</p>\n<p><strong>Відповідь:</strong> з аналізу ререндерів (React DevTools).</p>",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-65",
+      "id": "q-35",
       "question": "Що таке кастомні хуки в React?",
       "answer": "<p>Кастомний хук — це функція, яка використовує інші хуки і інкапсулює логіку.</p>\n\n<p><strong>Правила:</strong></p>\n<p>• імя починається з <code>use</code></p>\n<p>• можна викликати інші хуки</p>",
       "isFollowUp": false
     },
     {
-      "id": "q-66",
+      "id": "q-36",
       "question": "Чи писав ти кастомні хуки? Наведи приклад.",
       "answer": "<pre>function useToggle(initial = false) {\n  const [value, setValue] = useState(initial);\n  const toggle = () => setValue(v => !v);\n  return [value, toggle];\n}</pre>\n\n<p>Такий хук дозволяє перевикористовувати логіку без дублювання коду.</p>",
       "isFollowUp": false
     },
     {
-      "id": "q-67",
+      "id": "q-37",
       "question": "Чим кастомний хук відрізняється від звичайної функції?",
       "answer": "<p><strong>Кастомний хук:</strong></p>\n<p>• може використовувати React hooks</p>\n<p>• підпорядковується правилам хуків</p>\n\n<p><strong>Звичайна функція:</strong></p>\n<p>• не має доступу до хуків</p>\n<p>• не зберігає React-стан</p>\n\n<p><strong>Ключова різниця:</strong> хуки інтегровані в lifecycle React.</p>",
       "isFollowUp": false
     },
     {
-      "id": "q-68",
-      "question": "Розкажи більше про useEffect",
-      "answer": "<p><code>useEffect</code> використовується для побічних ефектів після рендеру компонента.</p>\n\n<p><strong>Типові кейси:</strong></p>\n<p>• запити до API</p>\n<p>• підписки</p>\n<p>• таймери</p>\n<p>• синхронізація з DOM</p>\n\n<p><strong>Залежності:</strong></p>\n<p>• <code>[]</code> — лише при монтуванні</p>\n<p>• <code>[dep]</code> — при зміні залежності</p>\n<p>• без масиву — після кожного рендеру</p>\n\n<pre>useEffect(() => {\n  fetchData();\n  return () => cleanup();\n}, [id]);</pre>\n\n<p><strong>Важливо:</strong> неправильні залежності → infinite loop.</p>",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-69",
+      "id": "q-38",
       "question": "Чи працювали ви з класовими компонентами? У чому їх особливість?",
       "answer": "<p>Так, класові компоненти — це старіший спосіб створення компонентів у React до появи хуків.</p>\n<ul>\n  <li>Вони використовують класовий синтаксис ES6: <code>class MyComponent extends React.Component</code>.</li>\n  <li>Мають власний <strong>стан (state)</strong> і методи життєвого циклу.</li>\n  <li>Для доступу до контексту чи рефів застосовується <code>this</code>.</li>\n</ul>\n<pre>class Counter extends React.Component {\n  state = { count: 0 };\n  increment = () => this.setState({ count: this.state.count + 1 });\n\n  render() {\n    return &lt;button onClick={this.increment}&gt;{this.state.count}&lt;/button&gt;;\n  }\n}</pre>",
       "isFollowUp": false
     },
     {
-      "id": "q-70",
+      "id": "q-39",
       "question": "Які дані краще зберігати в стані компонента, а які передавати через пропси? Наведіть приклад.",
       "answer": "<ul>\n  <li>У <strong>state</strong> зберігаються дані, які можуть змінюватися всередині компонента (наприклад, введення користувача, стан завантаження).</li>\n  <li>Через <strong>props</strong> передаються незмінні дані або callback-функції від батьківського компонента.</li>\n</ul>\n<pre>function Child({ value, onClick }) {\n  return &lt;button onClick={onClick}&gt;{value}&lt;/button&gt;;\n}\n\nfunction Parent() {\n  const [count, setCount] = useState(0);\n  return &lt;Child value={count} onClick={() => setCount(count + 1)} /&gt;;\n}</pre>",
       "isFollowUp": false
     },
     {
-      "id": "q-71",
-      "question": "Чи знайомі ви з хуками? У чому їх переваги? Чи доводилося створювати власні?",
-      "answer": "<p>Так, хуки (<strong>Hooks</strong>) дозволяють використовувати стан і життєвий цикл без класів.</p>\n<p>Переваги:</p>\n<ul>\n  <li>Менше коду, краща читабельність.</li>\n  <li>Немає необхідності в <code>this</code>.</li>\n  <li>Можна легко ділитися логікою між компонентами через власні хуки.</li>\n</ul>\n<p>Приклад користувацького хука:</p>\n<pre>function useWindowWidth() {\n  const [width, setWidth] = useState(window.innerWidth);\n  useEffect(() => {\n    const handleResize = () => setWidth(window.innerWidth);\n    window.addEventListener('resize', handleResize);\n    return () => window.removeEventListener('resize', handleResize);\n  }, []);\n  return width;\n}</pre>",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-72",
+      "id": "q-40",
       "question": "Чи знайомі ви з фрагментами та порталами? Для чого вони потрібні?",
       "answer": "<p><strong>Фрагменти (Fragments)</strong> дозволяють групувати кілька елементів без створення додаткового DOM-вузла.</p>\n<pre>&lt;&gt;\n  &lt;h1&gt;Заголовок&lt;/h1&gt;\n  &lt;p&gt;Опис&lt;/p&gt;\n&lt;/&gt;</pre>\n<p><strong>Портали (Portals)</strong> — це спосіб рендерити компонент у DOM-позиції, відмінній від його батьківського вузла. Використовуються, наприклад, для модальних вікон.</p>\n<pre>ReactDOM.createPortal(\n  &lt;Modal /&gt;,\n  document.getElementById('modal-root')\n);</pre>",
       "isFollowUp": false
     },
     {
-      "id": "q-73",
-      "question": "Коли і для чого використовуються рефи (refs)?",
-      "answer": "<p><strong>Refs</strong> використовуються для прямого доступу до DOM-елементів або збереження змінних, які не повинні викликати повторний рендер.</p>\n<pre>function InputFocus() {\n  const inputRef = useRef();\n  return (\n    &lt;&gt;\n      &lt;input ref={inputRef} /&gt;\n      &lt;button onClick={() => inputRef.current.focus()}&gt;Фокус&lt;/button&gt;\n    &lt;/&gt;\n  );\n}</pre>",
+      "id": "q-41",
+      "question": "Як рефи (refs) у React використовуються для взаємодії з DOM-елементами?",
+      "answer": "<p><strong>Refs</strong> дають прямий доступ до DOM-вузла або значення, яке треба зберігати між рендерами без повторного рендера.</p>\n<p>У функціональних компонентах зазвичай використовують <code>useRef</code>, у класових — <code>createRef</code>.</p>\n<pre>function InputFocus() {\n  const inputRef = useRef(null);\n\n  const focusInput = () => inputRef.current?.focus();\n\n  return (\n    &lt;&gt;\n      &lt;input ref={inputRef} /&gt;\n      &lt;button onClick={focusInput}&gt;Focus&lt;/button&gt;\n    &lt;/&gt;\n  );\n}</pre>\n<p>Типові кейси: фокус, виділення тексту, прокрутка до елемента, інтеграція з non-React бібліотеками.</p>\n<p>Refs не замінюють state і не повинні бути основним способом керування даними форми.</p>",
       "isFollowUp": false
     },
     {
-      "id": "q-74",
-      "question": "Які ви знаєте методи життєвого циклу компонента?",
-      "answer": "<p>Основні методи класових компонентів:</p>\n<ul>\n  <li><code>componentDidMount()</code> — викликається після монтування.</li>\n  <li><code>componentDidUpdate()</code> — після оновлення.</li>\n  <li><code>componentWillUnmount()</code> — перед розмонтуванням.</li>\n  <li><code>shouldComponentUpdate()</code> — контролює, чи потрібно перерендерювати компонент.</li>\n</ul>",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-75",
+      "id": "q-42",
       "question": "В якому методі життєвого циклу краще робити запити на сервер і чому?",
       "answer": "<p>У <strong>componentDidMount()</strong>, тому що на момент виклику компонент уже створений і готовий до оновлення стану після отримання даних.</p>",
       "isFollowUp": false
     },
     {
-      "id": "q-76",
+      "id": "q-43",
       "question": "В якому методі краще робити підписку та відписку від подій?",
       "answer": "<p>Підписку — у <strong>componentDidMount()</strong>, відписку — у <strong>componentWillUnmount()</strong>. Це запобігає витокам памяті та зайвим викликам подій.</p>",
       "isFollowUp": false
     },
     {
-      "id": "q-77",
-      "question": "Чи є досвід роботи з контекстом? Коли його варто використовувати?",
-      "answer": "<p><strong>Context API</strong> використовується для передачі даних між компонентами без пропс-дрилінгу.</p>\n<p>Добре підходить для тем, мови інтерфейсу або авторизаційних даних.</p>\n<pre>const ThemeContext = React.createContext('light');\nfunction App() {\n  return (\n    &lt;ThemeContext.Provider value=\"dark\"&gt;\n      &lt;Toolbar /&gt;\n    &lt;/ThemeContext.Provider&gt;\n  );\n}</pre>",
+      "id": "q-44",
+      "question": "Що таке PureComponent і коли його використовувати?",
+      "answer": "<p><strong>PureComponent</strong> — це класовий компонент, який робить shallow comparison props/state у <code>shouldComponentUpdate</code>.</p>\n<p>Якщо посилання не змінилися, повторного рендера не буде.</p>\n<p>Підходить для оптимізації legacy-класових компонентів.</p>\n<p>Для функціональних компонентів аналогом є <code>React.memo</code>.</p>\n<p>Важливо: працює коректно лише за <strong>іммутабельних оновлень</strong> (без мутацій об'єктів/масивів).</p>",
       "isFollowUp": false
     },
     {
-      "id": "q-78",
-      "question": "В чому особливість PureComponent?",
-      "answer": "<p><strong>PureComponent</strong> — це класовий компонент, який автоматично реалізує поверхневе порівняння пропсів і стану у <code>shouldComponentUpdate()</code>.</p>\n<p>Якщо дані не змінилися — компонент не перерендерюється.</p>\n<p>Аналог для функціональних компонентів — <code>React.memo()</code>.</p>",
+      "id": "q-45",
+      "question": "Що таке Reselect та як він працює?",
+      "answer": "<p><strong>Reselect</strong> — бібліотека для створення <strong>мемоізованих селекторів</strong> в Redux.</p>\n<p>Вона кешує результат обчислення і повертає попереднє значення, якщо вхідні дані не змінилися.</p>\n<p><strong>Як працює:</strong></p>\n<ul>\n  <li>є input-селектори, які читають частини state</li>\n  <li>є result-функція, що обчислює похідні дані</li>\n  <li>якщо input-и ті самі (за посиланням), result-функція повторно не виконується</li>\n</ul>\n<pre>import { createSelector } from 'reselect';\n\nconst selectUsers = (state) => state.users;\nconst selectRole = (state) => state.roleFilter;\n\nexport const selectFilteredUsers = createSelector(\n  [selectUsers, selectRole],\n  (users, role) => users.filter((u) => u.role === role)\n);</pre>\n<p><strong>Навіщо:</strong> менше зайвих обчислень, стабільніші reference-значення, менше непотрібних ререндерів у компонентах, що підписані на ці дані.</p>",
       "isFollowUp": false
     },
     {
-      "id": "q-79",
-      "question": "Чи працювали ви з мемоізованими селекторами (memoized selectors)? Для чого вони використовуються?",
-      "answer": "<p>Так, у Redux часто використовують бібліотеку <code>reselect</code> для створення мемоізованих селекторів.</p>\n<p>Вони зберігають результати обчислень, щоб не виконувати повторні обчислення, якщо дані не змінилися — це оптимізує продуктивність.</p>",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-80",
+      "id": "q-46",
       "question": "Чому бібліотека React швидка? Що таке Virtual DOM і Shadow DOM?",
       "answer": "<ul>\n  <li><strong>Virtual DOM</strong> — це копія реального DOM у памяті. React оновлює лише змінені елементи, а не весь DOM, що підвищує продуктивність.</li>\n  <li><strong>Shadow DOM</strong> — це окрема частина DOM, ізольована від решти документа (використовується у Web Components, не у React).</li>\n</ul>",
       "isFollowUp": false
     },
     {
-      "id": "q-81",
-      "question": "Навіщо в списках ключі (keys)?",
-      "answer": "<p>Ключі потрібні, щоб React міг відслідковувати елементи при оновленні списку. Без унікальних ключів можуть виникати помилки або неправильний рендер.</p>\n<p>Можна використовувати індекси як ключі <strong>лише якщо список не змінюється</strong> (тобто порядок елементів стабільний).</p>",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-82",
+      "id": "q-47",
       "question": "В чому основна ідея Redux?",
       "answer": "<p><strong>Redux</strong> — це централізоване сховище стану, яке дотримується трьох принципів:</p>\n<ul>\n  <li>Єдине джерело істини — один глобальний state.</li>\n  <li>Стан є лише для читання (змінюється через дії — actions).</li>\n  <li>Зміни описуються чистими функціями (reducers).</li>\n</ul>\n<pre>const initialState = { count: 0 };\nfunction reducer(state = initialState, action) {\n  switch (action.type) {\n    case 'INC':\n      return { count: state.count + 1 };\n    default:\n      return state;\n  }\n}</pre>",
       "isFollowUp": false
     },
     {
+      "id": "q-48",
+      "question": "Що таке React? Опишіть ключові особливості та переваги",
+      "answer": "<p><strong>React</strong> — JavaScript-бібліотека для створення користувацьких інтерфейсів (UI), особливо популярна для SPA.</p>\n<p><strong>Ключові особливості React:</strong></p>\n<ul>\n  <li><strong>Компонентний підхід:</strong> UI складається з незалежних перевикористовуваних компонентів</li>\n  <li><strong>Декларативність:</strong> ти описуєш, <em>що</em> має бути на екрані, React вирішує <em>як</em> ефективно оновити DOM</li>\n  <li><strong>Virtual DOM:</strong> React порівнює попередній і новий стан UI та оновлює лише необхідні частини реального DOM</li>\n  <li><strong>Однонаправлений потік даних:</strong> дані передаються зверху вниз через <code>props</code>, що робить поведінку передбачуваною</li>\n  <li><strong>Hooks:</strong> дають змогу працювати зі станом і побічними ефектами у функціональних компонентах</li>\n</ul>\n<p><strong>Основні переваги:</strong></p>\n<ul>\n  <li>масштабованість і зручна підтримка великих проєктів</li>\n  <li>просте повторне використання коду</li>\n  <li>зручний дебаг завдяки чіткій структурі та one-way data flow</li>\n  <li>велика екосистема (React Router, Redux Toolkit, TanStack Query, Next.js)</li>\n  <li>можливість SSR/SSG через Next.js для кращого SEO та швидшого first paint</li>\n</ul>"
+    },
+    {
+      "id": "q-49",
+      "question": "Яка різниця між React Node, React Element і React Component?",
+      "answer": "<p><strong>React Node</strong> — будь-що, що React може рендерити: React Element, string, number, масив nodes, fragment, portal, null, undefined, false, true.</p><p><strong>React Element</strong> — immutable простий об'єкт, який React створює з JSX або <code>React.createElement()</code> з описом того, що рендерити.</p><pre>const element = &lt;div&gt;Hello&lt;/div&gt;; // JSX → React.createElement('div', null, 'Hello')</pre><p><strong>React Component</strong> — функція (або історично клас), яка приймає props та повертає React Nodes.</p><pre>function MyComponent(props) {\n  return &lt;div&gt;{props.message}&lt;/div&gt;;\n}</pre><p>👥 Element описує UI; Component — це «фабрика», що виробляє Elements.</p>"
+    },
+    {
+      "id": "q-50",
+      "question": "Яка різниця між state і props в React?",
+      "answer": "<p><strong>State</strong> — дані, якими володіє компонент і може оновлювати з часом. Змінюється всередині компонента через <code>setState()</code> або <code>useState()</code>.</p><p><strong>Props</strong> — дані, які компонент отримує від батька і не може мутувати. Вони передаються «вниз» як параметри.</p><p><strong>Поведінка:</strong></p><ul><li>Зміна <strong>state</strong> → ререндер компонента і його потомків</li><li>Зміна <strong>props</strong> → батько ререндер з новими значеннями</li></ul><p>Це реалізує <strong>one-way data flow</strong> React: state живе на найнижчому спільному предку, потім передається як props, а зміни повертаються через callbacks.</p><pre>// Батько:\n&lt;Child name={this.state.name} onNameChange={this.handleNameChange} /&gt;\n\n// Дитина:\nfunction Child({name, onNameChange}) {\n  return &lt;input value={name} onChange={onNameChange} /&gt;\n}</pre>"
+    },
+    {
+      "id": "q-51",
+      "question": "Які підводні камені використання context в React?",
+      "answer": "<p><strong>Context</strong> зручний, але його легко неправильно використовувати. Основні pitfalls:</p><ul><li><strong>Fresh object/array на кожен рендер:</strong> передача нового об'єкта як значення provider примушує всіх consumers ререндериться. <strong>Рішення:</strong> мемоізувати значення.</li></ul><pre>// ❌ Погано:\n&lt;MyContext.Provider value={{ user: currentUser }}&gt;\n\n// ✅ Добре:\nconst value = useMemo(() => ({ user: currentUser }), [currentUser]);</pre><ul><li><strong>React.memo не зупиняє context-driven ререндери:</strong> memo не допоможе, якщо component споживає context що змінюється.</li><li><strong>Context як general-purpose state manager:</strong> не є повноцінним сховищем для часто змінюваного стану. <strong>Краще:</strong> розділити на кілька providers або використати спеціалізовану lib (Redux, Zustand, Jotai).</li></ul><p><strong>Best practices:</strong> Мемоізуй значення, розділяй context на слайсис, розглядай зовнішні state managers для складних случаев.</p>"
+    },
+    {
+      "id": "q-52",
+      "question": "Як перезавантажити стан компонента в React?",
+      "answer": "<p>Найідіоматичніший спосіб перезавантажити весь стан компонента — <strong>змінити key prop</strong>. React розмонтовує старий екземпляр і монтує свіжий з нов-створеним станом:</p><pre>// Force повний reset, змінивши key:\n&lt;Form key={formId} /&gt;;</pre><p>Коли React бачить, що key змінився, він:</p><ol><li>Розмонтовує компонент зі старим key</li><li>Монтує новий екземпляр зі свіжим станом</li></ol><p><strong>Для granular resets — скидання конкретного стану:</strong></p><pre>// useState — скидання до початкового значення:\nsetState(initialState);\n\n// useReducer — dispatch RESET action:\ndispatch({ type: 'RESET' });</pre><p><strong>Приклад з useReducer:</strong></p><pre>function reducer(state, action) {\n  switch (action.type) {\n    case 'RESET':\n      return initialState;\n    default:\n      return state;\n  }\n}</pre>"
+    },
+    {
+      "id": "q-53",
+      "question": "Чому React рекомендує не мутувати стан?",
+      "answer": "<p>React рекомендує <strong>не мутувати stanu</strong> на місці, тому що його механізми залежать від того, що попередній і наступний стан будуть <strong>різними об'єктами</strong> (reference inequality).</p><p><strong>Проблеми мутації:</strong></p><ul><li><strong>Object.is bailouts зламаються:</strong> React порівнює старий і новий стан через <code>Object.is()</code>. Якщо мутуєш стан, референс не змінюється → React не знає, що щось змінилося → не спускає ререндер!</li><li><strong>React.memo та useMemo/useEffect dependency порівняння зламаються:</strong> залежать від reference equality</li><li><strong>Tearing під concurrent rendering:</strong> одна частина UI бачить старе значення, інша — нове</li><li><strong>Time-travel debugging в React DevTools ламається:</strong> не можна повернутися до попередніх станів</li></ul><p><strong>✅ Завжди створюй новий об'єкт/масив:</strong></p><pre>// ❌ Погано:\nconst [user, setUser] = useState({ name: 'John' });\nuser.name = 'Jane'; // МУТАЦІЯ!\nsetUser(user); // React не побачить змін!\n\n// ✅ Добре:\nsetUser({ ...user, name: 'Jane' }); // Новий об'єкт\nsetUser([...array, newItem]); // Новий масив\nsetUser(array.map(x => ...)); // array.filter(), array.toSorted()</pre><p>Для складних структур можна використовувати Immer бібліотеку.</p>"
+    },
+    {
+      "id": "q-54",
+      "question": "Як тестувати React-додатки?",
+      "answer": "<p>Для тестування React використовуй:</p><p><strong>Test Runner:</strong></p><ul><li><strong>Jest</strong> (за замовчуванням з CRA)</li><li><strong>Vitest</strong> (швидше, Vite-native)</li></ul><p><strong>Testing Library:</strong></p><ul><li><strong>React Testing Library</strong> — рекомендується! Тестує компоненти так, як їх використовуватимуть користувачі</li><li><strong>@testing-library/user-event</strong> — переважно над fireEvent для більш реалістичної взаємодії</li></ul><p><strong>Приклад:</strong></p><pre>import { render, screen } from '@testing-library/react';\nimport userEvent from '@testing-library/user-event';\n\ntest('button increments', async () => {\n  render(&lt;Counter /&gt;);\n  const button = screen.getByRole('button');\n  await userEvent.click(button);\n  expect(screen.getByText('1')).toBeInTheDocument();\n});</pre><p><strong>Мокування мережі:</strong> MSW (Mock Service Worker)</p><p><strong>E2E тести:</strong> Playwright або Cypress</p><p><strong>Для React 19:</strong> Використовуй async queries (<code>findBy*</code>, <code>waitFor</code>) для async components.</p>"
+    },
+    {
+      "id": "q-55",
+      "question": "React DevTools: як використовувати для налагодження?",
+      "answer": "<p><strong>React DevTools</strong> — головний інструмент для дебагу React UI.</p>\n<p>Ключові вкладки:</p>\n<ul>\n  <li><strong>Components</strong> — дерево компонентів, props/state/context, хуки</li>\n  <li><strong>Profiler</strong> — вимір вартості ререндерів і пошук bottlenecks</li>\n</ul>\n<p>Практичний сценарій:</p>\n<ol>\n  <li>Відкрий <em>Components</em> і знайди потрібний компонент</li>\n  <li>Перевір props/state і чи не відбуваються зайві зміни</li>\n  <li>У <em>Profiler</em> натисни Record → виконай дію → Stop</li>\n  <li>Проаналізуй, які компоненти рендеряться найдорожче</li>\n</ol>\n<p>Разом зі Strict Mode і breakpoints це найшвидший шлях знайти зайві ререндери та помилки стану.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-56",
+      "question": "Як локалізувати React-додатки?",
+      "answer": "<p>Для локалізації React використовуй бібліотеку на кшталт <strong>react-i18next</strong> або <strong>react-intl</strong>.</p><p><strong>Процес:</strong></p><ol><li>Створи translation файли для різних мов</li><li>Налаштуй localization library у своєму React-додатку</li><li>Використовуй надані hooks або компоненти для відображення локалізованого тексту</li></ol><p><strong>Приклад з react-i18next:</strong></p><pre>import { useTranslation } from 'react-i18next';\n\nconst MyComponent = () => {\n  const { t } = useTranslation();\n  return &lt;p&gt;{t('welcome_message')}&lt;/p&gt;;\n};\n\n// translations/en.json:\n{ \"welcome_message\": \"Welcome!\" }\n// translations/uk.json:\n{ \"welcome_message\": \"Ласкаво просимо!\" }</pre><p><strong>Структура проєкту:</strong></p><pre>locales/\n  en/\n    common.json\n  uk/\n    common.json\ni18n.js (конфігурація)</pre><p>✅ Хук <code>useTranslation()</code> повертає функцію <code>t()</code> для перекладу ключів, а також методи для зміни мови.</p>"
+    },
+    {
+      "id": "q-57",
+      "question": "Як обробляти асинхронне завантаження даних у React?",
+      "answer": "<p><strong>В сучасному React 2026 року:</strong> <strong>НЕ</strong> пиши власний useEffect + fetch! React docs явно проти цього.</p><p><strong>Рекомендовані підходи:</strong></p><p><strong>1. Data-fetching бібліотеки (клієнт-сайд):</strong></p><ul><li><strong>TanStack Query (React Query)</strong> — найпопулярніша, потужна кешування й revalidation</li><li><strong>SWR</strong> — простіше, від Vercel</li><li><strong>RTK Query</strong> — якщо вже використовуєш Redux</li></ul><p><strong>2. Server Components / Route Loaders:</strong> Якщо контролюєш фреймворк:</p><ul><li>Next.js App Router (Server Components)</li><li>Remix / React Router (route loaders)</li></ul><p><strong>3. React 19 use() hook:</strong> Компонент може читати Promise напряму й suspend:</p><pre>import { use, Suspense } from 'react';\n\nfunction MyComponent({ promise }) {\n  const data = use(promise);\n  return &lt;p&gt;{data}&lt;/p&gt;;\n}\n\n&lt;Suspense fallback={&lt;Loading /&gt;}&gt;\n  &lt;MyComponent promise={fetchData()} /&gt;\n&lt;/Suspense&gt;</pre><p><strong>4. Hand-written useEffect + fetch (низькорівневий fallback):</strong> Потребує AbortController, response.ok перевірки, обробки race conditions:</p><pre>useEffect(() => {\n  const controller = new AbortController();\n  fetch('/api/data', { signal: controller.signal })\n    .then(r => r.ok ? r.json() : Promise.reject())\n    .then(setData)\n    .catch(setError);\n  return () => controller.abort();\n}, []);</pre><p>✅ <strong>Порада:</strong> Використовуй TanStack Query або SWR, вони обробляють кешування, revalidation, retry, dedupe.</p>"
+    },
+    {
+      "id": "q-58",
+      "question": "Поясни presentational vs container компонентний pattern",
+      "answer": "<p><strong>Presentational vs Container (\"Dumb vs Smart\")</strong> — паттерн розділення компонентів на дві ролі:</p><p><strong>Presentational (Dumb) компоненти:</strong></p><ul><li>Вирішують, як виглядає UI</li><li>Отримають усе через props</li><li>Не мають власного стану (або мають UI state на кшталт hover)</li><li>Переиспользуемы, легко тестувати</li></ul><pre>function UserCard({ user, onEdit }) {\n  return (\n    &lt;div&gt;\n      &lt;h2&gt;{user.name}&lt;/h2&gt;\n      &lt;button onClick={onEdit}&gt;Edit&lt;/button&gt;\n    &lt;/div&gt;\n  );\n}</pre><p><strong>Container (Smart) компоненти:</strong></p><ul><li>Вирішують, як це працює</li><li>Отримують дані, управляють станом</li><li>Передають дані й callbacks dumb компонентам</li><li>Обробляють логіку</li></ul><pre>function UserCardContainer({ userId }) {\n  const [user, setUser] = useState(null);\n  const handleEdit = () => {...};\n  return &lt;UserCard user={user} onEdit={handleEdit} /&gt;;\n}</pre><p><strong>Важливо (2026 року):</strong> <strong>Дан Абрамов (автор паттерна) в 2019 рекомендував проти</strong> цього підходу! Замість того, щоб оборачувати компоненти, використовуй <strong>custom hooks</strong> для того ж розділення concerns без wrapper компонентів.</p><p>✅ Хуки — сучасна альтернатива контейнерам.터мінологія все ж корисна для обговорення відповідальностей.</p>"
+    },
+    {
+      "id": "q-59",
+      "question": "Які підводні камені при data fetching в React?",
+      "answer": "<p><strong>Поширені pitfalls:</strong></p><p><strong>1. Не обробляш loading/error states:</strong></p><pre>// ❌ Погано:\nconst [data, setData] = useState(null);\nuseEffect(() => {\n  fetch('/api').then(r => r.json()).then(setData);\n}, []);\nreturn &lt;div&gt;{data.name}&lt;/div&gt;; //崩潰 якщо data = null!\n\n// ✅ Добре:\nconst [data, setData] = useState(null);\nconst [loading, setLoading] = useState(true);\nconst [error, setError] = useState(null);\n// ... handle всіх трьох state</pre><p><strong>2. Не скасовуєш запити (leaking requests):</strong></p><pre>// ❌ Погано:\nuseEffect(() => {\n  fetch('/api').then(...); // запит залишається після unmount\n}, []);\n\n// ✅ Добре:\nuseEffect(() => {\n  const controller = new AbortController();\n  fetch('/api', { signal: controller.signal }).then(...);\n  return () => controller.abort(); // cleanup\n}, []);</pre><p><strong>3. Race conditions:</strong> Якщо props змінюються швидше, ніж запит повертається, результат може бути stale.</p><p><strong>4. Double-invoke в Strict Mode dev:</strong> React 18 навмисне двічі викликає ефекти для виявлення problems.</p><p><strong>5. Request waterfalls:</strong> Послідовні запити замість паралельних.</p><p><strong>✅ Рішення:</strong> Використовуй <strong>TanStack Query, SWR, або RTK Query</strong> — вони обробляють кешування, deduplication, retry. Або в React 19: <code>use()</code> хук + Suspense.</p>"
+    },
+    {
+      "id": "q-60",
+      "question": "Які React anti-patterns слід уникати?",
+      "answer": "<p><strong>Поширені anti-patterns:</strong></p><ul><li><strong>Мутування state напряму:</strong> Навіть якщо React не заспіває, немає ререндеру або зламується девtoolsi.</li></ul><pre>// ❌:\nsetState(state => { state.count++; return state; })\n// ✅:\nsetState(state => ({ ...state, count: state.count + 1 }))</pre><ul><li><strong>Дублювання props в state:</strong> Замість дублювання, обчислюй під час render.</li></ul><pre>// ❌:\nconst [name, setName] = useState(props.name);\n// ✅:\nconst name = props.name;</pre><ul><li><strong>Використання useEffect для derived state:</strong> Обчислюй напряму.</li></ul><pre>// ❌:\nconst [doubled, setDoubled] = useState(0);\nuseEffect(() => setDoubled(count * 2), [count]);\n// ✅:\nconst doubled = count * 2;</pre><ul><li><strong>Array index як key у динамічних список:</strong> Інші елементи отримають неправильний стан</li><li><strong>Stale closures в effects:</strong> Забути залежності</li><li><strong>Не очищати effects:</strong> Підписки, таймери, слухачі залишаються</li><li><strong>Мутувати refs при render:</strong> Refs мають мутуватися тільки в effet</li><li><strong>useCallback/useMemo везде:</strong> Обчисличиш компромісс без профілювання</li></ul><p>✅ Включи ESLint <code>eslint-plugin-react-hooks</code> для автоматичного виявлення більшості проблем.</p>"
+    },
+    {
+      "id": "q-61",
+      "question": "Як вибрати між React state, context, і external state managers?",
+      "answer": "<p><strong>Матчуй інструмент до типу стану:</strong></p><p><strong>1. useState/useReducer — Local component state:</strong></p><ul><li>UI state (toggle, input value, form data)</li><li>Залишайся на найнижчому рівні компонента</li></ul><pre>const [isOpen, setIsOpen] = useState(false);</pre><p><strong>2. React Context — Глобальний state, що рідко змінюється:</strong></p><ul><li>Theme, locale, current user, auth status</li><li>⚠️ Context <strong>НЕ</strong> є state manager! Всі consumers ререндяться на кожну зміну</li><li>Мемоізуй value, інакше ререндери за бесплатно</li></ul><pre>const theme = useContext(ThemeContext); // theme рідко змінюється</pre><p><strong>3. Client-side state manager (Zustand, Jotai, Redux Toolkit):</strong></p><ul><li>Коли <strong>багато unrelated компонентів</strong> ділять <strong>часто змінюється</strong> state</li><li>Підписка на слайси (selector pattern) — тільки компоненти що слухають змінений слайс ререндяться</li></ul><pre>// Zustand:\nfunction Counter() {\n  const count = useStore(state => state.count);\n  return &lt;div&gt;{count}&lt;/div&gt;;\n}</pre><p><strong>4. Server state manager (TanStack Query, SWR, RTK Query):</strong></p><ul><li>Data з API — кешування, revalidation, refetch, invalidation</li><li>Відокремляй server state від client state!</li></ul><p>✅ <strong>Правило:</strong> Почни з useState, lift up якщо потрібно. Тільки потім context, потім store, потім server state manager.</p>"
+    },
+    {
+      "id": "q-62",
+      "question": "Які особливості використання хука useEffect()?",
+      "answer": "\n      <p><code>useEffect()</code> дозволяє виконувати побічні ефекти у функціональних компонентах.\n        Побічними ефектами вважаються дії, що впливають на зовнішній світ — запити на сервер, робота з DOM, підписки, таймери, логування тощо.</p>\n\n      <p>React не дозволяє виконувати такі дії безпосередньо у тілі компонента, тому всі ефекти слід виконувати всередині <code>useEffect()</code>.</p>\n\n      <p>Функція, передана в <code>useEffect()</code>, виконується після того, як React оновить DOM.\n        Якщо вказати масив залежностей другим аргументом, ефект буде викликатись лише тоді, коли змінюється одна з цих залежностей.</p>\n\n      <pre>import { useEffect, useState } from \"react\";\n\nfunction Timer() {\n  const [count, setCount] = useState(0);\n\n  useEffect(() =&gt; {\n    const interval = setInterval(() =&gt; setCount(c =&gt; c + 1), 1000);\n    return () =&gt; clearInterval(interval); // очищення\n  }, []);\n\n  return &lt;p&gt;Минуло {count} секунд&lt;/p&gt;;\n}\n    </pre>\n\n      <p>✅ <strong>Порада:</strong> уникай запуску асинхронних ефектів без очищення — це може викликати витоки пам’яті.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-63",
+      "question": "У чому різниця між прямим оновленням стану та колбеком у setState/useState?",
+      "answer": "\n      <p>React може об’єднувати кілька викликів <code>setState</code>, тому при використанні колбека гарантується робота з актуальним станом.</p>\n\n      <pre>// ❌ Потенційно неправильне оновлення\nsetCount(count + 1);\n\n// ✅ Безпечно з колбеком\nsetCount(prev =&gt; prev + 1);\n    </pre>\n\n      <p>✅ Використовуй колбек, коли нове значення залежить від попереднього.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-64",
+      "question": "Для чого потрібен useMemo і коли його використовують?",
+      "answer": "\n      <p><strong>useMemo()</strong> використовується для мемоізації результатів складних обчислень.\n        Це оптимізація, яка запобігає повторним обчисленням при кожному рендері.</p>\n\n      <pre>const expensiveValue = useMemo(() =&gt; compute(a, b), [a, b]);\n    </pre>\n\n      <p>✅ Використовуй <code>useMemo</code> для оптимізації продуктивності при великих обчисленнях або при передачі мемоізованих значень у дочірні компоненти.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-65",
+      "question": "Для чого потрібен useCallback і коли його використовують?",
+      "answer": "\n      <p><strong>useCallback()</strong> повертає мемоізовану версію функції, яка змінюється лише при зміні залежностей.\n        Це запобігає створенню нової функції при кожному рендері.</p>\n\n      <pre>const handleClick = useCallback(() =&gt; {\n  console.log('Клік!');\n}, []);\n    </pre>\n\n      <p>✅ Корисно при передачі колбеків у дочірні компоненти, обгорнуті у <code>React.memo()</code>.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-66",
+      "question": "Для чого потрібен useContext?",
+      "answer": "\n      <p><strong>useContext()</strong> дозволяє отримувати значення з контексту без необхідності передавати props через усі рівні компонентів.</p>\n\n      <pre>const ThemeContext = createContext();\n\nfunction Button() {\n  const theme = useContext(ThemeContext);\n  return &lt;button style={{ color: theme.color }}&gt;Натисни&lt;/button&gt;;\n}\n    </pre>\n\n      <p>✅ Контекст зручний для тем, локалізації, авторизації тощо.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-67",
+      "question": "Для чого потрібен useRef?",
+      "answer": "\n      <p><strong>useRef()</strong> створює змінний об’єкт, який зберігає значення між рендерами, не викликаючи повторного рендеру.</p>\n\n      <pre>const inputRef = useRef(null);\n\n&lt;input ref={inputRef} /&gt;\n&lt;button onClick={() =&gt; inputRef.current.focus()}&gt;Фокус&lt;/button&gt;\n    </pre>\n\n      <p>✅ Найчастіше використовується для доступу до DOM-елементів або збереження будь-якого мутованого значення.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-68",
+      "question": "Що таке фрагменти (Fragments) у React?",
+      "answer": "<p><strong>Fragments</strong> дозволяють згрупувати кілька елементів без додаткового вузла у DOM.</p>\n<p>Це корисно, коли зайвий <code>&lt;div&gt;</code> ламає верстку або просто не потрібен.</p>\n<pre>// Короткий синтаксис\nreturn (\n  &lt;&gt;\n    &lt;h1&gt;Title&lt;/h1&gt;\n    &lt;p&gt;Description&lt;/p&gt;\n  &lt;/&gt;\n);</pre>\n<p>Еквівалентно:</p>\n<pre>return (\n  &lt;React.Fragment&gt;\n    &lt;h1&gt;Title&lt;/h1&gt;\n    &lt;p&gt;Description&lt;/p&gt;\n  &lt;/React.Fragment&gt;\n);</pre>\n<p>Якщо потрібен <code>key</code> у списку, використовують повну форму <code>&lt;React.Fragment key={...}&gt;</code>, бо коротка <code>&lt;&gt;&lt;/&gt;</code> не приймає атрибути.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-69",
+      "question": "Що таке dependency array у useEffect / useMemo / useCallback?",
+      "answer": "\n      <p>Це список залежностей, при зміні яких React повторно виконує ефект або обчислення.</p>\n      <pre>useEffect(() =&gt; {\n  console.log(\"Змінено name або age\");\n}, [name, age]);\n    </pre>\n      <p>Якщо передати порожній масив — ефект виконається лише один раз (аналог <code>componentDidMount</code>).</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-70",
+      "question": "Що таке компоненти вищого порядку (HOC)?",
+      "answer": "<p><strong>HOC (Higher-Order Component)</strong> — це функція, яка приймає компонент і повертає новий компонент з додатковою поведінкою.</p>\n<pre>function withLogger(WrappedComponent) {\n  return function Enhanced(props) {\n    console.log('Render:', WrappedComponent.name);\n    return &lt;WrappedComponent {...props} /&gt;;\n  };\n}</pre>\n<p>HOC використовували для перевикористання логіки (авторизація, логування, data-fetching), але в сучасному React частіше віддають перевагу <strong>custom hooks</strong>.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-71",
+      "question": "Що таке Render Props?",
+      "answer": "\n      <p>Це патерн, коли компонент приймає функцію як <code>prop</code>, і ця функція визначає, що потрібно відрендерити.</p>\n      <pre>&lt;Mouse render={pos =&gt; &lt;p&gt;X: {pos.x}, Y: {pos.y}&lt;/p&gt;} /&gt;\n    </pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-72",
+      "question": "Що таке forwardRef і навіщо він потрібен?",
+      "answer": "\n      <p><strong>forwardRef</strong> дозволяє передавати ref із батьківського компонента у дочірній.</p>\n      <pre>const Input = forwardRef((props, ref) =&gt; &lt;input ref={ref} {...props} /&gt;);\n    </pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-73",
+      "question": "Які наслідки використання array indices як значення для ключів?",
+      "answer": "<p>Використання array indices як keys спричиняє серйозні проблеми при переупорядкуванні, вставці або видаленні елементів списку.</p><p><strong>Проблема:</strong> Key ідентифікує позицію, а не елемент. React переиспользует неправильні екземпляри компонентів.</p><p><strong>Наслідки:</strong></p><ul><li>Stale локальний стан — залишається прикріплений до неправильних рядків</li><li>Неправильний фокус — focus зміщується на невірні INPUT-поля</li><li>Прикріплена неправильна інформація — дані від одного елемента переносяться на інший</li></ul><p><strong>Рішення:</strong> Використовувати stable, unique identifier з даних (е.g. <code>item.id</code>).</p><p>❌ Index keys небезпечні, крім випадків: список статичний, ніколи не переупорядковується, не фільтрується, не додаються нові елементи.</p>"
+    },
+    {
+      "id": "q-74",
+      "question": "Яка різниця між useEffect і useLayoutEffect в React?",
+      "answer": "<p>Обидва хуки запускають побічні ефекти після рендеру, але відрізняються <strong>часом виконання</strong> відносно paint:</p><p><strong>useEffect:</strong></p><ul><li>Запускається <strong>асинхронно</strong> після того, як браузер намалював сторінку</li><li>Не блокує відмалювання — користувач видить новий frame</li><li>Використовується для: data fetching, підписок, логування, більшості ефектів</li></ul><p><strong>useLayoutEffect:</strong></p><ul><li>Запускається <strong>синхронно</strong> під час commit фази (після змін DOM, але до paint)</li><li>Блокує paint — гарантує, що DOM-вимірювання й запис відбуваються в одному фреймі</li><li>Використовується для: вимірювання DOM та запис у ньому щоб уникнути flickering</li></ul><pre>useEffect(() => {\n  console.log('Після paint'); // видно на екрані\n}, []);\n\nuseLayoutEffect(() => {\n  console.log('До paint');\n  console.log('Ширина:', ref.current.offsetWidth); // можна вимірювати\n}, []);</pre><p>❌ <strong>useLayoutEffect не працює при SSR</strong> — React показує warning при використанні в server-side rendering.</p>"
+    },
+    {
+      "id": "q-75",
+      "question": "Що таке useReducer хук в React і коли його використовувати?",
+      "answer": "<p><strong>useReducer</strong> — хук для керування складною логікою стану у функціональних компонентах. Це альтернатива <code>useState</code>, особливо корисна, коли:</p><ul><li>Стан має кілька sub-values</li><li>Наступний стан залежить від попереднього</li><li>Логіка переходів складна</li></ul><p><strong>Синтаксис:</strong></p><pre>const [state, dispatch] = useReducer(reducer, initialState);</pre><p><strong>Приклад:</strong></p><pre>function reducer(state, action) {\n  switch (action.type) {\n    case 'INCREMENT':\n      return { count: state.count + 1 };\n    case 'DECREMENT':\n      return { count: state.count - 1 };\n    default:\n      return state;\n  }\n}\n\nfunction Counter() {\n  const [state, dispatch] = useReducer(reducer, { count: 0 });\n  return (\n    &lt;&gt;\n      {state.count}\n      &lt;button onClick={() => dispatch({ type: 'INCREMENT' })}&gt;+&lt;/button&gt;\n      &lt;button onClick={() => dispatch({ type: 'DECREMENT' })}&gt;-&lt;/button&gt;\n    &lt;/&gt;\n  );\n}</pre><p>✅ Используй useReducer для <strong>складних state transitions</strong> та коли логіка керування станом виділяється в окремий reducer.</p>"
+    },
+    {
+      "id": "q-76",
+      "question": "Що таке useId хук в React і коли його використовувати?",
+      "answer": "<p><strong>useId</strong> (додана в React 18) генерує <strong>stabil, unique string ID</strong> для кожного екземпляра компонента на кожному React root.</p><p><strong>Основна причина існування:</strong> Генерувати IDs, що збігаються між server-rendered HTML та client hydration — звичайний counter привів би до дисмачу.</p><p><strong>Область унікальності:</strong> Всередину одного root IDs унікальні. Два окремих roots на одній сторінці можуть колідувати, якщо не встановити <code>identifierPrefix</code> на <code>createRoot</code> / <code>hydrateRoot</code>.</p><p><strong>Використання:</strong> Для <code>&lt;label htmlFor&gt;</code> до <code>&lt;input id&gt;</code>, НЕ як list key!</p><pre>import { useId } from 'react';\n\nfunction NameField() {\n  const id = useId();\n  return (\n    &lt>div&gt;\n      &lt;label htmlFor={id}&gt;Ім'я:&lt;/label&gt;\n      &lt;input id={id} type=\"text\" /&gt;\n    &lt;/div&gt;\n  );\n}</pre><p>IDs виглядатимуть так: <code>:r0:0</code>, <code>:r0:1</code> (глобально унікальні при SSR).</p>"
+    },
+    {
+      "id": "q-77",
+      "question": "Поясни one-way data flow React і його переваги",
+      "answer": "<p><strong>One-way data flow</strong> (unidirectional) — дані течуть в одному напрямку: <strong>від батька до дітей через props</strong>.</p><p><strong>Як це працює:</strong></p><ol><li>Батько передає дані дитині через props: <code>&lt;Child data={value} /&gt;</code></li><li>Дитина <strong>НЕ</strong> може мутувати props прямо</li><li>Для зміни батька дитина викликає callback: <code>&lt;Child onChange={handleChange} /&gt;</code></li><li>Батько обновляє свій стан, потім передає нові props дитині</li></ol><p><strong>Контрастно з двома напрямків binding (e.g., Angular v-model, Vue):</strong> У них model і view синхронізуються автоматично двадцяї бік.</p><p><strong>Переваги one-way flow:</strong></p><ul><li><strong>Predictable state changes:</strong> Змінити можна лише на батівському рівні</li><li><strong>Easier debugging:</strong> Видно, звідки йдуть дані й як вони змінюються</li><li><strong>Immutable updates:</strong> Дитина не зіпсує батько-стан</li><li><strong>Time-travel debugging:</strong> Кожна зміна фіксується й відстежується</li><li><strong>Controlled components:</strong> Форма controllable через props</li></ul><p><strong>Приклад:</strong></p><pre>// Батько:\nconst [name, setName] = useState('');\n&lt;Input value={name} onChange={(e) => setName(e.target.value)} /&gt;\n\n// Дитина:\nfunction Input({ value, onChange }) {\n  return &lt;input value={value} onChange={onChange} /&gt;;\n}</pre>"
+    },
+    {
+      "id": "q-78",
+      "question": "Що таке React Fiber?",
+      "answer": "\n      <p><strong>React Fiber</strong> — це новий механізм рендерингу (з версії React 16), який робить процес оновлення DOM інкрементальним.</p>\n\n      <p>Його мета — підвищити продуктивність React при виконанні анімацій, складних переходів та великої кількості оновлень.\n        Fiber дозволяє розділяти роботу на дрібні частини і виконувати її поступово, не блокуючи інтерфейс.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-79",
+      "question": "Що таке React.lazy та Suspense?",
+      "answer": "\n      <p><strong>React.lazy()</strong> дозволяє завантажувати компонент лише тоді, коли він потрібен.\n        <strong>Suspense</strong> показує запасний контент під час завантаження.</p>\n      <pre>const About = React.lazy(() =&gt; import('./About'));\n\n&lt;Suspense fallback={&lt;p&gt;Завантаження...&lt;/p&gt;}&gt;\n  &lt;About /&gt;\n&lt;/Suspense&gt;\n    </pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-80",
+      "question": "Що таке hydration у SSR?",
+      "answer": "\n      <p><strong>Hydration</strong> — це процес, коли React «прив’язує» свій JavaScript до вже згенерованої HTML-сторінки після SSR.\n        Це дозволяє сторінці стати інтерактивною без повторного рендерингу з нуля.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-81",
+      "question": "Що таке портал (Portal) у React?",
+      "answer": "<p><strong>Portal</strong> дозволяє рендерити дочірній UI у DOM-вузол поза DOM-ієрархією батьківського компонента.</p>\n<p>Створюється через <code>ReactDOM.createPortal(child, container)</code>.</p>\n<pre>import ReactDOM from 'react-dom';\n\nfunction Modal({ children }) {\n  return ReactDOM.createPortal(\n    children,\n    document.getElementById('modal-root')\n  );\n}</pre>\n<p><strong>Де застосовують:</strong> модалки, tooltip, dropdown, context menu.</p>\n<p><strong>Важливо:</strong> хоча вузол рендериться в іншому місці DOM, він залишається в React-дереві — контекст працює, а події бульбашаться по React-ієрархії.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-82",
+      "question": "Що таке Code Splitting і як його реалізувати?",
+      "answer": "\n      <p>Це розбиття JavaScript на частини, щоб завантажувати код поступово.\n        Реалізується за допомогою <code>React.lazy</code> і <code>Suspense</code>.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
       "id": "q-83",
-      "question": "Як відстежити зміну поля об'єкта у функціональному компоненті?",
-      "answer": "<p>Для цього використовують <code>useEffect()</code> з масивом залежностей, у якому вказують конкретне поле.</p><pre>useEffect(() => {\n  console.log(user.name);\n}, [user.name]);</pre>"
+      "question": "У чому різниця між SSR та CSR?",
+      "answer": "\n      <ul>\n        <li><strong>CSR (Client-Side Rendering)</strong> — HTML генерується у браузері після завантаження JS.</li>\n        <li><strong>SSR (Server-Side Rendering)</strong> — HTML створюється на сервері перед відправкою клієнту.</li>\n      </ul>\n      <p>SSR покращує SEO та швидкість початкового відображення.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-84",
+      "question": "Що таке React Strict Mode і які його переваги?",
+      "answer": "<p><strong>React Strict Mode</strong> — development-тільки інструмент для виявлення потенційних проблем в додатку.</p><p><strong>Активація:</strong></p><pre>import { StrictMode } from 'react';\n\n&lt;StrictMode&gt;\n  &lt;App /&gt;\n&lt;/StrictMode&gt;</pre><p><strong>Особливості:</strong></p><ul><li>Не рендерить видимий UI</li><li>Не впливає на production build</li><li>Активує додаткові перевірки й warnings</li></ul><p><strong>Що перевіряє:</strong></p><ul><li>❌ Небезпечні lifecycle методи (componentWillMount, componentWillReceiveProps) — deprecated</li><li>❌ Legacy string ref API usage</li><li>❌ Unexpected side effects — код в компоненті повинен бути чистим; Strict Mode подвійно викликає render функції й ефекти для виявлення таких проблем</li><li>❌ Компоненти, не готові до future režиму (concurrent rendering)</li></ul><p><strong>Приклад виявлення side effects:</strong></p><pre>// ❌ Strict Mode двічі викличе цю функцію:\nfunction App() {\n  console.log('Render'); // Буде: Render, Render\n  return &lt;div&gt;Hello&lt;/div&gt;;\n}</pre><p>Це допомагає заблаговремо виявити проблеми разі вони з'являються.</p>"
+    },
+    {
+      "id": "q-85",
+      "question": "Як оптимізувати performance React contexts щоб зменшити ререндери?",
+      "answer": "<p><strong>У 2026 році з React Compiler:</strong> Найважливіше — React Compiler <strong>автоматично мемоізує</strong> компоненти й значення, тому більшість manual useMemo/useCallback роботи більше не потрібна!</p><p><strong>Класичні техніки оптимізації:</strong></p><p><strong>1. Розділи context на state + dispatch contexts:</strong></p><pre>// ❌ Один context → всі subscribers ререндяться на state зміну\nconst StateContext = createContext();\n\n// ✅ Окремі contexts:\nconst StateContext = createContext(); // для читання\nconst DispatchContext = createContext(); // для дій\n\n// Тепер компоненти, що только диспатчать, не ререндяться</pre><p><strong>2. Мемоізуй value об'єкт:</strong></p><pre>const value = useMemo(() => ({ state }), [state]);\n&lt;StateContext.Provider value={value}&gt;...</pre><p><strong>3. Оберни consumer компоненти в React.memo:</strong></p><pre>export default React.memo(MyComponent);</pre><p><strong>4. Selector libraries:</strong> Для великих context values використовуй <code>use-context-selector</code> для підписки на окрему слайс.</p><p>⚡ <strong>Висновок:</strong> Спочатку採用 React Compiler, потім розділяй contexts, потім додавай React.memo selectors.</p>"
+    },
+    {
+      "id": "q-86",
+      "question": "Що таке Flux pattern і які його переваги?",
+      "answer": "<p><strong>Flux</strong> — архітектурний pattern управління станом, запроваджений Facebook для React.</p><p><strong>Ключова ідея:</strong> <strong>Unidirectional data flow</strong> — дані течуть у одному напрямку, що полегшує керування й дебаговування.</p><p><strong>Компоненти Flux:</strong></p><ul><li><strong>Action:</strong> Простий об'єкт з даними, відправлений з View</li><li><strong>Dispatcher:</strong> Центральний хаб, що керує actions і диспатчить на всі registered stores</li><li><strong>Store:</strong> Зберігає стан й business logic; видає change events для підписників</li><li><strong>View:</strong> React компонент, що підписується на store, ререндериться при змінах</li></ul><p><strong>Flow:</strong></p><pre>User взаємодіє з View\n     ↓\nView видає Action\n     ↓\nDispatcher отримає action\n     ↓\nStore обробляє action, оновлює стан, видає change event\n     ↓\nView ререндериться з новим станом</pre><p><strong>Переваги:</strong></p><ul><li>Predictable state changes — unidirectional flow</li><li>Single source of truth — один глобальний стан</li><li>Improved debugging й testing</li><li>Clear separation of concerns</li></ul><p><strong>Примітка 2026:</strong> Flux історично був. Його ідеї суперцідять бібліотеки на кшталт <strong>Redux</strong>, <strong>Zustand</strong>, <strong>useReducer + Context</strong>, але основні principles залишаються актуальними.</p>"
+    },
+    {
+      "id": "q-87",
+      "question": "Поясни static generation React-додатків і його переваги",
+      "answer": "<p><strong>Static Generation (SSG)</strong> — pre-rendering сторінок до HTML на етапі збірки, замість рендерингу для кожного запиту.</p><p><strong>Процес:</strong></p><ol><li>На build-time: фреймворк генерує HTML файли для всіх сторінок</li><li>Ці статичні файли можуть бути поцерновані з CDN</li><li>Браузер отримує готовий HTML миттєво</li></ol><p><strong>Фреймворки:</strong> Next.js, Remix, Astro, Gatsby</p><p><strong>У Next.js App Router:</strong></p><pre>// Fetches за замовчуванням статично генеруються\nexport async function generateStaticParams() {\n  return [{id: '1'}, {id: '2'}]; // enumerate динамічні маршрути\n}</pre><p><strong>Переваги:</strong></p><ul><li>⚡ <strong>Дуже швидке завантаження</strong> — просто HTML з CDN</li><li>🔍 <strong>Відпадає SEO</strong> — контент доступний crawlers відразу</li><li>💰 <strong>Економія сервера</strong> — немає rendering на запит</li><li>🔒 <strong>Безпека</strong> — API ключі не витікають у frontend</li></ul><p><strong>Incremental Static Regeneration (ISR):</strong> На Next.js: можна перебудовувати окремі сторінки на фоні після TTL, тому static не означає застарілий.</p><pre>export const revalidate = 60; // перебудовуй кожні 60 сек</pre><p>✅ SSG найкраще для контенту, що не змінюється per-user (блоги, статичні сайти, документація).</p>"
+    },
+    {
+      "id": "q-88",
+      "question": "Поясни composition pattern в React",
+      "answer": "<p><strong>Composition Pattern</strong> — побудова UI комбінуванням менших, переиспользуємих компонентів замість розширення через inheritance.</p><p><strong>Форми composition:</strong></p><p><strong>1. Props children:</strong></p><pre>function Card({ children }) {\n  return &lt;div className=\"card\"&gt;{children}&lt;/div&gt;;\n}\n\n&lt;Card&gt;\n  &lt;h2&gt;Title&lt;/h2&gt;\n  &lt;p&gt;Content&lt;/p&gt;\n&lt;/Card&gt;</pre><p><strong>2. Named slots (компоненти як props):</strong></p><pre>function Modal({ header, body, footer }) {\n  return (\n    &lt;div className=\"modal\"&gt;\n      &lt;div className=\"header\"&gt;{header}&lt;/div&gt;\n      &lt;div className=\"body\"&gt;{body}&lt;/div&gt;\n      &lt;div className=\"footer\"&gt;{footer}&lt;/div&gt;\n    &lt;/div&gt;\n  );\n}\n\n&lt;Modal\n  header={&lt;h1&gt;Delete?&lt;/h1&gt;}\n  body={&lt;p&gt;Sure?&lt;/p&gt;}\n  footer={&lt;button&gt;Confirm&lt;/button&gt;}\n/&gt;</pre><p><strong>3. Specialization:</strong> Спеціалізований компонент обгортає generic та фіксує деякі props.</p><pre>function Button({ children, ...props }) {\n  return &lt;button {...props}&gt;{children}&lt;/button&gt;;\n}\n\nfunction PrimaryButton(props) {\n  return &lt;Button className=\"btn-primary\" {...props} /&gt;;\n}</pre><p><strong>4. Compound components:</strong> Батько експонує набір related sub-компонентів.</p><pre>&lt;Tabs&gt;\n  &lt;Tabs.List&gt;\n    &lt;Tabs.Tab value=\"tab1\"&gt;Tab 1&lt;/Tabs.Tab&gt;\n    &lt;Tabs.Tab value=\"tab2\"&gt;Tab 2&lt;/Tabs.Tab&gt;\n  &lt;/Tabs.List&gt;\n  &lt;Tabs.Panel value=\"tab1\"&gt;Content 1&lt;/Tabs.Panel&gt;\n  &lt;Tabs.Panel value=\"tab2\"&gt;Content 2&lt;/Tabs.Panel&gt;\n&lt;/Tabs&gt;</pre><p>✅ Composition — основний mechanism переиспользування в React, поєднаний з custom hooks для поведінки.</p>"
+    },
+    {
+      "id": "q-89",
+      "question": "Як створити компоненти в React?",
+      "answer": "<p>У React компоненти можна описувати двома способами:</p>\n<ul>\n  <li><strong>Функціональний компонент</strong> — сучасний і рекомендований підхід</li>\n  <li><strong>Класовий компонент</strong> — історичний підхід (частіше зустрічається в legacy-коді)</li>\n</ul>\n<p><strong>1) Функціональний компонент (рекомендовано):</strong></p>\n<pre>function Greeting({ name }) {\n  return &lt;h1&gt;Hello, {name}!&lt;/h1&gt;;\n}\n\n// Використання\n&lt;Greeting name=\"Alice\" /&gt;;</pre>\n<p><strong>2) Класовий компонент:</strong></p>\n<pre>class Greeting extends React.Component {\n  render() {\n    return &lt;h1&gt;Hello, {this.props.name}!&lt;/h1&gt;;\n  }\n}\n\n// Використання\n&lt;Greeting name=\"Alice\" /&gt;;</pre>\n<p><strong>Практика 2026:</strong> для нового коду зазвичай використовують функціональні компоненти + hooks (<code>useState</code>, <code>useEffect</code> тощо), бо вони простіші для читання, тестування й повторного використання логіки.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-90",
+      "question": "Як передаються дані між компонентами у React?",
+      "answer": "<p>У React дані передаються за ієрархією компонентів.</p>\n<p><strong>1. Зверху вниз (Parent → Child):</strong> через <code>props</code>.</p>\n<pre>function Parent() {\n  const message = 'Hello from Parent';\n  return &lt;Child message={message} /&gt;;\n}\n\nfunction Child({ message }) {\n  return &lt;p&gt;{message}&lt;/p&gt;;\n}</pre>\n<p><strong>2. Знизу вгору (Child → Parent):</strong> через callback-функцію, яку батько передає в props.</p>\n<pre>function Parent() {\n  const handleData = (value) =&gt; console.log(value);\n  return &lt;Child onSend={handleData} /&gt;;\n}\n\nfunction Child({ onSend }) {\n  return &lt;button onClick={() =&gt; onSend('Hello from Child')}&gt;Send&lt;/button&gt;;\n}</pre>\n<p><strong>3. Для глибоких дерев:</strong> використовують <code>Context API</code> (щоб уникати prop drilling).</p>\n<p><strong>4. Для великих застосунків:</strong> часто підключають state-менеджери (Redux Toolkit, Zustand тощо).</p>\n<p>Ключовий принцип: <strong>one-way data flow</strong> — дані йдуть вниз, а зміни ініціюються вгору через події/колбеки.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-91",
+      "question": "Чому React використовує className замість class?",
+      "answer": "<p>У JSX використовується <code>className</code>, а не <code>class</code>, тому що JSX — це JavaScript-подібний синтаксис, а <code>class</code> є зарезервованим словом у JavaScript.</p>\n<p>Тому React використовує узгоджену назву пропа <code>className</code>, яка потім рендериться у звичайний HTML-атрибут <code>class</code>.</p>\n<pre>// ✅ React / JSX\n&lt;div className=\"card\"&gt;Hello&lt;/div&gt;\n\n// ❌ Небажано в JSX\n&lt;div class=\"card\"&gt;Hello&lt;/div&gt;</pre>\n<p>Аналогічно: <code>htmlFor</code> використовується замість <code>for</code>.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-92",
+      "question": "Які правила та винятки щодо іменування компонентів у React?",
+      "answer": "<p><strong>Базове правило:</strong> ім'я React-компонента має починатися з великої літери.</p>\n<ul>\n  <li><code>&lt;UserCard /&gt;</code> — компонент</li>\n  <li><code>&lt;div&gt;</code> — HTML-тег</li>\n</ul>\n<p><strong>Рекомендації:</strong></p>\n<ul>\n  <li>використовувати <strong>PascalCase</strong> для компонентів: <code>UserProfileCard</code></li>\n  <li>не називати компонент як HTML-тег (<code>button</code>, <code>section</code>)</li>\n  <li>не використовувати дефіси для імен React-компонентів у JS-коді (<code>My-Component</code> — некоректно як ідентифікатор)</li>\n</ul>\n<p><strong>Нюанс:</strong> у JSX тег з малої літери React трактує як нативний DOM-елемент, а з великої — як компонент.</p>\n<pre>// ✅\nfunction MyComponent() { return &lt;div&gt;OK&lt;/div&gt;; }\n\n// ❌ React сприйме як HTML-тег, а не компонент\nfunction myComponent() { return &lt;div&gt;Wrong&lt;/div&gt;; }</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-93",
+      "question": "Як писати коментарі в React та JSX?",
+      "answer": "<p>У React коментарі пишуться як у JavaScript, але в JSX є окремий синтаксис.</p>\n<p><strong>1. Поза JSX:</strong> звичайні JS-коментарі</p>\n<pre>// однорядковий\n/* багаторядковий */</pre>\n<p><strong>2. Усередині JSX:</strong> тільки через <code>{/* ... */}</code></p>\n<pre>function MyComponent() {\n  // JS-коментар\n  return (\n    &lt;div&gt;\n      {/* JSX-коментар */}\n      &lt;p&gt;Hello&lt;/p&gt;\n    &lt;/div&gt;\n  );\n}</pre>\n<p>Якщо писати коментар у JSX без фігурних дужок, це викличе помилку парсингу.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-94",
+      "question": "Яка різниця між обробкою подій у HTML і React?",
+      "answer": "<p>У React події схожі на DOM-події, але мають важливі відмінності.</p>\n<ul>\n  <li>у JSX використовують <strong>camelCase</strong>: <code>onClick</code> замість <code>onclick</code></li>\n  <li>передається <strong>функція</strong>, а не рядок JS-коду</li>\n  <li>для скасування дефолтної поведінки використовують <code>event.preventDefault()</code>, а не <code>return false</code></li>\n  <li>React використовує <strong>SyntheticEvent</strong> для кросбраузерної узгодженості</li>\n</ul>\n<pre>// HTML\n&lt;button onclick=\"handleClick()\"&gt;Click&lt;/button&gt;\n\n// React\n&lt;button onClick={handleClick}&gt;Click&lt;/button&gt;</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-95",
+      "question": "Як обробляти події в React?",
+      "answer": "<p>У React обробники подій передаються як функції у props подій (<code>onClick</code>, <code>onChange</code>, <code>onSubmit</code>).</p>\n<pre>function Counter() {\n  const [count, setCount] = useState(0);\n\n  const handleClick = () =&gt; setCount((c) =&gt; c + 1);\n\n  return &lt;button onClick={handleClick}&gt;Clicked {count}&lt;/button&gt;;\n}</pre>\n<p>Корисні практики:</p>\n<ul>\n  <li>не викликати функцію під час рендера: <code>onClick={handleClick}</code>, а не <code>onClick={handleClick()}</code></li>\n  <li>для форм використовувати <code>onSubmit</code> + <code>preventDefault()</code></li>\n  <li>за потреби передати аргументи — використовувати обгортку: <code>onClick={() => onDelete(id)}</code></li>\n</ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-96",
+      "question": "Що таке Pointer Events у React?",
+      "answer": "<p><strong>Pointer Events</strong> — єдина модель подій для миші, тачу і стилуса.</p>\n<p>У React доступні обробники:</p>\n<ul>\n  <li><code>onPointerDown</code>, <code>onPointerUp</code></li>\n  <li><code>onPointerMove</code></li>\n  <li><code>onPointerEnter</code>, <code>onPointerLeave</code></li>\n  <li><code>onPointerCancel</code></li>\n</ul>\n<pre>function Pad() {\n  return (\n    &lt;div\n      onPointerDown={() =&gt; console.log('down')}\n      onPointerMove={() =&gt; console.log('move')}\n      onPointerUp={() =&gt; console.log('up')}\n    &gt;\n      Touch / Mouse / Pen\n    &lt;/div&gt;\n  );\n}</pre>\n<p>Це зручно, коли один і той самий UI має працювати на десктопі й мобільних пристроях.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-97",
+      "question": "Коли використовувати класовий компонент замість функціонального?",
+      "answer": "<p>У новому React перевага зазвичай за <strong>функціональними компонентами + hooks</strong>.</p>\n<p>Класові компоненти доцільні переважно у двох випадках:</p>\n<ul>\n  <li>підтримка legacy-коду, де вже є класи</li>\n  <li>використання існуючих патернів/бібліотек, прив'язаних до класів</li>\n</ul>\n<p>Історично класи потрібні були для state і lifecycle-методів, але сьогодні це покривається <code>useState</code> та <code>useEffect</code>.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-98",
+      "question": "Що таке stateless components у React?",
+      "answer": "<p><strong>Stateless component</strong> — компонент без власного локального стану.</p>\n<p>Він отримує дані через props і рендерить UI.</p>\n<pre>function Greeting({ name }) {\n  return &lt;h1&gt;Hello, {name}!&lt;/h1&gt;;\n}</pre>\n<p>У сучасному React термін вживають рідше, бо навіть функціональний компонент може мати state через hooks.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-99",
+      "question": "Що таке stateful components у React?",
+      "answer": "<p><strong>Stateful component</strong> — компонент, який має і оновлює власний стан.</p>\n<pre>function Counter() {\n  const [count, setCount] = useState(0);\n  return &lt;button onClick={() =&gt; setCount((c) =&gt; c + 1)}&gt;{count}&lt;/button&gt;;\n}</pre>\n<p>Раніше stateful зазвичай означав класовий компонент, але зараз це будь-який компонент (частіше функціональний), що використовує hooks стану.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-100",
+      "question": "Що робить метод shouldComponentUpdate?",
+      "answer": "<p><code>shouldComponentUpdate(nextProps, nextState)</code> — метод класового компонента, який вирішує, чи потрібно робити повторний рендер.</p>\n<ul>\n  <li><code>true</code> — компонент ререндериться</li>\n  <li><code>false</code> — ререндер пропускається</li>\n</ul>\n<pre>class MyComponent extends React.Component {\n  shouldComponentUpdate(nextProps) {\n    return nextProps.value !== this.props.value;\n  }\n\n  render() {\n    return &lt;div&gt;{this.props.value}&lt;/div&gt;;\n  }\n}</pre>\n<p>У функціональних компонентах аналогічну оптимізацію роблять через <code>React.memo</code>.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-101",
+      "question": "Як виконати код перед видаленням компонента з дерева?",
+      "answer": "<p>Перед видаленням компонента виконують cleanup.</p>\n<p><strong>Класовий компонент:</strong> метод <code>componentWillUnmount</code>.</p>\n<p><strong>Функціональний компонент:</strong> cleanup-функція, яку повертає <code>useEffect</code>.</p>\n<pre>useEffect(() => {\n  const id = setInterval(() => {}, 1000);\n\n  return () => {\n    clearInterval(id); // cleanup перед unmount\n  };\n}, []);</pre>\n<p>Типові cleanup-задачі: відписка від подій, очищення таймерів, скасування запитів.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-102",
+      "question": "Чому фрагменти (Fragment) кращі за контейнерні div?",
+      "answer": "<p><strong>Fragments</strong> не додають зайвих вузлів у DOM, тоді як <code>&lt;div&gt;</code> додає обгортку.</p>\n<ul>\n  <li>чистіша DOM-структура</li>\n  <li>менше ризику зламати CSS/layout зайвим контейнером</li>\n  <li>зручніше в місцях, де зайві вузли небажані (наприклад, у таблицях)</li>\n</ul>\n<pre>// ✅ без зайвого div\nreturn (\n  &lt;&gt;\n    &lt;h1&gt;Title&lt;/h1&gt;\n    &lt;p&gt;Text&lt;/p&gt;\n  &lt;/&gt;\n);</pre>\n<p>Коли потрібен <code>key</code>, використовуй повну форму <code>&lt;React.Fragment key={...}&gt;</code>.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-103",
+      "question": "Які переваги Hooks у React?",
+      "answer": "<p>Головні переваги Hooks:</p>\n<ul>\n  <li>менше шаблонного коду порівняно з класами</li>\n  <li>логіку легко ділити за відповідальністю (<code>useEffect</code>, <code>useMemo</code>, <code>useReducer</code>)</li>\n  <li>custom hooks дозволяють перевикористовувати stateful-логіку без HOC/render props</li>\n  <li>зручніший рефакторинг і тестування</li>\n  <li>краща читабельність у сучасному React-коді</li>\n</ul>\n<p>Тому в нових проєктах функціональні компоненти + hooks — стандартний підхід.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-104",
+      "question": "Які недоліки Hooks у React?",
+      "answer": "<p>Hooks дуже корисні, але мають типові підводні камені:</p>\n<ul>\n  <li>помилки залежностей у <code>useEffect</code>/<code>useMemo</code>/<code>useCallback</code> можуть давати баги або зайві ререндери</li>\n  <li>stale closures у асинхронному коді та ефектах</li>\n  <li>надмірне використання <code>useMemo</code>/<code>useCallback</code> ускладнює код без реального профіту</li>\n  <li>логіка може розпорошуватися між кількома hooks, якщо погано структурована</li>\n</ul>\n<p>Ці ризики зменшують правила hooks, ESLint і чітка структура custom hooks.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-105",
+      "question": "Як реалізувати одноразове виконання операції під час початкового рендерингу?",
+      "answer": "<p>У функціональних компонентах для цього використовують <code>useEffect</code> з порожнім масивом залежностей <code>[]</code>.</p>\n<pre>useEffect(() => {\n  console.log('Виконається один раз після mount');\n}, []);</pre>\n<p>Для ресурсів (таймери, підписки, listeners) додай cleanup:</p>\n<pre>useEffect(() => {\n  const id = setInterval(() => {}, 1000);\n  return () => clearInterval(id);\n}, []);</pre>\n<p><strong>Нюанс dev-режиму:</strong> у StrictMode ефект може викликатися двічі для перевірки побічних ефектів, але в production — один раз.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-106",
+      "question": "Що таке Prop Drilling і як його уникнути?",
+      "answer": "<p><strong>Prop Drilling</strong> — це передача props через кілька проміжних компонентів, яким ці дані не потрібні напряму.</p>\n<p>Це ускладнює підтримку і читабельність.</p>\n<pre>Parent -> Child -> GrandChild\n// user проп прокидується через Child, хоча потрібен тільки GrandChild</pre>\n<p>Як уникати:</p>\n<ul>\n  <li><strong>Context API</strong> для значень, що діляться між гілками (тема, мова, user)</li>\n  <li><strong>State managers</strong> (Redux Toolkit, Zustand, Jotai) для складного shared state</li>\n  <li>композиція компонентів або custom hooks для локалізації логіки</li>\n</ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-107",
+      "question": "Що таке Redux?",
+      "answer": "<p><strong>Redux</strong> — бібліотека керування станом із централізованим сховищем (<code>store</code>) і передбачуваними оновленнями через actions + reducers.</p>\n<p>Ключові принципи:</p>\n<ul>\n  <li>єдине джерело правди (single store)</li>\n  <li>стан лише для читання; зміни через <code>dispatch(action)</code></li>\n  <li>оновлення описуються чистими функціями reducer</li>\n</ul>\n<p>У сучасному React зазвичай використовують <strong>Redux Toolkit</strong>, бо він прибирає багато boilerplate.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-108",
+      "question": "Які ще бібліотеки керування станом у React є, крім Redux?",
+      "answer": "<p>Поширені альтернативи Redux:</p>\n<ul>\n  <li><strong>Zustand</strong> — мінімалістичний API, простий глобальний state</li>\n  <li><strong>Jotai</strong> — атомарний підхід до стану</li>\n  <li><strong>MobX</strong> — реактивна модель через observables</li>\n  <li><strong>Recoil</strong> — атоми/селектори (популярний для fine-grained state)</li>\n  <li><strong>XState</strong> — state machines для складних workflow</li>\n</ul>\n<p>Окремо для <strong>server state</strong> частіше беруть TanStack Query / RTK Query / SWR.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-109",
+      "question": "Як працює Redux Saga?",
+      "answer": "<p><strong>Redux Saga</strong> — middleware для Redux, яке керує side effects через generator functions (<code>function*</code>).</p>\n<p>Типовий потік:</p>\n<ul>\n  <li><code>takeEvery / takeLatest</code> слухає actions</li>\n  <li><code>call</code> виконує async-операції (API)</li>\n  <li><code>put</code> диспатчить success/error actions</li>\n</ul>\n<pre>function* fetchDataSaga() {\n  try {\n    const response = yield call(fetch, '/api/data');\n    const data = yield call([response, 'json']);\n    yield put({ type: 'FETCH_SUCCESS', payload: data });\n  } catch (e) {\n    yield put({ type: 'FETCH_ERROR', error: String(e) });\n  }\n}</pre>\n<p>Saga корисна для складних async-сценаріїв (скасування, race, retry, оркестрація потоків).</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-110",
+      "question": "Що таке Lifting State Up у React?",
+      "answer": "<p><strong>Lifting State Up</strong> — підняття стану до найближчого спільного батьківського компонента, щоб кілька дітей використовували одне джерело правди.</p>\n<p>Ідея: якщо декілька компонентів мають працювати з одними й тими ж даними, стан зберігається в їхньому спільному предку і передається вниз через props.</p>\n<pre>function Parent() {\n  const [value, setValue] = useState('');\n  return (\n    &lt;&gt;\n      &lt;Input value={value} onChange={setValue} /&gt;\n      &lt;Preview value={value} /&gt;\n    &lt;/&gt;\n  );\n}</pre>\n<p>Це робить дані узгодженими і передбачуваними для всіх залежних компонентів.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-111",
+      "question": "Як створити форму в React?",
+      "answer": "<p>У React форми можна будувати двома способами:</p>\n<ul>\n  <li><strong>Controlled</strong>: значення полів у state, оновлення через <code>onChange</code></li>\n  <li><strong>Uncontrolled</strong>: значення зчитуються з DOM через <code>ref</code></li>\n</ul>\n<p><strong>Controlled-приклад:</strong></p>\n<pre>function Form() {\n  const [name, setName] = useState('');\n\n  const onSubmit = (e) => {\n    e.preventDefault();\n    console.log(name);\n  };\n\n  return (\n    &lt;form onSubmit={onSubmit}&gt;\n      &lt;input value={name} onChange={(e) => setName(e.target.value)} /&gt;\n      &lt;button&gt;Submit&lt;/button&gt;\n    &lt;/form&gt;\n  );\n}</pre>\n<p>Для складних форм з валідацією зазвичай обирають controlled-підхід.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-112",
+      "question": "Як застосувати перевірку пропсів (props) у React?",
+      "answer": "<p>Для runtime-перевірки пропсів у JS-проєктах використовують <code>prop-types</code>.</p>\n<pre>import PropTypes from 'prop-types';\n\nfunction UserCard({ name, age }) {\n  return &lt;h2&gt;{name} ({age})&lt;/h2&gt;;\n}\n\nUserCard.propTypes = {\n  name: PropTypes.string.isRequired,\n  age: PropTypes.number,\n};</pre>\n<p>Часто дефолтні значення задають прямо в параметрах функції.</p>\n<pre>function UserCard({ name = 'Guest', age = 18 }) { ... }</pre>\n<p>У TypeScript типи пропсів зазвичай описують на рівні самої мови, і потреба в PropTypes зменшується.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-113",
+      "question": "Чим React Router відрізняється від звичайної маршрутизації?",
+      "answer": "<p><strong>React Router</strong> реалізує клієнтську маршрутизацію (SPA): перехід між сторінками відбувається без повного перезавантаження документа.</p>\n<p><strong>Server-side routing</strong> (класичний MPA) зазвичай повертає нову HTML-сторінку на кожний перехід.</p>\n<ul>\n  <li>SPA: швидкі переходи, менше повних reload</li>\n  <li>MPA: простіша SEO-індексація «з коробки»</li>\n</ul>\n<p>У React-проєктах SEO зазвичай вирішують через SSR/SSG фреймворки (наприклад, Next.js).</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-114",
+      "question": "Як передавати пропси в React Router?",
+      "answer": "<p>У сучасному React Router (v6+) найчастіше передають дані трьома способами:</p>\n<ul>\n  <li><strong>Через елемент маршруту:</strong> передай пропси прямо у компонент</li>\n  <li><strong>Через navigate state:</strong> <code>navigate('/profile', { state: { user } })</code></li>\n  <li><strong>Через URL params:</strong> <code>/users/:id</code> + <code>useParams()</code></li>\n</ul>\n<pre>// route element\n&lt;Route path=\"/profile\" element={&lt;Profile user={user} /&gt;} /&gt;\n\n// navigate state\nnavigate('/profile', { state: { user: 'John' } });\n\n// read state\nconst { state } = useLocation();</pre>\n<p>Підхід обирають за типом даних: URL-параметри для shareable route data, state для тимчасового navigation payload.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-115",
+      "question": "Які способи стилізації є в React-компонентах?",
+      "answer": "<p>Поширені підходи стилізації в React:</p>\n<ul>\n  <li><strong>CSS-файли</strong> (<code>className</code>)</li>\n  <li><strong>CSS Modules</strong> (локальна ізоляція класів)</li>\n  <li><strong>Inline styles</strong> (<code>style={{ ... }}</code>)</li>\n  <li><strong>CSS-in-JS</strong> (styled-components, Emotion)</li>\n  <li><strong>Utility-first</strong> (Tailwind CSS)</li>\n  <li><strong>Sass/SCSS</strong></li>\n</ul>\n<p>Вибір залежить від масштабу проєкту, вимог до ізоляції стилів і стандартів команди.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-116",
+      "question": "У чому перевага модульних стилів (CSS Modules)?",
+      "answer": "<p><strong>CSS Modules</strong> дають локальний scope стилів: класи автоматично робляться унікальними на етапі збірки.</p>\n<p>Переваги:</p>\n<ul>\n  <li>немає конфліктів імен класів між компонентами</li>\n  <li>простіший рефакторинг і підтримка</li>\n  <li>краща прогнозованість стилів у великих проєктах</li>\n</ul>\n<pre>import styles from './Button.module.css';\n\nfunction Button() {\n  return &lt;button className={styles.primary}&gt;Save&lt;/button&gt;;\n}</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-117",
+      "question": "Яка різниця між React.memo і useMemo?",
+      "answer": "<p><strong>React.memo</strong> і <strong>useMemo</strong> вирішують різні задачі:</p>\n<ul>\n  <li><strong>React.memo</strong> мемоізує компонент і пропускає його ререндер, якщо props не змінилися</li>\n  <li><strong>useMemo</strong> мемоізує <em>значення</em> (результат обчислення) всередині компонента</li>\n</ul>\n<pre>const List = React.memo(function List({ items }) {\n  return ...;\n});\n\nconst sorted = useMemo(() => sortItems(items), [items]);</pre>\n<p>Коротко: <strong>memo</strong> — про ререндер компонента, <strong>useMemo</strong> — про кеш обчислення.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-118",
+      "question": "Як використовувати innerHTML у React?",
+      "answer": "<p>У React для вставки сирого HTML використовують <code>dangerouslySetInnerHTML</code>.</p>\n<pre>const html = '&lt;p&gt;Це &lt;strong&gt;HTML&lt;/strong&gt;&lt;/p&gt;';\nreturn &lt;div dangerouslySetInnerHTML={{ __html: html }} /&gt;;</pre>\n<p>Назва <em>dangerously</em> не випадкова: якщо дані з ненадійного джерела, можливі XSS-атаки.</p>\n<p>Перед вставкою користувацького HTML потрібно санітизувати вміст (наприклад, DOMPurify).</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-119",
+      "question": "Що таке ReactDOMServer?",
+      "answer": "<p><strong>ReactDOMServer</strong> — пакет для server-side рендерингу React у HTML на сервері.</p>\n<p>Основні API:</p>\n<ul>\n  <li><code>renderToString()</code> — рендер у HTML-рядок</li>\n  <li><code>renderToStaticMarkup()</code> — статичний HTML без React-атрибутів</li>\n  <li>у сучасному SSR також застосовують streaming-API</li>\n</ul>\n<p>Після SSR на клієнті використовують <code>hydrateRoot</code> (react-dom/client), щоб «оживити» HTML.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-120",
+      "question": "Для чого потрібен пакет react-dom?",
+      "answer": "<p><code>react-dom</code> відповідає за інтеграцію React із браузерним DOM.</p>\n<p>У сучасних проєктах найчастіше використовують:</p>\n<ul>\n  <li><code>createRoot(...).render(...)</code> з <code>react-dom/client</code></li>\n  <li><code>hydrateRoot(...)</code> для SSR-гідратації</li>\n  <li><code>createPortal(...)</code> для порталів</li>\n</ul>\n<p>Старі API на кшталт <code>ReactDOM.render</code> / <code>findDOMNode</code> в новому коді не рекомендуються.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-121",
+      "question": "Які найкращі практики безпеки в React?",
+      "answer": "<p>Базові практики безпеки в React:</p>\n<ul>\n  <li>не вставляй сирий HTML без санітизації (<code>dangerouslySetInnerHTML</code> + DOMPurify)</li>\n  <li>не зберігай секрети/API keys у клієнтському коді</li>\n  <li>використовуй HTTPS, HttpOnly/Secure/SameSite cookies для auth</li>\n  <li>захищай бекенд від CSRF/XSS/IDOR; клієнтські перевірки не є безпекою</li>\n  <li>регулярно оновлюй залежності й перевіряй <code>npm audit</code></li>\n  <li>застосовуй CSP та security headers</li>\n</ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-122",
+      "question": "Що таке інверсія спадкування (Inheritance Inversion) у React?",
+      "answer": "<p>У React зазвичай уникають складного спадкування. Під «інверсією спадкування» мають на увазі проблемний дизайн, коли базовий клас втрачає контроль і залежить від нащадків.</p>\n<p>Сучасний підхід у React — <strong>композиція замість спадкування</strong>:</p>\n<ul>\n  <li>компоненти-обгортки</li>\n  <li><code>children</code></li>\n  <li>custom hooks для перевикористання логіки</li>\n</ul>\n<p>Тому для React інтерв’ю ключова теза: prefer composition over inheritance.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-123",
+      "question": "Що таке Polling і як його реалізувати у React?",
+      "answer": "<p><strong>Polling</strong> — періодичні запити до сервера для отримання оновлень.</p>\n<p>Найпростіше — <code>useEffect</code> + <code>setInterval</code> з cleanup:</p>\n<pre>useEffect(() => {\n  const fetchData = async () => { /* ... */ };\n  fetchData();\n  const id = setInterval(fetchData, 5000);\n  return () => clearInterval(id);\n}, []);</pre>\n<p>Щоб уникнути накладання запитів, часто безпечніше використовувати рекурсивний <code>setTimeout</code> після завершення попереднього запиту.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-124",
+      "question": "Як у React реалізувати двостороннє зв’язування даних?",
+      "answer": "<p>У React «двосторонній» ефект роблять через <strong>controlled inputs</strong>:</p>\n<ul>\n  <li>значення поля береться зі state</li>\n  <li><code>onChange</code> оновлює цей state</li>\n</ul>\n<pre>const [value, setValue] = useState('');\nreturn &lt;input value={value} onChange={(e) => setValue(e.target.value)} /&gt;;</pre>\n<p>React зберігає однонаправлений потік даних, але така схема дає ту саму UX-поведінку, яку часто називають two-way binding.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-125",
+      "question": "Що таке зворотний потік даних (Reverse Data Flow) у React?",
+      "answer": "<p><strong>Reverse Data Flow</strong> — це передача даних від дитини до батька через callback-props.</p>\n<pre>function Parent() {\n  const [value, setValue] = useState('');\n  return &lt;Child onChangeValue={setValue} /&gt;;\n}\n\nfunction Child({ onChangeValue }) {\n  return &lt;input onChange={(e) => onChangeValue(e.target.value)} /&gt;;\n}</pre>\n<p>Фактично стан залишається в батька, а дитина лише повідомляє про подію.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-126",
+      "question": "Які рекомендовані способи перевірки статичних типів у React?",
+      "answer": "<p>Основний рекомендований спосіб — <strong>TypeScript</strong> (статична типізація на етапі компіляції).</p>\n<p>Додатково:</p>\n<ul>\n  <li><code>PropTypes</code> — runtime-валидація props у JS-проєктах</li>\n  <li>ESLint + плагіни — для правил якості та узгодженості</li>\n</ul>\n<p>Flow сьогодні використовується рідше, ніж TypeScript.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-127",
+      "question": "Як реалізувати анімацію в React?",
+      "answer": "<p>Найпоширеніші підходи:</p>\n<ul>\n  <li>CSS transitions / keyframes — прості анімації</li>\n  <li>React Transition Group — enter/exit переходи</li>\n  <li>Framer Motion — потужні декларативні анімації</li>\n  <li>React Spring — фізично-орієнтовані анімації</li>\n</ul>\n<p>Для більшості сучасних UI найзручніше стартувати з Framer Motion.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-128",
+      "question": "Які найпопулярніші пакети для анімації у React?",
+      "answer": "<p>Найпопулярніші бібліотеки:</p>\n<ul>\n  <li><strong>Framer Motion</strong></li>\n  <li><strong>React Spring</strong></li>\n  <li><strong>React Transition Group</strong></li>\n  <li><strong>GSAP</strong></li>\n  <li><strong>Lottie (lottie-react)</strong> для JSON-анімацій</li>\n</ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-129",
+      "question": "Які найпопулярніші лінтери для React?",
+      "answer": "<p>Стандартний набір для React-проєктів:</p>\n<ul>\n  <li><strong>ESLint</strong> (з <code>eslint-plugin-react</code> і <code>eslint-plugin-react-hooks</code>)</li>\n  <li><strong>Prettier</strong> для форматування (часто разом з ESLint)</li>\n  <li>для TypeScript — <code>@typescript-eslint</code> плагіни</li>\n</ul>\n<p><code>TSLint</code> вважається застарілим і переважно замінений ESLint-екосистемою.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-130",
+      "question": "Що таке Next.js?",
+      "answer": "<p><strong>Next.js</strong> — React-фреймворк із вбудованими можливостями для production-вебу: SSR, SSG, ISR, file-based routing, API routes, оптимізація бандлу та SEO.</p>\n<p>Ключові плюси:</p>\n<ul>\n  <li>гнучкі режими рендерингу (SSR/SSG/ISR)</li>\n  <li>App Router та Server Components</li>\n  <li>краща SEO-готовність порівняно з чистим SPA</li>\n</ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-131",
+      "question": "Які головні відмінності між Next.js і React?",
+      "answer": "<p><strong>React</strong> — UI-бібліотека, <strong>Next.js</strong> — фреймворк поверх React.</p>\n<p>Практично:</p>\n<ul>\n  <li>React сам по собі не дає готові SSR/SSG/router/backend маршрути</li>\n  <li>Next.js надає це «з коробки»</li>\n  <li>Next.js спрощує SEO, code splitting, data fetching на рівні маршруту</li>\n</ul>\n<p>Якщо потрібен структурований full-featured веб-проєкт, зазвичай беруть Next.js.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-132",
+      "question": "Для чого потрібен react-helmet-async?",
+      "answer": "<p><code>react-helmet-async</code> керує тегами <code>&lt;head&gt;</code> (title, meta, Open Graph) у React-додатку, включно з SSR-сценаріями.</p>\n<ul>\n  <li>динамічний title/meta для різних сторінок</li>\n  <li>покращення SEO та share-preview</li>\n  <li>безпечніша SSR-підтримка порівняно зі старим react-helmet</li>\n</ul>\n<pre>import { Helmet } from 'react-helmet-async';\n\n&lt;Helmet&gt;\n  &lt;title&gt;Home&lt;/title&gt;\n  &lt;meta name=\"description\" content=\"Home page\" /&gt;\n&lt;/Helmet&gt;</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-133",
+      "question": "Що таке distributed component у React?",
+      "answer": "<p><strong>Distributed component</strong> у React зазвичай означає підхід, коли велика фіча розбивається на незалежні частини (UI, логіка, data layer, lazy-чанки), які працюють разом як одна система.</p>\n<p>Це не офіційний термін React API, а радше архітектурний підхід.</p>\n<p><strong>Де зустрічається:</strong></p>\n<ul>\n  <li><strong>Code splitting</strong> через <code>React.lazy</code> + <code>Suspense</code></li>\n  <li><strong>Container/Presentational</strong> або custom hooks для розділення логіки і UI</li>\n  <li><strong>Micro frontends</strong>, де частини інтерфейсу розробляються окремими командами</li>\n</ul>\n<p><strong>Навіщо:</strong> менший початковий бандл, краща масштабованість, простіша підтримка великої кодової бази.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-134",
+      "question": "Що таке switching component у React?",
+      "answer": "<p><strong>Switching component</strong> — це патерн, коли компонент динамічно рендерить один із кількох варіантів UI залежно від стану, props, ролі користувача або маршруту.</p>\n<pre>function Message({ type }) {\n  switch (type) {\n    case 'success':\n      return &lt;Success /&gt;;\n    case 'error':\n      return &lt;Error /&gt;;\n    default:\n      return &lt;Default /&gt;;\n  }\n}</pre>\n<p>Альтернатива без <code>switch</code> — мапа компонентів:</p>\n<pre>const map = { success: Success, error: Error, default: Default };\nconst Component = map[type] || map.default;\nreturn &lt;Component /&gt;;</pre>\n<p>Такий підхід робить умовний рендеринг читабельнішим, коли гілок більше ніж дві.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-135",
+      "question": "Які типи значень може повернути render у React?",
+      "answer": "<p>Компонент у React (класовий <code>render()</code> або функціональний компонент) може повернути:</p>\n<ul>\n  <li><strong>React element / JSX</strong></li>\n  <li><strong>рядок або число</strong> (рендеряться як текст)</li>\n  <li><strong>масив/фрагмент</strong> елементів</li>\n  <li><strong>portal</strong> через <code>createPortal</code></li>\n  <li><strong>null</strong>, <strong>false</strong>, <strong>true</strong>, <strong>undefined</strong> (нічого не рендериться)</li>\n</ul>\n<pre>return (\n  &lt;&gt;\n    &lt;h1&gt;Title&lt;/h1&gt;\n    &lt;p&gt;Description&lt;/p&gt;\n  &lt;/&gt;\n);</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-136",
+      "question": "Що таке reactive data flow у React?",
+      "answer": "<p><strong>Reactive data flow</strong> у React означає: коли змінюються <code>state</code> або <code>props</code>, React автоматично перераховує UI і оновлює потрібні частини DOM.</p>\n<p>Потік даних у React здебільшого <strong>однонаправлений</strong> (згори вниз через props), а зміни від дітей вгору йдуть через callbacks.</p>\n<pre>function Counter() {\n  const [count, setCount] = useState(0);\n  return &lt;button onClick={() => setCount((c) => c + 1)}&gt;{count}&lt;/button&gt;;\n}</pre>\n<p>Тобто ти описуєш, <em>який</em> UI має бути для поточного стану, а React сам синхронізує DOM після змін даних.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-137",
+      "question": "Чи є React повністю реактивним?",
+      "answer": "<p>React має реактивну модель оновлення UI, але його зазвичай не називають <strong>повністю fine-grained реактивним</strong> як деякі інші підходи.</p>\n<ul>\n  <li>✅ React реактивно оновлює UI при зміні state/props</li>\n  <li>⚠️ Оновлення відбуваються через rerender компонента і reconciliation, а не через автоматичні спостерігачі для кожного поля</li>\n</ul>\n<p>Тому коректно казати: React <strong>декларативний і реактивний у поведінці UI</strong>, але з власною моделлю оновлення через рендеринг і порівняння дерева.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-138",
+      "question": "Які варіанти реалізації drag-and-drop у React?",
+      "answer": "<p>Найпоширеніші підходи:</p>\n<ul>\n  <li><strong>Нативний HTML5 Drag and Drop API</strong> (<code>onDragStart</code>, <code>onDrop</code>) — для простих кейсів</li>\n  <li><strong>dnd-kit</strong> — сучасний, гнучкий і зручний для sortable-списків</li>\n  <li><strong>react-dnd</strong> — потужний варіант для складних drag-drop сценаріїв</li>\n</ul>\n<p><strong>Що обрати:</strong> для простого reorder підійде dnd-kit; для складних enterprise-сценаріїв з багатьма типами draggable/drop targets часто обирають react-dnd.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-139",
+      "question": "Як у React додавати CSS-клас за умовою?",
+      "answer": "<p>Найчастіше використовують <code>className</code> з умовами:</p>\n<ul>\n  <li>тернарний оператор</li>\n  <li>шаблонні рядки</li>\n  <li>утиліти на кшталт <code>clsx</code> / <code>classnames</code> для складніших умов</li>\n</ul>\n<pre>// Тернарний варіант\n&lt;button className={isActive ? 'btn btn-active' : 'btn'} /&gt;\n\n// clsx\nimport clsx from 'clsx';\n&lt;button className={clsx('btn', { 'btn-active': isActive, 'btn-disabled': disabled })} /&gt;</pre>\n<p>Для одного-двох класів достатньо тернарного підходу; для багатьох умов зручніше <code>clsx</code>.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-140",
+      "question": "Яка різниця між React.createElement і React.cloneElement?",
+      "answer": "<p><strong>React.createElement</strong> створює <strong>новий</strong> React-елемент з нуля: тип, props, children.</p>\n<pre>const el = React.createElement('button', { className: 'primary' }, 'Click');</pre>\n<p><strong>React.cloneElement</strong> бере <strong>вже існуючий</strong> елемент, клонує його і дозволяє перевизначити props/children.</p>\n<pre>const original = &lt;Button size=\"sm\" /&gt;;\nconst cloned = React.cloneElement(original, { size: 'lg', disabled: true });</pre>\n<ul>\n  <li><code>createElement</code> — коли елемент створюється вперше</li>\n  <li><code>cloneElement</code> — коли потрібно акуратно перевизначити props у child (часто у wrapper/compound патернах)</li>\n</ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-141",
+      "question": "Чи підтримує React.lazy іменований експорт?",
+      "answer": "<p>Напряму <code>React.lazy()</code> очікує <strong>default export</strong>.</p>\n<p>Для іменованого експорту використовують проміжне перетворення:</p>\n<pre>const LazyNamed = React.lazy(() =&gt;\n  import('./MyComponent').then((m) =&gt; ({ default: m.MyComponent }))\n);</pre>\n<p>Альтернатива — створити окремий файл-обгортку з <code>export default</code> і lazy-імпортувати його.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-142",
+      "question": "Які обмеження React?",
+      "answer": "<p>Типові обмеження та виклики React:</p>\n<ul>\n  <li><strong>Потрібна архітектурна дисципліна:</strong> без чіткої структури state і компонентів код швидко ускладнюється</li>\n  <li><strong>Екосистема вибору:</strong> для роутингу, data-fetching, форм, стану часто треба обирати сторонні бібліотеки</li>\n  <li><strong>Ризик зайвих ререндерів:</strong> потрібне розуміння мемоізації, selector-підходу, структури state</li>\n  <li><strong>SSR/SSG не вбудовані у базовий React:</strong> зазвичай потрібен фреймворк (Next.js, Remix)</li>\n  <li><strong>Поріг входу:</strong> hooks, effects, concurrency, performance-патерни вимагають практики</li>\n</ul>\n<p>React залишається дуже сильним інструментом, але якість результату сильно залежить від архітектурних рішень команди.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-143",
+      "question": "Для чого був потрібен registerServiceWorker() у React-проєктах?",
+      "answer": "<p><code>registerServiceWorker()</code> історично використовувався у старих шаблонах Create React App для реєстрації Service Worker.</p>\n<ul>\n  <li>кешування статичних ресурсів</li>\n  <li>швидші повторні завантаження</li>\n  <li>базові offline-сценарії</li>\n</ul>\n<p>У сучасних CRA/Vite-проєктах цього helper-методу зазвичай немає: Service Worker підключають явно через <code>navigator.serviceWorker.register(...)</code> або через PWA-плагіни.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-144",
+      "question": "Чи можна використовувати async/await у React?",
+      "answer": "<p>Так, <code>async/await</code> у React використовують постійно для асинхронних операцій (HTTP-запити, async-обробники подій).</p>\n<p><strong>Важливо:</strong> компонент/метод <code>render</code> не має бути <code>async</code>. Асинхронний код виносять у:</p>\n<ul>\n  <li>обробники подій</li>\n  <li><code>useEffect</code> (через внутрішню async-функцію)</li>\n  <li>data-fetching бібліотеки (TanStack Query, RTK Query, SWR)</li>\n</ul>\n<pre>useEffect(() =&gt; {\n  let cancelled = false;\n\n  async function load() {\n    try {\n      const res = await fetch('/api/posts');\n      const data = await res.json();\n      if (!cancelled) setPosts(data);\n    } catch (e) {\n      if (!cancelled) setError(String(e));\n    }\n  }\n\n  load();\n  return () =&gt; { cancelled = true; };\n}, []);</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-145",
+      "question": "Коротко про еволюцію React",
+      "answer": "<p>Ключові віхи розвитку React:</p>\n<ul>\n  <li><strong>2013:</strong> open-source реліз React</li>\n  <li><strong>2015:</strong> розділення <code>react</code> і <code>react-dom</code>, поява React Native</li>\n  <li><strong>2017 (React 16):</strong> Fiber-архітектура, Portals, Error Boundaries</li>\n  <li><strong>2019 (React 16.8):</strong> Hooks як новий стандарт для функціональних компонентів</li>\n  <li><strong>2022 (React 18):</strong> concurrent features, automatic batching, <code>useTransition</code>, <code>useDeferredValue</code></li>\n  <li><strong>React 19 era:</strong> покращення server/client інтеграції, modern data-fetching patterns, подальший розвиток DX та продуктивності</li>\n</ul>\n<p>Головний тренд еволюції: від класових компонентів до функціональних + hooks, від ручних оптимізацій до більш декларативних і framework-driven підходів.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-146",
+      "question": "Які ключові нововведення зʼявилися в React 19?",
+      "answer": "<p>Серед найважливіших змін React 19:</p>\n<ul>\n  <li><strong>Actions API</strong> для зручнішої роботи з формами та async-мутаціями</li>\n  <li><strong><code>use()</code></strong> для читання Promise/ресурсів у компоненті з інтеграцією через Suspense</li>\n  <li><strong>Покращений Suspense і server/client інтеграція</strong> у modern SSR/RSC сценаріях</li>\n  <li><strong>Підтримка керування document metadata</strong> (title/meta/link) у сучасних фреймворкових сценаріях</li>\n  <li><strong>React Compiler ecosystem evolution</strong>: поступовий рух до автоматичних оптимізацій ререндерів у відповідних toolchains</li>\n</ul>\n<p>Практично це дає кращий DX для форм і async-flow, простіший data-fetching pattern та кращу продуктивність у великих застосунках.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-147",
+      "question": "Що рекомендують використовувати після deprecation Create React App?",
+      "answer": "<p>Після deprecation CRA для нових проєктів зазвичай рекомендують сучасні інструменти:</p>\n<ul>\n  <li><strong>Next.js</strong> — якщо потрібні SSR/SSG, App Router, full-stack можливості</li>\n  <li><strong>Vite + React</strong> — швидкий старт і lightweight SPA setup</li>\n  <li><strong>React Router (data routers)</strong> — для SPA/MPA-підходів з route-level data loading</li>\n  <li><strong>Expo</strong> — якщо ціль React Native мобільна розробка</li>\n</ul>\n<p>Коротко: для веб SPA найчастіше беруть <strong>Vite</strong>, для framework-oriented React — <strong>Next.js</strong>.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-148",
+      "question": "Які типові анти-патерни у React-коді ти бачив і як їх уникнути?",
+      "answer": "\n      <ul>\n        <li>Зберігання несеріалізованих об’єктів у state → некоректні порівняння.</li>\n        <li>Виклик setState у кожному рендері → нескінченний цикл.</li>\n        <li>Залежності useEffect без масиву або з зайвими полями.</li>\n        <li>Відсутність keys у списках.</li>\n        <li>Великий контекст, що тригерить усі ререндери.</li>\n      </ul>\n      <p><strong>Рішення:</strong> мемоізація, селектори, DevTools Profiler, ESLint-rules (“react-hooks/exhaustive-deps”).</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-149",
+      "question": "Чим відрізняється функціональний компонент від класового?",
+      "answer": "<p><strong>Функціональний компонент</strong> — це звичайна функція, яка повертає JSX. Підтримує стан і сайд-ефекти через хуки (<code>useState</code>, <code>useEffect</code>). Простіший синтаксис, менше boilerplate.</p><p><strong>Класовий компонент</strong> — клас, що розширює <code>React.Component</code>. Стан через <code>this.state</code>, lifecycle-методи (<code>componentDidMount</code>, <code>componentDidUpdate</code> тощо).</p><p>Сьогодні рекомендується писати функціональні компоненти. Класові підтримуються для зворотної сумісності.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-150",
+      "question": "Як оптимізувати перформанс React-додатка при великій кількості компонентів?",
+      "answer": "<p>Основні підходи:</p><ul><li><strong>React.memo</strong> — мемоізація компонентів, щоб уникнути зайвих ре-рендерів при незмінних пропах</li><li><strong>useMemo / useCallback</strong> — мемоізація обчислень і функцій</li><li><strong>Віртуалізація списків</strong> — <code>react-window</code>, <code>react-virtuoso</code> для великих списків</li><li><strong>Ліниве завантаження</strong> — <code>React.lazy</code> + <code>Suspense</code> для code splitting</li><li><strong>Розбивка контекстів</strong> — уникати одного великого Context, який провокує масові ре-рендери</li><li><strong>Стабільні keys</strong> і пропи — уникати inline-об'єктів/функцій у JSX</li></ul><pre>const Item = React.memo(({ value }) => &lt;div&gt;{value}&lt;/div&gt;);\nconst list = useMemo(() => transform(data), [data]);</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-151",
+      "question": "Як працює reconciliation у React і коли він може стати вузьким місцем?",
+      "answer": "<p><strong>Reconciliation</strong> — алгоритм, яким React порівнює Virtual DOM після оновлення стану і визначає мінімальний набір змін для реального DOM.</p><p>React використовує <strong>diffing-алгоритм</strong> з O(n) складністю завдяки евристикам: елементи різних типів — повне перемонтування; стабільні <code>key</code> — точне зіставлення елементів списку.</p><p><strong>Вузьке місце:</strong></p><ul><li>Великі дерева компонентів без мемоізації</li><li>Нестабільні <code>key</code> у списках (перемонтування замість оновлення)</li><li>Занадто глибоко вкладені контексти, що тригерять ре-рендер всього піддерева</li></ul><p>У React 18+ Fiber-архітектура дозволяє переривати і пріоритизувати оновлення через <code>startTransition</code>.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-152",
+      "question": "Як React 19 змінив роботу з асинхронними даними (use, Suspense, серверні компоненти)?",
+      "answer": "<p>React 19 ввів кілька важливих змін:</p><ul><li><strong><code>use()</code> хук</strong> — може приймати Promise або Context прямо у render; якщо Promise не виконаний — компонент «призупиняється» і Suspense показує fallback</li><li><strong>Server Components (RSC)</strong> — компоненти, що рендеряться на сервері без JS у клієнті; дозволяють асинхронно отримувати дані прямо в компоненті без <code>useEffect</code></li><li><strong>Actions</strong> — форми можуть мати <code>action</code> як асинхронну функцію; React автоматично керує pending/error-станом</li><li><strong><code>useOptimistic</code></strong> — для оптимістичних оновлень UI до завершення запиту</li></ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-153",
+      "question": "Як ти налагоджуєш memory leaks у React (наприклад, у useEffect)?",
+      "answer": "<p>Типова причина — підписки або таймери, які не очищаються при розмонтуванні компонента.</p><p><strong>Рішення в <code>useEffect</code></strong> — повертати cleanup-функцію:</p><pre>useEffect(() => {\n  const sub = eventEmitter.subscribe(handler);\n  return () => sub.unsubscribe(); // очистка\n}, []);</pre><p><strong>Як виявити leak:</strong></p><ul><li>Chrome DevTools → Memory → Heap Snapshot — порівнюй до/після розмонтування</li><li>React DevTools Profiler — шукай компоненти, які не зникають з дерева</li><li>Попередження «Can't perform a React state update on an unmounted component»</li></ul><p>Також слідкувати за: незакритими WebSocket/EventSource, глобальними listeners через <code>addEventListener</code>, <code>setInterval</code> без <code>clearInterval</code>.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-154",
+      "question": "Які ти використовуєш підходи до оптимізації ререндерів (React.memo, useCallback, useMemo)?",
+      "answer": "<p><strong><code>React.memo</code></strong> — HOC, що запобігає ре-рендеру компонента якщо пропи не змінились (shallow comparison).</p><p><strong><code>useMemo</code></strong> — мемоізує результат обчислення між рендерами:</p><pre>const sorted = useMemo(() => items.sort(fn), [items]);</pre><p><strong><code>useCallback</code></strong> — мемоізує функцію, щоб не створювати нову при кожному рендері (важливо при передачі в мемоізовані дочірні компоненти):</p><pre>const handleClick = useCallback(() => doSomething(id), [id]);</pre><p><strong>Коли НЕ варто:</strong> мемоізація сама по собі має вартість. Застосовуй тільки якщо є реальна проблема з продуктивністю (профілюй спочатку).</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-155",
+      "question": "Як правильно організувати глобальний state management (Redux, Zustand, Jotai, Signals)?",
+      "answer": "<p>Вибір залежить від складності проєкту:</p><ul><li><strong>Redux Toolkit</strong> — для великих застосунків з складною логікою, DevTools, middleware (thunk/saga), серіалізований стан</li><li><strong>Zustand</strong> — мінімалістичний; простий API, без boilerplate, підходить для середніх проєктів</li><li><strong>Jotai / Recoil</strong> — атомарний підхід; стан розбивається на дрібні атоми, гарно масштабується</li><li><strong>Signals (Preact/Angular)</strong> — реактивні змінні, автоматичне відстеження залежностей без селекторів</li></ul><p><strong>Правило:</strong> не відразу тягнути Redux. Спершу Context + useReducer, потім Zustand, потім RTK якщо реально потрібно.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-156",
+      "question": "Як ти тестуєш компоненти — unit vs integration?",
+      "answer": "<p><strong>Unit тести</strong> — ізольовано тестують одну функцію чи хук. Інструменти: Jest, Vitest. Мокають залежності.</p><p><strong>Integration тести компонентів</strong> — рендерять компонент у реальному (або jsdom) середовищі і тестують взаємодію. Інструмент: <strong>React Testing Library</strong>.</p><pre>render(&lt;Button onClick={fn} label=\"Save\" /&gt;);\nawait userEvent.click(screen.getByText('Save'));\nexpect(fn).toHaveBeenCalled();</pre><p><strong>Принцип RTL</strong>: тестуй поведінку, не імплементацію — шукай елементи через роль/текст, а не className/id.</p><p>E2E (Playwright/Cypress) — для критичних user flows.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-157",
+      "question": "Як ти підходиш до структуризації великого React-проєкту?",
+      "answer": "<p>Feature-based (або Modular) структура — найпоширеніший підхід для великих проєктів:</p><pre>src/\n  features/\n    auth/\n      components/\n      hooks/\n      store/\n      api/\n  shared/\n    ui/\n    utils/\n    hooks/\n  app/\n    router.tsx\n    store.ts</pre><p><strong>Принципи:</strong></p><ul><li>Кожна фіча — самодостатній модуль (компоненти, стан, API, типи)</li><li><code>shared/</code> — тільки справді перевикористовуваний код</li><li>Уникати circular imports між фічами</li><li>Feature Sliced Design (FSD) — популярна методологія для великих команд</li></ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-158",
+      "question": "Чи працював з MobX або Redux-Saga?",
+      "answer": "<p><strong>MobX</strong> — бібліотека реактивного стану. Використовує observable-поля і автоматично відстежує залежності. Менше boilerplate ніж Redux, але складніше налагоджувати через «магічну» реактивність.</p><pre>class Store {\n  @observable count = 0;\n  @action increment() { this.count++; }\n}</pre><p><strong>Redux-Saga</strong> — middleware для Redux, що дозволяє описувати side effects як генератори. Потужний для складних асинхронних сценаріїв (race conditions, throttle, cancel):</p><pre>function* fetchUser(action) {\n  const user = yield call(api.getUser, action.id);\n  yield put({ type: 'SET_USER', user });\n}</pre><p>Для нових проєктів частіше обирають RTK Query або Zustand замість Saga.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-159",
+      "question": "Як працюють Server Components і чому це важливо для продуктивності?",
+      "answer": "\n      <p><strong>Server Components</strong> — компоненти, що рендеряться на сервері без відправки JS-бандлу клієнту.</p>\n      <p>Це зменшує розмір JS, прискорює TTI та дозволяє безпечно отримувати дані (доступ до DB, API) без витоку токенів.</p>\n      <p>React комбінує серверні й клієнтські компоненти у єдине дерево через streaming SSR.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-160",
+      "question": "Чим відрізняються hydration і streaming SSR?",
+      "answer": "\n      <p><strong>Hydration</strong> — React “підключає” події до вже готового HTML з сервера.</p>\n      <p><strong>Streaming SSR</strong> — сервер надсилає HTML потоково частинами, дозволяючи швидше відобразити UI.</p>\n      <p>Hydration завершується після завантаження JS-бандлу, тоді як streaming SSR дозволяє показати skeleton або layout раніше.</p>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-161",
+      "question": "Як працює Error Boundary, і коли він реально рятує?",
+      "answer": "\n      <p>Error Boundary — класовий компонент, що ловить помилки у піддереві React і відображає fallback-UI, не ламаючи весь додаток.</p>\n      <p>Не ловить помилки у event-handlers або async коді.</p>\n      <pre>class Boundary extends React.Component {\n  state = { hasError: false };\n  static getDerivedStateFromError() { return { hasError: true }; }\n  render() {\n    return this.state.hasError ? &lt;ErrorScreen /&gt; : this.props.children;\n  }\n}</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-162",
+      "question": "Як реалізувати власні hooks для повторного використання логіки?",
+      "answer": "\n      <p>Створюю функції, що інкапсулюють повторну логіку — роботу з API, form state, scroll events, animation state тощо.</p>\n      <p>Назви завжди починаються з <code>use</code>, щоб React міг відстежувати їхній стан.</p>\n      <pre>function useFetch(url) {\n  const [data, setData] = useState(null);\n  useEffect(() =&gt; {\n    fetch(url).then(r =&gt; r.json()).then(setData);\n  }, [url]);\n  return data;\n}</pre>\n    ",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-163",
+      "question": "Чому useEffect може запускатися двічі в development?",
+      "answer": "<p>У React 18 в <code>StrictMode</code> React спеціально може запускати <code>useEffect</code> двічі в development, щоб виявити небезпечні side effects.</p>\n<pre>useEffect(() =&gt; {\n  console.log('effect');\n}, []);</pre>\n<p>У dev-режимі ти можеш побачити два логи. У production effect не дублюється спеціально через StrictMode.</p>\n<p><strong>Що хоче почути інтерв’юер:</strong> це не баг React, а очікувана поведінка StrictMode для перевірки безпечності ефектів.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-164",
+      "question": "Чим відрізняється useEffect з [] від коду просто всередині компонента?",
+      "answer": "<pre>function Component() {\n  console.log('render');\n\n  useEffect(() =&gt; {\n    console.log('effect');\n  }, []);\n\n  return &lt;div&gt;Hello&lt;/div&gt;;\n}</pre>\n<p>Код усередині компонента виконується під час <strong>кожного render</strong>.</p>\n<p><code>useEffect</code> виконується <strong>після render</strong>, коли React уже оновив DOM.</p>\n<p>Порядок: <strong>render → DOM update → useEffect</strong>.</p>\n<p><strong>Практично:</strong> не роби side effects у тілі компонента (запити, підписки, ручні зміни DOM, таймери) — для цього використовуй <code>useEffect</code>.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-165",
+      "question": "Що буде, якщо змінити state всередині useEffect без dependency array?",
+      "answer": "<pre>useEffect(() =&gt; {\n  setCount(count + 1);\n});</pre>\n<p>Буде нескінченний цикл:</p>\n<p><code>render → effect → setState → render → effect → setState...</code></p>\n<p>Причина: ефект без масиву залежностей запускається після кожного render, а <code>setState</code> всередині знову тригерить render.</p>\n<p>Типовий безпечний варіант:</p>\n<pre>useEffect(() =&gt; {\n  setCount((prev) =&gt; prev + 1);\n}, []);</pre>\n<p>Навіть так робити варто лише коли є реальна причина ініціалізаційно змінити стан.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-166",
+      "question": "Чому не завжди правильно писати setCount(count + 1)?",
+      "answer": "<pre>setCount(count + 1);\nsetCount(count + 1);\nsetCount(count + 1);</pre>\n<p>React може батчити оновлення. Усі три виклики можуть використати одне й те саме старе значення <code>count</code>.</p>\n<p>Наприклад, якщо <code>count = 0</code>, результат може бути <code>1</code>, а не <code>3</code>.</p>\n<p>Правильніше, коли нове значення залежить від попереднього:</p>\n<pre>setCount((prev) =&gt; prev + 1);\nsetCount((prev) =&gt; prev + 1);\nsetCount((prev) =&gt; prev + 1);</pre>\n<p>Тут результат буде <code>3</code>, бо кожне оновлення бере актуальне попереднє значення.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-167",
+      "question": "Чому state не оновлюється одразу після setState?",
+      "answer": "<pre>setCount(10);\nconsole.log(count);</pre>\n<p><code>setState</code> не змінює значення миттєво в поточному render. Він планує новий render.</p>\n<p>Тому <code>console.log(count)</code> покаже старе значення.</p>\n<p>Правильна модель: <code>setState → React schedule update → new render → нове значення</code>.</p>\n<p>Щоб відреагувати саме на зміну значення, зручно використовувати:</p>\n<pre>useEffect(() =&gt; {\n  console.log(count);\n}, [count]);</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-168",
+      "question": "Чому не можна напряму мутувати state?",
+      "answer": "<pre>user.name = 'John';\nsetUser(user);</pre>\n<p>React порівнює посилання. Якщо об’єкт той самий, React може не побачити зміну.</p>\n<p><strong>Погано:</strong></p>\n<pre>user.name = 'John';\nsetUser(user);</pre>\n<p><strong>Добре:</strong></p>\n<pre>setUser({\n  ...user,\n  name: 'John',\n});</pre>\n<p>Ми створюємо новий об’єкт, і React бачить, що state змінився.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-169",
+      "question": "Чому useEffect може нескінченно запускатися через object dependency?",
+      "answer": "<pre>const filters = { status: 'active' };\n\nuseEffect(() =&gt; {\n  fetchUsers(filters);\n}, [filters]);</pre>\n<p>При кожному render створюється новий об’єкт:</p>\n<pre>{ status: 'active' }</pre>\n<p>Для React це нове посилання.</p>\n<pre>{} === {} // false</pre>\n<p>Тому effect вважає, що залежність змінилась.</p>\n<p><strong>Варіанти рішення:</strong></p>\n<pre>const filters = useMemo(() =&gt; {\n  return { status: 'active' };\n}, []);</pre>\n<p>або передавати примітиви:</p>\n<pre>useEffect(() =&gt; {\n  fetchUsers({ status });\n}, [status]);</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-170",
+      "question": "Чому функція в dependency array може перезапускати useEffect?",
+      "answer": "<pre>const getUsers = () =&gt; {\n  fetch('/users');\n};\n\nuseEffect(() =&gt; {\n  getUsers();\n}, [getUsers]);</pre>\n<p>Функція створюється заново на кожен render. Для React це нове посилання.</p>\n<pre>() =&gt; {} === () =&gt; {} // false</pre>\n<p>Тому effect запускається знову.</p>\n<p><strong>Можливі рішення:</strong></p>\n<pre>const getUsers = useCallback(() =&gt; {\n  fetch('/users');\n}, []);</pre>\n<p>або перенести функцію всередину effect:</p>\n<pre>useEffect(() =&gt; {\n  const getUsers = () =&gt; {\n    fetch('/users');\n  };\n\n  getUsers();\n}, []);</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-171",
+      "question": "У чому різниця між useMemo і useCallback?",
+      "answer": "<p><code>useMemo</code> кешує значення.</p>\n<pre>const filteredUsers = useMemo(() =&gt; {\n  return users.filter((user) =&gt; user.active);\n}, [users]);</pre>\n<p><code>useCallback</code> кешує функцію.</p>\n<pre>const handleClick = useCallback(() =&gt; {\n  console.log('click');\n}, []);</pre>\n<p>Фактично:</p>\n<pre>useCallback(fn, deps)</pre>\n<p>це приблизно те саме, що:</p>\n<pre>useMemo(() =&gt; fn, deps)</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-172",
+      "question": "Коли useMemo не потрібен?",
+      "answer": "<p><code>useMemo</code> не треба використовувати для всього підряд.</p>\n<p><strong>Погано:</strong></p>\n<pre>const fullName = useMemo(() =&gt; {\n  return `${firstName} ${lastName}`;\n}, [firstName, lastName]);</pre>\n<p>Тут обчислення дуже дешеве.</p>\n<p><strong>Достатньо:</strong></p>\n<pre>const fullName = `${firstName} ${lastName}`;</pre>\n<p><code>useMemo</code> має сенс, коли:</p>\n<ul>\n  <li>обчислення реально важке;</li>\n  <li>треба стабілізувати reference для дочірнього компонента;</li>\n  <li>є <code>React.memo</code>, і без стабільного значення компонент зайво ререндериться.</li>\n</ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-173",
+      "question": "Чому React.memo не завжди рятує від ререндерів?",
+      "answer": "<pre>const Child = React.memo(({ user }) =&gt; {\n  return &lt;div&gt;{user.name}&lt;/div&gt;;\n});\n\n&lt;Child user={{ name: 'John' }} /&gt;</pre>\n<p><code>React.memo</code> робить поверхневе порівняння props.</p>\n<p>Але тут на кожен render створюється новий object:</p>\n<pre>{ name: 'John' }</pre>\n<p>Для React:</p>\n<pre>{ name: 'John' } === { name: 'John' } // false</pre>\n<p>Тому <code>Child</code> все одно буде ререндеритись.</p>\n<p><strong>Рішення:</strong></p>\n<pre>const user = useMemo(() =&gt; {\n  return { name: 'John' };\n}, []);\n\n&lt;Child user={user} /&gt;;</pre>\n<p>Але це має сенс лише якщо є реальна проблема з продуктивністю.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-174",
+      "question": "Чому key в списку не варто робити через index?",
+      "answer": "<pre>users.map((user, index) =&gt; (\n  &lt;UserCard key={index} user={user} /&gt;\n));</pre>\n<p><code>key</code> допомагає React зрозуміти, який елемент є яким між render.</p>\n<p>Якщо використовувати <code>index</code>, можуть бути баги при:</p>\n<ul>\n  <li>видаленні елемента;</li>\n  <li>сортуванні;</li>\n  <li>вставці нового елемента всередину списку.</li>\n</ul>\n<p>React може «переплутати» компоненти і їхній внутрішній state.</p>\n<p><strong>Краще:</strong></p>\n<pre>users.map((user) =&gt; (\n  &lt;UserCard key={user.id} user={user} /&gt;\n));</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-175",
+      "question": "Чому input може бути uncontrolled або controlled?",
+      "answer": "<p><strong>Controlled input:</strong></p>\n<pre>const [value, setValue] = useState('');\n\n&lt;input\n  value={value}\n  onChange={(e) =&gt; setValue(e.target.value)}\n/&gt;</pre>\n<p>У цьому випадку React контролює значення.</p>\n<p><strong>Uncontrolled input:</strong></p>\n<pre>&lt;input defaultValue=\"Hello\" /&gt;</pre>\n<p>Тут DOM сам зберігає значення.</p>\n<p><strong>Підступне питання:</strong> що буде, якщо спочатку <code>value</code> буде <code>undefined</code>, а потім <code>string</code>?</p>\n<pre>&lt;input value={value} /&gt;</pre>\n<p>React може попередити: <code>A component is changing an uncontrolled input to be controlled</code>.</p>\n<p><strong>Краще одразу давати дефолт:</strong></p>\n<pre>const [value, setValue] = useState('');</pre>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-176",
+      "question": "Чим useRef відрізняється від useState?",
+      "answer": "<p><code>useState</code> змінює значення і викликає rerender.</p>\n<pre>const [count, setCount] = useState(0);</pre>\n<p><code>useRef</code> зберігає значення між render, але не викликає rerender.</p>\n<pre>const countRef = useRef(0);\n\ncountRef.current += 1;</pre>\n<p>Практично <code>useRef</code> використовують для:</p>\n<ul>\n  <li>доступу до DOM element;</li>\n  <li>збереження timer id;</li>\n  <li>збереження попереднього значення;</li>\n  <li>mutable значень, які не мають ререндерити UI.</li>\n</ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-177",
+      "question": "Чому cleanup у useEffect важливий?",
+      "answer": "<pre>useEffect(() =&gt; {\n  const id = setInterval(() =&gt; {\n    console.log('tick');\n  }, 1000);\n\n  return () =&gt; {\n    clearInterval(id);\n  };\n}, []);</pre>\n<p>Cleanup потрібен, щоб прибрати side effects, коли компонент unmount або effect запускається повторно.</p>\n<p>Без cleanup можуть залишитися:</p>\n<ul>\n  <li>таймери;</li>\n  <li>event listeners;</li>\n  <li>subscriptions;</li>\n  <li>відкриті з’єднання;</li>\n  <li>зайві запити або memory leaks.</li>\n</ul>\n<p>React викликає cleanup:</p>\n<ul>\n  <li>перед наступним запуском effect;</li>\n  <li>і перед unmount компонента.</li>\n</ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-178",
+      "question": "Як коротко відповідати на React-співбесіді?",
+      "answer": "<p><strong>Найкраща структура відповіді:</strong></p>\n<ol>\n  <li>Що це таке.</li>\n  <li>Як працює під капотом.</li>\n  <li>Який практичний баг може бути.</li>\n  <li>Як правильно зробити.</li>\n</ol>\n<p><strong>Приклад для useEffect dependencies:</strong></p>\n<p>Dependency array потрібен, щоб React знав, коли повторно запускати effect. React зберігає попередні dependencies і порівнює їх з новими через <code>Object.is</code>. Якщо хоча б одне значення змінилось — effect запускається знову. Підступ у тому, що objects/functions/arrays порівнюються по reference, тому вони можуть перезапускати effect кожен render. Тому іноді треба використовувати <code>useMemo</code>, <code>useCallback</code> або передавати прості primitive values.</p>",
+      "isFollowUp": false
     }
   ],
-  "totalQuestions": 82
+  "totalQuestions": 178
 }

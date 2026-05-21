@@ -300,7 +300,42 @@
       "question": "Як обробляти помилки у Node.js?",
       "answer": "\n      Помилки можна обробляти за допомогою конструкцій <code>try/catch</code>, методів об'єкта <code>process</code>, а також подій.\n      <div class=\"example\">\n      <pre>try {\n  throw new Error('Це помилка');\n} catch (err) {\n  console.error('Обробка помилки:', err.message);\n}\n      </pre>\n      </div>\n    ",
       "isFollowUp": false
+    },
+    {
+      "id": "q-51",
+      "question": "Що таке Node.js та для чого використовується",
+      "answer": "<p><strong>Node.js</strong> — це середовище виконання JavaScript поза браузером, побудоване на V8 engine.</p><p>Використовується для створення серверів, API, CLI-інструментів, скриптів та бекенду.</p>"
+    },
+    {
+      "id": "q-52",
+      "question": "Яка відмінність JavaScript в Node.js та в браузері",
+      "answer": "<ul><li>У Node.js немає <code>window</code>, <code>document</code>, DOM API</li><li>Є доступ до файлової системи, мережі, процесу, тощо</li><li>Використовує CommonJS (require/module.exports), хоча підтримує ESM</li></ul>"
+    },
+    {
+      "id": "q-53",
+      "question": "Що таке модуль в Node.js та як його створити",
+      "answer": "<p>Модуль — це окремий файл з кодом, який експортує функції/змінні для повторного використання.</p><pre>// math.js\nfunction add(a, b) { return a + b; }\nmodule.exports = { add };\n\n// app.js\nconst math = require('./math');\nconsole.log(math.add(2, 3));</pre>"
+    },
+    {
+      "id": "q-54",
+      "question": "Назвіть деякі вбудовані модулі та їх призначення",
+      "answer": "<ul><li><code>fs</code> — робота з файлами</li><li><code>http</code> — створення HTTP-сервера</li><li><code>path</code> — робота з файловими шляхами</li><li><code>os</code> — інформація про систему</li><li><code>events</code> — робота з подіями</li><li><code>crypto</code> — хешування, шифрування</li></ul>"
+    },
+    {
+      "id": "q-55",
+      "question": "Яка концептуальна відмінність між серверним та клієнтським застосунком",
+      "answer": "<ul><li><strong>Серверний:</strong> виконується на сервері, працює з базами даних, авторизацією, API</li><li><strong>Клієнтський:</strong> виконується у браузері, відповідає за UI/UX</li><li>Клієнт надсилає запити, сервер повертає відповіді</li></ul>"
+    },
+    {
+      "id": "q-56",
+      "question": "Які модулі можна використати для створення серверного застосунку",
+      "answer": "<ul><li><code>http</code> — базовий сервер</li><li><code>express</code> — популярний фреймворк для REST API</li><li><code>koa</code>, <code>fastify</code> — легші альтернативи</li><li><code>socket.io</code> — для WebSocket</li></ul>"
+    },
+    {
+      "id": "q-57",
+      "question": "Яким чином можна повернути JSON обʼєкт із сервера",
+      "answer": "<p>Встановлюємо заголовок <code>Content-Type: application/json</code> і надсилаємо <code>JSON.stringify()</code></p><pre>res.writeHead(200, {'Content-Type': 'application/json'});\nres.end(JSON.stringify({ success: true }));</pre>"
     }
   ],
-  "totalQuestions": 50
+  "totalQuestions": 57
 }

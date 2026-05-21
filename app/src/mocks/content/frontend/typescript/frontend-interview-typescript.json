@@ -4,61 +4,49 @@
     {
       "id": "q-1",
       "question": "Що таке TypeScript?",
-      "answer": "\n      <p>TypeScript — це надмножина JavaScript, яка додає статичну типізацію та інші корисні можливості для розробки.</p>\n      <div class=\"example\">\n        <pre>let message: string = \"Hello, TypeScript!\";\nconsole.log(message);\n        </pre>\n      </div>\n    ",
+      "answer": "\n      <p><strong>TypeScript</strong> — це надбудова над JavaScript, яка додає <strong>статичну типізацію</strong>, інтерфейси, enum, generics та інші інструменти для безпечнішої розробки.</p>\n      <p>TypeScript не запускається напряму в браузері або Node.js — він спочатку <strong>компілюється в JavaScript</strong>.</p>\n      <p><strong>Що він дає на практиці:</strong></p>\n      <ul>\n        <li>помилки видно ще під час розробки, а не тільки в runtime</li>\n        <li>краща підтримка IDE: автодоповнення, рефакторинг, навігація</li>\n        <li>чіткіші контракти між частинами коду</li>\n      </ul>\n      <div class=\"example\">\n        <pre>let message: string = \"Hello, TypeScript!\";\nconsole.log(message);</pre>\n      </div>\n    ",
       "isFollowUp": false
     },
     {
       "id": "q-2",
       "question": "Яка різниця між TypeScript і JavaScript?",
-      "answer": "\n      <p>Основна різниця в тому, що TypeScript підтримує статичну типізацію, тоді як JavaScript — динамічно типізована мова.</p>\n      <div class=\"example\">\n        <pre>TypeScript: let count: number = 5;\nJavaScript: let count = 5;\n        </pre>\n      </div>\n    ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-3",
-      "question": "Як встановити TypeScript?",
-      "answer": "\n      <p>TypeScript можна встановити через npm:</p>\n      <div class=\"example\">\n        <pre>npm install -g typescript\n        </pre>\n      </div>\n    ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-4",
-      "question": "Що таке файл конфігурації tsconfig.json?",
-      "answer": "\n      <p>Це файл конфігурації TypeScript, який дозволяє налаштовувати компіляцію проєкту.</p>\n      <div class=\"example\">\n        <pre>{\n  \"compilerOptions\": {\n    \"target\": \"ES6\",\n    \"module\": \"commonjs\",\n    \"strict\": true\n  }\n}\n        </pre>\n      </div>\n    ",
+      "answer": "\n      <p>Головна різниця в тому, що <strong>JavaScript</strong> — динамічно типізована мова, а <strong>TypeScript</strong> додає до неї <strong>статичну типізацію</strong> та додаткові можливості для розробки.</p>\n      <p><strong>Ключові відмінності:</strong></p>\n      <ul>\n        <li><strong>Типізація:</strong> у TypeScript можна явно описувати типи, у JavaScript типи визначаються лише під час виконання.</li>\n        <li><strong>Пошук помилок:</strong> TypeScript ловить багато проблем на етапі компіляції.</li>\n        <li><strong>Сумісність:</strong> TypeScript компілюється у JavaScript і працює всюди, де працює JS.</li>\n        <li><strong>Tooling:</strong> у TypeScript краща підтримка IDE, автодоповнення і безпечний рефакторинг.</li>\n      </ul>\n      <div class=\"example\">\n        <pre>// TypeScript\nlet count: number = 5;\n\n// JavaScript\nlet count = 5;</pre>\n      </div>\n    ",
       "isFollowUp": false
     },
     {
       "id": "q-5",
       "question": "Що таке типи даних у TypeScript?",
-      "answer": "\n      <p>TypeScript підтримує базові типи даних, такі як number, string, boolean, а також складні типи, наприклад, масиви, кортежі та інші.</p>\n      <div class=\"example\">\n        <pre>let age: number = 25;\nlet name: string = \"John\";\nlet isAdmin: boolean = true;\n        </pre>\n      </div>\n    ",
+      "answer": "\n      <p>TypeScript має набір <strong>вбудованих типів</strong>, якими можна описувати значення та структури даних.</p>\n      <p><strong>Основні типи:</strong></p>\n      <ul>\n        <li><code>string</code> — рядки</li>\n        <li><code>number</code> — числа</li>\n        <li><code>boolean</code> — логічні значення</li>\n        <li><code>null</code> і <code>undefined</code></li>\n        <li><code>any</code> — будь-який тип</li>\n        <li><code>unknown</code> — невідомий тип, безпечніший за <code>any</code></li>\n        <li><code>void</code> — відсутність значення, часто для функцій</li>\n        <li><code>never</code> — функція ніколи не завершується нормально</li>\n        <li><code>object</code> — об'єкти</li>\n        <li>масиви: <code>string[]</code> або <code>Array&lt;string&gt;</code></li>\n        <li>кортежі: <code>[string, number]</code></li>\n        <li><code>enum</code> — перелік іменованих констант</li>\n      </ul>\n      <div class=\"example\">\n        <pre>let age: number = 25;\nlet name: string = \"John\";\nlet isAdmin: boolean = true;\nlet id: string | number = 42;\nlet coords: [number, number] = [10, 20];</pre>\n      </div>\n    ",
       "isFollowUp": false
     },
     {
       "id": "q-6",
       "question": "Що таке Union типи?",
-      "answer": "\n      <p>Union типи дозволяють змінній мати кілька типів.</p>\n      <div class=\"example\">\n        <pre>let value: string | number;\nvalue = \"Hello\";\nvalue = 42;\n        </pre>\n      </div>\n    ",
+      "answer": "<p><strong>Union type</strong> дозволяє значенню мати <strong>один із кількох можливих типів</strong>. Для цього використовують оператор <code>|</code>.</p>\n<p>Це корисно, коли параметр або змінна може приходити в різних формах, але ти хочеш зберегти типобезпеку.</p>\n<div class=\"example\">\n  <pre>type ID = string | number;\n\nfunction printId(id: ID) {\n  if (typeof id === \"string\") {\n    console.log(id.toUpperCase());\n  } else {\n    console.log(id.toFixed(2));\n  }\n}</pre>\n</div>\n<p><strong>Важливо:</strong> перед викликом методів, специфічних для одного типу, зазвичай потрібно зробити <strong>type narrowing</strong> через <code>typeof</code>, <code>in</code>, <code>instanceof</code> або власні type guards.</p>",
       "isFollowUp": false
     },
     {
       "id": "q-7",
       "question": "Що таке інтерфейси в TypeScript?",
-      "answer": "\n      <p>Інтерфейси визначають структуру об'єктів та можуть використовуватися для перевірки типів.</p>\n      <div class=\"example\">\n        <pre>interface User {\n  name: string;\n  age: number;\n}\nlet user: User = { name: \"Alice\", age: 30 };\n        </pre>\n      </div>\n    ",
+      "answer": "\n      <p><strong>Інтерфейси</strong> в TypeScript описують структуру об'єкта, не створюючи конкретної реалізації. Це спосіб задати <strong>контракт</strong> між частинами коду.</p>\n      <p><strong>Що можна описувати через interface:</strong></p>\n      <ul>\n        <li>властивості об'єкта</li>\n        <li>необов'язкові поля через <code>?</code></li>\n        <li>методи</li>\n        <li>структуру класів або сигнатури функцій</li>\n        <li>розширення через <code>extends</code></li>\n      </ul>\n      <div class=\"example\">\n        <pre>interface User {\n  id: number;\n  name: string;\n  isAdmin?: boolean;\n}\n\nconst user: User = {\n  id: 1,\n  name: \"Alice\"\n};</pre>\n      </div>\n    ",
       "isFollowUp": false
     },
     {
       "id": "q-8",
       "question": "Як оголосити кортежі в TypeScript?",
-      "answer": "\n      <p>Кортежі дозволяють зберігати масив із фіксованою кількістю елементів різних типів.</p>\n      <div class=\"example\">\n        <pre>let tuple: [string, number];\ntuple = [\"Hello\", 42];\n        </pre>\n      </div>\n    ",
+      "answer": "<p><strong>Tuple</strong> — це масив із <strong>фіксованою кількістю елементів</strong>, де для кожної позиції задано свій тип.</p>\n<p>Їх використовують, коли порядок і формат значень відомі наперед: координати, пари ключ-значення, HTTP-відповідь, результат функції.</p>\n<div class=\"example\">\n  <pre>let user: [number, string, boolean];\nuser = [1, \"Alice\", true];\n\ntype HttpResponse = [statusCode: number, message: string];\nconst response: HttpResponse = [200, \"OK\"];</pre>\n</div>\n<p>У сучасному TypeScript кортежі також підтримують <strong>optional</strong> і <strong>rest</strong> елементи, але їх варто застосовувати лише там, де структура справді фіксована. Якщо поля мають власний зміст, часто читабельніше описати об'єкт.</p>",
       "isFollowUp": false
     },
     {
       "id": "q-9",
       "question": "Що таке Enums у TypeScript?",
-      "answer": "\n      <p>Enums дозволяють створювати набір іменованих констант.</p>\n      <div class=\"example\">\n        <pre>enum Direction {\n  Up = 1,\n  Down,\n  Left,\n  Right\n}\nlet dir: Direction = Direction.Up;\n        </pre>\n      </div>\n    ",
+      "answer": "\n      <p><code>enum</code> — це тип, який дозволяє задати набір <strong>іменованих констант</strong>. Він зручний, коли є обмежений набір значень: ролі, статуси, напрямки, типи подій.</p>\n      <p><strong>Numeric enum:</strong></p>\n      <div class=\"example\">\n        <pre>enum Direction {\n  Up,\n  Down,\n  Left,\n  Right\n}</pre>\n      </div>\n      <p><strong>String enum:</strong></p>\n      <div class=\"example\">\n        <pre>enum Role {\n  Admin = \"ADMIN\",\n  User = \"USER\",\n  Guest = \"GUEST\"\n}</pre>\n      </div>\n      <p>На практиці enum робить код читабельнішим, ніж &quot;магічні&quot; рядки або числа.</p>\n    ",
       "isFollowUp": false
     },
     {
       "id": "q-10",
       "question": "Що таке Generics у TypeScript?",
-      "answer": "\n      Generics дозволяють створювати функції, класи чи інтерфейси, які працюють з будь-яким типом, забезпечуючи типобезпеку. Це зручно для створення повторно використовуваних компонентів.\n      <div class=\"example\">\n      <pre>function identity<t>(value: T): T {\n  return value;\n}\nconst result = identity<string>(\"Привіт\"); // Привіт\n      </string></t></pre>\n      </div>\n    ",
+      "answer": "<p><strong>Generics</strong> — це <strong>узагальнені або параметризовані типи</strong>, які дозволяють писати універсальний код без втрати типобезпеки.</p>\n<p>Ідея в тому, що конкретний тип можна <strong>відкласти до моменту використання</strong>. Завдяки цьому одна функція, клас або інтерфейс працює з різними типами, але TypeScript все одно зберігає зв'язок між вхідними та вихідними значеннями.</p>\n<div class=\"example\">\n  <pre>function identity&lt;T&gt;(value: T): T {\n  return value;\n}\n\nconst num = identity&lt;number&gt;(42);\nconst str = identity(\"Hello\");</pre>\n</div>\n<p><strong>Навіщо вони потрібні:</strong></p>\n<ul>\n  <li>щоб уникати <code>any</code> і не втрачати інформацію про тип</li>\n  <li>щоб повторно використовувати одну й ту саму логіку для різних типів</li>\n  <li>щоб зв'язувати тип аргументів, властивостей і результату між собою</li>\n</ul>\n<p>Generics особливо корисні для колекцій, репозиторіїв, API-клієнтів, утиліт та React-хуків.</p>",
       "isFollowUp": false
     },
     {
@@ -94,7 +82,7 @@
     {
       "id": "q-16",
       "question": "Що таке Decorators у TypeScript?",
-      "answer": "\n      Decorators — це спеціальні функції, які дозволяють додавати метадані до класів, методів чи властивостей.\n      <div class=\"example\">\n      <pre>function Log(target: any, propertyKey: string) {\n  console.log(`${propertyKey} was accessed`);\n}\nclass User {\n  @Log\n  name: string = \"Іван\";\n}\nconst user = new User();\nconsole.log(user.name);\n      </pre>\n      </div>\n    ",
+      "answer": "<p><strong>Decorators</strong> — це спеціальні функції, які дозволяють додавати метадані або розширювати поведінку класів, методів, властивостей і параметрів.</p>\n<p>У TypeScript їх часто використовують у фреймворках і бібліотеках для <strong>dependency injection</strong>, валідації, логування, ORM-мапінгу та роботи з метаданими.</p>\n<p><strong>Для властивості класу</strong> декоратор отримує цільовий об'єкт і ім'я властивості.</p>\n<div class=\"example\">\n  <pre>function logProperty(target: any, key: string) {\n  let value = target[key];\n\n  const getter = () =&gt; {\n    console.log(`Getting ${key}: ${value}`);\n    return value;\n  };\n\n  const setter = (newVal: any) =&gt; {\n    console.log(`Setting ${key} to ${newVal}`);\n    value = newVal;\n  };\n\n  Object.defineProperty(target, key, {\n    get: getter,\n    set: setter,\n    enumerable: true,\n    configurable: true\n  });\n}\n\nclass Person {\n  @logProperty\n  name: string = \"\";\n}</pre>\n</div>\n<p><strong>Важливо:</strong> декоратори не є звичайною можливістю JavaScript-класів у всіх середовищах. Їх підтримка залежить від версії TypeScript, конфігурації та специфікації декораторів.</p>",
       "isFollowUp": false
     },
     {
@@ -129,8 +117,8 @@
     },
     {
       "id": "q-22",
-      "question": "Що таке Union та Intersection Types?",
-      "answer": "\n      Union — це тип, який може бути одним з декількох типів. Intersection об'єднує декілька типів в один.\n      <div class=\"example\">\n      <pre>// Union\ntype Result = string | number;\nlet value: Result = \"текст\"; // або число\n\n// Intersection\ntype Admin = User &amp; { role: string };\n      </pre>\n      </div>\n    ",
+      "question": "Що таке Intersection-типи в TypeScript і як вони працюють?",
+      "answer": "<p><strong>Intersection type</strong> об'єднує кілька типів в один за допомогою оператора <code>&amp;</code>.</p>\n<p>Це означає, що новий тип повинен відповідати <strong>усім об'єднаним контрактам одночасно</strong>.</p>\n<div class=\"example\">\n  <pre>type Person = { name: string };\ntype Employee = { company: string };\ntype Developer = Person &amp; Employee &amp; { skills: string[] };\n\nconst dev: Developer = {\n  name: \"Alice\",\n  company: \"TechCorp\",\n  skills: [\"TypeScript\", \"React\"]\n};</pre>\n</div>\n<p>Intersection зручно використовувати для композиції типів. Якщо ж одна й та сама властивість у різних типах має несумісні типи, результат може перетворитися на <code>never</code>.</p>",
       "isFollowUp": false
     },
     {
@@ -148,13 +136,13 @@
     {
       "id": "q-25",
       "question": "Як працює модифікатор static?",
-      "answer": "\n      <code>static</code> дозволяє визначати властивості або методи класу, які не належать екземпляру, а доступні на рівні класу.\n      <div class=\"example\">\n      <pre>class MathUtils {\n  static add(a: number, b: number): number {\n    return a + b;\n  }\n}\nconsole.log(MathUtils.add(2, 3)); // 5\n      </pre>\n      </div>\n    ",
+      "answer": "<p><code>static</code> дозволяє створювати члени класу, які належать <strong>самому класу</strong>, а не його екземплярам.</p>\n<p>До таких властивостей і методів звертаються через ім'я класу, а не через <code>new</code>-створений об'єкт.</p>\n<div class=\"example\">\n  <pre>class Counter {\n  static count = 0;\n\n  static increment() {\n    Counter.count++;\n  }\n}\n\nCounter.increment();\nconsole.log(Counter.count); // 1</pre>\n</div>\n<p>Статичні члени зручно використовувати для констант, фабричних методів, утиліт і лічильників. Екземпляр класу не має прямого доступу до <code>static</code>-методів через себе.</p>",
       "isFollowUp": false
     },
     {
       "id": "q-26",
       "question": "Що таке Type Assertion?",
-      "answer": "\n      Type Assertion дозволяє явно вказати TypeScript, який тип ви очікуєте.\n      <div class=\"example\">\n      <pre>const someValue: unknown = \"Привіт\";\nconst valueLength: number = (someValue as string).length;\n      </pre>\n      </div>\n    ",
+      "answer": "<p><strong>Type assertion</strong> — це спосіб явно підказати компілятору, який тип ти очікуєш у конкретному місці.</p>\n<p>Це <strong>не перетворення типу в runtime</strong>, а лише інструкція для системи типів.</p>\n<div class=\"example\">\n  <pre>let value: unknown = \"Hello TS\";\n\nconst strLength = (value as string).length;\nconst input = document.getElementById(\"username\") as HTMLInputElement;</pre>\n</div>\n<p>Type assertion корисний, коли TypeScript не може точно вивести тип самостійно. Але використовувати його треба обережно: якщо припущення хибне, помилка з'явиться вже під час виконання.</p>",
       "isFollowUp": false
     },
     {
@@ -166,7 +154,7 @@
     {
       "id": "q-28",
       "question": "Як використовувати тип Record?",
-      "answer": "\n      Тип <code>Record</code> створює об'єкт з ключами одного типу та значеннями іншого типу.\n      <div class=\"example\">\n      <pre>type UserRoles = Record<string, string=\"\">;\nconst roles: UserRoles = {\n  admin: \"Адміністратор\",\n  user: \"Користувач\",\n};\n      </string,></pre>\n      </div>\n    ",
+      "answer": "<p><code>Record&lt;K, V&gt;</code> — utility-тип, який описує об'єкт-словник: <strong>ключі типу K</strong> і <strong>значення типу V</strong>.</p>\n<p><strong>Формула:</strong> для кожного ключа з <code>K</code> має бути значення типу <code>V</code>.</p>\n<div class=\"example\">\n  <pre>type Roles = Record&lt;string, string&gt;;\n\nconst roles: Roles = {\n  admin: \"Адміністратор\",\n  user: \"Користувач\"\n};</pre>\n</div>\n<p><strong>Частий кейс:</strong> коли ключі відомі наперед (union), <code>Record</code> змушує покрити їх усі.</p>\n<div class=\"example\">\n  <pre>type Locale = \"uk\" | \"en\";\ntype Messages = Record&lt;Locale, string&gt;;\n\nconst messages: Messages = {\n  uk: \"Привіт\",\n  en: \"Hello\"\n}; // якщо забути один ключ, TypeScript дасть помилку</pre>\n</div>\n<p><strong>Підводні камені:</strong></p>\n<ul>\n  <li><code>Record&lt;string, T&gt;</code> означає &quot;будь-який рядковий ключ&quot;, тому він не гарантує фіксований набір ключів.</li>\n  <li>Для часткового словника краще <code>Partial&lt;Record&lt;K, V&gt;&gt;</code>.</li>\n  <li>Якщо ключі динамічні, але не повністю довільні, краще явно задати union ключів.</li>\n</ul>",
       "isFollowUp": false
     },
     {
@@ -178,9 +166,123 @@
     {
       "id": "q-30",
       "question": "Як використовувати Overloading функції в TypeScript?",
-      "answer": "\n      Overload дозволяє визначити кілька сигнатур для однієї функції.\n      <div class=\"example\">\n      <pre>function combine(a: string, b: string): string;\nfunction combine(a: number, b: number): number;\nfunction combine(a: any, b: any): any {\n  return a + b;\n}\nconsole.log(combine(1, 2)); // 3\nconsole.log(combine(\"Привіт, \", \"світе\")); // \"Привіт, світе\"\n      </pre>\n      </div>\n    ",
+      "answer": "<p><strong>Overloading</strong> у TypeScript дозволяє описати <strong>кілька сигнатур</strong> для однієї функції або методу, але реальна реалізація все одно буде лише одна.</p>\n<div class=\"example\">\n  <pre>function combine(a: string, b: string): string;\nfunction combine(a: number, b: number): number;\nfunction combine(a: any, b: any): any {\n  return a + b;\n}</pre>\n</div>\n<p>На рівні типів це дає різні допустимі варіанти виклику, а всередині реалізації зазвичай роблять перевірку типів або кількості аргументів.</p>\n<p><strong>Важливо:</strong> у runtime TypeScript не створює справжнє перевантаження, як у Java або C#. Це лише механізм типізації.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-31",
+      "question": "Що означає, що TypeScript є надмножиною JavaScript?",
+      "answer": "<p>Це означає, що <strong>будь-який коректний JavaScript-код є коректним TypeScript-кодом</strong>.</p>\n<p>TypeScript не замінює JavaScript, а розширює його: додає типи, інтерфейси, generics, enum та інші можливості, але базовий синтаксис JS зберігається.</p>\n<p><strong>Ідея:</strong> спочатку ти пишеш звичайний JS, а потім можеш поступово додавати типізацію там, де це потрібно.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-32",
+      "question": "Як оголошувати змінні в TypeScript і як до них застосовується типізація?",
+      "answer": "<p>У TypeScript змінні оголошуються так само, як у JavaScript: через <code>let</code>, <code>const</code> і рідше <code>var</code>.</p>\n<p>Тип можна:</p>\n<ul>\n  <li><strong>вивести автоматично</strong> через type inference</li>\n  <li><strong>задати явно</strong> через двокрапку після імені змінної</li>\n</ul>\n<div class=\"example\">\n  <pre>let age = 25; // number\nlet year: number = 2026;\nconst name: string = \"Alice\";</pre>\n</div>\n<p>Зазвичай використовують <code>const</code> за замовчуванням, <code>let</code> — коли значення реально змінюється, а явну типізацію додають там, де виведення типу неочевидне.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-33",
+      "question": "Як правильно оголошувати та використовувати функції в TypeScript з урахуванням типів?",
+      "answer": "<p>У TypeScript для функцій можна явно описувати типи параметрів і тип повернення.</p>\n<div class=\"example\">\n  <pre>function add(a: number, b: number): number {\n  return a + b;\n}\n\nconst greet = (name: string): string => {\n  return `Hello, ${name}`;\n};\n\nfunction log(message: string, userId?: number): void {\n  console.log(message, userId);\n}</pre>\n</div>\n<p><strong>Корисно знати:</strong></p>\n<ul>\n  <li>параметри можуть бути обов'язковими, необов'язковими (<code>?</code>) або мати значення за замовчуванням</li>\n  <li>тип повернення інколи виводиться автоматично, але для важливих функцій краще вказувати його явно</li>\n  <li>для callback-ів і складних сигнатур часто використовують окремі type alias або interface</li>\n</ul>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-34",
+      "question": "Що таке виведення типу (type inference) у TypeScript?",
+      "answer": "<p><strong>Type inference</strong> — це механізм, коли TypeScript сам визначає тип змінної або результату функції на основі значення, без явного оголошення типу.</p>\n<div class=\"example\">\n  <pre>let count = 10; // number\nlet message = \"Hi\"; // string\n\nfunction add(a: number, b: number) {\n  return a + b; // number\n}</pre>\n</div>\n<p>Перевага inference в тому, що код коротший, але типобезпека зберігається. У складних місцях тип краще вказати явно, щоб уникнути неочевидної поведінки або випадкового <code>any</code>.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-35",
+      "question": "У чому різниця між let і const у TypeScript?",
+      "answer": "<p><code>let</code> і <code>const</code> у TypeScript працюють так само, як у JavaScript:</p>\n<ul>\n  <li><code>let</code> — змінну можна переприсвоювати</li>\n  <li><code>const</code> — змінну не можна переприсвоїти після ініціалізації</li>\n</ul>\n<div class=\"example\">\n  <pre>let counter: number = 1;\ncounter = 2; // OK\n\nconst name: string = \"Alice\";\n// name = \"Bob\"; // помилка</pre>\n</div>\n<p><strong>Важливо:</strong> <code>const</code> не робить об'єкт повністю immutable. Його внутрішні властивості все ще можна змінювати:</p>\n<div class=\"example\">\n  <pre>const user = { id: 1, name: \"Alice\" };\nuser.name = \"Bob\"; // дозволено</pre>\n</div>\n<p>Рекомендація: за замовчуванням використовувати <code>const</code>, а <code>let</code> — лише коли значення справді буде змінюватися.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-37",
+      "question": "Як створити власний тип у TypeScript за допомогою псевдоніму (type alias)?",
+      "answer": "<p><strong>Type alias</strong> дозволяє дати <strong>власне ім'я</strong> будь-якому типу: примітиву, union, intersection, об'єкту, tuple або сигнатурі функції.</p>\n<p>Його використовують для повторного використання, читабельності та зменшення дублювання в складних типах.</p>\n<div class=\"example\">\n  <pre>type ID = string | number;\n\ntype User = {\n  id: ID;\n  name: string;\n  age?: number;\n};\n\ntype Callback = (result: string) =&gt; void;\n\nconst user: User = { id: 1, name: \"Alice\" };</pre>\n</div>\n<p>Type alias не створює новий тип у runtime. Це лише опис для компілятора на етапі перевірки типів.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-38",
+      "question": "Як працює перевірка типів через typeof у TypeScript і як її використовувати для type narrowing?",
+      "answer": "<p><code>typeof</code> у TypeScript часто використовують як <strong>type guard</strong>, щоб звузити union-тип у конкретній гілці коду.</p>\n<p>Після такої перевірки компілятор розуміє, який саме тип зараз має змінна, і дозволяє безпечно викликати відповідні методи.</p>\n<div class=\"example\">\n  <pre>function printId(id: string | number) {\n  if (typeof id === \"string\") {\n    console.log(id.toUpperCase());\n  } else {\n    console.log(id.toFixed(2));\n  }\n}</pre>\n</div>\n<p><strong>typeof</strong> перевіряє runtime-типи на кшталт <code>string</code>, <code>number</code>, <code>boolean</code>, <code>object</code>, <code>function</code>, <code>undefined</code>, <code>symbol</code>, <code>bigint</code>. Це один із найпоширеніших способів зробити type narrowing.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-39",
+      "question": "Чи можна в TypeScript створювати типи на основі існуючих значень за допомогою виведення типів?",
+      "answer": "<p>Так. У TypeScript можна будувати типи <strong>на основі вже існуючих значень</strong> за допомогою <code>typeof</code>, <code>keyof</code> і літеральних типів.</p>\n<div class=\"example\">\n  <pre>const user = {\n  id: 1,\n  name: \"Alice\",\n  isAdmin: true\n};\n\ntype User = typeof user;\ntype UserKeys = keyof typeof user;\n\nconst roles = [\"admin\", \"user\", \"guest\"] as const;\ntype Role = typeof roles[number];</pre>\n</div>\n<p>Такий підхід допомагає не дублювати структури вручну й тримати типи синхронізованими з реальними даними.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-40",
+      "question": "Як правильно створити узагальнену (generic) функцію в TypeScript?",
+      "answer": "<p>Generic-функція оголошується через параметр типу в кутових дужках, наприклад <code>&lt;T&gt;</code>. Це дозволяє зробити функцію універсальною, але при цьому не втратити зв'язок між типом аргументу й типом результату.</p>\n<div class=\"example\">\n  <pre>function identity&lt;T&gt;(value: T): T {\n  return value;\n}\n\nconst n = identity&lt;number&gt;(10);\nconst s = identity(\"TS\");</pre>\n</div>\n<p><strong>Кілька параметрів типу:</strong></p>\n<div class=\"example\">\n  <pre>function pair&lt;T, U&gt;(first: T, second: U): [T, U] {\n  return [first, second];\n}</pre>\n</div>\n<p><strong>З обмеженням:</strong></p>\n<div class=\"example\">\n  <pre>function getLength&lt;T extends { length: number }&gt;(item: T): number {\n  return item.length;\n}</pre>\n</div>\n<p>Generics у функціях доречні, коли логіка однакова для різних типів даних, але типи потрібно зберегти точно.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-41",
+      "question": "Як визначити узагальнені (generic) інтерфейси у TypeScript і для чого вони використовуються?",
+      "answer": "<p>Generic-інтерфейс — це інтерфейс із параметром типу, наприклад <code>interface Box&lt;T&gt;</code>. Він описує контракт, який може працювати з різними типами без дублювання коду.</p>\n<div class=\"example\">\n  <pre>interface Box&lt;T&gt; {\n  value: T;\n}\n\nconst numBox: Box&lt;number&gt; = { value: 42 };\nconst strBox: Box&lt;string&gt; = { value: \"Hello\" };</pre>\n</div>\n<p><strong>Приклад із кількома параметрами:</strong></p>\n<div class=\"example\">\n  <pre>interface Pair&lt;K, V&gt; {\n  key: K;\n  value: V;\n}</pre>\n</div>\n<p>Такі інтерфейси зручні для репозиторіїв, API-відповідей, колекцій, сервісів та інших універсальних контрактів, де треба зберегти зв'язок між типами у властивостях і методах.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-42",
+      "question": "Як працюють узагальнені (generic) типи у класах TypeScript і як їх застосовувати?",
+      "answer": "<p>У TypeScript клас теж можна зробити параметризованим типом, додавши <code>&lt;T&gt;</code> після імені класу. Це дозволяє перевикористовувати одну логіку для різних типів даних без втрати типобезпеки.</p>\n<div class=\"example\">\n  <pre>class Box&lt;T&gt; {\n  constructor(public content: T) {}\n\n  getContent(): T {\n    return this.content;\n  }\n}\n\nconst numberBox = new Box&lt;number&gt;(123);\nconst stringBox = new Box&lt;string&gt;(\"Hello\");</pre>\n</div>\n<p><strong>Кілька параметрів типу:</strong></p>\n<div class=\"example\">\n  <pre>class Pair&lt;K, V&gt; {\n  constructor(public key: K, public value: V) {}\n}</pre>\n</div>\n<p>Generic-класи часто застосовують для колекцій, кешів, репозиторіїв, контейнерів і сервісів, де потрібно зв'язати тип даних з методами класу.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-43",
+      "question": "Як реалізувати узагальнене обмеження (generic constraint) у TypeScript і для чого воно потрібне?",
+      "answer": "<p><strong>Generic constraint</strong> дозволяє обмежити generic-параметр через <code>extends</code>, щоб він відповідав певному типу або інтерфейсу.</p>\n<p>Це потрібно, коли універсальна функція чи клас мають працювати не з будь-яким типом, а лише з тими, у яких точно є потрібні властивості або методи.</p>\n<div class=\"example\">\n  <pre>interface HasLength {\n  length: number;\n}\n\nfunction logLength&lt;T extends HasLength&gt;(item: T): void {\n  console.log(item.length);\n}</pre>\n</div>\n<div class=\"example\">\n  <pre>class Collection&lt;T extends { id: number }&gt; {\n  private items: T[] = [];\n\n  add(item: T) {\n    this.items.push(item);\n  }\n\n  getById(id: number): T | undefined {\n    return this.items.find(item =&gt; item.id === id);\n  }\n}</pre>\n</div>\n<p>Такий підхід зберігає гнучкість generics, але при цьому дозволяє безпечно звертатися до потрібних властивостей без зайвих перевірок типу.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-44",
+      "question": "Що таке класи в TypeScript і чим вони відрізняються від класів у звичайному JavaScript?",
+      "answer": "<p>Класи в TypeScript базуються на звичайних <strong>JavaScript-класах</strong>, але доповнюються системою типів і додатковими можливостями для безпечнішої розробки.</p>\n<p><strong>Що додає TypeScript:</strong></p>\n<ul>\n  <li>типи для полів, параметрів і значень, що повертаються</li>\n  <li>модифікатори доступу: <code>public</code>, <code>private</code>, <code>protected</code>, <code>readonly</code></li>\n  <li><code>abstract</code> класи й методи</li>\n  <li><code>implements</code> для інтерфейсів</li>\n  <li>підтримку generics</li>\n</ul>\n<p>У runtime ці типи не існують: після компіляції залишається звичайний JavaScript-клас.</p>\n<div class=\"example\">\n  <pre>class User {\n  constructor(public name: string) {}\n\n  greet(): void {\n    console.log(`Hello, ${this.name}`);\n  }\n}</pre>\n</div>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-45",
+      "question": "Як правильно реалізувати спадкування класів у TypeScript?",
+      "answer": "<p>Для спадкування в TypeScript використовують ключове слово <code>extends</code>. Похідний клас успадковує поля й методи базового класу та може додавати власні або перевизначати наявні.</p>\n<p>Якщо в дочірньому класі є власний конструктор, у ньому потрібно викликати <code>super()</code> перед використанням <code>this</code>.</p>\n<div class=\"example\">\n  <pre>class Animal {\n  constructor(public name: string) {}\n\n  speak(): void {\n    console.log(`${this.name} makes a sound.`);\n  }\n}\n\nclass Dog extends Animal {\n  constructor(name: string, public breed: string) {\n    super(name);\n  }\n\n  speak(): void {\n    console.log(`${this.name} barks.`);\n  }\n}</pre>\n</div>\n<p>Такий підхід дає повторне використання спільної логіки й дозволяє будувати ієрархії класів з чіткою структурою.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-46",
+      "question": "Які є модифікатори доступу в TypeScript і як вони впливають на властивості та методи класів?",
+      "answer": "<p>У TypeScript найчастіше використовують чотири модифікатори доступу для членів класу:</p>\n<ul>\n  <li><code>public</code> — доступний звідусіль; це значення за замовчуванням</li>\n  <li><code>private</code> — доступний тільки всередині цього класу</li>\n  <li><code>protected</code> — доступний усередині класу та його нащадків</li>\n  <li><code>readonly</code> — властивість можна задати під час ініціалізації, але не змінювати потім</li>\n</ul>\n<div class=\"example\">\n  <pre>class Person {\n  public name: string;\n  private age: number;\n  protected role: string;\n  readonly id: number;\n\n  constructor(name: string, age: number, role: string, id: number) {\n    this.name = name;\n    this.age = age;\n    this.role = role;\n    this.id = id;\n  }\n}</pre>\n</div>\n<p>Ці модифікатори впливають переважно на етапі перевірки типів. Після компіляції в JavaScript більшість таких обмежень не існує як окремий runtime-механізм.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-47",
+      "question": "Що таке абстрактні класи в TypeScript і для чого їх використовують?",
+      "answer": "<p><strong>Abstract class</strong> — це клас, який не можна інстанціювати напряму. Він задає спільну базову поведінку і може містити як готові методи, так і <code>abstract</code>-методи без реалізації.</p>\n<p>Похідні класи повинні реалізувати всі abstract-методи.</p>\n<div class=\"example\">\n  <pre>abstract class Shape {\n  constructor(public color: string) {}\n\n  abstract area(): number;\n\n  describe(): void {\n    console.log(`This shape is ${this.color}`);\n  }\n}\n\nclass Circle extends Shape {\n  constructor(color: string, public radius: number) {\n    super(color);\n  }\n\n  area(): number {\n    return Math.PI * this.radius ** 2;\n  }\n}</pre>\n</div>\n<p>Абстрактні класи корисні, коли потрібно задати загальний контракт і спільну реалізацію одразу для групи споріднених класів.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-48",
+      "question": "Як працюють конструктори в класах TypeScript і які особливості їх використання?",
+      "answer": "<p><strong>Constructor</strong> використовується для ініціалізації екземпляра класу. У TypeScript у параметрах конструктора можна одразу описувати типи й навіть створювати поля через модифікатори доступу.</p>\n<div class=\"example\">\n  <pre>class Person {\n  constructor(public name: string, private age: number) {}\n\n  greet() {\n    console.log(`Hi, my name is ${this.name}`);\n  }\n}</pre>\n</div>\n<p><strong>Особливості:</strong></p>\n<ul>\n  <li>параметри конструктора можна типізувати</li>\n  <li><code>public</code>, <code>private</code>, <code>protected</code>, <code>readonly</code> у параметрах автоматично створюють поля класу</li>\n  <li>у похідних класах треба викликати <code>super()</code> перед зверненням до <code>this</code></li>\n</ul>\n<div class=\"example\">\n  <pre>class Employee extends Person {\n  constructor(name: string, age: number, public position: string) {\n    super(name, age);\n  }\n}</pre>\n</div>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-49",
+      "question": "Як реалізуються та працюють геттери (get) і сеттери (set) у TypeScript?",
+      "answer": "<p>Геттери й сеттери дозволяють контролювати доступ до властивостей класу, але при використанні виглядають як звичайні поля.</p>\n<ul>\n  <li><code>get</code> повертає значення і може виконувати додаткову логіку під час читання</li>\n  <li><code>set</code> задає значення і може перевіряти або нормалізувати його перед записом</li>\n</ul>\n<div class=\"example\">\n  <pre>class Person {\n  private _age = 0;\n\n  get age(): number {\n    return this._age;\n  }\n\n  set age(value: number) {\n    if (value &lt; 0) {\n      throw new Error(\"Age cannot be negative\");\n    }\n\n    this._age = value;\n  }\n}</pre>\n</div>\n<p>Це зручно для інкапсуляції перевірок, валідації та обчислюваних властивостей без зміни зовнішнього API класу.</p>",
+      "isFollowUp": false
+    },
+    {
+      "id": "q-50",
+      "question": "Як реалізується перевантаження методів у TypeScript?",
+      "answer": "<p>У TypeScript методи перевантажують так само, як функції: спочатку оголошують кілька сигнатур, а потім пишуть одну спільну реалізацію, яка обробляє всі варіанти.</p>\n<div class=\"example\">\n  <pre>class Calculator {\n  add(a: number, b: number): number;\n  add(a: string, b: string): string;\n  add(a: any, b: any): any {\n    return a + b;\n  }\n}</pre>\n</div>\n<p><strong>Особливості:</strong></p>\n<ul>\n  <li>сигнатури визначають допустимі способи виклику</li>\n  <li>реалізація має покривати всі ці варіанти</li>\n  <li>у runtime немає справжнього окремого перевантаження, це лише типізаційний механізм</li>\n</ul>",
       "isFollowUp": false
     }
   ],
-  "totalQuestions": 30
+  "totalQuestions": 50
 }

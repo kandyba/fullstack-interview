@@ -104,12 +104,6 @@
       "isFollowUp": false
     },
     {
-      "id": "q-18",
-      "question": "Що таке git fetch?",
-      "answer": "\n        <p class=\"example\">Команда <code>git fetch</code> завантажує зміни з віддаленого репозиторію, але не зливає їх у вашу робочу директорію. Це дозволяє вам переглянути зміни перед тим, як їх інтегрувати в свою локальну гілку.</p>\n      ",
-      "isFollowUp": false
-    },
-    {
       "id": "q-19",
       "question": "Як видалити локальну гілку в Git?",
       "answer": "\n        <p class=\"example\">Для видалення локальної гілки використовуйте команду <code>git branch -d <branch-name></branch-name></code>. Якщо гілка ще не була змержена, для примусового видалення використовуйте <code>git branch -D <branch-name></branch-name></code>.</p>\n      ",
@@ -119,18 +113,6 @@
       "id": "q-20",
       "question": "Що таке git remote?",
       "answer": "\n        <p class=\"example\">Git remote — це посилання на віддалений репозиторій, з яким ви працюєте. Ви можете додавати віддалені репозиторії за допомогою команди <code>git remote add <name> <url></url></name></code>, а також переглядати їх через команду <code>git remote -v</code>.</p>\n      ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-21",
-      "question": "Що таке git rebase?",
-      "answer": "\n        <p class=\"example\">Команда <code>git rebase</code> дозволяє переносити або об'єднувати коміти з однієї гілки в іншу. Вона перезаписує історію комітів і дозволяє отримати більш лінійну історію змін.</p>\n      ",
-      "isFollowUp": false
-    },
-    {
-      "id": "q-22",
-      "question": "Що таке git merge і як він відрізняється від git rebase?",
-      "answer": "\n        <p class=\"example\">Команда <code>git merge</code> об'єднує зміни з однієї гілки в іншу, зберігаючи історію комітів з обох гілок. У той час як <code>git rebase</code> переносить зміни, перезаписуючи історію, створюючи лінійну послідовність комітів.</p>\n      ",
       "isFollowUp": false
     },
     {
@@ -182,12 +164,6 @@
       "isFollowUp": false
     },
     {
-      "id": "q-31",
-      "question": "Кожного разу, коли ви робите pull, чомусь виникає конфлікт в останньому рядку у всіх файлах, які ви редагували. Що відбувається?",
-      "answer": "<p>Швидше за все, у файлах відрізняється <strong>кінець рядка (EOL)</strong> — <code>CRLF</code> (Windows) проти <code>LF</code> (Unix).</p>\n<p>Щоб уникнути цього:</p>\n<ul>\n  <li>Налаштувати <code>.gitattributes</code>:</li>\n</ul>\n<pre>* text=auto\n*.js text eol=lf</pre>\n<ul>\n  <li>У редакторі VS Code встановити <code>End of Line -> LF</code>.</li>\n</ul>",
-      "isFollowUp": false
-    },
-    {
       "id": "q-32",
       "question": "Що робить команда git fetch?",
       "answer": "<p><strong>git fetch</strong> завантажує останні зміни з віддаленого репозиторію, але не зливає їх з вашою поточною гілкою.</p>\n<p>Після цього можна порівняти зміни та виконати <code>git merge</code> або <code>git rebase</code> вручну.</p>",
@@ -200,5 +176,5 @@
       "isFollowUp": false
     }
   ],
-  "totalQuestions": 33
+  "totalQuestions": 34
 }
