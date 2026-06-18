@@ -1,0 +1,86 @@
+[
+  {
+    "slug": "javascript-core",
+    "title": "JavaScript Core",
+    "description": "Питання про змінні, типи даних, scope, closures, this, prototypes, async/await, promises, event loop, arrays, objects та базову логіку JavaScript.",
+    "groupSlug": "frontend-language",
+    "order": 1
+  },
+  {
+    "slug": "typescript",
+    "title": "TypeScript",
+    "description": "Питання про типізацію, interfaces, types, generics, utility types, narrowing, enums, unknown, never та типізацію JavaScript-застосунків.",
+    "groupSlug": "frontend-language",
+    "order": 2
+  },
+  {
+    "slug": "react",
+    "title": "React",
+    "description": "Питання для підготовки до співбесід з React.",
+    "groupSlug": "frontend-frameworks",
+    "order": 3
+  },
+  {
+    "slug": "nextjs",
+    "title": "Next.js",
+    "description": "Питання для підготовки до співбесід з Next.js.",
+    "groupSlug": "frontend-frameworks",
+    "order": 4
+  },
+  {
+    "slug": "react-native",
+    "title": "React Native",
+    "description": "Питання для підготовки до співбесід з React Native.",
+    "groupSlug": "frontend-frameworks",
+    "order": 5
+  },
+  {
+    "slug": "http-and-network",
+    "title": "HTTP and Network",
+    "description": "Питання про HTTP, HTTPS, методи запитів, статус-коди, headers, cookies, CORS, cache та базову взаємодію клієнта із сервером.",
+    "groupSlug": "web-platform",
+    "order": 6
+  },
+  {
+    "slug": "api-and-data-exchange",
+    "title": "API and Data Exchange",
+    "description": "Питання про REST, GraphQL, WebSocket, polling, Server-Sent Events, JSON, FormData та інші підходи й формати обміну даними.",
+    "groupSlug": "web-platform",
+    "order": 7
+  },
+  {
+    "slug": "browser-storage",
+    "title": "Browser Storage",
+    "description": "Питання про cookies, localStorage, sessionStorage, IndexedDB, зберігання токенів, HttpOnly, Secure, SameSite та базові ризики безпеки.",
+    "groupSlug": "web-platform",
+    "order": 8
+  },
+  {
+    "slug": "javascript-memory-and-performance",
+    "title": "JavaScript Memory and Performance",
+    "description": "Питання про memory leaks, garbage collection, closures, timers, event listeners, cleanup, Chrome DevTools та оптимізацію JavaScript.",
+    "groupSlug": "web-performance",
+    "order": 9
+  },
+  {
+    "slug": "web-workers-and-browser-apis",
+    "title": "Web Workers and Browser APIs",
+    "description": "Питання про Web Workers, Service Workers, main thread, background tasks, postMessage, Fetch API, Observer APIs та інші браузерні API.",
+    "groupSlug": "web-platform",
+    "order": 10
+  },
+  {
+    "slug": "accessibility",
+    "title": "Accessibility",
+    "description": "Питання про accessibility, ARIA, semantic HTML, keyboard navigation, screen readers, focus management та доступність інтерфейсів.",
+    "groupSlug": "web-platform",
+    "order": 11
+  },
+  {
+    "slug": "webrtc",
+    "title": "WebRTC",
+    "description": "Питання про WebRTC, peer-to-peer з'єднання, media streams, getUserMedia, RTCPeerConnection, signaling, STUN/TURN servers та передачу аудіо, відео й даних у реальному часі.",
+    "groupSlug": "web-platform",
+    "order": 12
+  }
+]

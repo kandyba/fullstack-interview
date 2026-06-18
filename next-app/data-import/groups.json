@@ -1,0 +1,26 @@
+[
+  {
+    "slug": "frontend-language",
+    "title": "Frontend Language",
+    "description": "JavaScript та TypeScript як основа frontend-розробки.",
+    "order": 1
+  },
+  {
+    "slug": "frontend-frameworks",
+    "title": "Frontend Frameworks",
+    "description": "React, Next.js, React Native та екосистема сучасного frontend.",
+    "order": 2
+  },
+  {
+    "slug": "web-platform",
+    "title": "Web Platform",
+    "description": "HTTP, API, Browser APIs, storage, accessibility та можливості браузера.",
+    "order": 3
+  },
+  {
+    "slug": "web-performance",
+    "title": "Web Performance",
+    "description": "Продуктивність JavaScript, пам'ять, профілювання та оптимізація.",
+    "order": 4
+  }
+]
